@@ -1,3 +1,8 @@
 Django==1.5.4
 South==0.8.2
 django-cms==3.0.0.beta2
+djangocms-text-ckeditor==2.0.2
+Pillow==2.1.0
+django-reversion==1.7.1
+cmsplugin-filer==0.9.5
+
