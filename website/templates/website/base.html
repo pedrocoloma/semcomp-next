@@ -1,0 +1,30 @@
+{% load cms_tags sekizai_tags %}
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Semcomp</title>
+		{% render_block "css" %}
+		{% addtoblock "css" %}
+			<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+		{% endaddtoblock %}
+	</head>
+	<body>
+		{% cms_toolbar %}
+		<div>
+			<div class="pure-menu pure-menu-open pure-menu-horizontal">
+				<a class="pure-menu-heading" href="{% page_url "home" %}">Semcomp</a>
+				<ul>
+					<li class="pure-menu-selected"><a href="{% page_url "home" %}">Home</a></li>
+					<li><a href="">Evento</a></li>
+					<li><a href="">Programação</a></li>
+					<li><a href="">Contato</a></li>
+				</ul>
+			</div>
+
+		{% placeholder base_content %}
+		{% block base_content %}{% endblock %}
+		</div>
+		{% render_block "js" %}
+	</body>
+</html>

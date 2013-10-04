@@ -59,11 +59,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ROOT_URLCONF = 'semcomp.urls'
 
 TEMPLATE_DIRS = (
-	PROJECT_DIR.child('templates'),
+	#PROJECT_DIR.child('templates'),
 )
 
 CMS_TEMPLATES = (
-	('main_template.html', 'Main Template'),
+	('website/main_template.html', 'Main Template'),
 )
 
 LANGUAGES = [
@@ -97,6 +97,8 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
+	# semcomp apps
+	'website',
 	# third party apps
 	'reversion',
 )
