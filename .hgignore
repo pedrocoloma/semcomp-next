@@ -1,3 +1,5 @@
 ^env
 py[co]$
 sw[op]$
+.sass-cache
+^database.sqlite3$
