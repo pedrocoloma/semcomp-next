@@ -1,4 +1,5 @@
 ^env
+^media/
 py[co]$
 sw[op]$
 .sass-cache
