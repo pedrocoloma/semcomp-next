@@ -1,0 +1,30 @@
+{% extends "website/base.html" %}
+{% load cms_tags %}
+
+{% block header %}
+	<div class="hero">
+		<div class="row">
+			<div class="large-6 columns text-center">
+				{% placeholder call_to_action_1 %}
+			</div>
+			<div class="large-6 columns text-center">
+				{% placeholder call_to_action_2 %}
+				<a href="#" class="button">Inscreva-se</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block base_content %}
+	<div class="row">
+		<div class="large-4 columns">
+			{% placeholder side_content %}
+		</div>
+		<div class="large-4 columns">
+			{% placeholder main_content_1 %}
+		</div>
+		<div class="large-4 columns">
+			{% placeholder main_content_2 %}
+		</div>
+	</div>
+{% endblock %}

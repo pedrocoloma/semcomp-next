@@ -7302,3 +7302,16 @@ a.th {
 .f-dropdown.large {
   max-width: 800px;
 }
+
+/* line 57, ../sass/app.scss */
+.hero {
+  background-color: #fab;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+/* line 63, ../sass/app.scss */
+.sponsor {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

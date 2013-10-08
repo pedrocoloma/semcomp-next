@@ -64,6 +64,7 @@ TEMPLATE_DIRS = (
 
 CMS_TEMPLATES = (
 	('website/main_template.html', 'Main Template'),
+	('website/home.html', 'Home'),
 )
 
 LANGUAGES = [

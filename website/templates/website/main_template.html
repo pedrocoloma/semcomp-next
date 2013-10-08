@@ -1,6 +1,10 @@
-{% extends "website/base.html" %}
+{% extends "website/home.html" %}
 {% load cms_tags %}
 
 {% block base_content %}
-	{% placeholder main_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			{% placeholder main_content %}
+		</div>
+	</div>
 {% endblock %}

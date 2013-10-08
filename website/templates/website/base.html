@@ -12,32 +12,56 @@
 	</head>
 	<body>
 		{% cms_toolbar %}
-		<nav class="top-bar">
-			<ul class="title-area">
-				<li class="name">
-					<h1><a href="{% page_url "home" %}">Semcomp</a></h1>
-				</li>
-				<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-			</ul>
-			<section class="top-bar-section">
-				<ul class="left">
-					<li class="divider"></li>
-					<li class="active"><a href="{% page_url "home" %}">Home</a></li>
-					<li><a href="">Evento</a></li>
-					<li><a href="">Programação</a></li>
-					<li><a href="">Contato</a></li>
-				</ul>
-			</section>
-		</nav>
-		
-		<div class="row">
-			<div class="large-6 columns">
-				{% placeholder base_content %}
+		<section role="main">
+			<div class="row">
+				<nav class="top-bar">
+					<ul class="title-area">
+						<li class="name">
+							<!--<h1><a href="{% page_url "home" %}">Semcomp</a></h1>-->
+						</li>
+						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+					</ul>
+					<section class="top-bar-section">
+						<ul class="left">
+							<li class="divider"></li>
+							<li class="active"><a href="{% page_url "home" %}">Home</a></li>
+							<li><a href="">Evento</a></li>
+							<li><a href="">Programação</a></li>
+							<li><a href="">Contato</a></li>
+						</ul>
+					</section>
+				</nav>
 			</div>
-			<div class="large-6 columns">
-				{% block base_content %}{% endblock %}
+			
+			{% block header %}{% endblock %}
+			
+			{% block base_content %}{% endblock %}
+
+			<!-- Sponsors -->
+			<hr>
+			<div class="row">
+				<h2>Patrocinadores</h2>
 			</div>
-		</div>
+			<div class="row">
+				{% for i in "1234567" %}
+					<div class="sponsor small-6 large-3 large-uncentered columns">
+						<img src="http://placehold.it/250x150&text=sponsor+{{i}}">
+					</div>
+				{% endfor %}
+			</div>
+			<div class="row">
+				<h2>Apoio</h2>
+				{% for i in "abcde" %}
+					<div class="sponsor small-6 large-3 large-uncentered columns">
+						<img src="http://placehold.it/250x150&text=sponsor+{{i}}">
+					</div>
+				{% endfor %}
+			</div>
+			<footer>
+				<hr>
+				{% placeholder footer %}
+			</footer>
+		</section>
 		{% render_block "js" %}
 		{% addtoblock "js" %}
 			<script src="{% static "js/vendor/custom.modernizr.js" %}"></script>
