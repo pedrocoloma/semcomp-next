@@ -1,22 +1,29 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext_lazy
 
 from cms.models.pluginmodel import CMSPlugin
 
 class Column(CMSPlugin):
-	COLUMN_WIDTH_CHOICES = (
-		('large-2', _(u'2 columns')),
-		('large-4', _(u'4 columns')),
-		('large-6', _(u'6 columns')),
-		('large-8', _(u'8 columns')),
-		('large-10', _(u'10 columns')),
-		('large-12', _(u'12 columns')),
+	COLUMN_WIDTH_CHOICES = map(
+		lambda x:
+			(str(x), ungettext_lazy(u'%i column', u'%i columns', x) % x),
+		range(1,13)
 	)
-	predefined_width = models.CharField(max_length=32, choices=COLUMN_WIDTH_CHOICES)
-	custom_width = models.CharField(max_length=32, blank=True)
+
+	small_width = models.CharField(
+		max_length=2,
+		blank=True,
+		choices=COLUMN_WIDTH_CHOICES
+	)
+	large_width = models.CharField(
+		max_length=2,
+		blank=True,
+		choices=COLUMN_WIDTH_CHOICES
+	)
 
 	def get_width_string(self):
-		if self.custom_width:
-			return self.custom_width
-		else:
-			return self.predefined_width
+		small = 'small-%s' % self.small_width if self.small_width else ''
+		large = 'large-%s' % self.large_width if self.large_width else ''
+
+		return ' '.join([small, large]).strip()
