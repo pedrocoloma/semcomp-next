@@ -3,11 +3,11 @@ from cms.plugin_pool import plugin_pool
 from cms.models.pluginmodel import CMSPlugin
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Column
+from .models import MultiColumns, Column
 
-class ColumnsPlugin(CMSPluginBase):
-	model = CMSPlugin
-	name = _(u'Columns')
+class MultiColumnsPlugin(CMSPluginBase):
+	model = MultiColumns
+	name = _(u'Multi columns')
 	render_template = 'website/plugins/columns_plugin.html'
 	allow_children = True
 	child_classes = ['ColumnPlugin']
@@ -17,6 +17,8 @@ class ColumnPlugin(CMSPluginBase):
 	name = _('Column')
 	render_template = 'website/plugins/single_column_plugin.html'
 	allow_children = True
+	parent_classes = ['MultiColumnsPlugin']
+	require_parent = True
 
-plugin_pool.register_plugin(ColumnsPlugin)
+plugin_pool.register_plugin(MultiColumnsPlugin)
 plugin_pool.register_plugin(ColumnPlugin)

@@ -4,6 +4,10 @@ from django.utils.translation import ungettext_lazy
 
 from cms.models.pluginmodel import CMSPlugin
 
+class MultiColumns(CMSPlugin):
+	def __unicode__(self):
+		return _(u'%s columns') % self.cmsplugin_set.all().count()
+
 class Column(CMSPlugin):
 	COLUMN_WIDTH_CHOICES = map(
 		lambda x:
@@ -27,3 +31,6 @@ class Column(CMSPlugin):
 		large = 'large-%s' % self.large_width if self.large_width else ''
 
 		return ' '.join([small, large]).strip()
+
+	def __unicode__(self):
+		return self.get_width_string()

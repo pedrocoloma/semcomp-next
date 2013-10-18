@@ -1,8 +1,9 @@
 {% extends "website/home.html" %}
-{% load cms_tags %}
+{% load cms_tags menu_tags %}
 
 {% block base_content %}
 	<div class="row">
+		{% show_menu %}
 		<div class="large-12 columns">
 			{% placeholder main_content %}
 		</div>

@@ -2,6 +2,7 @@
 
 from unipath import Path
 from django.core.urlresolvers import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
 
 PROJECT_DIR = Path(__file__).absolute().ancestor(3)
 
@@ -54,6 +55,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.static',
 	'cms.context_processors.media',
 	'sekizai.context_processors.sekizai',
+	'zinnia.context_processors.version',
 )
 
 ROOT_URLCONF = 'semcomp.urls'
@@ -82,6 +84,7 @@ INSTALLED_APPS = (
 	'cms.plugins.teaser',
 	'djangocms_text_ckeditor',
 	'cms.plugins.video',
+	'cmsplugin_zinnia',
 	# django-cms
 	'cms',
 	'cms.stacks',
@@ -93,6 +96,7 @@ INSTALLED_APPS = (
 	# django contrib apps
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
+	'django.contrib.comments',
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'django.contrib.messages',
@@ -102,6 +106,8 @@ INSTALLED_APPS = (
 	'website',
 	# third party apps
 	'reversion',
+	'tagging',
+	'zinnia',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -124,7 +130,11 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+		'console': {
+			'level': 'DEBUG',
+			'class': 'logging.StreamHandler',
+		}
     },
     'loggers': {
         'django.request': {
@@ -132,5 +142,15 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+#		'django.db.backends': {
+#			'level': 'DEBUG',
+#			'handlers': ['console'],
+#		},
     }
 }
+
+ZINNIA_AUTO_CLOSE_COMMENTS_AFTER = 0
+#ZINNIA_ENTRY_BASE_MODEL = 'cmsplugin_zinnia.placeholder.EntryPlaceholder'
+CMSPLUGIN_ZINNIA_TEMPLATES = [
+	('blog/latest_entries.html', _(u'Entries with title and date')),
+]
