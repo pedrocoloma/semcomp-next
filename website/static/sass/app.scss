@@ -75,10 +75,6 @@ $body-bg: image-url('new-pattern.png');
 	background-color: purple !important;
 }
 
-.top-bar-section ul {
-	width: 100%;
-}
-
 @function menu-item-width($total-width, $num-items) {
 	@return $total-width / $num-items;
 }
@@ -90,10 +86,7 @@ $body-bg: image-url('new-pattern.png');
 		padding-left: 5px;
 		padding-right: 5px;
 	}
-	.top-bar-section ul {
-		background: transparent;
-	}
-	.top-bar {
+	.top-bar-section ul, .top-bar {
 		background: transparent;
 	}
 }

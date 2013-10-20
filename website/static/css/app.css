@@ -7321,13 +7321,8 @@ a.th {
   background-color: purple !important;
 }
 
-/* line 78, ../sass/app.scss */
-.top-bar-section ul {
-  width: 100%;
-}
-
 @media only screen and (min-width: 940px) {
-  /* line 87, ../sass/app.scss */
+  /* line 83, ../sass/app.scss */
   .top-bar-section ul li {
     text-align: center;
     width: 20%;
@@ -7335,17 +7330,12 @@ a.th {
     padding-right: 5px;
   }
 
-  /* line 93, ../sass/app.scss */
-  .top-bar-section ul {
-    background: transparent;
-  }
-
-  /* line 96, ../sass/app.scss */
-  .top-bar {
+  /* line 89, ../sass/app.scss */
+  .top-bar-section ul, .top-bar {
     background: transparent;
   }
 }
-/* line 101, ../sass/app.scss */
+/* line 94, ../sass/app.scss */
 li.selected > a {
   background-color: #fab !important;
 }
