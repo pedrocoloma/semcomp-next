@@ -454,7 +454,7 @@ body {
 
 /* line 300, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_global.scss */
 body {
-  background: white;
+  background: url('/static/img/new-pattern.png?1382167335');
   color: #222222;
   padding: 0;
   margin: 0;
@@ -4580,7 +4580,7 @@ label.error {
 }
 /* line 76, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_top-bar.scss */
 .contain-to-grid .top-bar {
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 
 /* line 80, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_top-bar.scss */
@@ -4617,7 +4617,7 @@ label.error {
   line-height: 45px;
   position: relative;
   background: #111111;
-  margin-bottom: 0;
+  margin-bottom: 20px;
 }
 /* line 115, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_top-bar.scss */
 .top-bar ul {
@@ -4945,7 +4945,7 @@ label.error {
   .contain-to-grid .top-bar {
     max-width: 62.5em;
     margin: 0 auto;
-    margin-bottom: 0;
+    margin-bottom: 20px;
   }
 
   /* line 418, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_top-bar.scss */
@@ -7303,15 +7303,49 @@ a.th {
   max-width: 800px;
 }
 
-/* line 57, ../sass/app.scss */
+/* line 63, ../sass/app.scss */
 .hero {
   background-color: #fab;
   padding: 20px;
   margin: 20px 0;
 }
 
-/* line 63, ../sass/app.scss */
+/* line 69, ../sass/app.scss */
 .sponsor {
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+/* line 74, ../sass/app.scss */
+.top-bar-section li a:hover {
+  background-color: purple !important;
+}
+
+/* line 78, ../sass/app.scss */
+.top-bar-section ul {
+  width: 100%;
+}
+
+@media only screen and (min-width: 940px) {
+  /* line 87, ../sass/app.scss */
+  .top-bar-section ul li {
+    text-align: center;
+    width: 20%;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  /* line 93, ../sass/app.scss */
+  .top-bar-section ul {
+    background: transparent;
+  }
+
+  /* line 96, ../sass/app.scss */
+  .top-bar {
+    background: transparent;
+  }
+}
+/* line 101, ../sass/app.scss */
+li.selected > a {
+  background-color: #fab !important;
 }

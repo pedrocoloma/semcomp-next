@@ -8,3 +8,7 @@ DATABASES = {
 }
 
 WSGI_APPLICATION = 'semcomp.wsgi.dev.application'
+
+INSTALLED_APPS += (
+	'werkzeug_debugger_runserver',
+)

@@ -1,6 +1,6 @@
 ^env
 ^media/
 py[co]$
-sw[op]$
+sw(o|p)$
 .sass-cache
 ^database.sqlite3$

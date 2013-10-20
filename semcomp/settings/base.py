@@ -74,6 +74,8 @@ LANGUAGES = [
 ]
 
 INSTALLED_APPS = (
+	# semcomp apps
+	'website',
 	# django-cms plugins
 	'cms.plugins.file',
 	'cms.plugins.flash',
@@ -102,8 +104,6 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
-	# semcomp apps
-	'website',
 	# third party apps
 	'reversion',
 	'tagging',

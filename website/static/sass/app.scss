@@ -1,3 +1,9 @@
+
+//$topbar-bg: rgba(white, 0.0);
+$topbar-margin-bottom: 20px;
+$body-bg: image-url('new-pattern.png');
+//$topbar-dropdown-bg: rgba(white, 0.0);
+
 // Global Foundation Settings
 @import "settings";
 
@@ -65,3 +71,31 @@
 	padding-bottom: 5px;
 }
 
+.top-bar-section li a:hover {
+	background-color: purple !important;
+}
+
+.top-bar-section ul {
+	width: 100%;
+}
+
+@function menu-item-width($total-width, $num-items) {
+	@return $total-width / $num-items;
+}
+
+@media #{$topbar-media-query} {
+	.top-bar-section ul li {
+		text-align: center;
+		width: menu-item-width(100%, 5);
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.top-bar-section ul {
+		background: transparent;
+	}
+	.top-bar {
+		background: transparent;
+	}
+}
+
+li.selected > a { background-color: #fab !important; }

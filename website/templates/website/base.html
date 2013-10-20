@@ -1,4 +1,4 @@
-{% load cms_tags sekizai_tags static %}
+{% load cms_tags sekizai_tags static menu_tags %}
 <!doctype html>
 <html>
 	<head>
@@ -13,27 +13,43 @@
 	<body>
 		{% cms_toolbar %}
 		<section role="main">
+			
+			{% block header %}{% endblock %}
+
 			<div class="row">
 				<nav class="top-bar">
 					<ul class="title-area">
 						<li class="name">
-							<!--<h1><a href="{% page_url "home" %}">Semcomp</a></h1>-->
+							<h1 class="show-for-small"><a href="{% page_url "home" %}">Semcomp</a></h1>
 						</li>
 						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 					</ul>
 					<section class="top-bar-section">
-						<ul class="left">
-							<li class="divider"></li>
-							<li class="active"><a href="{% page_url "home" %}">Home</a></li>
-							<li><a href="">Evento</a></li>
+						<ul>
+							<!--
+							<li class="has-dropdown">
+								<a href="">Sobre</a>
+								<ul class="dropdown">
+									<li><label>Informações do evento</label></li>
+									<li><a href="#">Contato</a></li>
+								</ul>
+							</li>
+							<li><a href="">Inscrições</a></li>
 							<li><a href="">Programação</a></li>
-							<li><a href="">Contato</a></li>
+							<li class="has-dropdown">
+								<a href="">Área do usuário</a>
+								<ul class="dropdown">
+									<li><label>Faça login, bro!</label></li>
+									<li><a href="#">Perfil</a></li>
+									<li><a href="#">Pagamento</a></li>
+								</ul>
+							</li>
+							-->
+							{% show_menu 0 100 100 %}
 						</ul>
 					</section>
 				</nav>
 			</div>
-			
-			{% block header %}{% endblock %}
 			
 			{% block base_content %}{% endblock %}
 
