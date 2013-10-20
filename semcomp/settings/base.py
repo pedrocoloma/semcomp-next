@@ -37,7 +37,9 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.locale.LocaleMiddleware',
+	#SolidLocaleMiddleware instead of Django's built-in
+	#'django.middleware.locale.LocaleMiddleware',
+	'solid_i18n.middleware.SolidLocaleMiddleware',
 	'django.middleware.doc.XViewMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'cms.middleware.page.CurrentPageMiddleware',

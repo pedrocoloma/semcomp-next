@@ -6,3 +6,4 @@ cmsplugin-filer==0.9.5
 django-cms==3.0.0.beta2
 django-reversion==1.7.1
 djangocms-text-ckeditor==2.0.2
+solid-i18n==0.2.1
