@@ -153,6 +153,7 @@ LOGGING = {
 
 ZINNIA_AUTO_CLOSE_COMMENTS_AFTER = 0
 #ZINNIA_ENTRY_BASE_MODEL = 'cmsplugin_zinnia.placeholder.EntryPlaceholder'
+CMSPLUGIN_ZINNIA_APP_MENUS = []
 CMSPLUGIN_ZINNIA_TEMPLATES = [
 	('blog/latest_entries.html', _(u'Entries with title and date')),
 ]

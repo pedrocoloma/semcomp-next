@@ -59,17 +59,17 @@
 				{% placeholder footer %}
 			</footer>
 		</section>
+		<script>
+			document.write(
+				'<script src=' +
+				('__proto__' in {} ?
+					'{% static "js/vendor/zepto" %}' :
+					'{% static "js/vendor/jquery" %}') +
+				'.js><\/script>');
+		</script>
 		{% render_block "js" %}
 		{% addtoblock "js" %}
 			<script src="{% static "js/vendor/custom.modernizr.js" %}"></script>
-			<script>
-				document.write(
-					'<script src=' +
-					('__proto__' in {} ?
-						'{% static "js/vendor/zepto" %}' :
-						'{% static "js/vendor/jquery" %}') +
-					'.js><\/script>');
-			</script>
 
 			<script src="{% static "js/foundation/foundation.js" %}"></script>
 			<script src="{% static "js/foundation/foundation.tooltips.js" %}"></script>

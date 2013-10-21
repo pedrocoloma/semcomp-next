@@ -10,7 +10,8 @@ admin.autodiscover()
 
 urlpatterns = solid_i18n_patterns('',
 	url(r'^djangoadmin/', include(admin.site.urls)),
-	url(r'^blog/', include('zinnia.urls')),
 	url(r'^', include('cms.urls')),
+	# isso tem que ficar depois do cms.urls
+	url(r'^blog/', include('zinnia.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
