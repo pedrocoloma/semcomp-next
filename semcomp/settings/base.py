@@ -32,6 +32,12 @@ STATIC_URL = '/static/'
 
 SECRET_KEY = 'semcomp-eh-demais-de-legal'
 
+STATICFILES_FINDERS = (
+	'django.contrib.staticfiles.finders.FileSystemFinder',
+	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+	'compressor.finders.CompressorFinder',
+)
+
 MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,6 +84,7 @@ LANGUAGES = [
 INSTALLED_APPS = (
 	# semcomp apps
 	'website',
+	'account',
 	# django-cms plugins
 	'cms.plugins.file',
 	'cms.plugins.flash',
@@ -110,6 +117,7 @@ INSTALLED_APPS = (
 	'reversion',
 	'tagging',
 	'zinnia',
+	'compressor',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -157,3 +165,5 @@ CMSPLUGIN_ZINNIA_APP_MENUS = []
 CMSPLUGIN_ZINNIA_TEMPLATES = [
 	('blog/latest_entries.html', _(u'Entries with title and date')),
 ]
+
+COMPRESS_ENABLED = True
