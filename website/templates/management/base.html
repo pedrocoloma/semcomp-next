@@ -1,0 +1,22 @@
+{% extends "website/base.html" %}
+
+{% load i18n static %}
+
+{% block extra_css %}
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+{% endblock %}
+
+{% block base_content %}
+	<div class="row">
+		<div class="large-3 columns">
+			<ul class="side-nav">
+				<li {% if active_overview %}class="active"{% endif %}><a href="{% url "management_overview" %}"><i class="icon-fixed-width icon-home"></i> {% trans "Visão geral" %}</a></li>
+				<li {% if active_lectures %}class="active"{% endif %}><a href="{% url "management_lectures" %}"><i class="icon-fixed-width icon-comments"></i> {% trans "Palestras" %}</a></li>
+				<li {% if active_courses %}class="active"{% endif %}><a href="{% url "management_courses" %}"><i class="icon-fixed-width icon-pencil"></i> {% trans "Minicursos" %}</a></li>
+			</ul>
+		</div>
+		<div class="large-9 columns">
+			{% block user_content %}{% endblock %}
+		</div>
+	</div>
+{% endblock %}
