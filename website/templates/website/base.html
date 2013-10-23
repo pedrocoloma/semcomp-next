@@ -8,6 +8,7 @@
 		{% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
 		{% addtoblock "css" %}
 			<link rel="stylesheet" href="{% static "css/app.css" %}">
+			{% block extra_css %}{% endblock %}
 		{% endaddtoblock %}
 	</head>
 	<body>

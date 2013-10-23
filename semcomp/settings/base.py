@@ -166,4 +166,4 @@ CMSPLUGIN_ZINNIA_TEMPLATES = [
 	('blog/latest_entries.html', _(u'Entries with title and date')),
 ]
 
-COMPRESS_ENABLED = True
+#COMPRESS_ENABLED = True

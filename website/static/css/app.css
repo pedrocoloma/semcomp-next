@@ -454,7 +454,7 @@ body {
 
 /* line 300, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_global.scss */
 body {
-  background: url('/static/img/new-pattern.png?1382167335');
+  background: white;
   color: #222222;
   padding: 0;
   margin: 0;
@@ -6674,14 +6674,14 @@ ul.pagination li {
 .side-nav {
   display: block;
   margin: 0;
-  padding: 0.875em 0;
+  padding: 0;
   list-style-type: none;
   list-style-position: inside;
 }
 /* line 39, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_side-nav.scss */
 .side-nav li {
-  margin: 0 0 0.4375em 0;
-  font-size: 0.875em;
+  margin: 0 0 0 0;
+  font-size: 1em;
 }
 /* line 43, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_side-nav.scss */
 .side-nav li a {
@@ -7303,39 +7303,55 @@ a.th {
   max-width: 800px;
 }
 
-/* line 63, ../sass/app.scss */
+/* line 66, ../sass/app.scss */
 .hero {
   background-color: #fab;
   padding: 20px;
   margin: 20px 0;
 }
 
-/* line 69, ../sass/app.scss */
+/* line 72, ../sass/app.scss */
 .sponsor {
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-/* line 74, ../sass/app.scss */
-.top-bar-section li a:hover {
-  background-color: purple !important;
-}
-
 @media only screen and (min-width: 940px) {
-  /* line 83, ../sass/app.scss */
-  .top-bar-section ul li {
+  /* line 82, ../sass/app.scss */
+  .top-bar-section ul > li {
     text-align: center;
     width: 20%;
-    padding-left: 5px;
-    padding-right: 5px;
+    border-right: #2b2b2b 1px solid;
+    border-left: #2b2b2b 1px solid;
+  }
+  /* line 88, ../sass/app.scss */
+  .top-bar-section ul > li a:hover {
+    background-color: cyan !important;
+  }
+  /* line 91, ../sass/app.scss */
+  .top-bar-section ul > li:first-child {
+    border-left: none;
+  }
+  /* line 94, ../sass/app.scss */
+  .top-bar-section ul > li:last-child {
+    border-right: none;
   }
 
-  /* line 89, ../sass/app.scss */
+  /* line 98, ../sass/app.scss */
   .top-bar-section ul, .top-bar {
     background: transparent;
   }
 }
-/* line 94, ../sass/app.scss */
+/* line 103, ../sass/app.scss */
 li.selected > a {
   background-color: #fab !important;
+}
+
+/* line 105, ../sass/app.scss */
+.side-nav li {
+  padding: 10px;
+}
+/* line 108, ../sass/app.scss */
+.side-nav li.active {
+  background-color: cadetblue;
 }
