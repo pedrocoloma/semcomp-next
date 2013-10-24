@@ -85,6 +85,7 @@ INSTALLED_APPS = (
 	# semcomp apps
 	'website',
 	'account',
+	'management',
 	# django-cms plugins
 	'cms.plugins.file',
 	'cms.plugins.flash',

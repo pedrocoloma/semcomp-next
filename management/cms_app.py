@@ -7,7 +7,7 @@ from cms.apphook_pool import apphook_pool
 
 class SemcompAdminApphook(CMSApp):
 	name = _(u'Administração')
-	urls = ['website.urls']
+	urls = ['management.urls']
 	#menus = [SemcompUserMenu]
 
 apphook_pool.register(SemcompAdminApphook)
