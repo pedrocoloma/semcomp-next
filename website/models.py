@@ -1,4 +1,11 @@
+# coding: utf-8
+
+from io import BytesIO
+from unipath import Path
+from PIL import Image
+
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
@@ -34,3 +41,41 @@ class Column(CMSPlugin):
 
 	def __unicode__(self):
 		return self.get_width_string()
+
+def company_upload_to(instance, filename):
+	# get image data and reset the fp position
+	data = instance.logo.read()
+	instance.logo.seek(0)
+
+	filename = slugify(instance.name)
+	bytes_io = BytesIO(data)
+
+	image = Image.open(bytes_io)
+
+	if image.format == 'JPEG':
+		image_format = 'jpg'
+	else:
+		image_format = image.format.lower()
+
+	return Path('empresas', '{0}.{1}'.format(filename, image_format))
+
+class Company(models.Model):
+	COMPANY_TYPE_CHOICES = (
+		('P', _(u'Patrocínio')),
+		('A', _(u'Apoio')),
+	)
+
+	name = models.CharField(
+		_(u'Nome'),
+		max_length=64
+	)
+	logo = models.ImageField(
+		_(u'Logo'),
+		upload_to=company_upload_to,
+		blank=True
+	)
+	type = models.CharField(
+		_(u'Tipo'),
+		max_length=1,
+		choices=COMPANY_TYPE_CHOICES
+	)

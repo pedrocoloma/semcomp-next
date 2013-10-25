@@ -1,0 +1,23 @@
+{% extends "management/base.html" %}
+
+{% block base_content %}
+<div class="row">
+	<div class="large-6 columns">
+		<h1>Adicionar empresa</h1>
+		<p>Coisas a notar aqui:</p>
+		<ul>
+			<li>O tipo é importante, ele define onde o logo da empresa vai aparecer no site</li>
+			<li>Se não subir uma imagem agora, o logo da empresa (óbvio dã) não vai aparecer no site. <strong>Nem o nome vai aparecer</strong></li>
+			<li>Não coloque o nome todo em maiúsculas a menos que o nome da empresa seja EMPRESA DRAGÃO SÃO JORGE, i.e., o nome original é tudo em maiúsculas.</li>
+			<li>A imagem <strong>tem que ser <code>PNG</code></strong>, no <em>máximo</em> <code>JPG</code> pro logo não aparecer ruim e nem ter <code>2MB</code> por imagem. Arquivos do Corel não servem, simples assim.</li>
+		</ul>
+	</div>
+	<div class="large-6 columns">
+		<form action="{% url "management_companies_add" %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit">
+		</form>
+	</div>
+</div>
+{% endblock %}
