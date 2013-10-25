@@ -11,7 +11,7 @@
 		<div class="large-3 columns">
 			<ul class="side-nav">
 				<li {% if active_overview %}class="active"{% endif %}><a href="{% url "management_overview" %}"><i class="icon-fixed-width icon-home"></i> {% trans "Visão geral" %}</a></li>
-				<li {% if active_lectures %}class="active"{% endif %}><a href="{% url "management_lectures" %}"><i class="icon-fixed-width icon-comments"></i> {% trans "Palestras" %}</a></li>
+				<li {% if active_lectures %}class="active"{% endif %}><a href="{% url "management_lectures" %}"><i class="icon-fixed-width icon-comment"></i> {% trans "Palestras" %}</a></li>
 				<li {% if active_courses %}class="active"{% endif %}><a href="{% url "management_courses" %}"><i class="icon-fixed-width icon-pencil"></i> {% trans "Minicursos" %}</a></li>
 				<li {% if active_companies %}class="active"{% endif %}><a href="{% url "management_companies" %}"><i class="icon-fixed-width icon-building"></i> {% trans "Empresas" %}</a></li>
 			</ul>

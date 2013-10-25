@@ -1,8 +1,12 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.shortcuts import render, redirect
+
+from website.forms import CompanyForm
+from website.models import Company
 
 from .decorators import staff_required
-from website.forms import CompanyForm
+
 
 @staff_required
 def manage_overview(request):
@@ -18,7 +22,13 @@ def manage_courses(request):
 
 @staff_required
 def manage_companies(request):
-	return render(request, 'management/companies.html', {'active_companies': True})
+	context = {'active_companies': True}
+	companies = Company.objects.all()
+	context['companies'] = companies
+	context['sponsorships'] = companies.filter(type='P')
+	context['partnerships'] = companies.filter(type='A')
+
+	return render(request, 'management/companies.html', context)
 
 @staff_required
 def companies_add(request):
@@ -28,6 +38,7 @@ def companies_add(request):
 		form = CompanyForm(request.POST, request.FILES)
 		if form.is_valid():
 			form.save()
+			return redirect(reverse('management_companies'))
 	else:
 		form = CompanyForm()
 

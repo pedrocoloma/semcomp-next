@@ -1,6 +1,8 @@
 {% extends "management/base.html" %}
 
-{% block base_content %}
+{% load i18n %}
+
+{% block user_content %}
 <div class="row">
 	<div class="large-6 columns">
 		<h1>Adicionar empresa</h1>
@@ -15,8 +17,11 @@
 	<div class="large-6 columns">
 		<form action="{% url "management_companies_add" %}" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
-			{{form.as_p}}
-			<input type="submit">
+			<fieldset>
+				<legend>Dados da empresa</legend>
+				{{form.as_p}}
+				<input type="submit" value="{% trans "Salvar" %}">
+			</fieldset>
 		</form>
 	</div>
 </div>
