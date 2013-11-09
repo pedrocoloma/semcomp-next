@@ -32,8 +32,17 @@ class Column(CMSPlugin):
 		blank=True,
 		choices=COLUMN_WIDTH_CHOICES
 	)
+	custom_classes = models.CharField(
+		max_length=64,
+		blank=True,
+		help_text=_(u'Este campo tem prioridade sobre os campos acima')
+	)
 
 	def get_width_string(self):
+		custom = self.custom_classes.strip()
+		if custom:
+			return custom
+
 		small = 'small-%s' % self.small_width if self.small_width else ''
 		large = 'large-%s' % self.large_width if self.large_width else ''
 

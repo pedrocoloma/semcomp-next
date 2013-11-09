@@ -7355,3 +7355,10 @@ li.selected > a {
 .side-nav li.active {
   background-color: cadetblue;
 }
+
+/* line 113, ../sass/app.scss */
+span.align-center img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
