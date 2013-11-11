@@ -3,18 +3,18 @@
 {% load i18n static cms_tags %}
 
 {% block extra_css %}
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 {% endblock %}
 
 {% block base_content %}
 	<div class="row">
 		<div class="large-3 columns">
 			<ul class="side-nav">
-				<li {% if active_overview %}class="active"{% endif %}><a href="{% url "account_overview" %}"><i class="icon-fixed-width icon-home"></i> {% trans "Visão geral" %}</a></li>
-				<li {% if active_payment %}class="active"{% endif %}><a href="{% url "account_payment" %}"><i class="icon-fixed-width icon-usd"></i> {% trans "Pagamento" %}</a></li>
-				<li {% if active_courses %}class="active"{% endif %}><a href="{% url "account_courses" %}"><i class="icon-fixed-width icon-pencil"></i> {% trans "Minicursos" %}</a></li>
+				<li {% if active_overview %}class="active"{% endif %}><a href="{% url "account_overview" %}"><i class="fa fa-fw fa-home"></i> {% trans "Visão geral" %}</a></li>
+				<li {% if active_payment %}class="active"{% endif %}><a href="{% url "account_payment" %}"><i class="fa fa-fw fa-usd"></i> {% trans "Pagamento" %}</a></li>
+				<li {% if active_courses %}class="active"{% endif %}><a href="{% url "account_courses" %}"><i class="fa fa-fw fa-pencil"></i> {% trans "Minicursos" %}</a></li>
 				{% if user.is_staff %}
-					<li><a href="{% page_url "admin" %}"><i class="icon-fixed-width icon-cog"></i> {% trans "Administração" %}</a></li>
+					<li><a href="{% page_url "admin" %}"><i class="fa fa-fw fa-cog"></i> {% trans "Administração" %}</a></li>
 				{% endif %}
 			</ul>
 		</div>
