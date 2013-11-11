@@ -21,6 +21,10 @@ def manage_courses(request):
 	return render(request, 'management/courses.html', {'active_courses': True})
 
 @staff_required
+def manage_users(request):
+	return render(request, 'management/users.html', {'active_users': True})
+
+@staff_required
 def manage_companies(request):
 	context = {'active_companies': True}
 	companies = Company.objects.all()
