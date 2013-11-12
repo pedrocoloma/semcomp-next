@@ -13,6 +13,10 @@ def manage_overview(request):
 	return render(request, 'management/overview.html', {'active_overview': True})
 
 @staff_required
+def manage_events(request):
+	return render(request, 'management/events.html', {'active_events': True})
+
+@staff_required
 def manage_lectures(request):
 	return render(request, 'management/lectures.html', {'active_lectures': True})
 

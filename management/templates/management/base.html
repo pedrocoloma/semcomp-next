@@ -15,6 +15,11 @@
 						<i class="fa fa-fw fa-home"></i> {% trans "Visão geral" %}
 					</a>
 				</li>
+				<li {% if active_events %}class="active"{% endif %}>
+					<a href="{% url "management_events" %}">
+						<i class="fa fa-fw fa-calendar"></i> {% trans "Eventos" %}
+					</a>
+				</li>
 				<li {% if active_lectures %}class="active"{% endif %}>
 					<a href="{% url "management_lectures" %}">
 						<i class="fa fa-fw fa-comment"></i> {% trans "Palestras" %}
