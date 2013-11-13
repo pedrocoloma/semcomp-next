@@ -19,7 +19,15 @@
 	</div>
 	<div class="large-4 columns">
 		<p>Clique no mapa e altere o <em>zoom</em> para definir o local.</p>
-		<form id="add-place" method="post" action="{% url "management_places_add" %}">
+		<form
+			id="add-place"
+			method="post"
+			{% if form.zoom.value %}
+				action="{% url "management_places_edit" form.instance.pk %}"
+			{% else %}
+				action="{% url "management_places_add" %}"
+			{% endif %}
+		>
 			{% csrf_token %}
 			{% for field in form.hidden_fields %}
 				{{field}}
@@ -53,8 +61,18 @@
 {% addtoblock "js" %}
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script type="text/javascript">
-	var map = L.map('add-place-map').setView([-22.0077, -47.89616], 16);
-	var marker = null;
+	{% if form.zoom.value %}
+		var map = L.map('add-place-map').setView(
+			[
+				{{form.latitude.value|stringformat:"f"}},
+				{{form.longitude.value|stringformat:"f"}}
+			], {{form.zoom.value}}
+		);
+		var marker = L.marker(map.getCenter()).addTo(map);
+	{% else %}
+		var map = L.map('add-place-map').setView([-22.0077, -47.89616], 16);
+		var marker = null;
+	{% endif %}
 
 	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution: 'Map data &copy; OpenStreetMap contributors',
@@ -68,8 +86,9 @@
 			marker.setLatLng(e.latlng);
 		}
 
-		$('#id_latitude').val(e.latlng.lat);
-		$('#id_longitude').val(e.latlng.lng);
+		var decimal_places = 8;
+		$('#id_latitude').val(e.latlng.lat.toFixed(decimal_places));
+		$('#id_longitude').val(e.latlng.lng.toFixed(decimal_places));
 		$('#id_zoom').val(map.getZoom());
 	});
 </script>

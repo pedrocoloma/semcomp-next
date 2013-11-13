@@ -6,6 +6,8 @@ urlpatterns = patterns('',
 
 	url(r'^locais/$', 'management.views.manage_places', name='management_places'),
 	url(r'^locais/adicionar/$', 'management.views.places_add', name='management_places_add'),
+	url(r'^locais/editar/(\d+)/$', 'management.views.places_edit', name='management_places_edit'),
+	url(r'^locais/apagar/(\d+)/$', 'management.views.places_delete', name='management_places_delete'),
 
 	url(r'^eventos/$', 'management.views.manage_events', name='management_events'),
 	url(r'^palestras/$', 'management.views.manage_lectures', name='management_lectures'),

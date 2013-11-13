@@ -11,6 +11,15 @@
 <div class="row">
 	{% for place in places %}
 		<div class="large-4 columns">
+			<div class="panel">
+				<div class="row">
+					<p class="large-8 columns">{{place.name}}</p>
+					<div class="large-4 columns">
+						<a title="Editar" href="{% url "management_places_edit" place.pk %}"><i class="fa fa-edit"></i></a>
+						<a title="Apagar" href="{% url "management_places_delete" place.pk %}"><i class="fa fa-eraser"></i></a>
+					</div>
+				</div>
+			</div>
 		</div>
 	{% endfor %}
 	<div class="large-4 columns">
