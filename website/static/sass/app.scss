@@ -1,3 +1,4 @@
+@import "compass";
 
 // Global Foundation Settings
 @import "settings";
@@ -105,13 +106,21 @@ li.selected > a { background-color: #fab !important; }
 .side-nav li {
 	//line-height: 200%;
 	padding: 10px;
-	&.active {
-		background-color: cadetblue;
-	}
+	//&.active {
+	//	background-color: cadetblue;
+	//}
 }
 
 span.align-center img {
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
+}
+
+.user-content h1 {
+	@include background-image(linear-gradient(right, white, #015079));
+}
+
+#add-place-map {
+	height: 380px;
 }

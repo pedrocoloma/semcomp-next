@@ -1,0 +1,50 @@
+{% extends "management/base.html" %}
+
+{% load sekizai_tags i18n %}
+
+{% block user_content %}
+
+{% addtoblock "css" %}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+{% endaddtoblock %}
+
+<div class="row">
+	<div class="large-8 columns">
+		<div id="add-place-map"></div>
+	</div>
+	<div class="large-4 columns">
+		<p>Clique no mapa e altere o <em>zoom</em> para definir o local.</p>
+		<form method="post" action="{% url "management_places_add" %}">
+			<fieldset>
+				<legend>{% trans "Adicionar local" %}</legend>
+				<div class="row">
+					<div class="large-12 columns">
+						<label>{% trans "Nome" %}</label>
+						<input type="text" placeholder="{% trans "Nome do local" %}">
+					</div>
+					<div class="large-12 columns">
+						<input class="button" type="submit" value="{% trans "Salvar" %}">
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+
+{% addtoblock "js" %}
+<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+<script type="text/javascript">
+	var map = L.map('add-place-map').setView([-22.0077, -47.89616], 16);
+
+	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; OpenStreetMap contributors',
+		maxZoom:18
+	}).addTo(map);
+</script>
+{% endaddtoblock %}
+
+{% endblock %}

@@ -15,6 +15,11 @@
 						<i class="fa fa-fw fa-home"></i> {% trans "Visão geral" %}
 					</a>
 				</li>
+				<li {% if active_places %}class="active"{% endif %}>
+					<a href="{% url "management_places" %}">
+						<i class="fa fa-fw fa-map-marker"></i> {% trans "Locais" %}
+					</a>
+				</li>
 				<li {% if active_events %}class="active"{% endif %}>
 					<a href="{% url "management_events" %}">
 						<i class="fa fa-fw fa-calendar"></i> {% trans "Eventos" %}
@@ -42,7 +47,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="large-9 columns">
+		<div class="large-9 columns user-content">
 			{% block user_content %}{% endblock %}
 		</div>
 	</div>

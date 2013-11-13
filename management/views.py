@@ -13,6 +13,14 @@ def manage_overview(request):
 	return render(request, 'management/overview.html', {'active_overview': True})
 
 @staff_required
+def manage_places(request):
+	return render(request, 'management/places.html', {'active_places': True})
+
+@staff_required
+def places_add(request):
+	return render(request, 'management/places_add.html', {'active_places': True})
+
+@staff_required
 def manage_events(request):
 	return render(request, 'management/events.html', {'active_events': True})
 
