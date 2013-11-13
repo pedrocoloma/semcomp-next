@@ -11,17 +11,32 @@
 <div class="row">
 	<div class="large-8 columns">
 		<div id="add-place-map"></div>
+		{% if form.latitude.errors %}
+			<div class="error">
+				<small>Você deve escolher uma posição no mapa!</small>
+			</div>
+		{% endif %}
 	</div>
 	<div class="large-4 columns">
 		<p>Clique no mapa e altere o <em>zoom</em> para definir o local.</p>
-		<form method="post" action="{% url "management_places_add" %}">
+		<form id="add-place" method="post" action="{% url "management_places_add" %}">
+			{% csrf_token %}
+			{% for field in form.hidden_fields %}
+				{{field}}
+			{% endfor %}
 			<fieldset>
 				<legend>{% trans "Adicionar local" %}</legend>
+				{{form.non_field_errors}}
 				<div class="row">
-					<div class="large-12 columns">
-						<label>{% trans "Nome" %}</label>
-						<input type="text" placeholder="{% trans "Nome do local" %}">
-					</div>
+					{% for field in form.visible_fields %}
+						<div class="large-12 columns {% if field.errors %}error{% endif%}">
+							{{field.label_tag}}
+							{{field}}
+							{% for error in field.errors %}
+								<small>{{error}}</small>
+							{% endfor %}
+						</div>
+					{% endfor %}
 					<div class="large-12 columns">
 						<input class="button" type="submit" value="{% trans "Salvar" %}">
 					</div>
@@ -39,11 +54,24 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script type="text/javascript">
 	var map = L.map('add-place-map').setView([-22.0077, -47.89616], 16);
+	var marker = null;
 
 	L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		attribution: 'Map data &copy; OpenStreetMap contributors',
 		maxZoom:18
 	}).addTo(map);
+
+	map.on('click', function(e) {
+		if (!marker) {
+			marker = L.marker(e.latlng).addTo(map);
+		} else {
+			marker.setLatLng(e.latlng);
+		}
+
+		$('#id_latitude').val(e.latlng.lat);
+		$('#id_longitude').val(e.latlng.lng);
+		$('#id_zoom').val(map.getZoom());
+	});
 </script>
 {% endaddtoblock %}
 

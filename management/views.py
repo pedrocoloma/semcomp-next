@@ -6,6 +6,7 @@ from website.forms import CompanyForm
 from website.models import Company
 
 from .decorators import staff_required
+from .forms import PlaceForm
 
 
 @staff_required
@@ -18,7 +19,19 @@ def manage_places(request):
 
 @staff_required
 def places_add(request):
-	return render(request, 'management/places_add.html', {'active_places': True})
+	if request.method == 'POST':
+		form = PlaceForm(request.POST)
+		if form.is_valid():
+			form.save()
+	else:
+		form = PlaceForm()
+
+	context = {
+		'active_places': True,
+		'form': form
+	}
+
+	return render(request, 'management/places_add.html', context)
 
 @staff_required
 def manage_events(request):
