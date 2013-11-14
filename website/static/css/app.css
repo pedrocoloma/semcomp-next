@@ -516,7 +516,7 @@ img {
 }
 
 /* line 336, ../../../../../../.gem/ruby/1.9.1/gems/zurb-foundation-4.3.2/scss/foundation/components/_global.scss */
-.text-right {
+.text-right, .user-content h1 {
   text-align: right !important;
 }
 
@@ -7368,7 +7368,20 @@ span.align-center img {
   background-image: linear-gradient(right, #ffffff, #015079);
 }
 
-/* line 124, ../sass/app.scss */
+/* line 125, ../sass/app.scss */
 #add-place-map {
   height: 380px;
+}
+
+/* line 129, ../sass/app.scss */
+.schedule {
+  width: 100%;
+}
+/* line 131, ../sass/app.scss */
+.schedule th {
+  width: 16.666666%;
+}
+/* line 134, ../sass/app.scss */
+.schedule td {
+  text-align: center;
 }

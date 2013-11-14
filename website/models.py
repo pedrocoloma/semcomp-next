@@ -94,3 +94,9 @@ class Place(models.Model):
 	latitude = models.DecimalField(max_digits=12, decimal_places=8)
 	longitude = models.DecimalField(max_digits=12, decimal_places=8)
 	zoom = models.IntegerField()
+
+class Event(models.Model):
+	name = models.CharField(_(u'Nome'), max_length=64)
+	place = models.ForeignKey('Place')
+	start_time = models.DateTimeField(_(u'Início'))
+	end_time = models.DateTimeField(_(u'Fim'))
