@@ -13,18 +13,20 @@
 <div class="row">
 	{% for company in companies %}
 		<div class="large-6 columns">
-			<div class="panel">
-				<ul class="large-block-grid-2">
-					<style>
-						.large-block-grid-2 img { height: 100px; }
-					</style>
-					<li><img src="{{company.logo.url}}"></li>
-					<li>
-						<p>{{company.name}}</p>
-						<p>{{company.get_type_display}}</p>
-					</li>
-				</ul>
-			</div>
+			<a href="{% url "management_companies_edit" company.pk %}">
+				<div class="panel">
+					<ul class="large-block-grid-2">
+						<style>
+							.large-block-grid-2 img { height: 100px; }
+						</style>
+						<li><img src="{% if company.logo %}{{company.logo.url}}{% else %}http://placehold.it/200x200&text=sem%20logo{% endif %}"></li>
+						<li>
+							<p>{{company.name}}</p>
+							<p>{{company.get_type_display}}</p>
+						</li>
+					</ul>
+				</div>
+			</a>
 		</div>
 	{% endfor %}
 </div>

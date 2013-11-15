@@ -23,10 +23,37 @@ def companies_add(request):
 		form = CompanyForm(request.POST, request.FILES)
 		if form.is_valid():
 			form.save()
-			return redirect(reverse('management_companies'))
+			return redirect('management_companies')
 	else:
 		form = CompanyForm()
 
 	context['form'] = form
 
-	return render(request, 'management/companies_add.html', context)
+	return render(request, 'management/companies_change.html', context)
+
+@staff_required
+def companies_edit(request, company_pk):
+	company = get_object_or_404(Company, pk=company_pk)
+
+	if request.method == 'POST':
+		form = CompanyForm(request.POST, request.FILES, instance=company)
+		if form.is_valid():
+			form.save()
+			return redirect('management_companies')
+	else:
+		form = CompanyForm(instance=company)
+
+	context = {
+		'company': company,
+		'form': form
+	}
+
+	return render(request, 'management/companies_change.html', context)
+
+@staff_required
+def companies_delete(request, company_pk):
+	company = get_object_or_404(Company, pk=company_pk)
+
+	company.delete()
+
+	return redirect('management_companies')

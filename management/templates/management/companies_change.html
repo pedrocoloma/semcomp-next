@@ -4,7 +4,7 @@
 
 {% block user_content %}
 <div class="row">
-	<div class="large-6 columns">
+	<div class="large-12 columns">
 		<h1>Adicionar empresa</h1>
 		<p>Coisas a notar aqui:</p>
 		<ul>
@@ -14,13 +14,22 @@
 			<li>A imagem <strong>tem que ser <code>PNG</code></strong>, no <em>máximo</em> <code>JPG</code> pro logo não aparecer ruim e nem ter <code>2MB</code> por imagem. Arquivos do Corel não servem, simples assim.</li>
 		</ul>
 	</div>
-	<div class="large-6 columns">
-		<form action="{% url "management_companies_add" %}" method="post" enctype="multipart/form-data">
+	<div class="large-12 columns">
+		<form
+			{% if form.instance.pk %}
+				action="{% url "management_companies_edit" form.instance.pk %}"
+			{% else %}
+				action="{% url "management_companies_add" %}"
+			{% endif %}
+			method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<fieldset>
 				<legend>Dados da empresa</legend>
 				{{form.as_p}}
-				<input type="submit" value="{% trans "Salvar" %}">
+				<input class="button right" type="submit" value="{% trans "Salvar" %}">
+				{% if form.instance.pk %}
+					<a href="{% url "management_companies_delete" form.instance.pk %}" class="button alert left">{% trans "Apagar" %}</a>
+				{% endif %}
 			</fieldset>
 		</form>
 	</div>
