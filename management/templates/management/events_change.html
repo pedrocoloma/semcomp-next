@@ -42,6 +42,7 @@
 {% endblock %}
 
 {% block extracss %}
+	{{block.super}}
 	<link rel="stylesheet" href="{% static "css/pickadate/default.css" %}">
 	<link rel="stylesheet" href="{% static "css/pickadate/default.date.css" %}">
 	<link rel="stylesheet" href="{% static "css/pickadate/default.time.css" %}">
