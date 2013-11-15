@@ -80,7 +80,7 @@ $side-nav-padding: em-calc(0);
 }
 
 @media #{$topbar-media-query} {
-	.top-bar-section ul > li {
+	.top-bar-section > ul > li {
 		text-align: center;
 		width: menu-item-width(100%, 5);
 		border-right: lighten($topbar-bg, 10%) 1px solid;
