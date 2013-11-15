@@ -1,0 +1,24 @@
+{% if sponsors %}
+	<div class="row">
+		<h2>Patrocinadores</h2>
+	</div>
+	<div class="row">
+		{% for sponsor in sponsors %}
+			{% if sponsor.logo %}
+				<div class="sponsor small-6 large-3 large-uncentered columns">
+					<img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}">
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endif %}
+<div class="row">
+	<h2>Apoio</h2>
+	{% for partner in partners %}
+		{% if partner.logo %}
+			<div class="sponsor small-6 large-3 large-uncentered columns">
+				<img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}">
+			</div>
+		{% endif %}
+	{% endfor %}
+</div>
