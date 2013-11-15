@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import datetime
+
 from unipath import Path
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -119,6 +121,7 @@ INSTALLED_APPS = (
 	'tagging',
 	'zinnia',
 	'compressor',
+	'mathfilters',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -168,3 +171,7 @@ CMSPLUGIN_ZINNIA_TEMPLATES = [
 ]
 
 #COMPRESS_ENABLED = True
+COMPRESS_CSS_FILTERS = ['compressor.filters.cssmin.CSSMinFilter']
+
+SEMCOMP_START_DATE = datetime.date(2014, 8, 25)
+SEMCOMP_END_DATE = datetime.date(2014, 8, 30)

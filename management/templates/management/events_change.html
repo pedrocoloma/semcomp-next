@@ -1,0 +1,89 @@
+{% extends "management/base.html" %}
+
+{% load sekizai_tags i18n static %}
+
+{% block user_content %}
+<form
+	method="post"
+	{% if form.instance.pk %}
+		action="{% url "management_events_edit" form.instance.pk %}">
+	{% else %}
+		action="{% url "management_events_add" %}">
+	{% endif %}
+	{% csrf_token %}
+	<fieldset>
+		{% if form.instance.pk %}
+			<legend>Editar evento</legend>
+		{% else %}
+			<legend>Adicionar evento</legend>
+		{% endif %}
+		<div class="row">
+			{% include "management/render_field.html" with field=form.name width="large-6" only %}
+			{% include "management/render_field.html" with field=form.type width="large-6" only %}
+		</div>
+		<div class="row">
+			{% include "management/render_field.html" with field=form.place width="large-6" only %}
+			{% include "management/render_field.html" with field=form.in_schedule width="large-6" only %}
+		</div>
+		<div class="row">
+			{% include "management/render_field.html" with field=form.description width="large-12" only %}
+		</div>
+		<div class="row">
+			{% include "management/render_field.html" with field=form.start_date width="large-6" only %}
+			{% include "management/render_field.html" with field=form.start_time width="large-6" only %}
+		</div>
+		<div class="row">
+			{% include "management/render_field.html" with field=form.end_date width="large-6" only %}
+			{% include "management/render_field.html" with field=form.end_time width="large-6" only %}
+		</div>
+		<input class="button" type="submit" value="{% trans "Salvar" %}">
+	</fieldset>
+</form>
+{% endblock %}
+
+{% block extracss %}
+	<link rel="stylesheet" href="{% static "css/pickadate/default.css" %}">
+	<link rel="stylesheet" href="{% static "css/pickadate/default.date.css" %}">
+	<link rel="stylesheet" href="{% static "css/pickadate/default.time.css" %}">
+{% endblock %}
+
+{% block extrajs %}
+	<script src="{% static "js/pickadate/picker.js" %}"></script>
+	<script src="{% static "js/pickadate/picker.date.js" %}"></script>
+	<script src="{% static "js/pickadate/picker.time.js" %}"></script>
+	<script src="{% static "js/pickadate/translations/pt_BR.js" %}"></script>
+	<script type="text/javascript">
+		$("#id_start_date").pickadate({
+			format: 'dd/mm/yyyy',
+			min: [{{first_day|date:"Y,m-1,d"}}],
+			max: [{{last_day|date:"Y,m-1,d"}}],
+			today: '',
+			onSet: function (e) {
+				$("#id_end_date").val(
+					$("#id_start_date").val()
+				);
+			}
+		});
+		$("#id_end_date").pickadate({
+			format: 'dd/mm/yyyy',
+			min: [{{first_day|date:"Y,m-1,d"}}],
+			max: [{{last_day|date:"Y,m-1,d"}}],
+			today: '',
+		});
+		$("#id_start_time").pickatime({
+			format: 'HH:i',
+			min: [8, 0],
+			max: [23, 0],
+			onSet: function (e) {
+				$("#id_end_time").val(
+					$("#id_start_time").val()
+				);
+			}
+		});
+		$("#id_end_time").pickatime({
+			format: 'HH:i',
+			min: [8, 0],
+			max: [23, 0]
+		});
+	</script>
+{% endblock %}

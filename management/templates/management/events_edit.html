@@ -1,0 +1,15 @@
+{% extends "management/base.html" %}
+
+{% load sekizai_tags i18n %}
+
+{% block user_content %}
+<div class="row">
+	<div class="large-6 columns">
+		<form method="post" action="{% url "management_events_add" %}">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input class="button" type="submit" value="{% trans "Salvar" %}">
+		</form>
+	</div>
+</div>
+{% endblock %}

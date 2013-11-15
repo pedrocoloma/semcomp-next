@@ -1,0 +1,7 @@
+<div class="{{width}} columns {% if field.errors %}error{% endif%}">
+	{{field.label_tag}}<small>{{field.help_text}}</small>
+	{{field}}
+	{% for error in field.errors %}
+		<small>{{error}}</small>
+	{% endfor %}
+</div>

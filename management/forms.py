@@ -1,6 +1,6 @@
 from django import forms
 
-from website.models import Place
+from website.models import Place, Event
 
 
 class PlaceForm(forms.ModelForm):
@@ -13,3 +13,8 @@ class PlaceForm(forms.ModelForm):
 				'zoom': forms.HiddenInput(),
 		}
 
+class EventForm(forms.ModelForm):
+	class Meta:
+		model = Event
+		fields = ('name', 'type', 'in_schedule', 'description',
+			'place', 'start_date', 'start_time', 'end_date', 'end_time')

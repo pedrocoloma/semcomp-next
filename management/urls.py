@@ -10,6 +10,10 @@ urlpatterns = patterns('',
 	url(r'^locais/apagar/(\d+)/$', 'management.views.places_delete', name='management_places_delete'),
 
 	url(r'^eventos/$', 'management.views.manage_events', name='management_events'),
+	url(r'^eventos/adicionar/$', 'management.views.events_add', name='management_events_add'),
+	url(r'^eventos/editar/(\d+)/$', 'management.views.events_edit', name='management_events_edit'),
+	url(r'^eventos/apagar/(\d+)/$', 'management.views.events_delete', name='management_events_delete'),
+
 	url(r'^palestras/$', 'management.views.manage_lectures', name='management_lectures'),
 	url(r'^minicursos/$', 'management.views.manage_courses', name='management_courses'),
 	url(r'^usuarios/$', 'management.views.manage_users', name='management_users'),

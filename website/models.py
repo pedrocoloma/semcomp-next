@@ -1,8 +1,9 @@
 # coding: utf-8
 
+from datetime import datetime
+from PIL import Image
 from io import BytesIO
 from unipath import Path
-from PIL import Image
 
 from django.db import models
 from django.utils.text import slugify
@@ -95,8 +96,30 @@ class Place(models.Model):
 	longitude = models.DecimalField(max_digits=12, decimal_places=8)
 	zoom = models.IntegerField()
 
+	def __unicode__(self):
+		return self.name
+
 class Event(models.Model):
+	EVENT_TYPES = (
+		('palestra', _(u'Palestra')),
+		('minicurso', _(u'Minicurso')),
+		('coffee', _(u'Coffee break')),
+		('cultural', _(u'Cultural')),
+		('neutro', _(u'Neutro')),
+	)
+
 	name = models.CharField(_(u'Nome'), max_length=64)
-	place = models.ForeignKey('Place')
-	start_time = models.DateTimeField(_(u'Início'))
-	end_time = models.DateTimeField(_(u'Fim'))
+	type = models.CharField(_(u'Tipo'), max_length=16, choices=EVENT_TYPES)
+	description = models.TextField(_(u'Descrição'), blank=True)
+	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	in_schedule = models.BooleanField(_(u'Mostrar na programação'), default=False)
+	start_date = models.DateField(_(u'Dia inicial'))
+	start_time = models.TimeField(_(u'Horário de início'))
+	end_date = models.DateField(_(u'Dia final'))
+	end_time = models.TimeField(_(u'Horário de término'))
+
+	def duration(self):
+		start = datetime.combine(self.start_date, self.start_time)
+		end = datetime.combine(self.end_date, self.end_time)
+
+		return end - start

@@ -8,7 +8,7 @@
 		{% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
 		{% addtoblock "css" %}
 			<link rel="stylesheet" href="{% static "css/app.css" %}">
-			{% block extra_css %}{% endblock %}
+			{% block extracss %}{% endblock %}
 		{% endaddtoblock %}
 	</head>
 	<body>
@@ -60,18 +60,19 @@
 				{% placeholder footer %}
 			</footer>
 		</section>
-		<script>
-			document.write(
-				'<script src=' +
-				('__proto__' in {} ?
-					'{% static "js/vendor/zepto" %}' :
-					'{% static "js/vendor/jquery" %}') +
-				'.js><\/script>');
-		</script>
+		{% block masterjs %}
+			<script>
+				var jquery_url = "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js";
+				var zepto_url = "//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js";
+				document.write('<script src="'
+					+ ('__proto__' in {} ? zepto_url : jquery_url)
+					+ '"><\/script>'
+				);
+			</script>
+		{% endblock %}
 		{% render_block "js" postprocessor "compressor.contrib.sekizai.compress" %}
 		{% addtoblock "js" %}
 			<script src="{% static "js/vendor/custom.modernizr.js" %}"></script>
-
 			<script src="{% static "js/foundation/foundation.js" %}"></script>
 			<script src="{% static "js/foundation/foundation.tooltips.js" %}"></script>
 			<script src="{% static "js/foundation/foundation.alerts.js" %}"></script>
@@ -92,8 +93,7 @@
 			<script>
 				$(document).foundation();
 			</script>
+			{% block extrajs %}{% endblock %}
 		{% endaddtoblock %}
-		{% block extrajs %}
-		{% endblock %}
 	</body>
 </html>

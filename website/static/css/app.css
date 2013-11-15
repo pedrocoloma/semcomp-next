@@ -7379,9 +7379,57 @@ span.align-center img {
 }
 /* line 131, ../sass/app.scss */
 .schedule th {
-  width: 16.666666%;
+  text-align: center;
 }
 /* line 134, ../sass/app.scss */
 .schedule td {
+  width: 14.285714285714286%;
   text-align: center;
+}
+
+/* line 140, ../sass/app.scss */
+.day-schedule {
+  position: relative;
+  border: #ddd 1px dotted;
+}
+
+/* line 147, ../sass/app.scss */
+.schedule-event {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  position: absolute;
+}
+/* line 152, ../sass/app.scss */
+.schedule-event.neutro {
+  background-color: lightgray;
+}
+/* line 156, ../sass/app.scss */
+.schedule-event.minicurso {
+  background-color: lightgreen;
+}
+
+/* line 161, ../sass/app.scss */
+.timeslots {
+  padding: 0;
+}
+/* line 164, ../sass/app.scss */
+.timeslots .schedule-timeslot {
+  height: 20px;
+  line-height: 20px;
+}
+/* line 168, ../sass/app.scss */
+.timeslots .schedule-timeslot:nth-child(even) {
+  border-bottom: 1px lightgray solid;
+}
+/* line 172, ../sass/app.scss */
+.timeslots .schedule-timeslot:first-child {
+  border-top: 1px lightgray solid;
+}
+
+/* line 178, ../sass/app.scss */
+.picker__footer button {
+  color: black;
 }

@@ -2,7 +2,7 @@
 
 {% load i18n static %}
 
-{% block extra_css %}
+{% block extracss %}
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 {% endblock %}
 
@@ -51,4 +51,9 @@
 			{% block user_content %}{% endblock %}
 		</div>
 	</div>
+{% endblock %}
+
+{% block masterjs %}
+	{# no painel de administração, zepto não tem tudo o que precisa #}
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 {% endblock %}
