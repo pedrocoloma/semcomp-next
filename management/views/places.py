@@ -26,7 +26,7 @@ def places_add(request):
 
 	context = {
 		'active_places': True,
-		'form': form
+		'form': form,
 	}
 
 	return render(request, 'management/places_add.html', context)
@@ -45,7 +45,7 @@ def places_edit(request, place_pk):
 
 	context = {
 		'active_places': True,
-		'form': form
+		'form': form,
 	}
 
 	return render(request, 'management/places_add.html', context)

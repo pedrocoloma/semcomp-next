@@ -1,6 +1,6 @@
 {% extends "management/base.html" %}
 
-{% load sekizai_tags i18n %}
+{% load sekizai_tags i18n l10n %}
 
 {% block user_content %}
 
@@ -22,7 +22,7 @@
 		<form
 			id="add-place"
 			method="post"
-			{% if form.zoom.value %}
+			{% if form.instance.pk %}
 				action="{% url "management_places_edit" form.instance.pk %}"
 			{% else %}
 				action="{% url "management_places_add" %}"
@@ -61,11 +61,11 @@
 {% addtoblock "js" %}
 <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
 <script type="text/javascript">
-	{% if form.zoom.value %}
+	{% if form.latitude.value %}
 		var map = L.map('add-place-map').setView(
 			[
-				{{form.latitude.value|stringformat:"f"}},
-				{{form.longitude.value|stringformat:"f"}}
+				{{form.latitude.value|unlocalize}},
+				{{form.longitude.value|unlocalize}}
 			], {{form.zoom.value}}
 		);
 		var marker = L.marker(map.getCenter()).addTo(map);
