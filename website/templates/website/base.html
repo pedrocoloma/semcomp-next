@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Semcomp</title>
+		<title>{% block title %}Semcomp{% endblock %}</title>
 		{% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
 		{% addtoblock "css" %}
 			<link rel="stylesheet" href="{% static "css/app.css" %}">

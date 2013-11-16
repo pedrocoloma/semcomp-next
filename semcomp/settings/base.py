@@ -88,6 +88,12 @@ INSTALLED_APPS = (
 	'website',
 	'account',
 	'management',
+	# third party apps
+	'reversion',
+	'tagging',
+	'zinnia',
+	'compressor',
+	'mathfilters',
 	# django-cms plugins
 	'cms.plugins.file',
 	'cms.plugins.flash',
@@ -116,12 +122,6 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
-	# third party apps
-	'reversion',
-	'tagging',
-	'zinnia',
-	'compressor',
-	'mathfilters',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

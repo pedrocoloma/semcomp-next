@@ -7433,3 +7433,8 @@ span.align-center img {
 .picker__footer button {
   color: black;
 }
+
+/* line 182, ../sass/app.scss */
+form.search-form {
+  margin: 0;
+}
