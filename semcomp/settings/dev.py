@@ -12,6 +12,13 @@ DATABASES = {
 
 WSGI_APPLICATION = 'semcomp.wsgi.dev.application'
 
+MIDDLEWARE_CLASSES += (
+	'debug_toolbar.middleware.DebugToolbarMiddleware',
+) + MIDDLEWARE_CLASSES
+
+INTERNAL_IPS = ('127.0.0.1',)
+
 INSTALLED_APPS += (
 	'werkzeug_debugger_runserver',
+	'debug_toolbar',
 )
