@@ -12,13 +12,15 @@
 		{% endfor %}
 	</div>
 {% endif %}
-<div class="row">
-	<h2>Apoio</h2>
-	{% for partner in partners %}
-		{% if partner.logo %}
-			<div class="sponsor small-6 large-3 large-uncentered columns">
-				<img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}">
-			</div>
-		{% endif %}
-	{% endfor %}
-</div>
+{% if partners %}
+	<div class="row">
+		<h2>Apoio</h2>
+		{% for partner in partners %}
+			{% if partner.logo %}
+				<div class="sponsor small-6 large-3 large-uncentered columns">
+					<img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}">
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endif %}
