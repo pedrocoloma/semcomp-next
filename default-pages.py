@@ -71,6 +71,7 @@ pages = [
 		'title': u'Notícias',
 		'apphook': ZinniaApphook,
 		'parent': 'sobre',
+		'overwrite_url': '/blog',
 	}),
 
 	('programacao-visao-geral', {
