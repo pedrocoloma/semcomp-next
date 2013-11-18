@@ -46,7 +46,7 @@
 		{% block masterjs %}
 			<script>
 				var jquery_url = "//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js";
-				var zepto_url = "//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js";
+				var zepto_url = "{% static "js/vendor/zepto.js" %}";
 				document.write('<script src="'
 					+ ('__proto__' in {} ? zepto_url : jquery_url)
 					+ '"><\/script>'
