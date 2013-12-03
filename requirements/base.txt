@@ -2,7 +2,7 @@ Django==1.5.4
 #django-cms==3.0.0.beta2
 git+https://github.com/divio/django-cms
 Pillow==2.1.0
-South==0.8.2
+South==0.8.4
 Unipath==1.0
 cmsplugin-filer==0.9.5
 django-reversion==1.7.1
