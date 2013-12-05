@@ -128,19 +128,26 @@ span.align-center img {
 
 .schedule {
 	width: 100%;
+	height: 100%;
 	th {
 		text-align: center;
 	}
 	td {
 		width: 14.285714285714286%;
 		text-align: center;
+
+		border-right: #ddd 1px dotted;
+		height: 100%;
+		padding: 0;
 	}
 }
 
 .day-schedule {
+	width: 100%;
+	height: 600px;
 	position: relative;
 
-	border: #ddd 1px dotted;
+	//border: #ddd 1px dotted;
 	//border-right: #ddd 1px dotted;
 }
 
@@ -155,6 +162,10 @@ span.align-center img {
 
 	&.minicurso {
 		background-color: lightgreen;
+	}
+
+	&.palestra {
+		background-color: lightblue;
 	}
 }
 

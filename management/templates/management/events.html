@@ -31,16 +31,18 @@
 						{% endfor %}
 					</td>
 					{% for day in days %}
-						<td class="day-schedule">
-							{% for event in day %}
-								{# olhar no css qual o tamanho da linha se for alterar aqui #}
-								<a href="{% url "management_events_edit" event.obj.pk %}">
-									<div class="schedule-event {{event.type}}"
-										style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
-										{{event.name}}
-									</div>
-								</a>
-							{% endfor %}
+						<td>
+							<div class="day-schedule">
+								{% for event in day %}
+									{# olhar no css qual o tamanho da linha se for alterar aqui #}
+									<a href="{% url "management_events_edit" event.obj.pk %}">
+										<div class="schedule-event {{event.type}}"
+											style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
+											{{event.name}}
+										</div>
+									</a>
+								{% endfor %}
+							</div>
 						</td>
 					{% endfor %}
 				</tr>

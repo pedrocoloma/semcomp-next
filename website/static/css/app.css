@@ -8189,24 +8189,29 @@ span.align-center img {
 /* line 129, ../sass/app.scss */
 .schedule {
   width: 100%;
+  height: 100%;
 }
-/* line 131, ../sass/app.scss */
+/* line 132, ../sass/app.scss */
 .schedule th {
   text-align: center;
 }
-/* line 134, ../sass/app.scss */
+/* line 135, ../sass/app.scss */
 .schedule td {
   width: 14.285714285714286%;
   text-align: center;
+  border-right: #ddd 1px dotted;
+  height: 100%;
+  padding: 0;
 }
 
-/* line 140, ../sass/app.scss */
+/* line 145, ../sass/app.scss */
 .day-schedule {
+  width: 100%;
+  height: 600px;
   position: relative;
-  border: #ddd 1px dotted;
 }
 
-/* line 147, ../sass/app.scss */
+/* line 154, ../sass/app.scss */
 .schedule-event {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -8215,44 +8220,48 @@ span.align-center img {
   border-radius: 5px;
   position: absolute;
 }
-/* line 152, ../sass/app.scss */
+/* line 159, ../sass/app.scss */
 .schedule-event.neutro {
   background-color: lightgray;
 }
-/* line 156, ../sass/app.scss */
+/* line 163, ../sass/app.scss */
 .schedule-event.minicurso {
   background-color: lightgreen;
 }
+/* line 167, ../sass/app.scss */
+.schedule-event.palestra {
+  background-color: lightblue;
+}
 
-/* line 161, ../sass/app.scss */
+/* line 172, ../sass/app.scss */
 .timeslots {
   padding: 0;
 }
-/* line 164, ../sass/app.scss */
+/* line 175, ../sass/app.scss */
 .timeslots .schedule-timeslot {
   height: 20px;
   line-height: 20px;
 }
-/* line 168, ../sass/app.scss */
+/* line 179, ../sass/app.scss */
 .timeslots .schedule-timeslot:nth-child(even) {
   border-bottom: 1px lightgray solid;
 }
-/* line 172, ../sass/app.scss */
+/* line 183, ../sass/app.scss */
 .timeslots .schedule-timeslot:first-child {
   border-top: 1px lightgray solid;
 }
 
-/* line 178, ../sass/app.scss */
+/* line 189, ../sass/app.scss */
 .picker__footer button {
   color: black;
 }
 
-/* line 182, ../sass/app.scss */
+/* line 193, ../sass/app.scss */
 form.search-form {
   margin: 0;
 }
 
-/* line 186, ../sass/app.scss */
+/* line 197, ../sass/app.scss */
 .hero-button {
   cursor: pointer;
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
