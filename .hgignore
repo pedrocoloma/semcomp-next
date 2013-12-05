@@ -5,3 +5,6 @@ py[co]$
 sw(o|p)$
 .sass-cache
 ^database.sqlite3$
+^website/static/node_modules
+^website/static/bower_components
+^website/static/.bowerrc
