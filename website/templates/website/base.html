@@ -43,8 +43,6 @@
 				{% placeholder footer %}
 			</footer>
 		</section>
-		{% block masterjs %}
-		{% endblock %}
 		{% render_block "js" postprocessor "compressor.contrib.sekizai.compress" %}
 		{% addtoblock "js" %}
 			<script src="{% static "bower_components/modernizr/modernizr.js" %}"></script>
