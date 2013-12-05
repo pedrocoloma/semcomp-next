@@ -11,6 +11,9 @@ $side-nav-list-margin: em-calc(0 0 0 0);
 $side-nav-font-size: em-calc(16);
 $side-nav-padding: em-calc(0);
 
+$primary-color: #01507D;
+$bg: lighten($primary-color, 10%);
+
 // Comment out this import if you don't want to use normalize
 @import "normalize";
 
@@ -65,7 +68,7 @@ $side-nav-padding: em-calc(0);
 // @import "foundation/components/dropdown";
 
 .hero {
-	background-color: #fab;
+	background-color: $primary-color;
 	padding: 20px;
 	margin: 20px 0;
 }
@@ -86,9 +89,6 @@ $side-nav-padding: em-calc(0);
 		border-right: lighten($topbar-bg, 10%) 1px solid;
 		border-left: lighten($topbar-bg, 10%) 1px solid;
 
-		a:hover {
-			background-color: cyan !important;
-		}
 		&:first-child {
 			border-left: none;
 		}
@@ -101,7 +101,7 @@ $side-nav-padding: em-calc(0);
 	}
 }
 
-li.selected > a { background-color: #fab !important; }
+//li.selected > a { background-color: #fab !important; }
 
 .side-nav li {
 	//line-height: 200%;
@@ -181,4 +181,8 @@ span.align-center img {
 
 form.search-form {
 	margin: 0;
+}
+
+.hero-button {
+	@include button($bg:lighten($primary-color,10%));
 }
