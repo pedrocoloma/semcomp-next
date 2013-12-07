@@ -21,7 +21,7 @@ refere à maquinaria que faz o site funcionar, neste caso Python e Django.
 Trabalhando com o *front end*
 *****************************
 
-.. figure:: http://foundation.zurb.com/assets/img/homepage/hero-image.svg
+.. image:: http://foundation.zurb.com/assets/img/homepage/hero-image.svg
    :height: 200px
    :width: 200px
    :align: right
