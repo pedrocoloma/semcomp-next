@@ -1,8 +1,8 @@
-env/
-media/
+env/*
+media/*
 static/
-py[co]$
-sw(o|p)$
+*py[co]
+*sw[op]
 .sass-cache
 ^database.sqlite3$
 ^website/static/node_modules

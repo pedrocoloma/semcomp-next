@@ -9,6 +9,7 @@ from cms.models.pluginmodel import CMSPlugin
 from cms.models import Page
 from cmsplugin_zinnia.cms_app import ZinniaApphook
 from cmsplugin_zinnia.cms_plugins import CMSLatestEntriesPlugin
+from djangocms_text_ckeditor.cms_plugins import TextPlugin
 from account.cms_app import SemcompUserApphook
 from management.cms_app import SemcompAdminApphook
 from contextlib import contextmanager
@@ -148,7 +149,7 @@ with progress('Creating stacks'):
 		s = Stack(name=stack['name'], code=stack['code'])
 		s.save()
 
-		placeholder = s.content
+		placeholder = s.public
 		multi_columns_plugin = add_plugin(placeholder, MultiColumnsPlugin, LANGUAGE_PT_BR)
 
 		for i,column_spec in enumerate(stack['columns']):
@@ -169,7 +170,7 @@ with progress('Creating stacks'):
 with progress('Adding plugins'):
 	side_content = created_pages['home'].placeholders.get(slot='side_content')
 	add_plugin(side_content, CMSLatestEntriesPlugin, 'pt-br', render_template='blog/latest_entries.html')
-	add_plugin(side_content, "TextPlugin", LANGUAGE_PT_BR, body='<h2>Quer ser um patrocinador?</h2><p>Entre em <a href="/sobre/contato">contato</a>!</p>')
+	add_plugin(side_content, TextPlugin, LANGUAGE_PT_BR, body='<h2>Quer ser um patrocinador?</h2><p>Entre em <a href="/sobre/contato">contato</a>!</p>')
 
 with progress('Creating super user'):
 	User.objects.create_superuser('admin', 'admin@admin.net', 'senha')
