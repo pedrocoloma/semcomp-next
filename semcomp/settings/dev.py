@@ -19,6 +19,5 @@ MIDDLEWARE_CLASSES += (
 INTERNAL_IPS = ('127.0.0.1',)
 
 INSTALLED_APPS += (
-	'werkzeug_debugger_runserver',
 	'debug_toolbar',
 )

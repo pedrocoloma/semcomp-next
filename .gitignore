@@ -7,3 +7,4 @@ sw(o|p)$
 ^database.sqlite3$
 ^website/static/node_modules
 ^website/static/.bowerrc
+__pycache__
