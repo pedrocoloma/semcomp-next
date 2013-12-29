@@ -3,7 +3,7 @@
 from datetime import datetime
 from PIL import Image
 from io import BytesIO
-from unipath import Path
+from pathlib import Path
 
 from django.db import models
 from django.utils.text import slugify
@@ -67,7 +67,8 @@ def company_upload_to(instance, filename):
 	else:
 		image_format = image.format.lower()
 
-	return Path('empresas', '{0}.{1}'.format(filename, image_format))
+	path = Path('empresas', '{0}.{1}'.format(filename, image_format))
+	return path.as_posix()
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (

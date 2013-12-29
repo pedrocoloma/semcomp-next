@@ -2,11 +2,11 @@
 
 import datetime
 
-from unipath import Path
+from pathlib import Path
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
-PROJECT_DIR = Path(__file__).absolute().ancestor(3)
+PROJECT_DIR = Path(__file__).resolve().parents[2]
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -26,10 +26,10 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-MEDIA_ROOT = PROJECT_DIR.child('media')
+MEDIA_ROOT = PROJECT_DIR.joinpath('media').as_posix()
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = PROJECT_DIR.child('static')
+STATIC_ROOT = PROJECT_DIR.joinpath('static').as_posix()
 STATIC_URL = '/static/'
 
 SECRET_KEY = 'semcomp-eh-demais-de-legal'
@@ -71,7 +71,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 ROOT_URLCONF = 'semcomp.urls'
 
 TEMPLATE_DIRS = (
-	#PROJECT_DIR.child('templates'),
+	#PROJECT_DIR.joinpath('templates').as_posix(),
 )
 
 CMS_TEMPLATES = (
