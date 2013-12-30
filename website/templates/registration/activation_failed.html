@@ -1,0 +1,15 @@
+{% extends "website/base.html" %}
+
+{% load i18n cms_tags %}
+
+{% block base_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1>A ativação da sua conta falhou</h1>
+			<p>Não foi possível ativar a sua conta. Se você acha que isto é um
+			erro, entre em <a href="{% page_url "contato" %}">contato</a> e
+			informe a seguinte chave de ativação:</p>
+			<p><code>{{activation_key}}</code></p>
+		</div>
+	</div>
+{% endblock %}

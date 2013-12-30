@@ -63,6 +63,7 @@ pages = [
 	('sobre-contato', {
 		'title': u'Contato',
 		'parent': 'sobre',
+		'reverse_id': 'contato',
 	}),
 	('sobre-faq', {
 		'title': u'FAQ',

@@ -197,3 +197,7 @@ form.search-form {
 .hero-button {
 	@include button($bg:lighten($primary-color,10%));
 }
+
+.button.full-width {
+    width: 100%;
+}

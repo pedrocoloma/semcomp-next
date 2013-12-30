@@ -8290,3 +8290,8 @@ form.search-form {
 .hero-button:hover, .hero-button:focus {
   color: white;
 }
+
+/* line 201, ../sass/app.scss */
+.button.full-width {
+  width: 100%;
+}

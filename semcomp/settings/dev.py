@@ -12,12 +12,14 @@ DATABASES = {
 
 WSGI_APPLICATION = 'semcomp.wsgi.dev.application'
 
-MIDDLEWARE_CLASSES += (
-	'debug_toolbar.middleware.DebugToolbarMiddleware',
-) + MIDDLEWARE_CLASSES
+#MIDDLEWARE_CLASSES += (
+#	'debug_toolbar.middleware.DebugToolbarMiddleware',
+#) + MIDDLEWARE_CLASSES
 
-INTERNAL_IPS = ('127.0.0.1',)
+#INTERNAL_IPS = ('127.0.0.1',)
 
-INSTALLED_APPS += (
-	'debug_toolbar',
-)
+#INSTALLED_APPS += (
+#	'debug_toolbar',
+#)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

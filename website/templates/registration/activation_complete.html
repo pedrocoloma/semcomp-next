@@ -1,0 +1,13 @@
+{% extends "website/base.html" %}
+
+{% load i18n cms_tags %}
+
+{% block base_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1>Sua conta foi ativada!</h1>
+			<p>Você agora pode <a href="{% url "login" %}">entrar no site</a>
+			e acessar a sua <a href="{% url "account_overview" %}">área de usuário</a>.</p>
+		</div>
+	</div>
+{% endblock %}

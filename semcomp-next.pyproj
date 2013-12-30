@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2efff1d6-eb84-4a2a-82d9-5295dab27797}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <InterpreterId>{3a126ac4-1778-45de-85f7-324a4548190f}</InterpreterId>
+    <InterpreterVersion>2.7</InterpreterVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <UseIISExpress>true</UseIISExpress>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <CommandLineArguments />
+    <InterpreterPath />
+    <InterpreterArguments />
+    <DjangoSettingsModule>semcomp.settings.dev</DjangoSettingsModule>
+    <WebBrowserUrl />
+    <WebBrowserPort />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="README.rst" />
+    <Compile Include="default-pages.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="account\cms_app.py" />
+    <Compile Include="account\menu.py" />
+    <Compile Include="account\models.py" />
+    <Compile Include="account\tests.py" />
+    <Compile Include="account\urls.py" />
+    <Compile Include="account\views.py" />
+    <Compile Include="account\__init__.py" />
+    <Compile Include="management\cms_app.py" />
+    <Compile Include="management\decorators.py" />
+    <Compile Include="management\forms.py" />
+    <Compile Include="management\models.py" />
+    <Compile Include="management\tests.py" />
+    <Compile Include="management\urls.py" />
+    <Compile Include="management\__init__.py" />
+    <Content Include="requirements\base.txt" />
+    <Content Include="requirements\dev.txt" />
+    <Compile Include="semcomp\urls.py" />
+    <Compile Include="semcomp\__init__.py" />
+    <Compile Include="website\cms_plugins.py" />
+    <Compile Include="website\forms.py" />
+    <Compile Include="website\models.py" />
+    <Compile Include="website\tests.py" />
+    <Compile Include="website\__init__.py" />
+    <Content Include="account\templates\account\base.html" />
+    <Content Include="account\templates\account\courses.html" />
+    <Content Include="account\templates\account\index.html" />
+    <Content Include="account\templates\account\payment.html" />
+    <Compile Include="management\views\companies.py" />
+    <Compile Include="management\views\courses.py" />
+    <Compile Include="management\views\events.py" />
+    <Compile Include="management\views\lectures.py" />
+    <Compile Include="management\views\places.py" />
+    <Compile Include="management\views\users.py" />
+    <Compile Include="management\views\__init__.py" />
+    <Content Include="management\templates\management\base.html" />
+    <Content Include="management\templates\management\companies.html" />
+    <Content Include="management\templates\management\companies_change.html" />
+    <Content Include="management\templates\management\courses.html" />
+    <Content Include="management\templates\management\events.html" />
+    <Content Include="management\templates\management\events_add.html" />
+    <Content Include="management\templates\management\events_change.html" />
+    <Content Include="management\templates\management\events_edit.html" />
+    <Content Include="management\templates\management\lectures.html" />
+    <Content Include="management\templates\management\overview.html" />
+    <Content Include="management\templates\management\places.html" />
+    <Content Include="management\templates\management\places_add.html" />
+    <Content Include="management\templates\management\render_field.html" />
+    <Content Include="management\templates\management\users.html" />
+    <Compile Include="semcomp\settings\base.py" />
+    <Compile Include="semcomp\settings\dev.py" />
+    <Compile Include="semcomp\settings\prod.py" />
+    <Compile Include="semcomp\settings\__init__.py" />
+    <Compile Include="semcomp\wsgi\dev.py" />
+    <Compile Include="semcomp\wsgi\__init__.py" />
+    <Content Include="website\fixtures\initial_data.json" />
+    <Compile Include="website\migrations\0001_initial.py" />
+    <Compile Include="website\migrations\0002_auto__add_company.py" />
+    <Compile Include="website\migrations\0003_auto__add_field_column_custom_classes.py" />
+    <Compile Include="website\migrations\0004_auto__add_place.py" />
+    <Compile Include="website\migrations\0005_auto__add_event.py" />
+    <Compile Include="website\migrations\__init__.py" />
+    <Content Include="website\static\bower.json" />
+    <Content Include="website\static\Gemfile" />
+    <Content Include="website\static\Gemfile.lock" />
+    <Content Include="website\static\config.rb" />
+    <Compile Include="website\templatetags\semcomp.py" />
+    <Compile Include="website\templatetags\__init__.py" />
+    <Content Include="website\static\css\app.css" />
+    <Content Include="website\static\sass\app.scss" />
+    <Content Include="website\static\sass\_normalize.scss" />
+    <Content Include="website\static\sass\_settings.scss" />
+    <Content Include="website\static\css\pickadate\classic.css" />
+    <Content Include="website\static\css\pickadate\classic.date.css" />
+    <Content Include="website\static\css\pickadate\classic.time.css" />
+    <Content Include="website\static\css\pickadate\default.css" />
+    <Content Include="website\static\css\pickadate\default.date.css" />
+    <Content Include="website\static\css\pickadate\default.time.css" />
+    <Content Include="website\static\css\pickadate\rtl.css" />
+    <Content Include="website\static\js\pickadate\legacy.js" />
+    <Content Include="website\static\js\pickadate\picker.date.js" />
+    <Content Include="website\static\js\pickadate\picker.js" />
+    <Content Include="website\static\js\pickadate\picker.time.js" />
+    <Content Include="website\static\js\pickadate\translations\pt_BR.js" />
+    <Content Include="website\templates\blog\latest_entries.html" />
+    <Content Include="website\templates\menu\menu.html" />
+    <Content Include="website\templates\registration\activation_complete.html" />
+    <Content Include="website\templates\registration\activation_email.txt" />
+    <Content Include="website\templates\registration\activation_failed.html" />
+    <Content Include="website\templates\registration\login.html" />
+    <Content Include="website\templates\registration\signup_complete.html" />
+    <Content Include="website\templates\registration\signup_form.html" />
+    <Content Include="website\templates\website\base.html" />
+    <Content Include="website\templates\website\home.html" />
+    <Content Include="website\templates\website\main_template.html" />
+    <Content Include="website\templates\zinnia\base.html" />
+    <Content Include="website\templates\zinnia\entry_archive.html" />
+    <Content Include="website\templates\zinnia\entry_detail.html" />
+    <Content Include="website\templates\zinnia\entry_detail_base.html" />
+    <Content Include="website\templates\zinnia\entry_list.html" />
+    <Content Include="website\templates\zinnia\_entry_detail.html" />
+    <Content Include="website\templates\zinnia\_entry_detail_base.html" />
+    <Content Include="website\templates\website\plugins\columns_plugin.html" />
+    <Content Include="website\templates\website\plugins\single_column_plugin.html" />
+    <Content Include="website\templates\website\templatetags\render_sponsors.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="account" />
+    <Folder Include="account\templates\" />
+    <Folder Include="account\templates\account" />
+    <Folder Include="management" />
+    <Folder Include="management\templates\" />
+    <Folder Include="management\templates\management" />
+    <Folder Include="management\views" />
+    <Folder Include="requirements" />
+    <Folder Include="semcomp" />
+    <Folder Include="semcomp\settings" />
+    <Folder Include="semcomp\wsgi" />
+    <Folder Include="website" />
+    <Folder Include="website\fixtures" />
+    <Folder Include="website\migrations" />
+    <Folder Include="website\static" />
+    <Folder Include="website\static\css" />
+    <Folder Include="website\static\css\pickadate" />
+    <Folder Include="website\static\js\" />
+    <Folder Include="website\static\js\pickadate" />
+    <Folder Include="website\static\js\pickadate\translations" />
+    <Folder Include="website\static\sass" />
+    <Folder Include="website\templates\" />
+    <Folder Include="website\templates\blog" />
+    <Folder Include="website\templates\menu" />
+    <Folder Include="website\templates\registration" />
+    <Folder Include="website\templates\website" />
+    <Folder Include="website\templates\website\plugins" />
+    <Folder Include="website\templates\website\templatetags" />
+    <Folder Include="website\templates\zinnia" />
+    <Folder Include="website\templatetags" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\2.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebPiReference Include="https://www.microsoft.com/web/webpi/3.0/toolsproductlist.xml%3fDjango">
+      <Feed>https://www.microsoft.com/web/webpi/3.0/toolsproductlist.xml</Feed>
+      <ProductId>Django</ProductId>
+      <FriendlyName>Django 1.4</FriendlyName>
+    </WebPiReference>
+    <WebPiReference Include="https://www.microsoft.com/web/webpi/3.0/toolsproductlist.xml%3fPytho27">
+      <Feed>https://www.microsoft.com/web/webpi/3.0/toolsproductlist.xml</Feed>
+      <ProductId>Python27</ProductId>
+      <FriendlyName>Python 2.7</FriendlyName>
+    </WebPiReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="env-27\">
+      <Id>{3a126ac4-1778-45de-85f7-324a4548190f}</Id>
+      <BaseInterpreter>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</BaseInterpreter>
+      <Version>2.7</Version>
+      <Description>env-27 (Python 2.7)</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <LibraryPath>Lib\</LibraryPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:24881/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>True</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

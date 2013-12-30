@@ -1,0 +1,20 @@
+-- title=subject
+
+Bem vindo à Semcomp 17
+
+-- title=txt
+
+Obrigado por se cadastrar no site da Semcomp 17! Para completar seu cadastro,
+clique no link abaixo:
+
+	{{url}}
+
+Você tem {{activation_days}} dias para acessar este link, caso não o faça a
+tempo, pode ser necessário realizar o cadastro novamente.
+
+Caso tenha algum problema com a inscrição, entre em contato pelo site da
+Semcomp ou mande um email para endereco-de-contato@servidor.com.br
+
+
+Atenciosamente,
+Comissão Organizadora Semcomp 17

@@ -1,0 +1,30 @@
+{% extends "website/base.html" %}
+
+{% load i18n %}
+
+{% block base_content %}
+	<div class="row">
+		<div class="large-6 large-centered columns">
+			<form method="post" action="{% url "login" %}">
+				<fieldset>
+					<legend>Entrar</legend>
+					{% csrf_token %}
+					{{form.as_p}}
+					<div class="row">
+						<div class="large-6 push-6 columns">
+							<input class="button full-width small" type="submit" value="{% trans "Entrar" %}">
+						</div>
+						<div class="large-6 pull-6 columns">
+							<a class="button full-width small secondary" href="{% url "password_reset" %}">{% trans "Esqueceu a senha?" %}</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="large-12 columns">
+							<a href="{% url "signup_signup" %}">Não tem conta? Cadastre-se</a>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+{% endblock %}
