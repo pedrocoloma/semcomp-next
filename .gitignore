@@ -1,10 +1,10 @@
-env/*
-media/*
-static/
+/env*
+/media
+/static
 *py[co]
 *sw[op]
-.sass-cache
-^database.sqlite3$
-^website/static/node_modules
-^website/static/.bowerrc
+sass-cache
+/database.sqlite3
+/website/static/node_modules
+/website/static/.bowerrc
 __pycache__
