@@ -3,6 +3,7 @@
 from menus.base import NavigationNode, Menu, Modifier
 from menus.menu_pool import menu_pool
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse
 from cms.menu_bases import CMSAttachMenu
 
 class SemcompUserMenu(Menu):
@@ -14,7 +15,7 @@ class SemcompUserMenu(Menu):
 		if request.user.is_authenticated():
 			n = NavigationNode(_(u'Área de usuário'), '/account/', 1)
 		else:
-			n = NavigationNode(_(u'Login'), '/accounts/login/', 1)
+			n = NavigationNode(_(u'Login'), reverse('login'), 1)
 		nodes.append(n)
 		return nodes
 

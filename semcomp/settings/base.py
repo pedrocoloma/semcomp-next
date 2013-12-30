@@ -122,6 +122,7 @@ INSTALLED_APPS = (
 	'zinnia',
 	'compressor',
 	'mathfilters',
+	'signup',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -175,3 +176,4 @@ COMPRESS_CSS_FILTERS = ['compressor.filters.cssmin.CSSMinFilter']
 
 SEMCOMP_START_DATE = datetime.date(2014, 8, 25)
 SEMCOMP_END_DATE = datetime.date(2014, 8, 30)
+
