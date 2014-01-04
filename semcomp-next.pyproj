@@ -33,7 +33,6 @@
     <Compile Include="account\cms_app.py" />
     <Compile Include="account\menu.py" />
     <Compile Include="account\models.py" />
-    <Compile Include="account\tests.py" />
     <Compile Include="account\urls.py" />
     <Compile Include="account\views.py" />
     <Compile Include="account\__init__.py" />
@@ -41,7 +40,6 @@
     <Compile Include="management\decorators.py" />
     <Compile Include="management\forms.py" />
     <Compile Include="management\models.py" />
-    <Compile Include="management\tests.py" />
     <Compile Include="management\urls.py" />
     <Compile Include="management\__init__.py" />
     <Content Include="requirements\base.txt" />
@@ -51,7 +49,8 @@
     <Compile Include="website\cms_plugins.py" />
     <Compile Include="website\forms.py" />
     <Compile Include="website\models.py" />
-    <Compile Include="website\tests.py" />
+    <Compile Include="website\tests\test_template_tags.py" />
+    <Compile Include="website\tests\__init__.py" />
     <Compile Include="website\__init__.py" />
     <Content Include="account\templates\account\base.html" />
     <Content Include="account\templates\account\courses.html" />
@@ -167,6 +166,7 @@
     <Folder Include="website\templates\website\templatetags" />
     <Folder Include="website\templates\zinnia" />
     <Folder Include="website\templatetags" />
+    <Folder Include="website\tests\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\2.7" />

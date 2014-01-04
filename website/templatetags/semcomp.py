@@ -16,5 +16,4 @@ def render_user_bar(context):
 	user = context['user']
 	return {
 		 'user': user,
-		 'user_name': user.get_full_name(),
 	}
