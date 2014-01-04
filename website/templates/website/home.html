@@ -1,7 +1,8 @@
 {% extends "website/base.html" %}
-{% load cms_tags %}
+{% load cms_tags semcomp %}
 
 {% block header %}
+	{% render_user_bar %}
 	<div class="hero">
 		<div class="row">
 			<div class="large-6 columns text-center">
@@ -9,7 +10,7 @@
 			</div>
 			<div class="large-6 columns text-center">
 				{% placeholder call_to_action_2 %}
-				<a href="#" class="button secondary">Inscreva-se</a>
+				<a href="{% url "signup_signup" %}" class="button secondary">Inscreva-se</a>
 			</div>
 		</div>
 	</div>
