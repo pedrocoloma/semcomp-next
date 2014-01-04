@@ -177,3 +177,6 @@ COMPRESS_CSS_FILTERS = ['compressor.filters.cssmin.CSSMinFilter']
 SEMCOMP_START_DATE = datetime.date(2014, 8, 25)
 SEMCOMP_END_DATE = datetime.date(2014, 8, 30)
 
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'account_overview'
