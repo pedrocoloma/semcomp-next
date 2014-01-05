@@ -14,3 +14,4 @@ cmsplugin-zinnia==0.5.1
 django-blog-zinnia==0.13
 django-mathfilters==0.1.3
 django-signup==0.3.1
+pathlib==0.97
