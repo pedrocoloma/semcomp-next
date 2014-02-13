@@ -178,4 +178,4 @@ with progress('Creating super user'):
 
 with progress('(Re-)publishing pages'):
 	for name, page in created_pages.items():
-		page.publish()
+		page.publish(LANGUAGE_PT_BR)
