@@ -89,19 +89,10 @@ INSTALLED_APPS = (
 	'account',
 	'management',
 	# django-cms plugins
-	'cms.plugins.file',
-	'cms.plugins.flash',
-	'cms.plugins.googlemap',
-	'cms.plugins.link',
-	'cms.plugins.picture',
-	##'cms.plugins.snippet', #security hazard
-	'cms.plugins.teaser',
 	'djangocms_text_ckeditor',
-	'cms.plugins.video',
 	'cmsplugin_zinnia',
 	# django-cms
 	'cms',
-	'cms.stacks',
 	'mptt',
 	'menus',
 	'south',
@@ -180,3 +171,4 @@ SEMCOMP_END_DATE = datetime.date(2014, 8, 30)
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'account_overview'
+
