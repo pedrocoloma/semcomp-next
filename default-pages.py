@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from cms.api import create_page, add_plugin
-from cms.stacks.models import Stack
+#from cms.stacks.models import Stack
 import sys
 from website.cms_plugins import MultiColumnsPlugin, ColumnPlugin
 from cms.models.pluginmodel import CMSPlugin
@@ -125,48 +125,48 @@ for page_name,page_data in pages:
 			**page_data
 		)
 
-with progress('Creating stacks'):
-	multicolumn_stacks = [
-		{
-			'name': 'StackImageLeft',
-			'code': 'stack-image-left',
-			'columns': [
-				'large-4',
-				'large-8'
-			]
-		},
-		{
-			'name': 'StackImageRight',
-			'code': 'stack-image-right',
-			'columns': [
-				'large-4 push-8',
-				'large-8 pull-4'
-			]
-		}
-
-	]
-
-	for stack in multicolumn_stacks:
-		s = Stack(name=stack['name'], code=stack['code'])
-		s.save()
-
-		placeholder = s.public
-		multi_columns_plugin = add_plugin(placeholder, MultiColumnsPlugin, LANGUAGE_PT_BR)
-
-		for i,column_spec in enumerate(stack['columns']):
-			plugin = CMSPlugin(
-				plugin_type='ColumnPlugin',
-				position=i,
-				placeholder=placeholder,
-				language=LANGUAGE_PT_BR
-			)
-			plugin.insert_at(multi_columns_plugin)
-
-			data = Column(custom_classes=column_spec)
-
-			plugin.set_base_attr(data)
-
-			data.save()
+#with progress('Creating stacks'):
+#	multicolumn_stacks = [
+#		{
+#			'name': 'StackImageLeft',
+#			'code': 'stack-image-left',
+#			'columns': [
+#				'large-4',
+#				'large-8'
+#			]
+#		},
+#		{
+#			'name': 'StackImageRight',
+#			'code': 'stack-image-right',
+#			'columns': [
+#				'large-4 push-8',
+#				'large-8 pull-4'
+#			]
+#		}
+#
+#	]
+#
+#	for stack in multicolumn_stacks:
+#		s = Stack(name=stack['name'], code=stack['code'])
+#		s.save()
+#
+#		placeholder = s.public
+#		multi_columns_plugin = add_plugin(placeholder, MultiColumnsPlugin, LANGUAGE_PT_BR)
+#
+#		for i,column_spec in enumerate(stack['columns']):
+#			plugin = CMSPlugin(
+#				plugin_type='ColumnPlugin',
+#				position=i,
+#				placeholder=placeholder,
+#				language=LANGUAGE_PT_BR
+#			)
+#			plugin.insert_at(multi_columns_plugin)
+#
+#			data = Column(custom_classes=column_spec)
+#
+#			plugin.set_base_attr(data)
+#
+#			data.save()
 
 with progress('Adding plugins'):
 	side_content = created_pages['home'].placeholders.get(slot='side_content')
