@@ -1,72 +1,94 @@
 {% load cms_tags sekizai_tags static menu_tags semcomp %}
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>{% block title %}Semcomp{% endblock %}</title>
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Semcomp{% endblock %}</title>
 		{% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
 		{% addtoblock "css" %}
 			<link rel="stylesheet" href="{% static "css/app.css" %}">
-			{% block extracss %}{% endblock %}
+			<!--<link rel="stylesheet" href=" static "stylesheets/app.css"" />-->
+    		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"/>
+			{% block extracss %}
+		{% endblock %}
 		{% endaddtoblock %}
-	</head>
-	<body>
-		{% cms_toolbar %}
-		<section role="main">
-			
-			{% block header %}{% endblock %}
+    
+    <script src="{% static "bower_components/modernizr/modernizr.js" %}"></script>
+  </head>
+  <body>
+  {% cms_toolbar %}
+  <header>
+  	<div class="menu-wrap">
+        <div class="row text-center menu-topo">
+          <nav>
+            <ul>
+              <li><a href="#">Programação</a></li>
+              <li><a href="#">Local</a></li>
+              <li><a href="#"><img src="{% static "img/logo-semcomp.png" %}"></a></li>
+              <li><a href="#">Contato</a></li>
+              <li><a href="#">Entrar</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    {% block header %} {% endblock %}
+    </header>
+    {% block base_content %}{% endblock %}
+    
 
-			<div class="row">
-				<nav class="top-bar" data-topbar>
-					<ul class="title-area">
-						<li class="name">
-							<h1 class="show-for-small"><a href="{% page_url "home" %}">Semcomp</a></h1>
-						</li>
-						<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-					</ul>
-					<section class="top-bar-section">
-						<ul>
-							{% show_menu 0 100 100 %}
-						</ul>
-					</section>
-				</nav>
-			</div>
+    {% render_sponsors %}
 
-			{% block base_content %}{% endblock %}
+    {% block rodape %}
+    <footer>
+      <div class="row text-center">
+        <div class="large-4 columns">
+          <div class="panel">
+            <h1>FAQ</h1>
+          </div>
 
-			<!-- Sponsors -->
-			<hr>
-			{% render_sponsors %}
-			<footer>
-				<hr>
-				<div class="row">
-					<div class="medium-4 columns text-center">
-						<h2>Realização</h2>
-					</div>
-					<div class="medium-4 columns text-center">
-						<h2>Contato</h2>
-						<ul class="no-bullet">
-							<li>+55 (16) 3373-9703</li>
-							<li>+55 (16) 3373-9686</li>
-							<li><a href="mailto:semcomp@icmc.usp.br">semcomp@icmc.usp.br</a></li>
-						</ul>
-					</div>
-					<div class="medium-4 columns text-center">
-						<h2>Siga-nos</h2>
-					</div>
-				</div>
-			</footer>
-		</section>
-		{% render_block "js" postprocessor "compressor.contrib.sekizai.compress" %}
+          <h1>Realização</h1>
+          <img src="{% static "img/organizacao.png" %}">
+        </div>
+
+        <div class="large-4 columns">
+          <h1>Contato</h1>
+          <form>
+            <input type="text" placeholder="Nome">
+            <input type="text" placeholder="E-mail">
+            <textarea placeholder="Mensagem..."></textarea>
+
+            <input class="button expand" type="submit" value="Enviar">
+          </form>
+        </div>
+
+        <div class="large-4 columns">
+          <div class="panel">
+            <h1>Bla?</h1>
+          </div>
+
+          <p class="media-icons">
+            <a href="https://facebook.com/semcomp17">
+              <span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-inverse fa-facebook fa-stack-1x"></i>
+            </a>
+            <a href="https://twitter.com/semcomp">
+              <span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-inverse fa-twitter fa-stack-1x"></i>
+            </a>
+            <a href="https://plus.google.com/+semcomp">
+              <span class="fa-stack fa-2x"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-inverse fa-google-plus fa-stack-1x"></i>
+            </a>
+          </p>
+
+        </div>
+      </div>
+    </footer>
+    {% endblock %}
+    {% render_block "js" postprocessor "compressor.contrib.sekizai.compress" %}
 		{% addtoblock "js" %}
-			<script src="{% static "bower_components/modernizr/modernizr.js" %}"></script>
-			<script src="{% static "bower_components/jquery/dist/jquery.js" %}"></script>
-			<script src="{% static "bower_components/foundation/js/foundation.min.js" %}"></script>
-			<script>
-				$(document).foundation();
-			</script>
-			{% block extrajs %}{% endblock %}
-		{% endaddtoblock %}
-	</body>
+    	<script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+    	<script src="{% static "bower_components/foundation/js/foundation.min.js" %}"></script>
+    	<script src="{% static "js/app.js" %}"></script>
+    	{% block extrajs %}{% endblock %}
+	{% endaddtoblock %}
+  </body>
 </html>
