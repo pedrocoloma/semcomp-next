@@ -1,26 +1,32 @@
 {% if sponsors %}
-	<div class="row">
-		<h2>Patrocinadores</h2>
-	</div>
-	<div class="row">
-		{% for sponsor in sponsors %}
-			{% if sponsor.logo %}
-				<div class="sponsor small-6 large-3 large-uncentered columns">
-					<img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}">
-				</div>
-			{% endif %}
-		{% endfor %}
-	</div>
+  <div class="sponsors">
+    <div class="row">
+      <div class="large-12 columns">
+        <h2 class="text-center">Patrocinadores <small><a href="#">Quer ser um patrocinador?</a></small></h2>
+        <div class="row grid-logo">
+          <ul class="small-block-grid-2 medium-block-grid-4">
+            {% for sponsor in sponsors %}
+              <li><a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a><li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endif %}
 {% if partners %}
-	<div class="row">
-		<h2>Apoio</h2>
-		{% for partner in partners %}
-			{% if partner.logo %}
-				<div class="sponsor small-6 large-3 large-uncentered columns">
-					<img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}">
-				</div>
-			{% endif %}
-		{% endfor %}
-	</div>
+  <div class="partners">
+    <div class="row">
+      <div class="large-12 columns">
+        <h2 class="text-center">Apoios</h2>
+        <div class="row grid-logo">
+          <ul class="small-block-grid-2 medium-block-grid-4">
+            {% for partner in partners %}
+              <li><a href="{{partner.url}}"><img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}"></a><li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endif %}

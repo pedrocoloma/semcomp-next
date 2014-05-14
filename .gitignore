@@ -7,4 +7,5 @@ sass-cache
 /database.sqlite3
 /website/static/node_modules
 /website/static/.bowerrc
+/website/static/.sass-cache
 __pycache__
