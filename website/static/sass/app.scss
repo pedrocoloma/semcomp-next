@@ -63,6 +63,12 @@ body {
     }
 }
 
+@for $i from 1 through $total-columns {
+	.tile-height-#{$i} {
+		min-height: ($i / $total-columns) * $row-width - $column-gutter;
+	}
+}
+
 .media-icons {
     > a {
         color: #222;
