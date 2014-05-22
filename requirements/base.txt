@@ -7,7 +7,7 @@ cmsplugin-filer==0.9.5
 django-reversion==1.8.0
 djangocms-text-ckeditor==2.1.4
 solid-i18n==0.2.1
-git+https://github.com/jezdez/django_compressor/
+django-compressor==1.4
 cmsplugin-zinnia==0.6
 django-blog-zinnia==0.14.1
 django-mathfilters==0.1.3
