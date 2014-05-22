@@ -46,6 +46,10 @@ body {
     }
 }
 
+main {
+    padding-top: 100px; //100px é o tamanho atual da imagem do topo
+}
+
 .hero {
     padding-top: $header-height;
     background: url($static_dir + "img/hero-background.jpg") no-repeat center center fixed;

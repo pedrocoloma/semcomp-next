@@ -30,48 +30,46 @@
 {% endblock %}
 
 {% block base_content %}
-  <main class="home">
-    <div class="row">
-      <div class="large-8 columns">
-        <div class="panel tile-height-4">
-          {% placeholder "evento" %}
-        </div>
-      </div>
-      <div class="large-4 columns">
-        <div class="panel tile-height-4">
-          {% placeholder "noticias" %}
-        </div>
+  <div class="row">
+    <div class="large-8 columns">
+      <div class="panel tile-height-4">
+        {% placeholder "evento" %}
       </div>
     </div>
+    <div class="large-4 columns">
+      <div class="panel tile-height-4">
+        {% placeholder "noticias" %}
+      </div>
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <div class="panel tile-height-4">
-          {% placeholder "local" %}
-        </div>
-        <div class="panel tile-height-4">
-          {% placeholder "datas_importantes" %}
-        </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <div class="panel tile-height-4">
+        {% placeholder "local" %}
       </div>
-      <div class="large-8 columns">
-        <div class="panel tile-height-8">
-          {% placeholder "palestras_minicursos" %}
-        </div>
+      <div class="panel tile-height-4">
+        {% placeholder "datas_importantes" %}
       </div>
     </div>
+    <div class="large-8 columns">
+      <div class="panel tile-height-8">
+        {% placeholder "palestras_minicursos" %}
+      </div>
+    </div>
+  </div>
 
-    <div class="row">
-      <div class="large-4 columns">
-        <div class="panel tile-height-4">
-          {% placeholder "extras" %}
-        </div>
-      </div>
-      <div class="large-8 columns">
-        <div class="panel tile-height-4">
-          {% placeholder "feira_recrutamento" %}
-        </div>
+  <div class="row">
+    <div class="large-4 columns">
+      <div class="panel tile-height-4">
+        {% placeholder "extras" %}
       </div>
     </div>
-  </main>
+    <div class="large-8 columns">
+      <div class="panel tile-height-4">
+        {% placeholder "feira_recrutamento" %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
