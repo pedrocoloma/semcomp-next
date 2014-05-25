@@ -10,13 +10,17 @@ class SemcompUserMenu(Menu):
 	name = _(u'Menu de usuário')
 
 	def get_nodes(self, request):
-		nodes = []
-
-		if request.user.is_authenticated():
-			n = NavigationNode(_(u'Área de usuário'), '/account/', 1)
-		else:
-			n = NavigationNode(_(u'Login'), reverse('login'), 1)
-		nodes.append(n)
-		return nodes
+		return [
+			NavigationNode(
+				_(u'Área de usuário'),
+				reverse('account_overview'),
+				1,
+				attr={'visible_for_anonymous': False}),
+			NavigationNode(
+				_(u'Entrar'),
+				reverse('login'),
+				2,
+				attr={'visible_for_authenticated': False})
+		]
 
 menu_pool.register_menu(SemcompUserMenu)

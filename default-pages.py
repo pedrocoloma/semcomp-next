@@ -31,16 +31,11 @@ pages = [
 	('home', {
 		'title': u'Home',
 		'template': HOME_TEMPLATE,
-		'reverse_id': 'home'
-	}),
-	('sobre', {
-		'title': u'Sobre',
+		'reverse_id': 'home',
+		'in_navigation': False,
 	}),
 	('programacao', {
 		'title': u'Programação',
-	}),
-	('inscricoes', {
-		'title': u'Inscrições',
 	}),
 	('account', {
 		'title': u'Área do usuário',
@@ -54,50 +49,15 @@ pages = [
 		'in_navigation': False,
 		'reverse_id': 'admin',
 	}),
-
-	('sobre-semcomp', {
-		'title': u'A Semcomp',
-		'slug': 'semcomp',
-		'parent': 'sobre'
-	}),
-	('sobre-contato', {
+	('contato', {
 		'title': u'Contato',
-		'parent': 'sobre',
 		'reverse_id': 'contato',
 	}),
-	('sobre-faq', {
-		'title': u'FAQ',
-		'parent': 'sobre',
-	}),
-	('sobre-noticias', {
+	('noticias', {
 		'title': u'Notícias',
 		'apphook': ZinniaApphook,
-		'parent': 'sobre',
-		'overwrite_url': '/blog',
+		'overwrite_url': '/noticias',
 	}),
-
-	('programacao-visao-geral', {
-		'title': u'Visão geral',
-		'redirect': '/programacao/',
-		'parent': 'programacao',
-	}),
-	('programacao-palestras', {
-		'title': u'Palestras',
-		'parent': 'programacao',
-	}),
-	('programacao-minicursos', {
-		'title': u'Minicursos',
-		'parent': 'programacao'
-	}),
-
-	('inscricoes-fazer-inscricao', {
-		'title': u'Fazer inscrição',
-		'parent': 'inscricoes',
-	}),
-	('inscricoes-precos', {
-		'title': u'Preços',
-		'parent': 'inscricoes',
-	})
 ]
 
 print 'Deleting existing pages... ',
@@ -168,10 +128,10 @@ for page_name,page_data in pages:
 #
 #			data.save()
 
-with progress('Adding plugins'):
-	side_content = created_pages['home'].placeholders.get(slot='side_content')
-	add_plugin(side_content, CMSLatestEntriesPlugin, 'pt-br', render_template='blog/latest_entries.html')
-	add_plugin(side_content, TextPlugin, LANGUAGE_PT_BR, body='<h2>Quer ser um patrocinador?</h2><p>Entre em <a href="/sobre/contato">contato</a>!</p>')
+#with progress('Adding plugins'):
+#	side_content = created_pages['home'].placeholders.get(slot='side_content')
+#	add_plugin(side_content, CMSLatestEntriesPlugin, 'pt-br', render_template='blog/latest_entries.html')
+#	add_plugin(side_content, TextPlugin, LANGUAGE_PT_BR, body='<h2>Quer ser um patrocinador?</h2><p>Entre em <a href="/sobre/contato">contato</a>!</p>')
 
 with progress('Creating super user'):
 	User.objects.create_superuser('admin', 'admin@admin.net', 'senha')

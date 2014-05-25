@@ -1,12 +1,22 @@
-{% load menu_tags %}
+{% load cms_tags menu_tags semcomp static %}
 
-{% for child in children %}
-	<li class="{% if child.selected %}selected{% endif %} {% if child.children %}has-dropdown{% endif %}">
-		<a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title }}</a>
-		{% if child.children %}
-			<ul class="dropdown">
-				{% show_menu from_level to_level extra_inactive extra_active template "" "" child %}
-			</ul>
+{% if from_level == 0 %}
+	{% split_list_n children 2 as sublistas %}
+	{% for sublista in sublistas %}
+		{% for child in sublista %}
+			{# pode vir um child == None aqui, aí já era, tem que checar #}
+			{% if child %}
+				<li><a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}">{{ child.get_menu_title}}</a></li>
+				{# nada de children aqui, site da semcomp não vai ter children. #}
+			{% endif %}
+		{% endfor %}
+		
+		{# esse counter é indexado em 1. serve pra colocar a imagem do logo no meio da lista #}
+		{% if forloop.counter == 1 %}
+			<li><a href="{% page_url 'home' %}"><img src="{% static 'img/logo-semcomp.png' %}"></a></li>
 		{% endif %}
-	</li>
-{% endfor %}
+	{% endfor %}
+{% else %}
+	{# Só coloca o logo da semcomp, isso é só pra quando tiver começando começando o site mesmo #}
+	<li><a href="{% page_url 'home' %}"><img src="{% static 'img/logo-semcomp.png' %}"></a></li>
+{% endif %}

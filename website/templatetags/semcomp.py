@@ -1,3 +1,6 @@
+import math
+from itertools import izip_longest
+
 from django import template
 
 from website.models import Company
@@ -17,3 +20,15 @@ def render_user_bar(context):
 	return {
 		 'user': user,
 	}
+
+@register.assignment_tag
+def split_list_n(variable, parts):
+	def grouper(iterable, n, fillvalue=None):
+		args = [iter(iterable)] * n
+		return izip_longest(fillvalue=fillvalue, *args)
+	print variable, type(variable)
+	return grouper(
+		variable,
+		int(math.ceil(len(variable) / float(parts)))
+	)
+

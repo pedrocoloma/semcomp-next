@@ -79,6 +79,8 @@ CMS_TEMPLATES = (
 	('website/home.html', 'Home'),
 )
 
+CMS_PERMISSION = True
+
 LANGUAGES = [
 	('pt-br', u'Português'),
 ]
