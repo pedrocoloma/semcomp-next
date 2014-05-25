@@ -34,7 +34,9 @@
       {% block header %} {% endblock %}
     </header>
 
-    {% block base_content %}{% endblock %}
+    <main class="home">
+      {% block base_content %}{% endblock %}
+    </main>
 
     {% render_sponsors %}
 
@@ -43,7 +45,7 @@
         <div class="row text-center">
           <div class="large-4 columns">
             <div class="panel">
-              <h1>FAQ</h1>
+              {% static_placeholder "faq" %}
             </div>
 
             <h1>Realização</h1>
@@ -59,11 +61,13 @@
 
                 <input class="button expand" type="submit" value="Enviar">
               </form>
+
+			  {% static_placeholder "contato" %}
             </div>
 
             <div class="large-4 columns">
               <div class="panel">
-                <h1>Bla?</h1>
+                {% static_placeholder "rodape_extra" %}
               </div>
 
               <p class="media-icons">

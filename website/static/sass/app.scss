@@ -46,6 +46,10 @@ body {
     }
 }
 
+main {
+    padding-top: 100px; //100px é o tamanho atual da imagem do topo
+}
+
 .hero {
     padding-top: $header-height;
     background: url($static_dir + "img/hero-background.jpg") no-repeat center center fixed;
@@ -61,6 +65,12 @@ body {
     > h2 {
         padding-bottom: 8rem;
     }
+}
+
+@for $i from 1 through $total-columns {
+	.tile-height-#{$i} {
+		min-height: ($i / $total-columns) * $row-width - $column-gutter;
+	}
 }
 
 .media-icons {
