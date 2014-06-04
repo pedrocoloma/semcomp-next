@@ -3340,10 +3340,10 @@ label.error {
   text-decoration: none;
   font-size: 24px;
   font-weight: normal;
-  line-height: 0.5 !important;
+  line-height: .5 !important;
 }
 .joyride-close-tip:hover, .joyride-close-tip:focus {
-  color: #eeeeee !important;
+  color: #eee !important;
 }
 
 .joyride-modal-bg {
@@ -3364,7 +3364,7 @@ label.error {
   position: absolute;
   border-radius: 3px;
   z-index: 102;
-  box-shadow: 0 0 15px white;
+  box-shadow: 0 0 15px #ffffff;
 }
 
 .joyride-expose-cover {
@@ -3524,7 +3524,7 @@ kbd {
   margin-top: -20px;
   margin-left: -20px;
   border: solid 3px;
-  border-color: #555555 white;
+  border-color: #555 #fff;
   border-radius: 1000px;
   animation-name: rotate;
   animation-duration: 1.5s;
@@ -3680,7 +3680,7 @@ kbd {
   right: 0;
   width: 11px;
   height: 14px;
-  border: solid 4px white;
+  border: solid 4px #fff;
   border-top: none;
   border-bottom: none;
 }
@@ -3696,10 +3696,10 @@ kbd {
   -ms-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   transform: rotate(180deg);
-  border-color: transparent white transparent transparent;
+  border-color: transparent #fff transparent transparent;
 }
 .orbit-container .orbit-timer.paused > span.dark {
-  border-color: transparent #333333 transparent transparent;
+  border-color: transparent #333 transparent transparent;
 }
 .orbit-container:hover .orbit-timer > span {
   display: block;
@@ -4240,7 +4240,7 @@ dialog[open] {
 
 @media print {
   dialog, .reveal-modal {
-    background: white !important;
+    background: #fff !important;
   }
 }
 .side-nav {
@@ -5894,7 +5894,7 @@ blockquote p {
 @media print {
   * {
     background: transparent !important;
-    color: black !important;
+    color: #000 !important;
     /* Black prints faster: h5bp.com/s */
     box-shadow: none !important;
     text-shadow: none !important;
@@ -5921,7 +5921,7 @@ blockquote p {
 
   pre,
   blockquote {
-    border: 1px solid #999999;
+    border: 1px solid #999;
     page-break-inside: avoid;
   }
 
@@ -6601,9 +6601,6 @@ main {
 }
 .hero > h1, .hero h2 {
   color: #eee;
-}
-.hero > h2 {
-  padding-bottom: 8rem;
 }
 
 .tile-height-1 {
