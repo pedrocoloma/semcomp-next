@@ -65,7 +65,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.static',
 	'cms.context_processors.media',
 	'sekizai.context_processors.sekizai',
-	'zinnia.context_processors.version',
 )
 
 ROOT_URLCONF = 'semcomp.urls'
@@ -92,7 +91,6 @@ INSTALLED_APPS = (
 	'management',
 	# django-cms plugins
 	'djangocms_text_ckeditor',
-	'cmsplugin_zinnia',
 	# django-cms
 	'cms',
 	'mptt',
@@ -112,7 +110,6 @@ INSTALLED_APPS = (
 	# third party apps
 	'reversion',
 	'tagging',
-	'zinnia',
 	'compressor',
 	'mathfilters',
 	'signup',
@@ -156,13 +153,6 @@ LOGGING = {
 #		},
     }
 }
-
-ZINNIA_AUTO_CLOSE_COMMENTS_AFTER = 0
-#ZINNIA_ENTRY_BASE_MODEL = 'cmsplugin_zinnia.placeholder.EntryPlaceholder'
-CMSPLUGIN_ZINNIA_APP_MENUS = []
-CMSPLUGIN_ZINNIA_TEMPLATES = [
-	('blog/latest_entries.html', _(u'Entries with title and date')),
-]
 
 #COMPRESS_ENABLED = True
 COMPRESS_CSS_FILTERS = ['compressor.filters.cssmin.CSSMinFilter']
