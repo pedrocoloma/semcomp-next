@@ -109,10 +109,15 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	# third party apps
 	'reversion',
-	'tagging',
 	'compressor',
 	'mathfilters',
 	'signup',
+	'aldryn_blog',
+	'aldryn_common',
+	'django_select2',
+	'easy_thumbnails',
+	'filer',
+	'taggit',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -164,3 +169,15 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'account_overview'
 
+
+SOUTH_MIGRATION_MODULES = {
+	'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
+
+THUMBNAIL_PROCESSORS = (
+	'easy_thumbnails.processors.colorspace',
+	'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+	'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+	'easy_thumbnails.processors.filters',
+)
