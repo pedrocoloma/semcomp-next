@@ -57,12 +57,14 @@ def get_pypi_address():
 def build_image():
 	index_url = get_pypi_address()
 
-	with cd(env.dockerfile_path):
-		with open('Dockerfile.template') as f:
-			dockerfile = f.read()
-		with open('Dockerfile', 'w') as f:
-			f.write(dockerfile.format(**{
-				'REQUIREMENTS_FILE': os.getenv('REQUIREMENTS_FILE', 'requirements.txt'),
-				'INDEX_URL': index_url
-			}))
+	template_file = os.path.join(env.dockerfile_path, 'Dockerfile.template')
+	output_file = os.path.join(env.dockerfile_path, 'Dockerfile')
+
+	with open(template_file) as f:
+		dockerfile = f.read()
+	with open(output_file, 'w') as f:
+		f.write(dockerfile.format(**{
+			'REQUIREMENTS_FILE': os.getenv('REQUIREMENTS_FILE', 'requirements.txt'),
+			'INDEX_URL': index_url
+		}))
 
