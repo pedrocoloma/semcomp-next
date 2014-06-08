@@ -1,11 +1,9 @@
 from __future__ import with_statement
-from fabric.api import *
-from fabric.contrib import files
 
-from pathlib import Path
 import os
 
-import six
+from fabric.api import *
+from fabric.contrib import files
 
 output['debug'] = True
 
@@ -15,18 +13,13 @@ env.settings = 'semcomp.settings.prod'
 
 env.base_path = '/home/www/docker-applications/vm'
 env.app_path = os.path.join(env.base_path, 'semcomp/17')
-env.repository_path = os.path.join(env.app_path, 'code')
-env.dockerfile_path = os.path.join(env.repository_path, 'resources')
+env.repository_path = os.path.join(env.app_path, 'image/code')
+env.dockerfile_path = os.path.join(env.app_path, 'image/Dockerfile')
 env.fig_yml = os.path.join(env.base_path, 'fig.yml')
 
 env.repository_url = 'https://github.com/fcoelho/semcomp-next'
 
 env.fig = '/opt/fig/bin/fig'
-
-@task
-def teste():
-	with prefix('cd {}'.format(env.base_path)):
-		sudo('{fig} ps'.format(**env), shell=False)
 
 @task
 def pull():
@@ -35,10 +28,13 @@ def pull():
 	with cd(env.repository_path):
 		run('git pull && git reset --hard')
 
+def fig(cmd):
+	return sudo('{fig} -f {fig_yml} -p vm {cmd}'.format(
+		cmd=cmd, **env), shell=False)
+
 def get_pypi_address():
-	pypi_container_id = sudo(
-		'{fig} -f {fig_yml} -p vm ps -q pypi'.format(**env), shell=False)
-	
+	pypi_container_id = fig('ps -q pypi')
+
 	inspect_format = (
 		'{{$ip := .NetworkSettings.IPAddress}}'
 		'{{range $p, $conf := .NetworkSettings.Ports}}'
@@ -57,15 +53,14 @@ def get_pypi_address():
 def build_image():
 	index_url = get_pypi_address()
 
-	remote_file = os.path.join(env.dockerfile_path, 'Dockerfile')
-
 	with open('resources/Dockerfile.template') as f:
 		dockerfile = f.read()
 	with open('resources/Dockerfile', 'w') as f:
 		f.write(dockerfile.format(**{
-			'REQUIREMENTS_FILE': os.getenv('REQUIREMENTS_FILE', 'requirements.txt'),
+			'REQUIREMENTS_FILE': 'requirements/dev.txt',
 			'INDEX_URL': index_url
 		}))
 
-	put('resources/Dockerfile', remote_file)
+	put('resources/Dockerfile', env.dockerfile_path)
 
+	fig('up -d semcomp17uwsgi')

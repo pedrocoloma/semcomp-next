@@ -1,5 +1,8 @@
 FROM fcoelho/uwsgi
 
-RUN pip install -r {REQUIREMENTS_FILE} --index-url {INDEX_URL}
+ADD code /code
+WORKDIR /code
+
+RUN /env/bin/pip install -r {REQUIREMENTS_FILE} --index-url {INDEX_URL}
 
 CMD ["/run.sh"]
