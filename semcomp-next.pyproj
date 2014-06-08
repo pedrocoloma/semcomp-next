@@ -125,13 +125,6 @@
     <Content Include="website\templates\website\home.html" />
     <Content Include="website\templates\website\main_template.html" />
     <Content Include="website\templates\website\templatetags\render_user_bar.html" />
-    <Content Include="website\templates\zinnia\base.html" />
-    <Content Include="website\templates\zinnia\entry_archive.html" />
-    <Content Include="website\templates\zinnia\entry_detail.html" />
-    <Content Include="website\templates\zinnia\entry_detail_base.html" />
-    <Content Include="website\templates\zinnia\entry_list.html" />
-    <Content Include="website\templates\zinnia\_entry_detail.html" />
-    <Content Include="website\templates\zinnia\_entry_detail_base.html" />
     <Content Include="website\templates\website\plugins\columns_plugin.html" />
     <Content Include="website\templates\website\plugins\single_column_plugin.html" />
     <Content Include="website\templates\website\templatetags\render_sponsors.html" />
@@ -165,7 +158,6 @@
     <Folder Include="website\templates\website" />
     <Folder Include="website\templates\website\plugins" />
     <Folder Include="website\templates\website\templatetags" />
-    <Folder Include="website\templates\zinnia" />
     <Folder Include="website\templatetags" />
     <Folder Include="website\tests\" />
   </ItemGroup>

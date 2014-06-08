@@ -1,6 +1,0 @@
-{% load i18n %}
-<h2><a href="{% url "zinnia_entry_archive_index" %}">Notícias</a></h2>
-{% for entry in entries %}
-	<a href="{{ entry.get_absolute_url }}">{{entry.title}}</a>
-	<p>{{entry.creation_date}}</p>
-{% endfor %}

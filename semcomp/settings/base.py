@@ -65,7 +65,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.static',
 	'cms.context_processors.media',
 	'sekizai.context_processors.sekizai',
-	'zinnia.context_processors.version',
 )
 
 ROOT_URLCONF = 'semcomp.urls'
@@ -92,7 +91,6 @@ INSTALLED_APPS = (
 	'management',
 	# django-cms plugins
 	'djangocms_text_ckeditor',
-	'cmsplugin_zinnia',
 	# django-cms
 	'cms',
 	'mptt',
@@ -111,11 +109,15 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	# third party apps
 	'reversion',
-	'tagging',
-	'zinnia',
 	'compressor',
 	'mathfilters',
 	'signup',
+	'aldryn_blog',
+	'aldryn_common',
+	'django_select2',
+	'easy_thumbnails',
+	'filer',
+	'taggit',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -157,13 +159,6 @@ LOGGING = {
     }
 }
 
-ZINNIA_AUTO_CLOSE_COMMENTS_AFTER = 0
-#ZINNIA_ENTRY_BASE_MODEL = 'cmsplugin_zinnia.placeholder.EntryPlaceholder'
-CMSPLUGIN_ZINNIA_APP_MENUS = []
-CMSPLUGIN_ZINNIA_TEMPLATES = [
-	('blog/latest_entries.html', _(u'Entries with title and date')),
-]
-
 #COMPRESS_ENABLED = True
 COMPRESS_CSS_FILTERS = ['compressor.filters.cssmin.CSSMinFilter']
 
@@ -174,3 +169,15 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'account_overview'
 
+
+SOUTH_MIGRATION_MODULES = {
+	'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
+
+THUMBNAIL_PROCESSORS = (
+	'easy_thumbnails.processors.colorspace',
+	'easy_thumbnails.processors.autocrop',
+    #'easy_thumbnails.processors.scale_and_crop',
+	'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+	'easy_thumbnails.processors.filters',
+)

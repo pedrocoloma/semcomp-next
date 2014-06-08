@@ -6,9 +6,9 @@ import sys
 from website.cms_plugins import MultiColumnsPlugin, ColumnPlugin
 from cms.models.pluginmodel import CMSPlugin
 
+from aldryn_blog.cms_app import BlogApp
+
 from cms.models import Page
-from cmsplugin_zinnia.cms_app import ZinniaApphook
-from cmsplugin_zinnia.cms_plugins import CMSLatestEntriesPlugin
 from djangocms_text_ckeditor.cms_plugins import TextPlugin
 from account.cms_app import SemcompUserApphook
 from management.cms_app import SemcompAdminApphook
@@ -53,10 +53,10 @@ pages = [
 		'title': u'Contato',
 		'reverse_id': 'contato',
 	}),
-	('noticias', {
-		'title': u'Notícias',
-		'apphook': ZinniaApphook,
-		'overwrite_url': '/noticias',
+	('blog', {
+		'title': u'Blog',
+		'apphook': BlogApp,
+		'apphook_namespace': 'semcomp_blog',
 	}),
 ]
 
