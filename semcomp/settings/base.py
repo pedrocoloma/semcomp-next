@@ -26,12 +26,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-MEDIA_ROOT = PROJECT_DIR.joinpath('media').as_posix()
-MEDIA_URL = '/media/'
-
-STATIC_ROOT = PROJECT_DIR.joinpath('static').as_posix()
-STATIC_URL = '/static/'
-
 STATICFILES_FINDERS = (
 	'django.contrib.staticfiles.finders.FileSystemFinder',
 	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
