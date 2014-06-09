@@ -13,8 +13,7 @@ env.settings = 'semcomp.settings.prod'
 
 env.base_path = '/home/www/docker-applications/vm'
 env.app_path = os.path.join(env.base_path, 'semcomp/17')
-env.repository_path = os.path.join(env.app_path, 'image/code')
-env.dockerfile_path = os.path.join(env.app_path, 'image/Dockerfile')
+env.repository_path = os.path.join(env.app_path, 'semcomp/code')
 env.fig_yml = os.path.join(env.base_path, 'fig.yml')
 
 env.repository_url = 'https://github.com/fcoelho/semcomp-next'
@@ -28,39 +27,29 @@ def pull():
 	with cd(env.repository_path):
 		run('git pull && git reset --hard')
 
+@task
 def fig(cmd):
-	return sudo('{fig} -f {fig_yml} -p vm {cmd}'.format(
-		cmd=cmd, **env), shell=False)
-
-def get_pypi_address():
-	pypi_container_id = fig('ps -q pypi')
-
-	inspect_format = (
-		'{{$ip := .NetworkSettings.IPAddress}}'
-		'{{range $p, $conf := .NetworkSettings.Ports}}'
-			'{{$ip}}:{{$p}}'
-		'{{end}}'
-	)
-
-	pypi_address = sudo("docker inspect --format '{format}' {pypi}".format(**{
-		'format': inspect_format,
-		'pypi': pypi_container_id,
-	}), shell=False).replace('/tcp', '')
-
-	return 'http://{0}/root/pypi/'.format(pypi_address)
+	# custom "sudo" that includes a cd before
+	return run('cd {base_path} && sudo {fig} {cmd}'.format(cmd=cmd, **env), shell=False)
 
 @task
-def build_image():
-	index_url = get_pypi_address()
+def run_django_command(command):
+	cmd = '/env/bin/python /code/manage.py {cmd}'.format(cmd=command)
 
-	with open('resources/Dockerfile.template') as f:
-		dockerfile = f.read()
-	with open('resources/Dockerfile', 'w') as f:
-		f.write(dockerfile.format(**{
-			'REQUIREMENTS_FILE': 'requirements/dev.txt',
-			'INDEX_URL': index_url
-		}))
+	fig('run --rm semcomp17uwsgi {cmd}'.format(cmd=cmd))
 
-	put('resources/Dockerfile', env.dockerfile_path)
+@task
+def deploy():
+	pull()
+
+	fig('up -d semcomp17uwsgi')
+
+@task
+def full_deploy():
+	pull()
+
+	run_django_command('syncdb --noinput')
+	run_django_command('migrate --noinput')
+	run_django_command('collectstatic --noinput')
 
 	fig('up -d semcomp17uwsgi')
