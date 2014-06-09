@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from __future__ import with_statement
 
 import os
@@ -5,7 +7,7 @@ import os
 from fabric.api import *
 from fabric.contrib import files
 
-output['debug'] = True
+#output['debug'] = True
 
 env.hosts = ['semcomp.icmc.usp.br']
 
@@ -20,6 +22,7 @@ env.repository_url = 'https://github.com/fcoelho/semcomp-next'
 
 env.fig = '/opt/fig/bin/fig'
 
+
 @task
 def pull():
 	if not files.exists(env.repository_path):
@@ -29,12 +32,24 @@ def pull():
 
 @task
 def fig(cmd):
-	# custom "sudo" that includes a cd before
+	# "sudo" customizado pra entrar no diretório que precisa antes
 	return run('cd {base_path} && sudo {fig} {cmd}'.format(cmd=cmd, **env), shell=False)
 
 @task
-def run_django_command(command):
-	cmd = '/env/bin/python /code/manage.py {cmd}'.format(cmd=command)
+def run_django_command(command, opts):
+	# primeiro garante que tem um uwsgi rodando já
+	result = fig('ps -q semcomp17uwsgi')
+	if not result.strip():
+		fig('up -d semcomp17uwsgi')
+	
+	# tem que enfiar o settings *depois* do comando
+	cmd = '{python} {manage} {cmd} --settings {settings} {opts}'.format(
+		python='/env/bin/python',
+		manage='/code/manage.py',
+		settings='semcomp.settings.prod',
+		cmd=command,
+		opts=opts,
+	)
 
 	fig('run --rm semcomp17uwsgi {cmd}'.format(cmd=cmd))
 
@@ -48,8 +63,8 @@ def deploy():
 def full_deploy():
 	pull()
 
-	run_django_command('syncdb --noinput')
-	run_django_command('migrate --noinput')
-	run_django_command('collectstatic --noinput')
+	run_django_command('syncdb', '--noinput')
+	run_django_command('migrate', '--noinput')
+	run_django_command('collectstatic', '--noinput')
 
 	fig('up -d semcomp17uwsgi')

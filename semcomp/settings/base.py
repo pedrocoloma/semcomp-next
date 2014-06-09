@@ -8,9 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     ('Felipe Bessa Coelho', 'fcoelho.9@gmail.com'),
 )
