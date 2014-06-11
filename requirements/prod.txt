@@ -1,0 +1,2 @@
+-r base.txt
+djrill==1.1.1
