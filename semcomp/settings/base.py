@@ -8,9 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     ('Felipe Bessa Coelho', 'fcoelho.9@gmail.com'),
 )
@@ -25,14 +22,6 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-MEDIA_ROOT = PROJECT_DIR.joinpath('media').as_posix()
-MEDIA_URL = '/media/'
-
-STATIC_ROOT = PROJECT_DIR.joinpath('static').as_posix()
-STATIC_URL = '/static/'
-
-SECRET_KEY = 'semcomp-eh-demais-de-legal'
 
 STATICFILES_FINDERS = (
 	'django.contrib.staticfiles.finders.FileSystemFinder',

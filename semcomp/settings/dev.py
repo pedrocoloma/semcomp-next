@@ -10,6 +10,14 @@ DATABASES = {
     }
 }
 
+SECRET_KEY = 'semcomp-eh-demais-de-legal'
+
 WSGI_APPLICATION = 'semcomp.wsgi.dev.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+MEDIA_ROOT = PROJECT_DIR.joinpath('media').as_posix()
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = PROJECT_DIR.joinpath('static').as_posix()
+STATIC_URL = '/static/'

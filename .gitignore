@@ -9,3 +9,4 @@ sass-cache
 /website/static/.bowerrc
 /website/static/.sass-cache
 __pycache__
+resources/Dockerfile

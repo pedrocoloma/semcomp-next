@@ -1,3 +1,4 @@
 -r base.txt
+Fabric==1.8.3
 #django-werkzeug-debugger-runserver==0.2
 #django-debug-toolbar==0.11.0
