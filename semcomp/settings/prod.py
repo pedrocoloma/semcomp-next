@@ -1,3 +1,4 @@
+import os
 from .base import *
 
 DATABASES = {
@@ -11,5 +12,8 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
+INSTALLED_APPS += ('djrill',)
+MANDRILL_API_KEY = os.getenv("API_KEY_MANDRILL")
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 ALLOWED_HOSTS = []

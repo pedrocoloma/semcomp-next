@@ -6,7 +6,7 @@ from django.contrib import admin
 
 from solid_i18n.urls import solid_i18n_patterns
 
-if getenv('DJANGO_SETTINGS_MODULE').endswith('prod'):
+if os.getenv('DJANGO_SETTINGS_MODULE').endswith('prod'):
 	from djrill import DjrillAdminSite
 	admin.site = DjrillAdminSite()
 
