@@ -1,6 +1,5 @@
-from .base import *
-
 import os
+from .base import *
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -14,6 +13,9 @@ DATABASES = {
         'HOST': os.getenv('DB_PORT_5432_TCP_ADDR'),
     }
 }
+INSTALLED_APPS += ('djrill',)
+MANDRILL_API_KEY = os.getenv("API_KEY_MANDRILL")
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
 SECRET_KEY = os.getenv('SEMCOMP17_SECRET_KEY')
 
