@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
 meta.foundation-version {
   font-family: "/5.2.2/";
@@ -6694,4 +6695,43 @@ footer {
   background-color: #eee;
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.hrzinho {
+  border-top: 1px dashed #000;
+  border-bottom: 1px solid #000;
+  color: #fff;
+  background-color: #fff;
+  height: 4px;
+}
+
+body .rodape-link {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  color: #fff;
+  background-color: #004F78;
+}
+
+.media-icons-bottom {
+  padding-top: 30%;
+}
+.media-icons-bottom > a {
+  color: #222;
+}
+
+.realizacao {
+  padding-top: 1.25rem;
+}
+
+.semcomp-contatos {
+  color: black;
+  list-style-type: none;
+}
+
+.texto-rodape {
+  color: #B0E2FF;
+}
+
+.texto-rodape:hover, texto-rodape:focus {
+  color: #4F94CD;
 }

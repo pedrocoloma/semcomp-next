@@ -202,7 +202,7 @@ $total-columns: 12 !default;
   }
 }
 
-@include exports("grid") {
+@include exports("grid"){
   @if $include-html-grid-classes {
     .row {
       @include grid-row;

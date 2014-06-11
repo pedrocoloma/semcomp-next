@@ -73,6 +73,7 @@ main {
 	}
 }
 
+
 .media-icons {
     > a {
         color: #222;
@@ -113,7 +114,47 @@ main {
 }
 
 footer {
-    background-color: #eee;
+	
+    		background-color: #eee;
+    		padding-top: 1.25rem;
+    		padding-bottom: 1.25rem;
+	
+}
+
+.hrzinho {
+		border-top: 1px dashed #000;
+      border-bottom: 1px solid #000;
+      color: #fff;
+      background-color: #fff;
+      height: 4px;
+}
+body{
+	.rodape-link {
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
+	 color: #fff;
+	 background-color: #004F78;
+	}	
+}
+.media-icons-bottom {
+    > a {
+        color: #222;
+    }
+    padding-top: 30%;
+}
+.realizacao{
+	padding-top: 1.25rem;
+}
+
+.semcomp-contatos{
+	color: black;
+	list-style-type: none;
+}
+
+.texto-rodape{
+	color: #B0E2FF;
+}
+
+.texto-rodape:hover, texto-rodape:focus {
+    color: #4F94CD;
 }
