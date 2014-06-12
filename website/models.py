@@ -130,12 +130,18 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 		db_index=True
 	)
 
-	full_name = models.CharField(_(u'Nome completo'), max_length=255)
+	full_name = models.CharField(
+		_(u'Nome completo'),
+		help_text=_(u'Seu nome completo, da forma que quer no certificado'),
+		max_length=255
+	)
 	# campos que o django-cms exige
 	first_name = models.CharField(max_length=64, blank=True)
 	last_name= models.CharField(max_length=64, blank=True)
 
 	id_usp = models.CharField(
+		_(u'Número USP'),
+		help_text=_(u'Se você não for da USP, deixe em branco'),
 		max_length=8,
 		blank=True,
 		validators=[
@@ -157,6 +163,9 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['full_name']
 
+	class Meta:
+		verbose_name = _(u'usuário')
+
 	def get_full_name(self):
 		return self.full_name
 
@@ -165,4 +174,5 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 
 	def __unicode__(self):
 		return self.full_name
+
 

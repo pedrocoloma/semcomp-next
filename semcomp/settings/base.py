@@ -185,3 +185,5 @@ THUMBNAIL_PROCESSORS = (
 
 AUTH_USER_MODEL = 'website.SemcompUser'
 
+SIGNUP_FORM_CLASS = 'website.forms.UserSignupForm'
+
