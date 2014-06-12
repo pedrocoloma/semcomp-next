@@ -5,52 +5,16 @@ from PIL import Image
 from io import BytesIO
 from pathlib import Path
 
+from django.core import validators
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
-from cms.models.pluginmodel import CMSPlugin
 
-class MultiColumns(CMSPlugin):
-	def __unicode__(self):
-		return _(u'%s columns') % self.cmsplugin_set.all().count()
-
-class Column(CMSPlugin):
-	COLUMN_WIDTH_CHOICES = map(
-		lambda x:
-			(str(x), ungettext_lazy(u'%i column', u'%i columns', x) % x),
-		range(1,13)
-	)
-
-	small_width = models.CharField(
-		max_length=2,
-		blank=True,
-		choices=COLUMN_WIDTH_CHOICES
-	)
-	large_width = models.CharField(
-		max_length=2,
-		blank=True,
-		choices=COLUMN_WIDTH_CHOICES
-	)
-	custom_classes = models.CharField(
-		max_length=64,
-		blank=True,
-		help_text=_(u'Este campo tem prioridade sobre os campos acima')
-	)
-
-	def get_width_string(self):
-		custom = self.custom_classes.strip()
-		if custom:
-			return custom
-
-		small = 'small-%s' % self.small_width if self.small_width else ''
-		large = 'large-%s' % self.large_width if self.large_width else ''
-
-		return ' '.join([small, large]).strip()
-
-	def __unicode__(self):
-		return self.get_width_string()
 
 def company_upload_to(instance, filename):
 	# get image data and reset the fp position
@@ -124,3 +88,81 @@ class Event(models.Model):
 		end = datetime.combine(self.end_date, self.end_time)
 
 		return end - start
+
+
+class SemcompUserManager(BaseUserManager):
+	def create_user(self, email, full_name, id_usp='', password=None):
+		if not email:
+			msg = _(u'Entre com um endereço de email')
+			raise ValueError(msg)
+
+		if not full_name:
+			msg = _(u'Entre com o nome completo do usuário')
+			raise ValueError(msg)
+
+
+		user = self.model(
+			email=SemcompUserManager.normalize_email(email),
+			full_name=full_name,
+			first_name=full_name.split(None, 1)[:1],
+			last_name=full_name.split(None, 1)[1:],
+			id_usp=id_usp,
+		)
+
+		user.set_password(password)
+		user.save(using=self._db)
+		return user
+
+	def create_superuser(self, email, full_name, id_usp='', password=None):
+		user = self.create_user(email, full_name, id_usp, password)
+		user.is_admin = True
+		user.is_staff = True
+		user.is_superuser = True
+		user.save(using=self._db)
+		return user
+
+
+class SemcompUser(AbstractBaseUser, PermissionsMixin):
+	email = models.EmailField(
+		_(u'Email'),
+		max_length=254,
+		unique=True,
+		db_index=True
+	)
+
+	full_name = models.CharField(_(u'Nome completo'), max_length=255)
+	# campos que o django-cms exige
+	first_name = models.CharField(max_length=64, blank=True)
+	last_name= models.CharField(max_length=64, blank=True)
+
+	id_usp = models.CharField(
+		max_length=8,
+		blank=True,
+		validators=[
+			validators.RegexValidator(
+				r'\d+', _(u'Entre com um número USP válido')),
+		],
+	)
+
+	# campos django-admin
+	is_active = models.BooleanField(default=True)
+	is_admin = models.BooleanField(default=False)
+	is_staff = models.BooleanField(default=False)
+
+	# pra ver depois quando que cada um se inscreveu
+	date_joined = models.DateTimeField(default=timezone.now)
+
+	objects = SemcompUserManager()
+
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = ['full_name']
+
+	def get_full_name(self):
+		return self.full_name
+
+	def get_short_name(self):
+		return self.email
+
+	def __unicode__(self):
+		return self.full_name
+

@@ -3,7 +3,7 @@
 from cms.api import create_page, add_plugin
 #from cms.stacks.models import Stack
 import sys
-from website.cms_plugins import MultiColumnsPlugin, ColumnPlugin
+#from website.cms_plugins import MultiColumnsPlugin, ColumnPlugin
 from cms.models.pluginmodel import CMSPlugin
 
 from aldryn_blog.cms_app import BlogApp
@@ -13,8 +13,10 @@ from djangocms_text_ckeditor.cms_plugins import TextPlugin
 from account.cms_app import SemcompUserApphook
 from management.cms_app import SemcompAdminApphook
 from contextlib import contextmanager
-from website.models import Column
-from django.contrib.auth.models import User
+#from semcomp_plugins.models import Column
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 @contextmanager
 def progress(msg):
@@ -134,7 +136,7 @@ for page_name,page_data in pages:
 #	add_plugin(side_content, TextPlugin, LANGUAGE_PT_BR, body='<h2>Quer ser um patrocinador?</h2><p>Entre em <a href="/sobre/contato">contato</a>!</p>')
 
 with progress('Creating super user'):
-	User.objects.create_superuser('admin', 'admin@admin.net', 'senha')
+	User.objects.create_superuser('admin@admin.net', 'Administrador Fodão', password='senha')
 
 with progress('(Re-)publishing pages'):
 	for name, page in created_pages.items():

@@ -2,7 +2,8 @@
 
 from __future__ import unicode_literals
 
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.tests.utils import skipIfCustomUser
 from django.core.urlresolvers import reverse
 from django.template import Template, Context, RequestContext
@@ -10,15 +11,15 @@ from django.test import TestCase
 
 class WebsiteTemplateTagsTests(TestCase):
 	def setUp(self):
+		UserModel = get_user_model()
 		self.anon_user = AnonymousUser()
-		self.default_user = User.objects.create_user(
+		self.default_user = UserModel.objects.create_user(
 			'user',
 			'email@provider.com',
+			'John Doe',
 			'pass',
-			first_name='John',
-			last_name='Doe',
 		)
-	
+
 	def test_user_bar_content_no_user(self):
 		out = Template(
 			"{% load semcomp %}"

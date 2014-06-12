@@ -89,6 +89,7 @@ INSTALLED_APPS = (
 	'website',
 	'account',
 	'management',
+	'semcomp_plugins',
 	# django-cms plugins
 	'djangocms_text_ckeditor',
 	# django-cms
@@ -181,3 +182,6 @@ THUMBNAIL_PROCESSORS = (
 	'filer.thumbnail_processors.scale_and_crop_with_subject_location',
 	'easy_thumbnails.processors.filters',
 )
+
+AUTH_USER_MODEL = 'website.SemcompUser'
+
