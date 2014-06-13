@@ -28,7 +28,7 @@ def pull():
 	if not files.exists(env.repository_path):
 		run('git clone {repository_url} {repository_path}'.format(**env))
 	with cd(env.repository_path):
-		run('git pull && git reset --hard')
+		run('git pull && git reset --hard && git clean -fdx')
 
 @task
 def fig(cmd):
