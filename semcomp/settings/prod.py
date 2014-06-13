@@ -7,9 +7,9 @@ TEMPLATE_DEBUG = DEBUG
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_ENV_DB'),
-        'USER': os.getenv('DB_ENV_USER'),
-        'PASSWORD': os.getenv('DB_ENV_PASS'),
+        'NAME': os.getenv('SEMCOMP17_DB_NAME'),
+        'USER': os.getenv('SEMCOMP17_DB_USER'),
+        'PASSWORD': os.getenv('SEMCOMP17_DB_PASS'),
         'HOST': os.getenv('DB_PORT_5432_TCP_ADDR'),
     }
 }
