@@ -1055,7 +1055,6 @@ select {
     padding-right: 0.9375rem;
     float: left;
   }
-
   .large-1 {
     width: 8.33333%;
   }
@@ -5611,6 +5610,7 @@ th,
 td {
   margin: 0;
   padding: 0;
+  color: black;
 }
 
 /* Default Link Styles */
@@ -6589,6 +6589,7 @@ body {
 main {
   padding-top: 100px;
 }
+
 
 .hero {
   padding-top: 100px;
