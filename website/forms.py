@@ -5,7 +5,7 @@ from .models import Company, SemcompUser
 class CompanyForm(forms.ModelForm):
 	class Meta:
 		model = Company
-		fields = ['name', 'logo', 'type']
+		fields = ['name', 'logo', 'url', 'type']
 
 
 class UserSignupForm(forms.ModelForm):

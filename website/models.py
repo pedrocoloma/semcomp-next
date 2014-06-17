@@ -54,6 +54,7 @@ class Company(models.Model):
 		max_length=1,
 		choices=COMPANY_TYPE_CHOICES
 	)
+	url = models.URLField()
 
 class Place(models.Model):
 	name = models.CharField(_(u'Nome'), max_length=32)
@@ -73,11 +74,7 @@ class Event(models.Model):
 		('neutro', _(u'Neutro')),
 	)
 
-	name = models.CharField(_(u'Nome'), max_length=64)
 	type = models.CharField(_(u'Tipo'), max_length=16, choices=EVENT_TYPES)
-	description = models.TextField(_(u'Descrição'), blank=True)
-	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
-	in_schedule = models.BooleanField(_(u'Mostrar na programação'), default=False)
 	start_date = models.DateField(_(u'Dia inicial'))
 	start_time = models.TimeField(_(u'Horário de início'))
 	end_date = models.DateField(_(u'Dia final'))
@@ -88,6 +85,48 @@ class Event(models.Model):
 		end = datetime.combine(self.end_date, self.end_time)
 
 		return end - start
+
+class EventData(models.Model):
+	slot = models.ForeignKey(Event)
+	name = models.CharField(_(u'Nome'), max_length=64, blank=True)
+	description = models.TextField(_(u'Descrição'), blank=True)
+	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+
+
+class Speaker(models.Model):
+	name = models.CharField(max_length=100)
+	occupation = models.CharField(max_length=255)
+	bio = models.TextField(_(u'Biografia'))
+
+class ContactInformation(models.Model):
+	CONTACT_TYPES = (
+		('W', _(u'Website')),
+		('T', _(u'Twitter')),
+		('F', _(u'Facebook')),
+		('E', _(u'Email')),
+		('L', _(u'Linkedin')),
+	)
+
+	speaker = models.ForeignKey(Speaker)
+	type = models.CharField(max_length=1, choices=CONTACT_TYPES)
+	value = models.CharField(max_length=100)
+
+
+class Lecture(models.Model):
+	slot = models.ForeignKey(Event)
+	title = models.CharField(_(u'Título'), max_length=100)
+	description = models.TextField(_(u'Descrição'), blank=True)
+	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
+
+
+class Course(models.Model):
+	slot = models.ForeignKey(Event)
+	title = models.CharField(_(u'Título'), max_length=100)
+	description = models.TextField(_(u'Descrição'), blank=True)
+	requirements = models.TextField(_(u'Pré-requisitos'), blank=True)
+	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
 
 
 class SemcompUserManager(BaseUserManager):
