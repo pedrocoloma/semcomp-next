@@ -121,7 +121,10 @@ class Lecture(models.Model):
 
 
 class Course(models.Model):
-	slot = models.ForeignKey(Event)
+	# Um minicurso pode estar alocado pra mais de um slot. Por exemplo, se um
+	# minicurso ocupa toda a manhã, tem um coffee break no meio, e ele está
+	# ocupando dois slots de minicurso, o antes do coffee e depois do coffee
+	slots = models.ManyToManyField(Event)
 	title = models.CharField(_(u'Título'), max_length=100)
 	description = models.TextField(_(u'Descrição'), blank=True)
 	requirements = models.TextField(_(u'Pré-requisitos'), blank=True)
