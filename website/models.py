@@ -65,6 +65,20 @@ class Place(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class EventManager(models.Manager):
+	def unused(self, type, dont_remove=None):
+		return Event.objects.filter(
+			type=type
+		).exclude(
+			id__in=Lecture.objects.exclude(
+				slot_id=None
+			).exclude(
+				slot_id=dont_remove
+			).values_list(
+				'slot_id', flat=True
+			)
+		)
+
 class Event(models.Model):
 	EVENT_TYPES = (
 		('palestra', _(u'Palestra')),
@@ -80,11 +94,24 @@ class Event(models.Model):
 	end_date = models.DateField(_(u'Dia final'))
 	end_time = models.TimeField(_(u'Horário de término'))
 
+	objects = EventManager()
+
 	def duration(self):
 		start = datetime.combine(self.start_date, self.start_time)
 		end = datetime.combine(self.end_date, self.end_time)
 
 		return end - start
+
+	def __unicode__(self):
+		start_time = self.start_time.strftime('%H:%M')
+		end_time = self.end_time.strftime('%H:%M')
+		date = self.start_date.strftime('%d/%m')
+
+		if self.start_date == self.end_date:
+			return '%s %s-%s' % (date, start_time, end_time)
+		else:
+			end_date = self.end_date.strftime('%d/%m')
+			return '%s@%s - %s@%s' % (date, start_time, end_date, end_time)
 
 class EventData(models.Model):
 	slot = models.ForeignKey(Event)
@@ -113,7 +140,7 @@ class ContactInformation(models.Model):
 
 
 class Lecture(models.Model):
-	slot = models.ForeignKey(Event)
+	slot = models.ForeignKey(Event, null=True, blank=True)
 	title = models.CharField(_(u'Título'), max_length=100)
 	description = models.TextField(_(u'Descrição'), blank=True)
 	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
