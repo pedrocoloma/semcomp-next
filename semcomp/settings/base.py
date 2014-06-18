@@ -81,7 +81,16 @@ INSTALLED_APPS = (
 	'management',
 	'semcomp_plugins',
 	# django-cms plugins
+	'djangocms_file',
+	'djangocms_flash',
+	'djangocms_googlemap',
+	'djangocms_inherit',
+	'djangocms_link',
+	'djangocms_picture',
+	'djangocms_style',
+	'djangocms_teaser',
 	'djangocms_text_ckeditor',
+	'djangocms_video',
 	# django-cms
 	'cms',
 	'mptt',
@@ -176,4 +185,3 @@ THUMBNAIL_PROCESSORS = (
 AUTH_USER_MODEL = 'website.SemcompUser'
 
 SIGNUP_FORM_CLASS = 'website.forms.UserSignupForm'
-
