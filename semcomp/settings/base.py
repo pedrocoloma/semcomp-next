@@ -118,7 +118,9 @@ INSTALLED_APPS = (
 	'easy_thumbnails',
 	'filer',
 	'taggit',
+	'cmsplugin_flickr_slideshow',
 )
+
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
