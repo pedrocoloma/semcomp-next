@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
 meta.foundation-version {
   font-family: "/5.2.2/";
@@ -1056,6 +1055,7 @@ select {
     padding-right: 0.9375rem;
     float: left;
   }
+
   .large-1 {
     width: 8.33333%;
   }
@@ -5611,7 +5611,6 @@ th,
 td {
   margin: 0;
   padding: 0;
-  color: black;
 }
 
 /* Default Link Styles */
@@ -6591,7 +6590,6 @@ main {
   padding-top: 100px;
 }
 
-
 .hero {
   padding-top: 100px;
   background: url("/static/img/hero-background.jpg") no-repeat center center fixed;
@@ -6706,10 +6704,12 @@ footer {
 }
 
 body .rodape-link {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
+  padding: 1.25rem 0;
   color: #fff;
   background-color: #004F78;
+}
+body .rodape-link a {
+  padding: 0 0.6rem;
 }
 
 .media-icons-bottom {

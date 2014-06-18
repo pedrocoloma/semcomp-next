@@ -130,10 +130,12 @@ footer {
 }
 body{
 	.rodape-link {
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
-	 color: #fff;
-	 background-color: #004F78;
+		padding: 1.25rem 0;
+		color: #fff;
+		background-color: #004F78;
+		a {
+			padding: 0 0.6rem;
+		}
 	}	
 }
 .media-icons-bottom {
