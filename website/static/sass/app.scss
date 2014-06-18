@@ -165,3 +165,11 @@ body{
 .texto-rodape:hover, texto-rodape:focus {
     color: #4F94CD;
 }
+#video-apresentacao{
+	@media #{$medium-up}{
+		padding: 0 3rem;
+	}
+	@media #{$large-up}{
+		padding: 0 10rem;
+	}
+}
