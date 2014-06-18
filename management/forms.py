@@ -1,6 +1,6 @@
 from django import forms
 
-from website.models import Place, Event, Lecture
+from website.models import Place, Event, Lecture, Course
 
 
 class PlaceForm(forms.ModelForm):
@@ -22,4 +22,9 @@ class LectureForm(forms.ModelForm):
 	class Meta:
 		model = Lecture
 		fields = ('slot', 'title', 'description', 'place', 'speaker')
+
+class CourseForm(forms.ModelForm):
+	class Meta:
+		model = Course
+		fields = ('slot', 'title', 'description', 'requirements', 'place', 'speaker')
 

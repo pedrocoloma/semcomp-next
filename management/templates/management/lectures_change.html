@@ -32,7 +32,7 @@
       </div>
       <input class="button right" type="submit" value="{% trans "Salvar" %}">
       {% if form.instance.pk %}
-        <a href="{% url "management_events_delete" form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
+        <a href="{% url "management_lectures_delete" form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
       {% endif %}
     </fieldset>
   </form>

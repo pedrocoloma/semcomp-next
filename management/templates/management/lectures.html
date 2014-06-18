@@ -2,12 +2,6 @@
 
 {% block user_content %}
   <div class="row">
-    <h1>Palestras</h1>
-    <div class="large-12 columns">
-      <a class="button" href="{% url "management_lectures_add" %}">Adicionar palestra</a>
-    </div>
-  </div>
-  <div class="row">
     <div class="large-12 columns">
       <table>
         <thead>
@@ -31,6 +25,11 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <a class="button" href="{% url "management_lectures_add" %}">Adicionar palestra</a>
     </div>
   </div>
 {% endblock %}

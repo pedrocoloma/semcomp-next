@@ -56,3 +56,11 @@ def lectures_edit(request, lecture_pk):
 		'active_lectures': True,
 	}
 	return render(request,'management/lectures_change.html', context)
+
+@staff_required
+def lectures_delete(request, lecture_pk):
+	lecture = get_object_or_404(Lecture, pk=lecture_pk)
+
+	lecture.delete()
+
+	return redirect('management_lectures')
