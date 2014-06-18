@@ -1,0 +1,42 @@
+{% extends "management/base.html" %}
+
+{% load i18n %}
+
+{% block user_content %}
+  <form
+    method="post"
+    {% if form.instance.pk %}
+      action="{% url "management_courses_edit" form.instance.pk %}">
+    {% else %}
+      action="{% url "management_courses_add" %}">
+    {% endif %}
+    {% csrf_token %}
+    <fieldset>
+      {% if form.instance.pk %}
+        <legend>Editar minicurso</legend>
+      {% else %}
+        <legend>Adicionar minicurso</legend>
+      {% endif %}
+      <div class="row">
+        {% include "management/render_field.html" with field=form.slots width="large-12" only %}
+      </div>
+      <div class="row">
+        {% include "management/render_field.html" with field=form.title width="large-6" only %}
+        {% include "management/render_field.html" with field=form.place width="large-6" only %}
+      </div>
+      <div class="row">
+        {% include "management/render_field.html" with field=form.description width="large-12" only %}
+      </div>
+      <div class="row">
+        {% include "management/render_field.html" with field=form.requirements width="large-12" only %}
+      </div>
+      <div class="row">
+        {% include "management/render_field.html" with field=form.speaker width="large-12" only %}
+      </div>
+      <input class="button right" type="submit" value="{% trans "Salvar" %}">
+      {% if form.instance.pk %}
+        <a href="{% url "management_courses_delete" form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
+      {% endif %}
+    </fieldset>
+  </form>
+{% endblock %}

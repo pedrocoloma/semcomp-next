@@ -1,1 +1,41 @@
 {% extends "management/base.html" %}
+
+{% block user_content %}
+  <div class="row">
+    <div class="large-12 columns">
+      <table>
+        <thead>
+          <tr>
+            <th>slots</th>
+            <th>título</th>
+            <th>local</th>
+            <th>palestrante</th>
+            <th>editar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for course in courses %}
+            <tr>
+              <td>
+			  	{% for slot in course.slots.all %}
+					{{slot}}{% if not forloop.last %}<br>{% endif %}
+				{% empty %}
+					<span class="alert-box alert">sem horário</span>
+				{% endfor %}
+			  </td>
+              <td>{{course.title}}</td>
+              <td>{{course.place|default:"<span class=\"alert-box alert\">sem local</span>"}}</td>
+              <td>{{course.speaker|default:"<span class=\"alert-box alert\">sem palestrante</span>"}}</td>
+              <td><a href="{% url "management_courses_edit" course.pk %}"><i class="fa fa-pencil-square-o fa-2x"></i></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <a class="button" href="{% url "management_courses_add" %}">Adicionar minicurso</a>
+    </div>
+  </div>
+{% endblock %}
