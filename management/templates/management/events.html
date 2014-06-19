@@ -38,7 +38,7 @@
 									<a href="{% url "management_events_edit" event.obj.pk %}">
 										<div class="schedule-event {{event.type}}"
 											style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
-											{{event.name}}
+											{{event.type_display}}
 										</div>
 									</a>
 								{% endfor %}
