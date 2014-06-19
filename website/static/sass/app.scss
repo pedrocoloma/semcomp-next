@@ -97,18 +97,39 @@ main {
     border-radius: 20px;
     padding: 1.25rem;
     
-    li {
+    > ul{
+    	padding:0.5rem;
+    }
+
+    .ultrabig li{
+        line-height: 200px;
+        height: 200px;
+        img {
+            max-height: 200px;
+        }
+    }
+    .big li{
+        line-height: 150px;
+        height: 150px;
+        img {
+            max-height: 150px;
+        }
+    }
+    .normal li{
         line-height: 100px;
         height: 100px;
+        img {
+            max-height: 100px;
+        }
+    }
+
+    li {
         vertical-align: middle;
         text-align: center;
 
         a {
             padding: 10px;
             display: block;
-        }
-        img {
-            max-height: 100px;
         }
     }
 }

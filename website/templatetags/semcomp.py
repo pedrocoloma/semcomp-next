@@ -10,8 +10,10 @@ register = template.Library()
 @register.inclusion_tag('website/templatetags/render_sponsors.html')
 def render_sponsors():
 	return {
-		'sponsors': Company.objects.filter(type='P'),
-		'partners': Company.objects.filter(type='A'),
+		'adamantium_sponsors': Company.objects.filter(type='A',).exclude(logo=''),
+		'diamond_sponsors': Company.objects.filter(type='B').exclude(logo=''), 
+		'sponsors': Company.objects.exclude(type__in = ['A','B','Z']).exclude(logo=''),
+		'partners': Company.objects.filter(type='Z').exclude(logo=''),
 	}
 
 @register.assignment_tag

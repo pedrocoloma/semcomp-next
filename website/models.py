@@ -43,16 +43,13 @@ def speaker_upload_to(instance, filename):
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
-		('P', _(u'Patrocínio')),
-		('A', _(u'Apoio')),
-	)
-	SPONSOR_TYPE_CHOICES = (
 		('A', _(u'Adamantium')),
 		('B', _(u'Diamante')),
 		('C', _(u'Platina')),
 		('D', _(u'Ouro')),
 		('E', _(u'Prata')),
 		('F', _(u'Feira')),
+		('Z', _(u'Apoio')),
 	)
 
 	name = models.CharField(
@@ -68,13 +65,6 @@ class Company(models.Model):
 		_(u'Tipo'),
 		max_length=1,
 		choices=COMPANY_TYPE_CHOICES
-	)
-
-	sponsor = models.CharField(
-		_(u'Patrocinio'),
-		max_length=1,
-		choices=SPONSOR_TYPE_CHOICES,
-		blank=True
 	)
 	description = models.TextField(_(u'Descrição'), blank=True)
 
