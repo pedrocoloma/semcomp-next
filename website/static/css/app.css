@@ -6712,11 +6712,13 @@ body .rodape-link a {
   padding: 0 0.6rem;
 }
 
-.media-icons-bottom {
-  padding-top: 30%;
-}
 .media-icons-bottom > a {
   color: #222;
+}
+@media only screen and (min-width: 40.063em) {
+  .media-icons-bottom {
+    padding-top: 30%;
+  }
 }
 
 @media only screen and (min-width: 64.063em) {

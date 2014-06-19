@@ -14,8 +14,8 @@ def render_sponsors():
 		'partners': Company.objects.filter(type='A'),
 	}
 
-@register.inclusion_tag('website/templatetags/render_mapa.html')
-def render_mapa():
+@register.assignment_tag
+def get_mapa():
 	return {
 		'links': [x for x in Page.objects.public() if x.get_slug('pt-br') != 'administracao' ]
 	}

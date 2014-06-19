@@ -144,7 +144,9 @@ body{
     > a {
         color: #222;
     }
-    padding-top: 30%;
+    @media #{$medium-up} {
+        padding-top: 30%;
+    }
 }
 
 @media #{$large-up} {
