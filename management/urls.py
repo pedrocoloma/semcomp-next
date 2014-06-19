@@ -15,7 +15,16 @@ urlpatterns = patterns('',
 	url(r'^eventos/apagar/(\d+)/$', 'management.views.events_delete', name='management_events_delete'),
 
 	url(r'^palestras/$', 'management.views.manage_lectures', name='management_lectures'),
+	url(r'^palestras/adicionar/$', 'management.views.lectures_add', name='management_lectures_add'),
+	url(r'^palestras/editar/(\d+)/$', 'management.views.lectures_edit', name='management_lectures_edit'),
+	url(r'^palestras/apagar/(\d+)/$', 'management.views.lectures_delete', name='management_lectures_delete'),
+
 	url(r'^minicursos/$', 'management.views.manage_courses', name='management_courses'),
+	url(r'^minicursos/adicionar/$', 'management.views.courses_add', name='management_courses_add'),
+	url(r'^minicursos/editar/(\d+)/$', 'management.views.courses_edit', name='management_courses_edit'),
+	url(r'^minicursos/apagar/(\d+)/$', 'management.views.courses_delete', name='management_courses_delete'),
+
+
 	url(r'^usuarios/$', 'management.views.manage_users', name='management_users'),
 
 	url(r'^empresas/$', 'management.views.manage_companies', name='management_companies'),
