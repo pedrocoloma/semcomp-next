@@ -29,4 +29,4 @@ MEDIA_URL = '/17/media/'
 STATIC_ROOT = '/data/static/'
 STATIC_URL = '/17/static/'
 
-COMPRESS_ENABLED = True
+COMPRESS_ENABLED = False
