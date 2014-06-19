@@ -6732,7 +6732,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url("/static/img/header.png");
+  background-image: url("/17/static/img/header.png");
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6756,7 +6756,7 @@ main {
 
 .hero {
   padding-top: 100px;
-  background: url("/static/img/hero-background.jpg") no-repeat center center fixed;
+  background: url("/17/static/img/hero-background.jpg") no-repeat center center fixed;
   background-size: cover;
 }
 .hero > h1 {
