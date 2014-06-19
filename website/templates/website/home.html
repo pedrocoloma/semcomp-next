@@ -5,7 +5,11 @@
   <div class="hero text-center">
     <h1>17ª Semana da Computação<br>USP São Carlos</h1>
     <h2>De 18 a 22 de agosto de 2014</h2>
-	<iframe width="853" height="480" src="//www.youtube.com/embed/QQ7uVYVIgjE?rel=0" frameborder="0" allowfullscreen></iframe>
+	<div class="row" id="video-apresentacao">
+		<div class="flex-video widescreen">
+			<iframe width="853" height="480" src="//www.youtube.com/embed/QQ7uVYVIgjE?rel=0" frameborder="0" allowfullscreen></iframe>
+		</div>
+	</div>
     <p class="media-icons">
       <a href="https://facebook.com/semcomp17">
         <span class="fa-stack fa-2x">
@@ -31,63 +35,7 @@
 
 {% block base_content %}
   <div class="row">
-    <div class="large-8 columns">
-      <div class="panel tile-height-4">
-        {% placeholder "evento" %}
-      </div>
-    </div>
-    <div class="large-4 columns">
-      <div class="panel tile-height-4">
-	{% placeholder "fotos" %}
-      </div>
-    </div>
+	{% placeholder "ladrilhos" %}
   </div>
-  
-  <div class="row"> 
-    <div class="large-4 columns">
-      <div class="panel tile-height-4">
-        {% placeholder "ver o nome1" %}
-      </div>
-    </div>
-    <div class="large-4 columns">
-      <div class="panel tile-height-4">
-        {% placeholder "ver o nome2" %}
-      </div>
-    </div>
-    <div class="large-4 columns">
-      <div class="panel tile-height-4">
-        {% placeholder "ver o nome3" %}
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="large-4 columns">
-      <div class="panel tile-height-4">
-        {% placeholder "local" %}
-      </div>
-      <div class="panel tile-height-4">
-        {% placeholder "datas_importantes" %}
-      </div>
-    </div>
-    <div class="large-8 columns">
-      <div class="panel tile-height-8">
-        {% placeholder "palestras_minicursos" %}
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="large-4 columns">
-      <div class="panel tile-height-4">
-        {% placeholder "extras" %}
-      </div>
-    </div>
-    <div class="large-8 columns">
-      <div class="panel tile-height-4">
-        {% placeholder "feira_recrutamento" %}
-      </div>
-    </div>
-  </div>
-{% endblock %}
+    {% endblock %}
 
