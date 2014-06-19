@@ -21,7 +21,11 @@
 	</div>
 	</div>
 {% empty %}
-<li class="blog-empty"><p>{% trans "No entry found." %}</p></li>
+	<div class="large-12 columns">
+	<div class="panel">
+<p>{% trans "Sem notícias." %}</p>
+	</div>
+	</div>
 {% endfor %}
 </div>
 
