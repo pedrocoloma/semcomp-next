@@ -1,8 +1,9 @@
 # coding: utf-8
 
 from django import forms
+from django.forms.models import inlineformset_factory
 
-from website.models import Place, Event, Lecture, Course
+from website.models import Place, Event, Lecture, Course, Speaker, ContactInformation
 
 
 class PlaceForm(forms.ModelForm):
@@ -23,7 +24,7 @@ class EventForm(forms.ModelForm):
 class LectureForm(forms.ModelForm):
 	class Meta:
 		model = Lecture
-		fields = ('slot', 'title', 'description', 'place', 'speaker')
+		fields = ('slot', 'title', 'description', 'place')
 
 class CourseForm(forms.ModelForm):
 	class Meta:
@@ -34,3 +35,9 @@ class CourseForm(forms.ModelForm):
 			'slots': forms.SelectMultiple(attrs={'style': 'height:100px'})
 		}
 
+class SpeakerForm(forms.ModelForm):
+	class Meta:
+		model = Speaker
+		fields = ('name', 'occupation', 'photo', 'bio')
+
+ContactInformationFormset = inlineformset_factory(Speaker, ContactInformation)

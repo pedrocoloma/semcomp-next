@@ -15,13 +15,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
 
-
-def company_upload_to(instance, filename):
+def _base_upload_to_by_field(instance, image, base_path, field):
 	# get image data and reset the fp position
-	data = instance.logo.read()
-	instance.logo.seek(0)
+	im = getattr(instance, image)
+	data = im.read()
+	im.seek(0)
 
-	filename = slugify(instance.name)
+	filename = slugify(getattr(instance, field))
 	bytes_io = BytesIO(data)
 
 	image = Image.open(bytes_io)
@@ -31,8 +31,15 @@ def company_upload_to(instance, filename):
 	else:
 		image_format = image.format.lower()
 
-	path = Path('empresas', '{0}.{1}'.format(filename, image_format))
+	path = Path(base_path, '{0}.{1}'.format(filename, image_format))
 	return path.as_posix()
+
+def company_upload_to(instance, filename):
+	return _base_upload_to_by_field(instance, 'logo', 'empresas', 'name')
+
+def speaker_upload_to(instance, filename):
+	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', 'name')
+	
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
@@ -121,9 +128,13 @@ class EventData(models.Model):
 
 
 class Speaker(models.Model):
-	name = models.CharField(max_length=100)
-	occupation = models.CharField(max_length=255)
+	name = models.CharField(_(u'Nome'), max_length=100)
+	occupation = models.CharField(_(u'Ocupação'), max_length=255)
+	photo = models.ImageField(_(u'Foto'), upload_to=speaker_upload_to)
 	bio = models.TextField(_(u'Biografia'))
+
+	def __unicode__(self):
+		return '%s # %s' % (self.name, self.occupation)
 
 class ContactInformation(models.Model):
 	CONTACT_TYPES = (

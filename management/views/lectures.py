@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from website.models import Event, Lecture
+from website.models import Event, Lecture, Speaker
 
 from ..decorators import staff_required
 
-from ..forms import LectureForm
+from ..forms import LectureForm, SpeakerForm, ContactInformationFormset
 
 @staff_required
 def manage_lectures(request):
@@ -21,19 +21,34 @@ def manage_lectures(request):
 @staff_required
 def lectures_add(request):
 	if request.method == 'POST':
-		form = LectureForm(request.POST)
-		if form.is_valid():
-			form.save()
+		lecture_form = LectureForm(request.POST, prefix='lecture')
+		speaker_form = SpeakerForm(request.POST, request.FILES, prefix='speaker')
+		contact_formset = ContactInformationFormset(request.POST, prefix='contact')
+		if lecture_form.is_valid() and speaker_form.is_valid() and contact_formset.is_valid():
+			lecture = lecture_form.save(commit=False)
+			contact = contact_formset.save(commit=False)
+			speaker = speaker_form.save()
+
+			lecture.speaker = speaker
+			for c in contact:
+				c.speaker = speaker
+				c.save()
+			lecture.save()
+
 			return redirect('management_lectures')
 	else:
-		form = LectureForm()
-		form.fields['slot'].queryset = Event.objects.unused('palestra')
+		speaker_form = SpeakerForm(prefix='speaker')
+		lecture_form = LectureForm(prefix='lecture')
+		contact_formset = ContactInformationFormset(instance=Speaker(), prefix='contact')
+		lecture_form.fields['slot'].queryset = Event.objects.unused('palestra')
 
 	return render(
 		request,
 		'management/lectures_change.html',
 		{
-			'form': form,
+			'lecture_form': lecture_form,
+			'speaker_form': speaker_form,
+			'contact_formset': contact_formset,
 			'active_lectures': True,
 		}
 	)
@@ -41,18 +56,36 @@ def lectures_add(request):
 @staff_required
 def lectures_edit(request, lecture_pk):
 	lecture = get_object_or_404(Lecture, pk=lecture_pk)
+	speaker = lecture.speaker
+	contact = speaker.contactinformation_set if speaker else None
 
 	if request.method == 'POST':
-		form = LectureForm(request.POST, instance=lecture)
-		if form.is_valid():
-			form.save()
+		lecture_form = LectureForm(request.POST, instance=lecture, prefix='lecture')
+		speaker_form = SpeakerForm(request.POST, request.FILES, instance=speaker, prefix='speaker')
+		contact_formset = ContactInformationFormset(request.POST, instance=speaker, prefix='contact')
+
+		if lecture_form.is_valid() and speaker_form.is_valid() and contact_formset.is_valid():
+			lecture = lecture_form.save(commit=False)
+			contact = contact_formset.save(commit=False)
+			speaker = speaker_form.save()
+			lecture.speaker = speaker
+
+			for c in contact:
+				c.speaker = speaker
+				c.save()
+			lecture.save()
+
 			return redirect('management_lectures')
 	else:
-		form = LectureForm(instance=lecture)
-		form.fields['slot'].queryset = Event.objects.unused('palestra', lecture.id)
+		lecture_form = LectureForm(instance=lecture, prefix='lecture')
+		speaker_form = SpeakerForm(instance=speaker, prefix='speaker')
+		contact_formset = ContactInformationFormset(instance=speaker, prefix='contact')
+		lecture_form.fields['slot'].queryset = Event.objects.unused('palestra', lecture.id)
 
 	context = {
-		'form': form,
+		'lecture_form': lecture_form,
+		'speaker_form': speaker_form,
+		'contact_formset': contact_formset,
 		'active_lectures': True,
 	}
 	return render(request,'management/lectures_change.html', context)
@@ -60,7 +93,11 @@ def lectures_edit(request, lecture_pk):
 @staff_required
 def lectures_delete(request, lecture_pk):
 	lecture = get_object_or_404(Lecture, pk=lecture_pk)
+	speaker = lecture.speaker
 
 	lecture.delete()
+
+	if speaker:
+		speaker.delete()
 
 	return redirect('management_lectures')

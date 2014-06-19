@@ -5,34 +5,52 @@
 {% block user_content %}
   <form
     method="post"
-    {% if form.instance.pk %}
-      action="{% url "management_lectures_edit" form.instance.pk %}">
+    enctype="multipart/form-data"
+    {% if lecture_form.instance.pk %}
+      action="{% url "management_lectures_edit" lecture_form.instance.pk %}">
     {% else %}
       action="{% url "management_lectures_add" %}">
     {% endif %}
     {% csrf_token %}
     <fieldset>
-      {% if form.instance.pk %}
+      {% if lecture_form.instance.pk %}
         <legend>Editar palestra</legend>
       {% else %}
         <legend>Adicionar palestra</legend>
       {% endif %}
       <div class="row">
-        {% include "management/render_field.html" with field=form.slot width="large-6" only %}
-        {% include "management/render_field.html" with field=form.place width="large-6" only %}
+        {% include "management/render_field.html" with field=lecture_form.slot width="large-6" only %}
+        {% include "management/render_field.html" with field=lecture_form.place width="large-6" only %}
       </div>
       <div class="row">
-        {% include "management/render_field.html" with field=form.title width="large-12" only %}
+        {% include "management/render_field.html" with field=lecture_form.title width="large-12" only %}
       </div>
       <div class="row">
-        {% include "management/render_field.html" with field=form.description width="large-12" only %}
+        {% include "management/render_field.html" with field=lecture_form.description width="large-12" only %}
       </div>
       <div class="row">
-        {% include "management/render_field.html" with field=form.speaker width="large-12" only %}
+        {% include "management/render_field.html" with field=lecture_form.speaker width="large-12" only %}
       </div>
+
+      <fieldset>
+        <legend>Palestrante</legend>
+        {{speaker_form}}
+        <fieldset>
+          <legend>Contato</legend>
+          {{contact_formset.management_form}}
+          {% for subform in contact_formset %}
+            {{subform.id}}
+            <div class="row">
+              {% include "management/render_field.html" with field=subform.type width="large-6" only %}
+              {% include "management/render_field.html" with field=subform.value width="large-6" only %}
+            </div>
+          {% endfor %}
+        </fieldset>
+      </fieldset>
+
       <input class="button right" type="submit" value="{% trans "Salvar" %}">
-      {% if form.instance.pk %}
-        <a href="{% url "management_lectures_delete" form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
+      {% if lecture_form.instance.pk %}
+        <a href="{% url "management_lectures_delete" lecture_form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
       {% endif %}
     </fieldset>
   </form>
