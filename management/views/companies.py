@@ -10,8 +10,8 @@ def manage_companies(request):
 	context = {'active_companies': True}
 	companies = Company.objects.all()
 	context['companies'] = companies
-	context['sponsorships'] = companies.filter(type='P')
-	context['partnerships'] = companies.filter(type='A')
+	context['sponsorships'] = companies.exclude(type='Z')
+	context['partnerships'] = companies.filter(type='Z')
 
 	return render(request, 'management/companies.html', context)
 

@@ -10,3 +10,4 @@ sass-cache
 /website/static/.sass-cache
 __pycache__
 resources/Dockerfile
+*~

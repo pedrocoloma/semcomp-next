@@ -73,6 +73,7 @@ main {
 	}
 }
 
+
 .media-icons {
     > a {
         color: #222;
@@ -96,9 +97,33 @@ main {
     border-radius: 20px;
     padding: 1.25rem;
     
-    li {
+    > ul{
+    	padding:0.5rem;
+    }
+
+    .ultrabig li{
+        line-height: 200px;
+        height: 200px;
+        img {
+            max-height: 200px;
+        }
+    }
+    .big li{
+        line-height: 150px;
+        height: 150px;
+        img {
+            max-height: 150px;
+        }
+    }
+    .normal li{
         line-height: 100px;
         height: 100px;
+        img {
+            max-height: 100px;
+        }
+    }
+
+    li {
         vertical-align: middle;
         text-align: center;
 
@@ -106,14 +131,68 @@ main {
             padding: 10px;
             display: block;
         }
-        img {
-            max-height: 100px;
-        }
     }
 }
 
 footer {
-    background-color: #eee;
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
+	
+    		background-color: #eee;
+    		padding-top: 1.25rem;
+    		padding-bottom: 1.25rem;
+	
+}
+
+.hrzinho {
+		border-top: 1px dashed #000;
+      border-bottom: 1px solid #000;
+      color: #fff;
+      background-color: #fff;
+      height: 4px;
+}
+
+body{
+	.rodape-link {
+		padding: 1.25rem 0;
+		color: #fff;
+		background-color: #004F78;
+		a {
+			padding: 0 0.6rem;
+		}
+	}	
+}
+
+.media-icons-bottom {
+    > a {
+        color: #222;
+    }
+    @media #{$medium-up} {
+        padding-top: 30%;
+    }
+}
+
+@media #{$large-up} {
+	img.realizacao {
+		padding-top: 30px;
+	}
+}
+
+.semcomp-contatos {
+	color: black;
+	list-style-type: none;
+}
+
+.texto-rodape {
+	color: #B0E2FF;
+}
+
+.texto-rodape:hover, texto-rodape:focus {
+    color: #4F94CD;
+}
+#video-apresentacao{
+	@media #{$medium-up}{
+		padding: 0 3rem;
+	}
+	@media #{$large-up}{
+		padding: 0 10rem;
+	}
 }

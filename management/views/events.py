@@ -32,7 +32,6 @@ def manage_events(request):
 	events = Event.objects.filter(
 		start_date__gte=first_day,
 		start_date__lte=last_day,
-		in_schedule=True,
 	)
 
 	time_start = time(8, 0)
@@ -55,8 +54,8 @@ def manage_events(request):
 			dt = event_start - day_start
 
 			day_data.append({
-				'name': e.name,
 				'type': e.type,
+				'type_display': e.get_type_display(),
 				'obj': e,
 				'slots': e.duration().seconds / time_delta.seconds,
 				'start_slot': dt.seconds / time_delta.seconds,

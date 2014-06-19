@@ -1,5 +1,9 @@
-$static_dir: "/static/";
+$static_dir: "/17/static/";
 
 $body-font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $body-font-color: #eee;
 $header-font-color: #222;
+
+$legend-bg: none;
+$form-label-font-color: scale-color(#fff, $lightness: -30%);
+

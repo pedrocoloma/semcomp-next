@@ -2,7 +2,7 @@ import math
 from itertools import izip_longest
 
 from django import template
-
+from cms.models import Page
 from website.models import Company
 
 register = template.Library()
@@ -10,8 +10,16 @@ register = template.Library()
 @register.inclusion_tag('website/templatetags/render_sponsors.html')
 def render_sponsors():
 	return {
-		'sponsors': Company.objects.filter(type='P'),
-		'partners': Company.objects.filter(type='A'),
+		'adamantium_sponsors': Company.objects.filter(type='A',).exclude(logo=''),
+		'diamond_sponsors': Company.objects.filter(type='B').exclude(logo=''), 
+		'sponsors': Company.objects.exclude(type__in = ['A','B','Z']).exclude(logo=''),
+		'partners': Company.objects.filter(type='Z').exclude(logo=''),
+	}
+
+@register.assignment_tag
+def get_mapa():
+	return {
+		'links': [x for x in Page.objects.public() if x.get_slug('pt-br') != 'administracao' ]
 	}
 
 @register.inclusion_tag('website/templatetags/render_user_bar.html', takes_context=True)

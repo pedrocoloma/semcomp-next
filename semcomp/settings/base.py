@@ -111,7 +111,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	# third party apps
 	'reversion',
-	'compressor',
+	#'compressor',
 	'mathfilters',
 	'signup',
 	'aldryn_blog',

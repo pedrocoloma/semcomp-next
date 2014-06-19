@@ -15,13 +15,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
 
-
-def company_upload_to(instance, filename):
+def _base_upload_to_by_field(instance, image, base_path, field):
 	# get image data and reset the fp position
-	data = instance.logo.read()
-	instance.logo.seek(0)
+	im = getattr(instance, image)
+	data = im.read()
+	im.seek(0)
 
-	filename = slugify(instance.name)
+	filename = slugify(getattr(instance, field))
 	bytes_io = BytesIO(data)
 
 	image = Image.open(bytes_io)
@@ -31,13 +31,25 @@ def company_upload_to(instance, filename):
 	else:
 		image_format = image.format.lower()
 
-	path = Path('empresas', '{0}.{1}'.format(filename, image_format))
+	path = Path(base_path, '{0}.{1}'.format(filename, image_format))
 	return path.as_posix()
+
+def company_upload_to(instance, filename):
+	return _base_upload_to_by_field(instance, 'logo', 'empresas', 'name')
+
+def speaker_upload_to(instance, filename):
+	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', 'name')
+	
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
-		('P', _(u'Patrocínio')),
-		('A', _(u'Apoio')),
+		('A', _(u'Adamantium')),
+		('B', _(u'Diamante')),
+		('C', _(u'Platina')),
+		('D', _(u'Ouro')),
+		('E', _(u'Prata')),
+		('F', _(u'Feira')),
+		('Z', _(u'Apoio')),
 	)
 
 	name = models.CharField(
@@ -54,6 +66,10 @@ class Company(models.Model):
 		max_length=1,
 		choices=COMPANY_TYPE_CHOICES
 	)
+	description = models.TextField(_(u'Descrição'), blank=True)
+
+	url = models.URLField()
+
 
 class Place(models.Model):
 	name = models.CharField(_(u'Nome'), max_length=32)
@@ -64,6 +80,20 @@ class Place(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class EventManager(models.Manager):
+	def unused(self, type, dont_remove=None):
+		return Event.objects.filter(
+			type=type
+		).exclude(
+			id__in=Lecture.objects.exclude(
+				slot_id=None
+			).exclude(
+				slot_id=dont_remove
+			).values_list(
+				'slot_id', flat=True
+			)
+		)
+
 class Event(models.Model):
 	EVENT_TYPES = (
 		('palestra', _(u'Palestra')),
@@ -73,21 +103,79 @@ class Event(models.Model):
 		('neutro', _(u'Neutro')),
 	)
 
-	name = models.CharField(_(u'Nome'), max_length=64)
 	type = models.CharField(_(u'Tipo'), max_length=16, choices=EVENT_TYPES)
-	description = models.TextField(_(u'Descrição'), blank=True)
-	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
-	in_schedule = models.BooleanField(_(u'Mostrar na programação'), default=False)
 	start_date = models.DateField(_(u'Dia inicial'))
 	start_time = models.TimeField(_(u'Horário de início'))
 	end_date = models.DateField(_(u'Dia final'))
 	end_time = models.TimeField(_(u'Horário de término'))
+
+	objects = EventManager()
 
 	def duration(self):
 		start = datetime.combine(self.start_date, self.start_time)
 		end = datetime.combine(self.end_date, self.end_time)
 
 		return end - start
+
+	def __unicode__(self):
+		start_time = self.start_time.strftime('%H:%M')
+		end_time = self.end_time.strftime('%H:%M')
+		date = self.start_date.strftime('%d/%m')
+
+		if self.start_date == self.end_date:
+			return '%s %s-%s' % (date, start_time, end_time)
+		else:
+			end_date = self.end_date.strftime('%d/%m')
+			return '%s@%s - %s@%s' % (date, start_time, end_date, end_time)
+
+class EventData(models.Model):
+	slot = models.ForeignKey(Event)
+	name = models.CharField(_(u'Nome'), max_length=64, blank=True)
+	description = models.TextField(_(u'Descrição'), blank=True)
+	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+
+
+class Speaker(models.Model):
+	name = models.CharField(_(u'Nome'), max_length=100)
+	occupation = models.CharField(_(u'Ocupação'), max_length=255)
+	photo = models.ImageField(_(u'Foto'), upload_to=speaker_upload_to)
+	bio = models.TextField(_(u'Biografia'))
+
+	def __unicode__(self):
+		return '%s # %s' % (self.name, self.occupation)
+
+class ContactInformation(models.Model):
+	CONTACT_TYPES = (
+		('W', _(u'Website')),
+		('T', _(u'Twitter')),
+		('F', _(u'Facebook')),
+		('E', _(u'Email')),
+		('L', _(u'Linkedin')),
+	)
+
+	speaker = models.ForeignKey(Speaker)
+	type = models.CharField(max_length=1, choices=CONTACT_TYPES)
+	value = models.CharField(max_length=100)
+
+
+class Lecture(models.Model):
+	slot = models.ForeignKey(Event, null=True, blank=True)
+	title = models.CharField(_(u'Título'), max_length=100)
+	description = models.TextField(_(u'Descrição'), blank=True)
+	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
+
+
+class Course(models.Model):
+	# Um minicurso pode estar alocado pra mais de um slot. Por exemplo, se um
+	# minicurso ocupa toda a manhã, tem um coffee break no meio, e ele está
+	# ocupando dois slots de minicurso, o antes do coffee e depois do coffee
+	slots = models.ManyToManyField(Event)
+	title = models.CharField(_(u'Título'), max_length=100)
+	description = models.TextField(_(u'Descrição'), blank=True)
+	requirements = models.TextField(_(u'Pré-requisitos'), blank=True)
+	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
 
 
 class SemcompUserManager(BaseUserManager):

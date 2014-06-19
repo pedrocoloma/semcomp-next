@@ -9,7 +9,7 @@
     {% addtoblock "css" %}
       <link rel="stylesheet" href="{% static "css/app.css" %}">
       <!--<link rel="stylesheet" href=" static "stylesheets/app.css"" />-->
-      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"/>
+      <link rel="stylesheet" href="{% static "bower_components/fontawesome/css/font-awesome.min.css" %}"/>
       {% block extracss %}
       {% endblock %}
     {% endaddtoblock %}
@@ -17,19 +17,36 @@
   </head>
   <body>
     {% cms_toolbar %}
+<div class="off-canvas-wrap" data-offcanvas>
+  <div class="inner-wrap">
+<nav class="tab-bar"> 
+	<section class="left-small"> 
+		<a class="left-off-canvas-toggle menu-icon" >
+			<span></span></a> 
+	</section> 
+	<section class="right-small"> 
+		<a class="right-off-canvas-toggle menu-icon" >
+		<span></span></a> 
+	</section> 
+</nav>
+
+    <!-- Off Canvas Menu -->
+<aside class="left-off-canvas-menu"> 
+	<ul class="off-canvas-list"> 
+		<li><label>Semcomp</label></li>
+		{% get_mapa as sitemap %} 
+		
+		{% for link in sitemap.links %}
+			<li><a href="{{ link.get_absolute_url }}">{{ link.get_title }}</a></li>
+		{% endfor %}
+	</ul> 
+</aside>
     <header>
-      <div class="menu-wrap">
+      <div class="menu-wrap show-for-large-up">
         <div class="row text-center menu-topo">
           <nav>
             <ul>
-			<!--
-              <li><a href="#">Programação</a></li>
-              <li><a href="#">Local</a></li>
-              <li><a href="#"><img src="{% static "img/logo-semcomp.png" %}"></a></li>
-              <li><a href="#">Contato</a></li>
-              <li><a href="#">Entrar</a></li>
-			-->
-              {% show_menu %}
+	      {% show_menu %}
             </ul>
           </nav>
         </div>
@@ -46,34 +63,25 @@
     {% block rodape %}
       <footer>
         <div class="row text-center">
-          <div class="large-4 columns">
-            <div class="panel">
-              {% static_placeholder "faq" %}
-            </div>
-
+          <div class="medium-4 columns">
             <h1>Realização</h1>
-              <img src="{% static "img/organizacao.png" %}">
+              <img class="realizacao" src="{% static "img/organizacao.jpg" %}" >
             </div>
 
-            <div class="large-4 columns">
-              <h1>Contato</h1>
-              <form>
-                <input type="text" placeholder="Nome">
-                <input type="text" placeholder="E-mail">
-                <textarea placeholder="Mensagem..."></textarea>
+            <div class="medium-4 columns">
+              <h1>Dúvidas?</h1>
+              <button class="button expand">Contato & FAQ</button>
+              <ul class="semcomp-contatos">
+                <li >Telefone 1: (16) 3373-9703</li>
+                <li>Telefone 2: (16) 3373-9686</li>
+                <li>E-mail: <a href="malito:semcomp@icmc.usp.br">semcomp@icmc.usp.br</a></li>
+              </ul>
 
-                <input class="button expand" type="submit" value="Enviar">
-              </form>
-
-			  {% static_placeholder "contato" %}
+            {% static_placeholder "contato" %}
             </div>
 
-            <div class="large-4 columns">
-              <div class="panel">
-                {% static_placeholder "rodape_extra" %}
-              </div>
-
-              <p class="media-icons">
+            <div class="medium-4 columns">
+              <p class="media-icons-bottom">
                 <a href="https://facebook.com/semcomp17">
                   <span class="fa-stack fa-2x">
                     <i class="fa fa-circle fa-stack-2x"></i>
@@ -95,10 +103,22 @@
               </p>
             </div>
           </div>
-        </div>
-      </footer>
-    {% endblock %}
 
+     </footer>
+    {% endblock %}
+        <div class="row rodape-link">
+         {% static_placeholder "mapa do site" %}
+             
+              <div class="large-12 columns">
+		{% for link in sitemap.links %}
+			<a href="{{ link.get_absolute_url }}">{{ link.get_title }}</a>
+		{% endfor %}
+	      </div>
+        </div>
+<a class="exit-off-canvas"></a>
+
+  </div>
+</div>
     {% render_block "js" postprocessor "compressor.contrib.sekizai.compress" %}
     {% addtoblock "js" %}
       <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
