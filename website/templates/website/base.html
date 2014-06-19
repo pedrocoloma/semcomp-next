@@ -9,7 +9,7 @@
     {% addtoblock "css" %}
       <link rel="stylesheet" href="{% static "css/app.css" %}">
       <!--<link rel="stylesheet" href=" static "stylesheets/app.css"" />-->
-      <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"/>
+      <link rel="stylesheet" href="{% static "bower_components/fontawesome/css/font-awesome.min.css" %}"/>
       {% block extracss %}
       {% endblock %}
     {% endaddtoblock %}
