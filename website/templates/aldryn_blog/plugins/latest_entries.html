@@ -1,0 +1,14 @@
+{% load i18n thumbnail cms_tags %}
+
+<a href="{% url "aldryn_blog:latest-posts" %}"><h2>Blog</h2></a>
+
+<div class="plugin plugin-blog">
+	<div class="blog-latest-entries">
+		{% for post in instance.get_posts %}
+			<p>
+				<a href="{{ post.get_absolute_url }}">{% render_model post "title" %}</a><br>
+				<span><i class="fa fa-clock-o"></i> {{ post.publication_start }}</span>
+			</p>
+		{% endfor %}
+	</div>
+</div>
