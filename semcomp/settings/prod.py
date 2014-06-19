@@ -30,3 +30,5 @@ STATIC_ROOT = '/data/static/'
 STATIC_URL = '/17/static/'
 
 COMPRESS_ENABLED = False
+
+DEFAULT_FROM_EMAIL = 'Semcomp 17 <no-reply@semcomp.icmc.usp.br>'
