@@ -6675,18 +6675,37 @@ main {
   border-radius: 20px;
   padding: 1.25rem;
 }
-.grid-logo li {
+.grid-logo > ul {
+  padding: 0.5rem;
+}
+.grid-logo .ultrabig li {
+  line-height: 200px;
+  height: 200px;
+}
+.grid-logo .ultrabig li img {
+  max-height: 200px;
+}
+.grid-logo .big li {
+  line-height: 150px;
+  height: 150px;
+}
+.grid-logo .big li img {
+  max-height: 150px;
+}
+.grid-logo .normal li {
   line-height: 100px;
   height: 100px;
+}
+.grid-logo .normal li img {
+  max-height: 100px;
+}
+.grid-logo li {
   vertical-align: middle;
   text-align: center;
 }
 .grid-logo li a {
   padding: 10px;
   display: block;
-}
-.grid-logo li img {
-  max-height: 100px;
 }
 
 footer {
