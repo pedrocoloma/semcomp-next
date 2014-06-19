@@ -13,7 +13,7 @@ Você tem {{activation_days}} dias para acessar este link, caso não o faça a
 tempo, pode ser necessário realizar o cadastro novamente.
 
 Caso tenha algum problema com a inscrição, entre em contato pelo site da
-Semcomp ou mande um email para endereco-de-contato@servidor.com.br
+Semcomp ou mande um email para semcomp@icmc.usp.br
 
 
 Atenciosamente,
