@@ -39,6 +39,14 @@ class Company(models.Model):
 		('P', _(u'Patrocínio')),
 		('A', _(u'Apoio')),
 	)
+	SPONSOR_TYPE_CHOICES = (
+		('A', _(u'Adamantium')),
+		('B', _(u'Diamante')),
+		('C', _(u'Platina')),
+		('D', _(u'Ouro')),
+		('E', _(u'Prata')),
+		('F', _(u'Feira')),
+	)
 
 	name = models.CharField(
 		_(u'Nome'),
@@ -54,6 +62,13 @@ class Company(models.Model):
 		max_length=1,
 		choices=COMPANY_TYPE_CHOICES
 	)
+	sponsor = models.CharField(
+		_(u'Patrocinio'),
+		max_length=1,
+		choices=SPONSOR_TYPE_CHOICES,
+		blank=True
+	)
+	description = models.TextField(_(u'Descrição'), blank=True)
 
 class Place(models.Model):
 	name = models.CharField(_(u'Nome'), max_length=32)
