@@ -13,7 +13,10 @@ DATABASES = {
         'HOST': os.getenv('DB_PORT_5432_TCP_ADDR'),
     }
 }
-INSTALLED_APPS += ('djrill',)
+INSTALLED_APPS += (
+	'djrill',
+	'raven.contrib.django.raven_compat',
+)
 MANDRILL_API_KEY = os.getenv("API_KEY_MANDRILL")
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 
@@ -32,3 +35,8 @@ STATIC_URL = '/17/static/'
 COMPRESS_ENABLED = False
 
 DEFAULT_FROM_EMAIL = 'Semcomp 17 <no-reply@semcomp.icmc.usp.br>'
+
+RAVEN_CONFIG = {
+	'dsn': os.getenv('RAVEN_CONFIG'),
+}
+
