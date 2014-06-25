@@ -22,8 +22,11 @@
         {% include "management/render_field.html" with field=course_form.slots width="large-12" only %}
       </div>
       <div class="row">
-        {% include "management/render_field.html" with field=course_form.title width="large-6" only %}
+        {% include "management/render_field.html" with field=course_form.title width="large-12" only %}
+      </div>
+      <div class="row">
         {% include "management/render_field.html" with field=course_form.place width="large-6" only %}
+        {% include "management/render_field.html" with field=course_form.track width="large-6" only %}
       </div>
       <div class="row">
         {% include "management/render_field.html" with field=course_form.description width="large-12" only %}

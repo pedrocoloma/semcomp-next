@@ -196,3 +196,9 @@ body{
 		padding: 0 10rem;
 	}
 }
+
+td {
+	&.track-A { background-color: yellow; }
+	&.track-V { background-color: green; }
+}
+
