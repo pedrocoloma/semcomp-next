@@ -142,7 +142,7 @@ class Speaker(models.Model):
 	bio = models.TextField(_(u'Biografia'))
 
 	def __unicode__(self):
-		return '%s # %s' % (self.name, self.occupation)
+		return self.name
 
 class ContactInformation(models.Model):
 	CONTACT_TYPES = (
@@ -167,11 +167,16 @@ class Lecture(models.Model):
 
 
 class Course(models.Model):
+	TRACK_TYPES = (
+		('A', _(u'Amarelo')),
+		('V', _(u'Verde')),
+	)
 	# Um minicurso pode estar alocado pra mais de um slot. Por exemplo, se um
 	# minicurso ocupa toda a manhã, tem um coffee break no meio, e ele está
 	# ocupando dois slots de minicurso, o antes do coffee e depois do coffee
 	slots = models.ManyToManyField(Event)
 	title = models.CharField(_(u'Título'), max_length=100)
+	track = models.CharField(_(u'Pacote'), max_length=1, choices=TRACK_TYPES)
 	description = models.TextField(_(u'Descrição'), blank=True)
 	requirements = models.TextField(_(u'Pré-requisitos'), blank=True)
 	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))

@@ -8,6 +8,7 @@
           <tr>
             <th>slots</th>
             <th>título</th>
+            <th>pacote</th>
             <th>local</th>
             <th>palestrante</th>
             <th>editar</th>
@@ -17,13 +18,14 @@
           {% for course in courses %}
             <tr>
               <td>
-			  	{% for slot in course.slots.all %}
-					{{slot}}{% if not forloop.last %}<br>{% endif %}
-				{% empty %}
-					<span class="alert-box alert">sem horário</span>
-				{% endfor %}
-			  </td>
+                {% for slot in course.slots.all %}
+                  {{slot}}{% if not forloop.last %}<br>{% endif %}
+                {% empty %}
+                  <span class="alert-box alert">sem horário</span>
+                {% endfor %}
+              </td>
               <td>{{course.title}}</td>
+              <td class="track-{{course.track}}">{{course.get_track_display}}</td>
               <td>{{course.place|default:"<span class=\"alert-box alert\">sem local</span>"}}</td>
               <td>{{course.speaker|default:"<span class=\"alert-box alert\">sem palestrante</span>"}}</td>
               <td><a href="{% url "management_courses_edit" course.pk %}"><i class="fa fa-pencil-square-o fa-2x"></i></td>
