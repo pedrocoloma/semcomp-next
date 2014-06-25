@@ -27,5 +27,5 @@ line_comments = false
 # sass-convert -R --from scss --to sass sass scss && rm -rf sass && mv scss sass
 
 on_stylesheet_saved do |filename|
-	`compass compile -c config-prod.rb`
+	puts "olha mudou"
 end
