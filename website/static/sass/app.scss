@@ -26,7 +26,7 @@ body {
 }
 
 .menu-topo {
-    background-image: url($static_dir + "img/header.png");
+    background-image: image-url("header.png");
     background-repeat: no-repeat;
     background-position: center top;
 
@@ -52,7 +52,7 @@ main {
 
 .hero {
     padding-top: $header-height;
-    background: url($static_dir + "img/hero-background.jpg") no-repeat center center fixed;
+    background: image-url("hero-background.jpg") no-repeat center center fixed;
     background-size: cover;
 
     > h1 {

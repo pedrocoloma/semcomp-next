@@ -29,6 +29,10 @@ WSGI_APPLICATION = 'semcomp.wsgi.prod'
 MEDIA_ROOT = '/data/media/'
 MEDIA_URL = '/17/media/'
 
+STATICFILES_DIRS = (
+	PROJECT_DIR.join_path('website/static/production').as_posix(),
+)
+
 STATIC_ROOT = '/data/static/'
 STATIC_URL = '/17/static/'
 

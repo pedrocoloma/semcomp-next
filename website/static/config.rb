@@ -3,7 +3,7 @@ add_import_path "bower_components/foundation/scss"
 
 
 # Set this to the root of your project when deployed:
-http_path = "/17/static/"
+http_path = "/static/"
 css_dir = "css"
 sass_dir = "sass"
 images_dir = "img"
@@ -25,3 +25,7 @@ line_comments = false
 # preferred_syntax = :sass
 # and then run:
 # sass-convert -R --from scss --to sass sass scss && rm -rf sass && mv scss sass
+
+on_stylesheet_saved do |filename|
+	puts "olha mudou"
+end
