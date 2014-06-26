@@ -12,7 +12,7 @@ def render_sponsors():
 	return {
 		'adamantium_sponsors': Company.objects.filter(type='A',).exclude(logo=''),
 		'diamond_sponsors': Company.objects.filter(type='B').exclude(logo=''), 
-		'sponsors': Company.objects.exclude(type__in = ['A','B','Z']).exclude(logo=''),
+		'sponsors': Company.objects.exclude(type__in = ['A','B','F','Z']).exclude(logo=''),
 		'partners': Company.objects.filter(type='Z').exclude(logo=''),
 	}
 

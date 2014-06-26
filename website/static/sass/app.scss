@@ -102,24 +102,24 @@ main {
     }
 
     .ultrabig li{
-        line-height: 200px;
-        height: 200px;
-        img {
-            max-height: 200px;
-        }
-    }
-    .big li{
         line-height: 150px;
         height: 150px;
         img {
             max-height: 150px;
         }
     }
-    .normal li{
+    .big li{
         line-height: 100px;
         height: 100px;
         img {
             max-height: 100px;
+        }
+    }
+    .normal li{
+        line-height: 50px;
+        height: 50px;
+        img {
+            max-height: 50px;
         }
     }
 
@@ -185,9 +185,10 @@ body{
 	color: #B0E2FF;
 }
 
-.texto-rodape:hover, texto-rodape:focus {
+.texto-rodape:hover, .texto-rodape:focus {
     color: #4F94CD;
 }
+
 #video-apresentacao{
 	@media #{$medium-up}{
 		padding: 0 3rem;
