@@ -8,7 +8,7 @@ from website.models import Company, Place, Event, Lecture, Course, Speaker, Cont
 class CompanyForm(forms.ModelForm):
 	class Meta:
 		model = Company
-		fields = ['name', 'logo', 'url', 'type']
+		fields = ['name', 'logo', 'url', 'type', 'description']
 
 class PlaceForm(forms.ModelForm):
 	class Meta:
