@@ -1,11 +1,7 @@
 from django import forms
 
-from .models import Company, SemcompUser
+from .models import SemcompUser
 
-class CompanyForm(forms.ModelForm):
-	class Meta:
-		model = Company
-		fields = ['name', 'logo', 'url', 'type']
 
 
 class UserSignupForm(forms.ModelForm):
