@@ -3,8 +3,12 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from website.models import Place, Event, Lecture, Course, Speaker, ContactInformation
+from website.models import Company, Place, Event, Lecture, Course, Speaker, ContactInformation
 
+class CompanyForm(forms.ModelForm):
+	class Meta:
+		model = Company
+		fields = ['name', 'logo', 'url', 'type']
 
 class PlaceForm(forms.ModelForm):
 	class Meta:
