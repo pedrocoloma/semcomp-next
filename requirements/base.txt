@@ -3,6 +3,7 @@ Pillow==2.3.0
 South==0.8.4
 Unipath==1.0
 aldryn-blog==0.3.12
+django-filer==0.9.5
 cmsplugin-filer==0.9.9
 cmsplugin-flickr-slideshow==0.1
 django-cms==3.0.2
