@@ -1,5 +1,5 @@
 {% extends "website/base.html" %}
-{% load cms_tags menu_tags semcomp %}
+{% load cms_tags menu_tags semcomp sekizai_tags static %}
 
 {% block base_content %}
   <div class="row">
@@ -9,11 +9,12 @@
   </div>
   <div class="row">
     <div class="large-12 columns ">
-	<h1>Patrocinadores</h1>
     </div>
     <div class="large-12 columns ">
       {% render_sponsors_detailed %}
     </div>
   </div>
 {% endblock %}
-
+{% block extrajs %}
+	<script src="{% static "js/foundation/foundation.equalizer.js" %}"></script>
+{% endblock %}
