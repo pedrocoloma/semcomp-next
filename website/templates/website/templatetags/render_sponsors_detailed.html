@@ -1,21 +1,19 @@
-{% spaceless %}
 {% if sponsors %}
-<h1> Patrocinadores </h1>
 {% for sponsor in sponsors %}
-<div class="row sponsor-description" data-equalizer>
-	<div class="medium-8 {% cycle "" "medium-push-4" %} columns">
-		<div class="panel" data-equalizer-watch>
+<div class="row sponsor-description">
+	<div class="medium-8 columns">
+		<div class="panel tile-height-3">
 			<h2>{{sponsor.name}}</h1>
 			<p>
-			{{sponsor.description|linebreaks}}
+			{{sponsor.description}}
 			</p>
 			{% if sponsor.url %}
 				<span class="link"><a href="{{sponsor.url}}">{{sponsor.url}}</a></span>
 			{% endif %}
 		</div>
 	</div>
-	<div class="medium-4 {% cycle "" "medium-pull-8" %} columns">
-		<div class="panel" data-equalizer-watch >
+	<div class="medium-4 columns ">
+		<div class="panel tile-height-3 ">
 		<div class="company-logo">
               <a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a>
 	      </div>
@@ -24,30 +22,3 @@
 </div>
 {% endfor %}
 {% endif %}
-{% if partners %}
-<h1> Apoio </h1>
-{% for partner in partners %}
-<div class="row partner-description" data-equalizer>
-	<div class="medium-8 {% cycle "" "medium-push-4" %} columns">
-		<div class="panel" data-equalizer-watch>
-			<h2>{{partner.name}}</h1>
-			<p>
-			{{partner.description|linebreaks}}
-			</p>
-			{% if partner.url %}
-				<span class="link"><a href="{{partner.url}}">{{partner.url}}</a></span>
-			{% endif %}
-		</div>
-	</div>
-	<div class="medium-4 {% cycle "" "medium-pull-8" %} columns">
-		<div class="panel" data-equalizer-watch >
-		<div class="company-logo">
-              <a href="{{partner.url}}"><img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}"></a>
-	      </div>
-	      </div>
-	</div>
-</div>
-{% endfor %}
-{% endif %}
-
-{% endspaceless %}

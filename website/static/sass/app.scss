@@ -208,3 +208,30 @@ td {
 form img{
 	width:100%;
 }
+.sponsor-description {
+	color:black;
+	h2{
+		font-size:1.618rem;
+	}
+	.panel{
+		position:relative;
+	}
+	.link{
+		position:absolute;
+		bottom:1rem;
+		right:1rem;
+		float:right;
+		font-size:0.618rem;
+		::before {
+			content:"Site: "
+		}
+	}
+	.company-logo {
+		display:table-cell;
+		vertical-align:middle;
+		img{
+			width:100%;
+			height:auto;
+		}
+	}
+}

@@ -19,7 +19,7 @@ def render_sponsors():
 @register.inclusion_tag('website/templatetags/render_sponsors_detailed.html')
 def render_sponsors_detailed():
 	return {
-		'sponsors': Company.objects.exclude(type='Z').exclude(logo='').order_by('type','?'),
+		'sponsors': Company.objects.exclude(type__in = ['A','B','Z']).exclude(logo='').order_by('type','?'),
 		'partners': Company.objects.filter(type='Z').exclude(logo='').order_by('?'),
 	}
 
