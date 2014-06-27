@@ -41,9 +41,6 @@
 				<div class="row">
 					{% include "management/render_field.html" with field=form.type width="large-12" only %}
 				</div>
-				<div class="row">
-					{% include "management/render_field.html" with field=form.description width="large-12" only %}
-				</div>
 				<input class="button right" type="submit" value="{% trans "Salvar" %}">
 				{% if form.instance.pk %}
 					<a href="{% url "management_companies_delete" form.instance.pk %}" class="button alert left">{% trans "Apagar" %}</a>
