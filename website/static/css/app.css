@@ -6943,3 +6943,31 @@ td.track-V {
 form img {
   width: 100%;
 }
+
+.sponsor-description {
+  color: black;
+}
+.sponsor-description h2 {
+  font-size: 1.618rem;
+}
+.sponsor-description .panel {
+  position: relative;
+}
+.sponsor-description .link {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  float: right;
+  font-size: 0.618rem;
+}
+.sponsor-description .link ::before {
+  content: "Site: ";
+}
+.sponsor-description .company-logo {
+  display: table-cell;
+  vertical-align: middle;
+}
+.sponsor-description .company-logo img {
+  width: 100%;
+  height: auto;
+}

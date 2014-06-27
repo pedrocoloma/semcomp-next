@@ -1,0 +1,24 @@
+{% if sponsors %}
+{% for sponsor in sponsors %}
+<div class="row sponsor-description">
+	<div class="medium-8 columns">
+		<div class="panel tile-height-3">
+			<h2>{{sponsor.name}}</h1>
+			<p>
+			{{sponsor.description}}
+			</p>
+			{% if sponsor.url %}
+				<span class="link"><a href="{{sponsor.url}}">{{sponsor.url}}</a></span>
+			{% endif %}
+		</div>
+	</div>
+	<div class="medium-4 columns ">
+		<div class="panel tile-height-3 ">
+		<div class="company-logo">
+              <a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a>
+	      </div>
+	      </div>
+	</div>
+</div>
+{% endfor %}
+{% endif %}
