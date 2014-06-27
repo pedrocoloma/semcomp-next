@@ -6732,7 +6732,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/static/img/header.png?1400038085');
+  background-image: url('/static/img/header.png?1400183898');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6756,7 +6756,7 @@ main {
 
 .hero {
   padding-top: 100px;
-  background: url('/static/img/hero-background.jpg?1400038085') no-repeat center center fixed;
+  background: url('/static/img/hero-background.jpg?1400183898') no-repeat center center fixed;
   background-size: cover;
 }
 .hero > h1 {
@@ -6938,4 +6938,8 @@ td.track-A {
 }
 td.track-V {
   background-color: green;
+}
+
+form img {
+  width: 100%;
 }
