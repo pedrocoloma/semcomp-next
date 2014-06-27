@@ -1,0 +1,19 @@
+{% extends "website/base.html" %}
+{% load cms_tags menu_tags semcomp %}
+
+{% block base_content %}
+  <div class="row">
+    <div class="large-12 columns panel">
+      {% placeholder main_content %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns ">
+	<h1>Patrocinadores</h1>
+    </div>
+    <div class="large-12 columns ">
+      {% render_sponsors_detailed %}
+    </div>
+  </div>
+{% endblock %}
+
