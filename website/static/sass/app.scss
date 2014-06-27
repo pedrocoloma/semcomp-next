@@ -210,11 +210,14 @@ form img{
 }
 .sponsor-description {
 	color:black;
+	margin-top:1rem;
+	margin-bottom:1rem;
 	h2{
 		font-size:1.618rem;
 	}
 	.panel{
 		position:relative;
+		height:100%;
 	}
 	.link{
 		position:absolute;

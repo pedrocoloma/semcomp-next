@@ -6956,12 +6956,15 @@ form img {
 
 .sponsor-description {
   color: black;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 .sponsor-description h2 {
   font-size: 1.618rem;
 }
 .sponsor-description .panel {
   position: relative;
+  height: 100%;
 }
 .sponsor-description .link {
   position: absolute;
