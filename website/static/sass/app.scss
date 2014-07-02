@@ -78,7 +78,9 @@ main {
 		min-height: ($i / $total-columns) * $row-width - $column-gutter;
 	}
 }
-
+.flex-video>iframe{
+	border:0;
+}
 
 .media-icons {
     > a {
