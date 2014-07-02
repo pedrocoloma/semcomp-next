@@ -6751,17 +6751,27 @@ body {
 }
 
 main {
-  padding-top: 100px;
+  padding-top: 10px;
+}
+@media only screen and (min-width: 64.063em) {
+  main {
+    padding-top: 110px;
+  }
 }
 
 .hero {
-  padding-top: 100px;
+  padding-top: 10px;
   background: url('/static/img/hero-background.jpg?1400183898') no-repeat center center fixed;
   background-size: cover;
 }
+@media only screen and (min-width: 64.063em) {
+  .hero {
+    padding-top: 110px;
+  }
+}
 .hero > h1 {
   font-weight: 700;
-  font-size: 400%;
+  font-size: 3.375rem;
 }
 .hero > h1, .hero h2 {
   color: #eee;
