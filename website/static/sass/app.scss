@@ -216,12 +216,15 @@ form img{
 		position:relative;
 		height:100%;
 	}
+	p{
+		text-indent:2rem;
+	}
 	.link{
 		position:absolute;
 		bottom:1rem;
 		right:1rem;
 		float:right;
-		font-size:0.618rem;
+		font-size:0.667rem;
 		::before {
 			content:"Site: "
 		}
