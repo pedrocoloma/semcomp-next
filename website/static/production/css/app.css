@@ -6843,25 +6843,25 @@ main {
   padding: 0.5rem;
 }
 .grid-logo .ultrabig li {
-  line-height: 200px;
-  height: 200px;
-}
-.grid-logo .ultrabig li img {
-  max-height: 200px;
-}
-.grid-logo .big li {
   line-height: 150px;
   height: 150px;
 }
-.grid-logo .big li img {
+.grid-logo .ultrabig li img {
   max-height: 150px;
 }
-.grid-logo .normal li {
+.grid-logo .big li {
   line-height: 100px;
   height: 100px;
 }
-.grid-logo .normal li img {
+.grid-logo .big li img {
   max-height: 100px;
+}
+.grid-logo .normal li {
+  line-height: 50px;
+  height: 50px;
+}
+.grid-logo .normal li img {
+  max-height: 50px;
 }
 .grid-logo li {
   vertical-align: middle;
@@ -6918,7 +6918,7 @@ body .rodape-link a {
   color: #B0E2FF;
 }
 
-.texto-rodape:hover, texto-rodape:focus {
+.texto-rodape:hover, .texto-rodape:focus {
   color: #4F94CD;
 }
 
@@ -6931,4 +6931,11 @@ body .rodape-link a {
   #video-apresentacao {
     padding: 0 10rem;
   }
+}
+
+td.track-A {
+  background-color: yellow;
+}
+td.track-V {
+  background-color: green;
 }

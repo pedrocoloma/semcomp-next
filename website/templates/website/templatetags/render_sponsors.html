@@ -4,17 +4,17 @@
       <div class="large-12 columns">
         <h2 class="text-center">Patrocinadores <small><a href="#">Quer ser um patrocinador?</a></small></h2>
         <div class="row grid-logo">
-          <ul class="small-block-grid-1 medium-block-grid-1 ultrabig">
+          <ul class="small-block-grid-1 ultrabig">
             {% for sponsor in adamantium_sponsors %}
               <li><a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
             {% endfor %}
           </ul>
-          <ul class="small-block-grid-1 medium-block-grid-2 big">
+          <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4 big">
             {% for sponsor in diamond_sponsors %}
               <li><a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
             {% endfor %}
           </ul>
-          <ul class="small-block-grid-2 medium-block-grid-4 normal">
+          <ul class="small-block-grid-3 medium-block-grid-5 large-block-grid-6 normal">
             {% for sponsor in sponsors %}
               <li><a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
             {% endfor %}
@@ -30,7 +30,7 @@
       <div class="large-12 columns">
         <h2 class="text-center">Apoios</h2>
         <div class="row grid-logo">
-          <ul class="small-block-grid-2 medium-block-grid-4 normal">
+          <ul class="small-block-grid-3 medium-block-grid-5 large-block-grid-6 normal">
             {% for partner in partners %}
               <li><a href="{{partner.url}}"><img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}"></a></li>
             {% endfor %}
