@@ -7,7 +7,7 @@
 		<div class="panel" data-equalizer-watch>
 			<h2>{{sponsor.name}}</h1>
 			<p>
-			{{sponsor.description}}
+			{{sponsor.description|linebreaks}}
 			</p>
 			{% if sponsor.url %}
 				<span class="link"><a href="{{sponsor.url}}">{{sponsor.url}}</a></span>
@@ -32,7 +32,7 @@
 		<div class="panel" data-equalizer-watch>
 			<h2>{{partner.name}}</h1>
 			<p>
-			{{partner.description}}
+			{{partner.description|linebreaks}}
 			</p>
 			{% if partner.url %}
 				<span class="link"><a href="{{partner.url}}">{{partner.url}}</a></span>
