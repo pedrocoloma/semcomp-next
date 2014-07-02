@@ -47,17 +47,23 @@ body {
 }
 
 main {
-    padding-top: 100px; //100px é o tamanho atual da imagem do topo
+	padding-top:10px;
+    @media #{$large-up}{
+        padding-top: $header-offset;
+    }
 }
 
 .hero {
-    padding-top: $header-height;
+	padding-top:10px;
+    @media #{$large-up}{
+        padding-top: $header-offset;
+    }
     background: image-url("hero-background.jpg") no-repeat center center fixed;
     background-size: cover;
 
     > h1 {
         font-weight: 700;
-        font-size: 400%;
+        font-size: 3.375rem;
     }
     > h1,h2 {
         color: #eee;
