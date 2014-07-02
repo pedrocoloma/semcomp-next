@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from website.forms import CompanyForm
+from management.forms import CompanyForm
 from website.models import Company
 
 from ..decorators import staff_required

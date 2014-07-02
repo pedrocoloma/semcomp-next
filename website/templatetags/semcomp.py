@@ -16,6 +16,13 @@ def render_sponsors():
 		'partners': Company.objects.filter(type='Z').exclude(logo=''),
 	}
 
+@register.inclusion_tag('website/templatetags/render_sponsors_detailed.html')
+def render_sponsors_detailed():
+	return {
+		'sponsors': Company.objects.exclude(type='Z').exclude(logo='').order_by('type','?'),
+		'partners': Company.objects.filter(type='Z').exclude(logo='').order_by('?'),
+	}
+
 @register.assignment_tag
 def get_mapa():
 	return {

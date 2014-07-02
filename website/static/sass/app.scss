@@ -47,17 +47,23 @@ body {
 }
 
 main {
-    padding-top: 100px; //100px é o tamanho atual da imagem do topo
+	padding-top:10px;
+    @media #{$large-up}{
+        padding-top: $header-offset;
+    }
 }
 
 .hero {
-    padding-top: $header-height;
+	padding-top:10px;
+    @media #{$large-up}{
+        padding-top: $header-offset;
+    }
     background: image-url("hero-background.jpg") no-repeat center center fixed;
     background-size: cover;
 
     > h1 {
         font-weight: 700;
-        font-size: 400%;
+        font-size: 3.375rem;
     }
     > h1,h2 {
         color: #eee;
@@ -201,4 +207,39 @@ td {
 	&.track-A { background-color: yellow; }
 	&.track-V { background-color: green; }
 }
-
+form img{
+	width:100%;
+}
+.sponsor-description {
+	color:black;
+	margin-top:1rem;
+	margin-bottom:1rem;
+	h2{
+		font-size:1.618rem;
+	}
+	.panel{
+		position:relative;
+		height:100%;
+	}
+	p{
+		text-indent:2rem;
+	}
+	.link{
+		position:absolute;
+		bottom:1rem;
+		right:1rem;
+		float:right;
+		font-size:0.667rem;
+		::before {
+			content:"Site: "
+		}
+	}
+	.company-logo {
+		display:table-cell;
+		vertical-align:middle;
+		img{
+			width:100%;
+			height:auto;
+		}
+	}
+}
