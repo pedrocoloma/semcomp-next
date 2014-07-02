@@ -27,6 +27,8 @@ def progress(msg):
 
 HOME_TEMPLATE = 'website/home.html'
 MAIN_TEMPLATE = 'website/main_template.html'
+TWOROWS_TEMPLATE = 'website/tworows.html'
+EMPRESAS_TEMPLATE = 'website/empresas.html'
 LANGUAGE_PT_BR = 'pt-br'
 
 pages = [
@@ -51,8 +53,15 @@ pages = [
 		'in_navigation': False,
 		'reverse_id': 'admin',
 	}),
+	('patrocinadores', {
+		'title': u'Patrocinadores e Apoio',
+		'template': EMPRESAS_TEMPLATE,
+		'in_navigation': False,
+		'reverse_id': 'patrocinadores',
+	}),
 	('contato', {
 		'title': u'Contato',
+		'template': TWOROWS_TEMPLATE,
 		'reverse_id': 'contato',
 	}),
 	('blog', {
