@@ -54,7 +54,10 @@ main {
 }
 
 .hero {
-    padding-top: $header-height;
+	padding-top:10px;
+    @media #{$large-up}{
+        padding-top: $header-offset;
+    }
     background: image-url("hero-background.jpg") no-repeat center center fixed;
     background-size: cover;
 
