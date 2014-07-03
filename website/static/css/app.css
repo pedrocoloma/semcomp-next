@@ -6825,6 +6825,10 @@ main {
   min-height: 60.625rem;
 }
 
+.flex-video > iframe {
+  border: 0;
+}
+
 .media-icons {
   padding: 20px;
 }

@@ -13,7 +13,7 @@
 		
 		{# esse counter é indexado em 1. serve pra colocar a imagem do logo no meio da lista #}
 		{% if forloop.counter == 1 %}
-			<li><a href="{% page_url 'home' %}"><img src="{% static 'img/logo-semcomp.png' %}"></a></li>
+			<li><a href="{% page_url 'home' %}"><img src="{% static 'img/logo-semcomp.png' %}" alt=""></a></li>
 		{% endif %}
 	{% endfor %}
 {% else %}
