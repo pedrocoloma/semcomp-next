@@ -6732,7 +6732,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/17/static/img/header.png?1400038085');
+  background-image: url('/17/static/img/header.png?1403127379');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6751,17 +6751,27 @@ body {
 }
 
 main {
-  padding-top: 100px;
+  padding-top: 10px;
+}
+@media only screen and (min-width: 64.063em) {
+  main {
+    padding-top: 110px;
+  }
 }
 
 .hero {
-  padding-top: 100px;
-  background: url('/17/static/img/hero-background.jpg?1400038085') no-repeat center center fixed;
+  padding-top: 10px;
+  background: url('/17/static/img/hero-background.jpg?1403127379') no-repeat center center fixed;
   background-size: cover;
+}
+@media only screen and (min-width: 64.063em) {
+  .hero {
+    padding-top: 110px;
+  }
 }
 .hero > h1 {
   font-weight: 700;
-  font-size: 400%;
+  font-size: 3.375rem;
 }
 .hero > h1, .hero h2 {
   color: #eee;
@@ -6938,4 +6948,42 @@ td.track-A {
 }
 td.track-V {
   background-color: green;
+}
+
+form img {
+  width: 100%;
+}
+
+.sponsor-description {
+  color: black;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.sponsor-description h2 {
+  font-size: 1.618rem;
+}
+.sponsor-description .panel {
+  position: relative;
+  height: 100%;
+}
+.sponsor-description p {
+  text-indent: 2rem;
+}
+.sponsor-description .link {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  float: right;
+  font-size: 0.667rem;
+}
+.sponsor-description .link ::before {
+  content: "Site: ";
+}
+.sponsor-description .company-logo {
+  display: table-cell;
+  vertical-align: middle;
+}
+.sponsor-description .company-logo img {
+  width: 100%;
+  height: auto;
 }
