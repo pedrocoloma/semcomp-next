@@ -124,6 +124,7 @@ INSTALLED_APPS = (
 	'taggit',
 	'cmsplugin_flickr_slideshow',
     'contact_form',
+    'semcomp_contact_form',
 )
 
 
