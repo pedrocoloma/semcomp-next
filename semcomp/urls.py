@@ -15,7 +15,7 @@ if os.getenv('DJANGO_SETTINGS_MODULE').endswith('prod'):
 admin.autodiscover()
 
 urlpatterns = solid_i18n_patterns('',
-    url(r'^contato/', include('contact_form.urls')),
+    url(r'^contato/', include('semcomp_contact_form.urls')),
     url(r'^djangoadmin/', include(admin.site.urls)),
 	url(r'^accounts/', include('signup.urls')),
 	# isso tem que ficar antes do cms.urls
