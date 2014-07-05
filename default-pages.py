@@ -12,6 +12,7 @@ from cms.models import Page
 from djangocms_text_ckeditor.cms_plugins import TextPlugin
 from account.cms_app import SemcompUserApphook
 from management.cms_app import SemcompAdminApphook
+from semcomp_contact_form.cms_app import SemcompContatoApphook
 from contextlib import contextmanager
 #from semcomp_plugins.models import Column
 from django.contrib.auth import get_user_model
@@ -62,6 +63,7 @@ pages = [
 	('contato', {
 		'title': u'Contato',
 		'template': TWOROWS_TEMPLATE,
+		'apphook': SemcompContatoApphook,
 		'reverse_id': 'contato',
 	}),
 	('blog', {

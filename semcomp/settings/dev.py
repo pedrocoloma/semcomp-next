@@ -22,10 +22,4 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = PROJECT_DIR.joinpath('static').as_posix()
 STATIC_URL = '/static/'
 
-# Para enviar e-mails
-EMAIL_HOST = 'smtp.mandrillapp.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'USUARIO DO MANDRILL'
-EMAIL_HOST_PASSWORD = 'INSIRA A API KEY DO MANDRIL AQUI'
-
 DEFAULT_FROM_EMAIL = 'contato@semcomp.icmc.usp.br'
