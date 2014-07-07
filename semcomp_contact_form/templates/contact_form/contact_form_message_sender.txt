@@ -1,0 +1,8 @@
+Contato Semcomp 17
+Olá {{ name }}, seu e-mail foi recebido e iremos respondê-lo assim que possível.
+
+Enquanto isso, fique por dentro das novidades da Semcomp 17 nas redes sociais:
+
+http://facebook.com/semcomp17
+http://twitter.com/semcomp
+http://plus.google.com/+semcomp

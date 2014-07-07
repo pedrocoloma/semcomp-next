@@ -1,0 +1,22 @@
+{% extends "website/base.html" %}
+{% load cms_tags %}
+
+{% block base_content %}
+  <div class="row">
+    <div class="large-12 columns panel">
+      
+      <div class="large-6 medium-centered columns">
+          <h1>Contato</h1>
+          <form method="post" action="{% page_url "contato" %}">
+            {% csrf_token %} {# impedir que outros site enviem este formulario, funcionalidade do Django#}
+            {# inputs do form #}
+            {{form.name}}
+            {{form.email}}
+            {{form.body}}
+            <input class="button expand" type="submit" value="Enviar">
+          </form>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

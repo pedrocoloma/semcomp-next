@@ -25,3 +25,5 @@ djangocms-video==0.0.1
 pathlib==0.97
 pytz==2014.4
 solid-i18n==0.2.1
+django-contact-form==1.0
+

@@ -11,7 +11,10 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.utils import six
 
+from cms.api import create_page
 from menus.menu_pool import menu_pool
+
+from account.cms_app import SemcompUserApphook
 
 class UserMenuTests(TestCase):
 	def setUp(self):
@@ -23,6 +26,15 @@ class UserMenuTests(TestCase):
 			'email@provider.com',
 			'John Doe',
 			'pass',
+		)
+
+		create_page(
+			'titulo inutil',
+			'website/main_template.html',
+			'pt-br',
+			in_navigation=False,
+			published=True,
+			apphook=SemcompUserApphook
 		)
 
 	def get_menu_titles(self, user):
