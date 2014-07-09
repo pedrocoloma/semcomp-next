@@ -101,6 +101,7 @@ class Event(models.Model):
 		('coffee', _(u'Coffee break')),
 		('cultural', _(u'Cultural')),
 		('neutro', _(u'Neutro')),
+		('outro', _(u'Outro')),
 	)
 
 	type = models.CharField(_(u'Tipo'), max_length=16, choices=EVENT_TYPES)

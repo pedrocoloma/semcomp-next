@@ -9,6 +9,14 @@ $main-menu-width: 150px;
 $header-height: 100px;
 $header-offset: $header-height + 10px;
 
+// iso-colors: http://www.cs.utah.edu/~gk/papers/vis02/talk/jpg/Image18.jpg
+$iso-red: rgb(216, 15, 15);
+$iso-green: rgb(0, 151, 0);
+$iso-blue: rgb(81, 81, 253);
+$iso-yellow: rgb(134, 134, 0);
+$iso-cyan: rgb(0, 143, 143);
+$iso-magenta: rgb(183, 0, 183);
+
 body {
     background-color: #004F78;
 }
@@ -244,5 +252,34 @@ form img{
 			width:100%;
 			height:auto;
 		}
+	}
+}
+
+.schedule-event {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	@include border-radius(4px);
+
+	&.palestra { background-color: $iso-red; }
+	&.minicurso { background-color: $iso-green; }
+	&.coffee { background-color: $iso-blue; }
+	&.neutro { background-color: $iso-yellow; }
+	&.cultural { background-color: $iso-cyan; }
+	&.outro { background-color: $iso-magenta; }
+}
+
+.day-schedule {
+	position: relative;
+	width: 100px;
+	a {
+		color: white;
+	}
+}
+
+.timeslots {
+	padding-top: 0;
+	.schedule-timeslot {
+		line-height: 20px;
 	}
 }
