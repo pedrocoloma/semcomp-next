@@ -10,42 +10,34 @@
 	</div>
 </div>
 <div class="row">
-	<div class="large-12 columns">
-		<table class="schedule">
-			<thead>
-				<tr>
-					<th></th>
-					<th>{% trans "Segunda" %}</th>
-					<th>{% trans "Terça" %}</th>
-					<th>{% trans "Quarta" %}</th>
-					<th>{% trans "Quinta" %}</th>
-					<th>{% trans "Sexta" %}</th>
-					<th>{% trans "Sábado" %}</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="timeslots">
-						{% for t in timeslots %}
-							<div class="schedule-timeslot">{{t}}</div>
-						{% endfor %}
-					</td>
-					{% for day in days %}
-						<td class="day-schedule">
-								{% for event in day %}
-									{# olhar no css qual o tamanho da linha se for alterar aqui #}
-									<a href="{% url "management_events_edit" event.obj.pk %}">
-										<div class="schedule-event {{event.type}}"
-											style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
-											{{event.type_display}}
-										</div>
-									</a>
-								{% endfor %}
-						</td>
-					{% endfor %}
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<ul class="small-block-grid-7">
+		<li class="text-center"></li>
+		<li class="text-center">Segunda</li>
+		<li class="text-center">Terça</li>
+		<li class="text-center">Quarta</li>
+		<li class="text-center">Quinta</li>
+		<li class="text-center">Sexta</li>
+		<li class="text-center">Sábado</li>
+	</ul>
+	<ul class="small-block-grid-7">
+		<li class="timeslots">
+			{% for t in timeslots %}
+				<div class="schedule-timeslot">{{t}}</div>
+			{% endfor %}
+		</li>
+		{% for day in days %}
+			<li class="day-schedule">
+				{% for event in day %}
+					{# olhar no css qual o tamanho da linha se for alterar aqui #}
+					<a href="{% url "management_events_edit" event.obj.pk %}">
+						<div class="schedule-event {{event.type}}"
+						     style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
+							{{event.type_display}}
+						</div>
+					</a>
+				{% endfor %}
+			</li>
+		{% endfor %}
+	</ul>
 </div>
 {% endblock %}
