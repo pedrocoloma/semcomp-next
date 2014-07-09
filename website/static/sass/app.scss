@@ -283,3 +283,17 @@ form img{
 		line-height: 20px;
 	}
 }
+
+// www.andy-howard.com/verticalAndHorizontalAlignment/index.html
+.outer-container {
+	display: table;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.outer-container .inner-container {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
