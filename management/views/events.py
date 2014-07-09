@@ -10,7 +10,7 @@ from django.conf import settings
 from website.models import Event
 
 from ..decorators import staff_required
-from ..forms import EventForm
+from ..forms import EventForm, EventDataFormset
 
 def time_range(start, end, step):
 	while start < end:
@@ -22,6 +22,9 @@ def date_range(start, end, step):
 	while start <= end:
 		yield start
 		start = start + step
+
+def should_use_extra_data(event):
+	return event.type not in ['palestra', 'minicurso', 'coffee']
 
 @staff_required
 def manage_events(request):
@@ -78,10 +81,18 @@ def events_add(request):
 	if request.method == 'POST':
 		form = EventForm(request.POST)
 		if form.is_valid():
-			form.save()
-			return redirect('management_events')
+			event = form.save(commit=False)
+			formset = EventDataFormset(request.POST, instance=event)
+			if formset.is_valid():
+				event.save()
+				if should_use_extra_data(event):
+					formset.save()
+				else:
+					event.eventdata_set.all().delete()
+				return redirect('management_events')
 	else:
 		form = EventForm()
+		formset = EventDataFormset(instance=Event())
 	
 	first_day = settings.SEMCOMP_START_DATE
 	last_day = settings.SEMCOMP_END_DATE
@@ -89,6 +100,7 @@ def events_add(request):
 	context = {
 		'active_events': True,
 		'form': form,
+		'formset': formset,
 		'first_day': first_day,
 		'last_day': last_day
 	}
@@ -102,10 +114,17 @@ def events_edit(request, event_pk):
 	if request.method == 'POST':
 		form = EventForm(request.POST, instance=event)
 		if form.is_valid():
-			form.save()
+			formset = EventDataFormset(request.POST, instance=event)
+			if formset.is_valid():
+				event = form.save()
+				if should_use_extra_data(event):
+					formset.save()
+				else:
+					event.eventdata_set.all().delete()
 			return redirect('management_events')
 	else:
 		form = EventForm(instance=event)
+		formset = EventDataFormset(instance=event)
 
 	first_day = settings.SEMCOMP_START_DATE
 	last_day = settings.SEMCOMP_END_DATE
@@ -113,6 +132,7 @@ def events_edit(request, event_pk):
 	context = {
 		'active_events': True,
 		'form': form,
+		'formset': formset,
 		'first_day': first_day,
 		'last_day': last_day
 	}
