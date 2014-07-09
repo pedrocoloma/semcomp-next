@@ -255,6 +255,7 @@ form img{
 	}
 }
 
+
 .schedule-event {
 	position: absolute;
 	text-align: center;
@@ -281,7 +282,13 @@ form img{
 	padding-top: 0;
 	.schedule-timeslot {
 		line-height: 20px;
+		text-align: center;
 	}
+}
+
+.schedule {
+	background-color: white;
+	color: invert($body-font-color);
 }
 
 // www.andy-howard.com/verticalAndHorizontalAlignment/index.html

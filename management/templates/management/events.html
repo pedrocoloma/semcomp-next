@@ -1,6 +1,6 @@
 {% extends "management/base.html" %}
 
-{% load sekizai_tags i18n mathfilters %}
+{% load sekizai_tags i18n mathfilters semcomp %}
 
 {% block user_content %}
 <div class="row">
@@ -10,38 +10,6 @@
 	</div>
 </div>
 <div class="row">
-	<ul class="small-block-grid-7">
-		<li class="text-center"></li>
-		<li class="text-center">Segunda</li>
-		<li class="text-center">Terça</li>
-		<li class="text-center">Quarta</li>
-		<li class="text-center">Quinta</li>
-		<li class="text-center">Sexta</li>
-		<li class="text-center">Sábado</li>
-	</ul>
-	<ul class="small-block-grid-7">
-		<li class="timeslots">
-			{% for t in timeslots %}
-				<div class="schedule-timeslot">{{t}}</div>
-			{% endfor %}
-		</li>
-		{% for day in days %}
-			<li class="day-schedule">
-				{% for event in day %}
-					{# olhar no css qual o tamanho da linha se for alterar aqui #}
-					<a href="{% url "management_events_edit" event.obj.pk %}">
-						<div class="schedule-event {{event.type}}"
-						     style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
-							<div class="outer-container">
-								<div class="inner-container">
-									{{event.type_display}}
-								</div>
-							</div>
-						</div>
-					</a>
-				{% endfor %}
-			</li>
-		{% endfor %}
-	</ul>
+	{% render_schedule %}
 </div>
 {% endblock %}

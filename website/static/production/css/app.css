@@ -7034,6 +7034,12 @@ form img {
 }
 .timeslots .schedule-timeslot {
   line-height: 20px;
+  text-align: center;
+}
+
+.schedule {
+  background-color: white;
+  color: #111111;
 }
 
 .outer-container {
