@@ -20,5 +20,10 @@ class ColumnPlugin(CMSPluginBase):
 	parent_classes = ['MultiColumnsPlugin']
 	require_parent = True
 
+class SchedulePlugin(CMSPluginBase):
+	model = CMSPlugin
+	render_template = 'semcomp_plugins/schedule_plugin.html'
+
 plugin_pool.register_plugin(MultiColumnsPlugin)
 plugin_pool.register_plugin(ColumnPlugin)
+plugin_pool.register_plugin(SchedulePlugin)
