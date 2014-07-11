@@ -133,7 +133,7 @@ class Event(models.Model):
 		elif self.type == 'coffee':
 			return self.get_type_display()
 		else:
-			return self.eventdata_set.get().name
+			return self.eventdata.name
 	
 	def description(self):
 		if self.type == 'palestra':
@@ -143,7 +143,7 @@ class Event(models.Model):
 		elif self.type == 'coffee':
 			return ''
 		else:
-			return self.eventdata_set.get().description
+			return self.eventdata.description
 
 	def place(self):
 		if self.type == 'palestra':
@@ -153,7 +153,7 @@ class Event(models.Model):
 		elif self.type == 'coffee':
 			return ''
 		else:
-			return self.eventdata_set.get().place
+			return self.eventdata.place
 
 	def slug(self):
 		if self.type == 'minicurso':
@@ -186,7 +186,7 @@ class Event(models.Model):
 			return '%s@%s - %s@%s' % (date, start_time, end_date, end_time)
 
 class EventData(models.Model):
-	slot = models.ForeignKey(Event)
+	slot = models.OneToOneField(Event)
 	name = models.CharField(_(u'Nome'), max_length=64, blank=True)
 	description = models.TextField(_(u'Descrição'), blank=True)
 	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))

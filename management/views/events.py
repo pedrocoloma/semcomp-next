@@ -32,7 +32,7 @@ def events_add(request):
 				if event.needs_event_data():
 					formset.save()
 				else:
-					event.eventdata_set.all().delete()
+					event.eventdata.delete()
 				return redirect('management_events')
 	else:
 		form = EventForm()
@@ -64,7 +64,7 @@ def events_edit(request, event_pk):
 				if event.needs_event_data():
 					formset.save()
 				else:
-					event.eventdata_set.all().delete()
+					event.eventdata.delete()
 			return redirect('management_events')
 	else:
 		form = EventForm(instance=event)

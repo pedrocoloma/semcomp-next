@@ -41,9 +41,7 @@
 									{% elif event.type == "coffee" %}
 										<strong>Coffee-break</strong>
 									{% else %}
-										{% for data in event.obj.eventdata_set.all %}
-											<strong>{{data.name}}</strong>
-										{% endfor %}
+										<strong>{{event.obj.eventdata.name}}</strong>
 									{% endif %}
 								</div>
 							</div>
