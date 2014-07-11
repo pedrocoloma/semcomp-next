@@ -8,11 +8,11 @@
     {% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
     {% addtoblock "css" %}
       <link rel="stylesheet" href="{% static "css/app.css" %}">
-      <!--<link rel="stylesheet" href=" static "stylesheets/app.css"" />-->
       <link rel="stylesheet" href="{% static "bower_components/fontawesome/css/font-awesome.min.css" %}"/>
       {% block extracss %}
       {% endblock %}
     {% endaddtoblock %}
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
     <script src="{% static "bower_components/modernizr/modernizr.js" %}"></script>
   </head>
   <body>
