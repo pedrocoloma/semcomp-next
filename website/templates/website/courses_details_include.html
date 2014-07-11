@@ -1,0 +1,31 @@
+<article class="row panel">
+	<section class="medium-12 columns">
+		<h1>Minicursos <small>{{event.start_date|date:"d/m/Y (l)"}}</small></h1>
+		<p>Clique em um minicurso para ver sua descrição</p>
+	</section>
+	<div class="row">
+		{% for course in event.course_set.all %}
+			<div class="large-6 columns">
+				<a href="{% url "course_details" course.pk %}" data-reveal-id="course-modal" data-reveal-ajax="true">
+					<div class="course-callout panel">
+						<div class="row">
+							<div class="small-10 columns">
+								<h3>{{course.title}}<br>
+									<small>{{course.speaker.name}}</small></h3>
+							</div>
+							<div class="small-2 columns">
+								<div class="panel track-{{course.track}}"></div>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		{% endfor %}
+	</div>
+</article>
+<div id="course-modal" class="reveal-modal" data-reveal>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+{% if request.is_ajax %}
+	<a class="close-reveal-modal">&#215;</a>
+{% endif %}
