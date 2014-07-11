@@ -6996,6 +6996,9 @@ form img {
   position: absolute;
   text-align: center;
   width: 100%;
+  font-size: 80%;
+  line-height: 120%;
+  color: white;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
@@ -7021,12 +7024,13 @@ form img {
   background-color: #b700b7;
 }
 
+a .schedule-event:hover {
+  box-shadow: 0 0 5px 5px cyan;
+}
+
 .day-schedule {
   position: relative;
   width: 100px;
-}
-.day-schedule a {
-  color: white;
 }
 
 .timeslots {
@@ -7040,6 +7044,23 @@ form img {
 .schedule {
   background-color: white;
   color: #111111;
+}
+
+@media only screen and (min-width: 40.063em) {
+  .course-callout {
+    min-height: 125px;
+  }
+}
+.course-callout {
+  background-color: white;
+}
+
+.track-A {
+  background-color: #868600;
+}
+
+.track-V {
+  background-color: #009700;
 }
 
 .outer-container {

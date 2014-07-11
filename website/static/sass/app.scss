@@ -260,6 +260,9 @@ form img{
 	position: absolute;
 	text-align: center;
 	width: 100%;
+	font-size: 0.8 * $base-font-size;
+	line-height: 0.8 * $base-line-height;
+	color: white;
 	@include border-radius(4px);
 
 	&.palestra { background-color: $iso-red; }
@@ -268,14 +271,16 @@ form img{
 	&.neutro { background-color: $iso-yellow; }
 	&.cultural { background-color: $iso-cyan; }
 	&.outro { background-color: $iso-magenta; }
+
+}
+
+a .schedule-event:hover {
+		box-shadow: 0 0 5px 5px cyan;
 }
 
 .day-schedule {
 	position: relative;
 	width: 100px;
-	a {
-		color: white;
-	}
 }
 
 .timeslots {
@@ -290,6 +295,20 @@ form img{
 	background-color: white;
 	color: invert($body-font-color);
 }
+
+@media #{$medium-up} {
+	.course-callout {
+		min-height: 125px;
+	}
+}
+
+.course-callout {
+	background-color: white;
+}
+
+.track-A { background-color: $iso-yellow; }
+.track-V { background-color: $iso-green; }
+
 
 // www.andy-howard.com/verticalAndHorizontalAlignment/index.html
 .outer-container {
