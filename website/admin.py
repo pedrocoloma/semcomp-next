@@ -17,7 +17,7 @@ class UserChangeForm(forms.ModelForm):
 
 	class Meta:
 		model = SemcompUser
-		fields = ('email', 'password', 'full_name', 'id_usp', 'is_active', 'is_admin')
+		fields = ('email', 'password', 'full_name', 'id_usp', 'is_active', 'is_staff')
 
 	def clean_password(self):
 		# Regardless of what the user provides, return the initial value.
@@ -34,8 +34,8 @@ class SemcompUserAdmin(UserAdmin):
 	# The fields to be used in displaying the User model.
 	# These override the definitions on the base UserAdmin
 	# that reference specific fields on auth.User.
-	list_display = ('email', 'full_name', 'id_usp', 'is_admin')
-	list_filter = ('is_admin',)
+	list_display = ('email', 'full_name', 'id_usp', 'is_staff')
+	list_filter = ('is_staff',)
 	fieldsets = (
 		(None, {'fields': ('email', 'password')}),
 		('Personal info', {'fields': ('full_name', 'id_usp')}),
