@@ -6,7 +6,7 @@
 	<div class="row">
 		{% for course in event.course_set.all %}
 			<div class="large-6 columns">
-				<a href="{% url "course_details" course.pk %}" data-reveal-id="course-modal" data-reveal-ajax="true">
+				<a href="{{course.get_absolute_url}}" data-reveal-id="course-modal" data-reveal-ajax="true">
 					<div class="course-callout panel">
 						<h3>{{course.title}}<br>
 							<small>{{course.speaker.name}}</small>

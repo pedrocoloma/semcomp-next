@@ -1,18 +1,20 @@
 <article class="row panel">
 	<section class="medium-7 columns">
-		<h1>{{event.lecture_set.get.title}}<br>
+		<h1>{{event.lecture.title}}<br>
 			<small>{{event.start_date|date:"d/m/Y (l)"}}<br>
 			{{event.start_time}} - {{event.end_time}}</small></h1>
 		<h2>Descrição</h2>
 		{{event.description|linebreaks}}
-		<h2>Local: <small>lugar e tal pode ser meio grande o texto aqui</small></h2>
-		<p>mostrar mapa aqui</p>
+		{% if event.place %}
+			<h2>Local: <small>lugar e tal pode ser meio grande o texto aqui</small></h2>
+			<p>mostrar mapa aqui</p>
+		{% endif %}
 	</section>
 	<section class="medium-5 columns">
-		<h3>{{event.lecture_set.get.speaker.name}}<br>
-			<small>{{event.lecture_set.get.speaker.occupation}}</small></h3>
-		<img src={{event.lecture_set.get.speaker.photo.url}}>
-		{{event.lecture_set.get.speaker.bio|linebreaks}}
+		<h3>{{event.lecture.speaker.name}}<br>
+			<small>{{event.lecture.speaker.occupation}}</small></h3>
+		<img src={{event.lecture.speaker.photo.url}}>
+		{{event.lecture.speaker.bio|linebreaks}}
 	</section>
 </article>
 {% if request.is_ajax %}

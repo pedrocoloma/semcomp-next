@@ -1,15 +1,19 @@
 # coding: utf-8
 
 from django.db.models import Max, Min
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 
 from website.models import Event, Course
 
-def event_details(request, event_id):
+def event_details(request, event_id, slug=None):
 	event = get_object_or_404(Event, pk=event_id)
 	if not event.needs_custom_page():
 		raise Http404()
+
+	absolute_url = event.get_absolute_url()
+	if request.get_full_path() != absolute_url:
+		return redirect(absolute_url)
 
 	template_name = {
 		"palestra": "website/lecture_details_include.html",
@@ -31,8 +35,12 @@ def event_details(request, event_id):
 
 	return render(request, template, context)
 
-def course_details(request, course_id):
+def course_details(request, course_id, slug=None):
 	course = get_object_or_404(Course, pk=course_id)
+
+	absolute_url = course.get_absolute_url()
+	if request.get_full_path() != absolute_url:
+		return redirect(absolute_url)
 
 	detail_template = 'website/course_details_include.html'
 	main_template = 'website/event_details.html'

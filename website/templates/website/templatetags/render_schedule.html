@@ -19,12 +19,12 @@
 		{% for day in days %}
 			<li class="day-schedule">
 				{% for event in day %}
-					{% if event.obj.needs_custom_page %}
+					{% if event.obj.needs_custom_page or is_management %}
 						<a
 							{% if is_management %}
 							href="{% url "management_events_edit" event.obj.pk %}"
 							{% else %}
-							href="{% url "event_details" event.obj.pk %}" data-reveal-id="modal-reveal" data-reveal-ajax="true"
+							href="{{event.obj.get_absolute_url}}" data-reveal-id="modal-reveal" data-reveal-ajax="true"
 							{% endif %}
 						>
 					{% endif %}
@@ -35,9 +35,7 @@
 								<div class="inner-container">
 									{% if event.type == "palestra" %}
 										<strong>Palestra</strong><br>
-										{% for lecture in event.obj.lecture_set.all %}
-											{% if not forloop.last %}, {% endif %}{{lecture.title}}
-										{% endfor %}
+										{{event.obj.lecture.title}}
 									{% elif event.type == "minicurso" %}
 										<strong>Minicursos</strong>
 									{% elif event.type == "coffee" %}
@@ -50,7 +48,7 @@
 								</div>
 							</div>
 						</div>
-					{% if event.obj.needs_custom_page %}
+					{% if event.obj.needs_custom_page or is_management %}
 						</a>
 					{% endif %}
 				{% endfor %}
