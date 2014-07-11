@@ -19,19 +19,47 @@
 		{% for day in days %}
 			<li class="day-schedule">
 				{% for event in day %}
-					{# olhar no css qual o tamanho da linha se for alterar aqui #}
-					<a href="{% url "management_events_edit" event.obj.pk %}">
+					{% if event.obj.needs_custom_page %}
+						<a
+							{% if is_management %}
+							href="{% url "management_events_edit" event.obj.pk %}"
+							{% else %}
+							href="{% url "event_details" event.obj.pk %}" data-reveal-id="modal-reveal" data-reveal-ajax="true"
+							{% endif %}
+						>
+					{% endif %}
 						<div class="schedule-event {{event.type}}"
+							{# olhar no css qual o tamanho da linha se for alterar aqui #}
 							 style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
 							<div class="outer-container">
 								<div class="inner-container">
-									{{event.type_display}}
+									{% if event.type == "palestra" %}
+										<strong>Palestra</strong><br>
+										{% for lecture in event.obj.lecture_set.all %}
+											{% if not forloop.last %}, {% endif %}{{lecture.title}}
+										{% endfor %}
+									{% elif event.type == "minicurso" %}
+										<strong>Minicursos</strong>
+									{% elif event.type == "coffee" %}
+										<strong>Coffee-break</strong>
+									{% else %}
+										{% for data in event.obj.eventdata_set.all %}
+											<strong>{{data.name}}</strong>
+										{% endfor %}
+									{% endif %}
 								</div>
 							</div>
 						</div>
-					</a>
+					{% if event.obj.needs_custom_page %}
+						</a>
+					{% endif %}
 				{% endfor %}
 			</li>
 		{% endfor %}
 	</ul>
 </div>
+{% if not is_management %}
+<div id="modal-reveal" class="reveal-modal" data-reveal>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+{% endif %}

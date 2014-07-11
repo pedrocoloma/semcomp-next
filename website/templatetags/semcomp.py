@@ -41,7 +41,7 @@ def render_user_bar(context):
 	}
 
 @register.inclusion_tag('website/templatetags/render_schedule.html')
-def render_schedule():
+def render_schedule(render_type="user"):
 	first_day = settings.SEMCOMP_START_DATE
 	last_day = settings.SEMCOMP_END_DATE
 	day_count = (last_day - first_day).days
@@ -85,7 +85,8 @@ def render_schedule():
 	context = {
 		'active_events': True,
 		'days': days,
-		'timeslots': timeslots
+		'timeslots': timeslots,
+		'is_management': render_type == 'management',
 	}
 
 	return context
