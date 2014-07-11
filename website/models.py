@@ -118,6 +118,32 @@ class Event(models.Model):
 
 		return end - start
 
+	def needs_event_data(self):
+		return self.type not in ['palestra', 'minicurso', 'coffee']
+
+	def needs_custom_page(self):
+		return self.type not in ['coffee', 'neutro']
+	
+	def name(self):
+		if self.type == 'palestra':
+			return self.lecture_set.get().title
+		elif self.type == 'minicurso':
+			raise ValueError(u'Minicursos não tem um nome único')
+		elif self.type == 'coffee':
+			return self.get_type_display()
+		else:
+			return self.eventdata_set.get().name
+	
+	def description(self):
+		if self.type == 'palestra':
+			return self.lecture_set.get().description
+		elif self.type == 'minicurso':
+			raise ValueError(u'Minicursos não tem uma descrição única')
+		elif self.type == 'coffee':
+			return ''
+		else:
+			return self.eventdata_set.get().description
+
 	def __unicode__(self):
 		start_time = self.start_time.strftime('%H:%M')
 		end_time = self.end_time.strftime('%H:%M')

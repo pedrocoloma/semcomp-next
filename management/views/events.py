@@ -12,20 +12,6 @@ from website.models import Event
 from ..decorators import staff_required
 from ..forms import EventForm, EventDataFormset
 
-def time_range(start, end, step):
-	while start < end:
-		yield start
-		dt = datetime.combine(date.today(), start) + step
-		start = dt.time()
-
-def date_range(start, end, step):
-	while start <= end:
-		yield start
-		start = start + step
-
-def should_use_extra_data(event):
-	return event.type not in ['palestra', 'minicurso', 'coffee']
-
 @staff_required
 def manage_events(request):
 	context = {
@@ -43,7 +29,7 @@ def events_add(request):
 			formset = EventDataFormset(request.POST, instance=event)
 			if formset.is_valid():
 				event.save()
-				if should_use_extra_data(event):
+				if event.needs_event_data():
 					formset.save()
 				else:
 					event.eventdata_set.all().delete()
@@ -75,7 +61,7 @@ def events_edit(request, event_pk):
 			formset = EventDataFormset(request.POST, instance=event)
 			if formset.is_valid():
 				event = form.save()
-				if should_use_extra_data(event):
+				if event.needs_event_data():
 					formset.save()
 				else:
 					event.eventdata_set.all().delete()
