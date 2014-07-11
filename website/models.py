@@ -144,6 +144,16 @@ class Event(models.Model):
 		else:
 			return self.eventdata_set.get().description
 
+	def place(self):
+		if self.type == 'palestra':
+			return self.lecture_set.get().place
+		elif self.type == 'minicurso':
+			raise ValueError(u'Minicursos não tem um local único')
+		elif self.type == 'coffee':
+			return ''
+		else:
+			return self.eventdata_set.get().place
+
 	def __unicode__(self):
 		start_time = self.start_time.strftime('%H:%M')
 		end_time = self.end_time.strftime('%H:%M')

@@ -1,0 +1,18 @@
+<article class="row panel">
+	<section class="medium-7 columns">
+		<h1>{{event.name}}<br>
+			<small>{{event.start_date|date:"d/m/Y (l)"}}<br>
+			{{event.start_time}} - {{event.end_time}}</small></h1>
+		<h2>Descrição</h2>
+		{{event.description|linebreaks}}
+	</section>
+	{% if event.place %}
+		<section class="medium-5 columns">
+			<h2>Local: <small>lugar e tal pode ser meio grande o texto aqui</small></h2>
+			<p>mostrar mapa aqui</p>
+		</section>
+	{% endif %}
+</article>
+{% if request.is_ajax %}
+	<a class="close-reveal-modal">&#215;</a>
+{% endif %}
