@@ -1,3 +1,4 @@
+{% load thumbnail %}
 {% if sponsors %}
   <div class="sponsors">
     <div class="row">
@@ -6,17 +7,17 @@
         <div class="row grid-logo">
           <ul class="small-block-grid-1 ultrabig">
             {% for sponsor in adamantium_sponsors %}
-              <li><a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
+              <li><a href="{{sponsor.url}}"><img src="{% thumbnail sponsor.logo 0x150 %}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
             {% endfor %}
           </ul>
           <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4 big">
             {% for sponsor in diamond_sponsors %}
-              <li><a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
+              <li><a href="{{sponsor.url}}"><img src="{% thumbnail sponsor.logo 0x100 %}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
             {% endfor %}
           </ul>
           <ul class="small-block-grid-3 medium-block-grid-5 large-block-grid-6 normal">
             {% for sponsor in sponsors %}
-              <li><a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
+              <li><a href="{{sponsor.url}}"><img src="{% thumbnail sponsor.logo 0x50 %}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a></li>
             {% endfor %}
           </ul>
         </div>
@@ -32,7 +33,7 @@
         <div class="row grid-logo">
           <ul class="small-block-grid-3 medium-block-grid-5 large-block-grid-6 normal">
             {% for partner in partners %}
-              <li><a href="{{partner.url}}"><img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}"></a></li>
+              <li><a href="{{partner.url}}"><img src="{% thumbnail partner.logo 0x50 %}" alt="{{partner.name}}" title="{{partner.name}}"></a></li>
             {% endfor %}
           </ul>
         </div>

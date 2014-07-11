@@ -1,3 +1,4 @@
+{% load thumbnail %}
 {% spaceless %}
 {% if sponsors %}
 <h1> Patrocinadores </h1>
@@ -17,7 +18,7 @@
 	<div class="medium-4 {% cycle "" "medium-pull-8" %} columns">
 		<div class="panel" data-equalizer-watch >
 		<div class="company-logo">
-              <a href="{{sponsor.url}}"><img src="{{sponsor.logo.url}}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a>
+              <a href="{{sponsor.url}}"><img src="{% thumbnail sponsor.logo 261x0 %}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a>
 	      </div>
 	      </div>
 	</div>
@@ -42,7 +43,7 @@
 	<div class="medium-4 {% cycle "" "medium-pull-8" %} columns">
 		<div class="panel" data-equalizer-watch >
 		<div class="company-logo">
-              <a href="{{partner.url}}"><img src="{{partner.logo.url}}" alt="{{partner.name}}" title="{{partner.name}}"></a>
+              <a href="{{partner.url}}"><img src="{% thumbnail partner.logo 261x0 %}" alt="{{partner.name}}" title="{{partner.name}}"></a>
 	      </div>
 	      </div>
 	</div>
