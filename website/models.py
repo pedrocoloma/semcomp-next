@@ -46,6 +46,9 @@ def place_map_upload_to(instance, filename):
 	path = Path('mapas', '{0}.png'.format(name))
 	return path.as_posix()
 
+def course_upload_to(instance, filename):
+	return _base_upload_to_by_field(instance, 'photo', 'minicursos', 'title')
+
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
 		('A', _(u'Adamantium')),
@@ -271,6 +274,7 @@ class Course(models.Model):
 		on_delete=models.SET_NULL,
 	)
 	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
+	photo = models.ImageField(_(u'Foto'), upload_to=course_upload_to)
 
 	def get_absolute_url(self):
 		return reverse(
