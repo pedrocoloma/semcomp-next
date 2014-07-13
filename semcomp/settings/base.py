@@ -125,6 +125,7 @@ INSTALLED_APPS = (
 	'cmsplugin_flickr_slideshow',
     'contact_form',
     'semcomp_contact_form',
+    'minicursos',
 )
 
 
