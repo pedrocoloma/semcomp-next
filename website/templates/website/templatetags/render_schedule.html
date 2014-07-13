@@ -1,0 +1,61 @@
+{% load i18n mathfilters %}
+
+<div class="panel">
+	<ul class="small-block-grid-7 schedule-header">
+		<li></li>
+		<li><div class="outer-container"><div class="inner-container">{% trans "Segunda" %}</div></div></li>
+		<li><div class="outer-container"><div class="inner-container">{% trans "Terça" %}</div></div></li>
+		<li><div class="outer-container"><div class="inner-container">{% trans "Quarta" %}</div></div></li>
+		<li><div class="outer-container"><div class="inner-container">{% trans "Quinta" %}</div></div></li>
+		<li><div class="outer-container"><div class="inner-container">{% trans "Sexta" %}</div></div></li>
+		<li><div class="outer-container"><div class="inner-container">{% trans "Sábado" %}</div></div></li>
+	</ul>
+	<ul class="small-block-grid-7">
+		<li class="timeslots">
+			{% for t in timeslots %}
+				<div class="schedule-timeslot">{{t}}</div>
+			{% endfor %}
+		</li>
+		{% for day in days %}
+			<li class="day-schedule">
+				{% for event in day %}
+					{% if event.obj.needs_custom_page or is_management %}
+						<a
+							{% if is_management %}
+							href="{% url "management_events_edit" event.obj.pk %}"
+							{% else %}
+							href="{{event.obj.get_absolute_url}}" data-reveal-id="modal-reveal" data-reveal-ajax="true"
+							{% endif %}
+						>
+					{% endif %}
+						<div class="schedule-event {{event.type}}"
+							{# olhar no css qual o tamanho da linha se for alterar aqui #}
+							 style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
+							<div class="outer-container">
+								<div class="inner-container">
+									{% if event.type == "palestra" %}
+										<strong>Palestra</strong><br>
+										{{event.obj.lecture.title}}
+									{% elif event.type == "minicurso" %}
+										<strong>Minicursos</strong>
+									{% elif event.type == "coffee" %}
+										<strong>Coffee-break</strong>
+									{% else %}
+										<strong>{{event.obj.eventdata.name}}</strong>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					{% if event.obj.needs_custom_page or is_management %}
+						</a>
+					{% endif %}
+				{% endfor %}
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+{% if not is_management %}
+<div id="modal-reveal" class="reveal-modal" data-reveal>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+{% endif %}

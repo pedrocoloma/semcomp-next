@@ -1,0 +1,31 @@
+<article class="row panel">
+	<section class="medium-7 columns">
+		<h1>{{course.title}}<br>
+			{% if course.start_date == course.end_date %}
+				<small>{{course.start_date|date:"d/m/Y (l)"}}<br>
+				{{course.start_time}} - {{course.end_time}}</small>
+			{% else %}
+				<small>{{course.start_date|date:"d/m/Y"}} {{course.start_time}}<br>
+					{{course.end_date|date:"d/m/Y"}} {{course.end_time}}</small>
+			{% endif %}
+		</h1>
+		<span class="label round track-{{course.track}}">Pacote {{course.get_track_display}}</span>
+		<h2>Descrição</h2>
+		{{course.description|linebreaks}}
+		<h2>Pré-requisitos</h2>
+		{{course.requirements|linebreaks}}
+		{% if course.place %}
+			<h2>Local: <small>lugar e tal pode ser meio grande o texto aqui</small></h2>
+			<p>mostrar mapa aqui</p>
+		{% endif %}
+	</section>
+	<section class="medium-5 columns">
+		<h3>{{course.speaker.name}}<br>
+			<small>{{course.speaker.occupation}}</small></h3>
+		<img src={{course.speaker.photo.url}}>
+		{{course.speaker.bio|linebreaks}}
+	</section>
+</article>
+{% if request.is_ajax %}
+	<a class="close-reveal-modal">&#215;</a>
+{% endif %}

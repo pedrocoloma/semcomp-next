@@ -6,6 +6,7 @@ from io import BytesIO
 from pathlib import Path
 
 from django.core import validators
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -101,6 +102,7 @@ class Event(models.Model):
 		('coffee', _(u'Coffee break')),
 		('cultural', _(u'Cultural')),
 		('neutro', _(u'Neutro')),
+		('outro', _(u'Outro')),
 	)
 
 	type = models.CharField(_(u'Tipo'), max_length=16, choices=EVENT_TYPES)
@@ -117,6 +119,61 @@ class Event(models.Model):
 
 		return end - start
 
+	def needs_event_data(self):
+		return self.type not in ['palestra', 'minicurso', 'coffee']
+
+	def needs_custom_page(self):
+		return self.type not in ['coffee', 'neutro']
+	
+	def name(self):
+		if self.type == 'palestra':
+			return self.lecture.title
+		elif self.type == 'minicurso':
+			raise ValueError(u'Minicursos não tem um nome único')
+		elif self.type == 'coffee':
+			return self.get_type_display()
+		else:
+			return self.eventdata.name
+	
+	def description(self):
+		if self.type == 'palestra':
+			return self.lecture.description
+		elif self.type == 'minicurso':
+			raise ValueError(u'Minicursos não tem uma descrição única')
+		elif self.type == 'coffee':
+			return ''
+		else:
+			return self.eventdata.description
+
+	def place(self):
+		if self.type == 'palestra':
+			return self.lecture.place
+		elif self.type == 'minicurso':
+			raise ValueError(u'Minicursos não tem um local único')
+		elif self.type == 'coffee':
+			return ''
+		else:
+			return self.eventdata.place
+
+	def slug(self):
+		if self.type == 'minicurso':
+			return 'minicurso'
+		else:
+			return slugify(self.name())
+
+	def get_absolute_url(self):
+		if self.type == 'palestra':
+			return self.lecture.get_absolute_url()
+		elif self.type == 'minicurso':
+			return reverse('event_details', args=[str(self.id)])
+		elif self.type == 'coffee':
+			raise ValueError(u'Coffee-breaks não tem URL própria')
+		else:
+			return reverse(
+				'event_details_slug',
+				args=[str(self.id), self.slug()]
+			)
+
 	def __unicode__(self):
 		start_time = self.start_time.strftime('%H:%M')
 		end_time = self.end_time.strftime('%H:%M')
@@ -129,7 +186,7 @@ class Event(models.Model):
 			return '%s@%s - %s@%s' % (date, start_time, end_date, end_time)
 
 class EventData(models.Model):
-	slot = models.ForeignKey(Event)
+	slot = models.OneToOneField(Event)
 	name = models.CharField(_(u'Nome'), max_length=64, blank=True)
 	description = models.TextField(_(u'Descrição'), blank=True)
 	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
@@ -159,12 +216,17 @@ class ContactInformation(models.Model):
 
 
 class Lecture(models.Model):
-	slot = models.ForeignKey(Event, null=True, blank=True)
+	slot = models.OneToOneField(Event, null=True, blank=True)
 	title = models.CharField(_(u'Título'), max_length=100)
 	description = models.TextField(_(u'Descrição'), blank=True)
 	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
 	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
 
+	def get_absolute_url(self):
+		return reverse(
+			'event_details_slug',
+			args=[str(self.id), self.slot.slug()]
+		)
 
 class Course(models.Model):
 	TRACK_TYPES = (
@@ -181,6 +243,12 @@ class Course(models.Model):
 	requirements = models.TextField(_(u'Pré-requisitos'), blank=True)
 	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
 	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
+
+	def get_absolute_url(self):
+		return reverse(
+			'course_details_slug',
+			args=[str(self.id), slugify(self.title)]
+		)
 
 
 class SemcompUserManager(BaseUserManager):

@@ -1,9 +1,13 @@
-import math
+from datetime import datetime, time, timedelta, date
 from itertools import izip_longest
+import math
 
 from django import template
+from django.conf import settings
+from django.db.models import Q
 from cms.models import Page
-from website.models import Company
+
+from website.models import Company, Event
 
 register = template.Library()
 
@@ -36,6 +40,58 @@ def render_user_bar(context):
 		 'user': user,
 	}
 
+@register.inclusion_tag('website/templatetags/render_schedule.html')
+def render_schedule(render_type="user"):
+	first_day = settings.SEMCOMP_START_DATE
+	last_day = settings.SEMCOMP_END_DATE
+	day_count = (last_day - first_day).days
+
+	events = Event.objects.filter(
+		start_date__gte=first_day,
+		start_date__lte=last_day,
+	)
+
+	time_start = time(8, 0)
+	time_end = time(23, 0)
+	time_delta = timedelta(minutes=30)
+	one_day = timedelta(days=1)
+
+	events_off_semcomp = Event.objects.filter(
+		Q(start_date__lte=first_day) | Q(start_date__gte=last_day)
+	)
+
+	days = []
+	for day in date_range(first_day, last_day, one_day):
+		day_events = events.filter(start_date=day)
+		day_start = datetime.combine(day, time_start)
+
+		day_data = []
+		for e in day_events:
+			event_start = datetime.combine(e.start_date, e.start_time)
+			dt = event_start - day_start
+
+			day_data.append({
+				'type': e.type,
+				'type_display': e.get_type_display(),
+				'obj': e,
+				'slots': e.duration().seconds / time_delta.seconds,
+				'start_slot': dt.seconds / time_delta.seconds,
+			})
+
+		days.append(day_data)
+
+	timeslots = time_range(time_start, time_end, time_delta)
+
+	context = {
+		'active_events': True,
+		'days': days,
+		'timeslots': timeslots,
+		'is_management': render_type == 'management',
+	}
+
+	return context
+
+
 @register.assignment_tag
 def split_list_n(variable, parts):
 	def grouper(iterable, n, fillvalue=None):
@@ -47,3 +103,15 @@ def split_list_n(variable, parts):
 		int(math.ceil(len(variable) / float(parts)))
 	)
 
+################### helper functions ####################
+
+def time_range(start, end, step):
+	while start < end:
+		yield start
+		dt = datetime.combine(date.today(), start) + step
+		start = dt.time()
+
+def date_range(start, end, step):
+	while start <= end:
+		yield start
+		start = start + step

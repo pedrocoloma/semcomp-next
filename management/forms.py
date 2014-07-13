@@ -3,7 +3,7 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from website.models import Company, Place, Event, Lecture, Course, Speaker, ContactInformation
+from website.models import Company, Place, Event, EventData, Lecture, Course, Speaker, ContactInformation
 
 class CompanyForm(forms.ModelForm):
 	class Meta:
@@ -45,3 +45,5 @@ class SpeakerForm(forms.ModelForm):
 		fields = ('name', 'occupation', 'photo', 'bio')
 
 ContactInformationFormset = inlineformset_factory(Speaker, ContactInformation)
+
+EventDataFormset = inlineformset_factory(Event, EventData, max_num=1, can_delete=False)

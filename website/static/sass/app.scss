@@ -9,6 +9,14 @@ $main-menu-width: 150px;
 $header-height: 100px;
 $header-offset: $header-height + 10px;
 
+// iso-colors: http://www.cs.utah.edu/~gk/papers/vis02/talk/jpg/Image18.jpg
+$iso-red: rgb(216, 15, 15);
+$iso-green: rgb(0, 151, 0);
+$iso-blue: rgb(81, 81, 253);
+$iso-yellow: rgb(134, 134, 0);
+$iso-cyan: rgb(0, 143, 143);
+$iso-magenta: rgb(183, 0, 183);
+
 body {
     background-color: #004F78;
 }
@@ -245,4 +253,73 @@ form img{
 			height:auto;
 		}
 	}
+}
+
+
+.schedule-event {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	font-size: 0.8 * $base-font-size;
+	line-height: 0.8 * $base-line-height;
+	color: white;
+	@include border-radius(4px);
+
+	&.palestra { background-color: $iso-red; }
+	&.minicurso { background-color: $iso-green; }
+	&.coffee { background-color: $iso-blue; }
+	&.neutro { background-color: $iso-yellow; }
+	&.cultural { background-color: $iso-cyan; }
+	&.outro { background-color: $iso-magenta; }
+
+}
+
+a .schedule-event:hover {
+		box-shadow: 0 0 5px 5px cyan;
+}
+
+.day-schedule {
+	position: relative;
+	width: 100px;
+}
+
+.timeslots {
+	padding-top: 0;
+	.schedule-timeslot {
+		line-height: 20px;
+		text-align: center;
+	}
+}
+
+.schedule {
+	background-color: white;
+	color: invert($body-font-color);
+}
+
+@media #{$medium-up} {
+	.course-callout {
+		min-height: 125px;
+	}
+}
+
+.course-callout {
+	background-color: white;
+}
+
+.track-A { background-color: $iso-yellow; }
+.track-V { background-color: $iso-green; }
+
+
+// www.andy-howard.com/verticalAndHorizontalAlignment/index.html
+.outer-container {
+	display: table;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.outer-container .inner-container {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
 }

@@ -28,11 +28,15 @@
 			{% include "management/render_field.html" with field=form.end_date width="large-6" only %}
 			{% include "management/render_field.html" with field=form.end_time width="large-6" only %}
 		</div>
-		<input class="button right" type="submit" value="{% trans "Salvar" %}">
-		{% if form.instance.pk %}
-			<a href="{% url "management_events_delete" form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
-		{% endif %}
+		<fieldset class="event-extra-data hide">
+			<legend>Dados evento</legend>
+			{{formset}}
+		</fieldset>
 	</fieldset>
+	<input class="button right" type="submit" value="{% trans "Salvar" %}">
+	{% if form.instance.pk %}
+		<a href="{% url "management_events_delete" form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
+	{% endif %}
 </form>
 {% endblock %}
 
@@ -81,5 +85,15 @@
 			min: [8, 0],
 			max: [23, 0]
 		});
+		
+		// Habilita ou desliga o form extra
+		$("#id_type").change(function(ev) {
+			var value = $(this).val();
+			if (["minicurso", "palestra", "coffee"].indexOf(value) >= 0) {
+				$('.event-extra-data').addClass('hide');
+			} else {
+				$('.event-extra-data').removeClass('hide');
+			}
+		}).change();
 	</script>
 {% endblock %}
