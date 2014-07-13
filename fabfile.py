@@ -58,6 +58,7 @@ def deploy():
 	pull()
 
 	fig('up -d semcomp17uwsgi')
+	fig('up -d frontend')
 
 @task
 def full_deploy():
@@ -68,3 +69,4 @@ def full_deploy():
 	run_django_command('collectstatic', '--noinput')
 
 	fig('up -d semcomp17uwsgi')
+	fig('up -d frontend')
