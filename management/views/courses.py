@@ -21,7 +21,7 @@ def manage_courses(request):
 @staff_required
 def courses_add(request):
 	if request.method == 'POST':
-		course_form = CourseForm(request.POST, prefix='course')
+		course_form = CourseForm(request.POST, request.FILES, prefix='course')
 		speaker_form = SpeakerForm(request.POST, request.FILES, prefix='speaker')
 		contact_formset = ContactInformationFormset(request.POST, prefix='contact')
 
@@ -71,7 +71,7 @@ def courses_edit(request, course_pk):
 	contact = speaker.contactinformation_set if speaker else None
 
 	if request.method == 'POST':
-		course_form = CourseForm(request.POST, instance=course, prefix='course')
+		course_form = CourseForm(request.POST, request.FILES, instance=course, prefix='course')
 		speaker_form = SpeakerForm(request.POST, request.FILES, instance=speaker, prefix='speaker')
 		contact_formset = ContactInformationFormset(request.POST, instance=speaker, prefix='contact')
 
