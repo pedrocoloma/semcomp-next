@@ -170,8 +170,8 @@ LOGGING = {
 #COMPRESS_ENABLED = True
 COMPRESS_CSS_FILTERS = ['compressor.filters.cssmin.CSSMinFilter']
 
-SEMCOMP_START_DATE = datetime.date(2014, 8, 25)
-SEMCOMP_END_DATE = datetime.date(2014, 8, 30)
+SEMCOMP_START_DATE = datetime.date(2014, 8, 18)
+SEMCOMP_END_DATE = datetime.date(2014, 8, 23)
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
