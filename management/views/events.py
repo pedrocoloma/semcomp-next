@@ -31,7 +31,7 @@ def events_add(request):
 				event.save()
 				if event.needs_event_data():
 					formset.save()
-				else:
+				elif hasattr(event, 'eventdata'):
 					event.eventdata.delete()
 				return redirect('management_events')
 	else:
@@ -63,7 +63,7 @@ def events_edit(request, event_pk):
 				event = form.save()
 				if event.needs_event_data():
 					formset.save()
-				else:
+				elif hasattr(event, 'eventdata'):
 					event.eventdata.delete()
 			return redirect('management_events')
 	else:
