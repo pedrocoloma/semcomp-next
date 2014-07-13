@@ -24,18 +24,24 @@ def lectures_add(request):
 		lecture_form = LectureForm(request.POST, prefix='lecture')
 		speaker_form = SpeakerForm(request.POST, request.FILES, prefix='speaker')
 		contact_formset = ContactInformationFormset(request.POST, prefix='contact')
-		if lecture_form.is_valid() and speaker_form.is_valid() and contact_formset.is_valid():
+
+		if lecture_form.is_valid():
 			lecture = lecture_form.save(commit=False)
-			contact = contact_formset.save(commit=False)
-			speaker = speaker_form.save()
+			if speaker_form.has_changed():
+				if speaker_form.is_valid() and contact_formset.is_valid():
+					contact = contact_formset.save(commit=False)
+					speaker = speaker_form.save()
 
-			lecture.speaker = speaker
-			for c in contact:
-				c.speaker = speaker
-				c.save()
-			lecture.save()
+					lecture.speaker = speaker
 
-			return redirect('management_lectures')
+					for c in contact:
+						c.speaker = speaker
+						c.save()
+					lecture.save()
+					return redirect('management_lectures')
+			else:
+				lecture.save()
+				return redirect('management_lectures')
 	else:
 		speaker_form = SpeakerForm(prefix='speaker')
 		lecture_form = LectureForm(prefix='lecture')
@@ -64,18 +70,23 @@ def lectures_edit(request, lecture_pk):
 		speaker_form = SpeakerForm(request.POST, request.FILES, instance=speaker, prefix='speaker')
 		contact_formset = ContactInformationFormset(request.POST, instance=speaker, prefix='contact')
 
-		if lecture_form.is_valid() and speaker_form.is_valid() and contact_formset.is_valid():
+		if lecture_form.is_valid():
 			lecture = lecture_form.save(commit=False)
-			contact = contact_formset.save(commit=False)
-			speaker = speaker_form.save()
-			lecture.speaker = speaker
+			if speaker_form.has_changed():
+				if speaker_form.is_valid() and contact_formset.is_valid():
+					contact = contact_formset.save(commit=False)
+					speaker = speaker_form.save()
 
-			for c in contact:
-				c.speaker = speaker
-				c.save()
-			lecture.save()
+					lecture.speaker = speaker
 
-			return redirect('management_lectures')
+					for c in contact:
+						c.speaker = speaker
+						c.save()
+					lecture.save()
+					return redirect('management_lectures')
+			else:
+				lecture.save()
+				return redirect('management_lectures')
 	else:
 		lecture_form = LectureForm(instance=lecture, prefix='lecture')
 		speaker_form = SpeakerForm(instance=speaker, prefix='speaker')
