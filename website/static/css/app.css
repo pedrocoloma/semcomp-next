@@ -7133,3 +7133,7 @@ a .schedule-event:hover {
     transform: translateY(-50%);
   }
 }
+.courseinfo p {
+  text-align: justify;
+  text-indent: 2rem;
+}
