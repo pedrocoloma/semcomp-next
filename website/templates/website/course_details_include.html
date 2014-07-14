@@ -19,12 +19,14 @@
 			<p>mostrar mapa aqui</p>
 		{% endif %}
 	</section>
-	<section class="medium-5 columns">
-		<h3>{{course.speaker.name}}<br>
-			<small>{{course.speaker.occupation}}</small></h3>
-		<img src={{course.speaker.photo.url}}>
-		{{course.speaker.bio|linebreaks}}
-	</section>
+	{% if course.speaker %}
+		<section class="medium-5 columns">
+			<h3>{{course.speaker.name}}<br>
+				<small>{{course.speaker.occupation}}</small></h3>
+			<img src={{course.speaker.photo.url}}>
+			{{course.speaker.bio|linebreaks}}
+		</section>
+	{% endif %}
 </article>
 {% if request.is_ajax %}
 	<a class="close-reveal-modal">&#215;</a>

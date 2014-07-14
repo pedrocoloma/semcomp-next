@@ -10,12 +10,14 @@
 			<p>mostrar mapa aqui</p>
 		{% endif %}
 	</section>
-	<section class="medium-5 columns">
-		<h3>{{event.lecture.speaker.name}}<br>
-			<small>{{event.lecture.speaker.occupation}}</small></h3>
-		<img src={{event.lecture.speaker.photo.url}}>
-		{{event.lecture.speaker.bio|linebreaks}}
-	</section>
+	{% if event.lecture.speaker %}
+		<section class="medium-5 columns">
+			<h3>{{event.lecture.speaker.name}}<br>
+				<small>{{event.lecture.speaker.occupation}}</small></h3>
+			<img src={{event.lecture.speaker.photo.url}}>
+			{{event.lecture.speaker.bio|linebreaks}}
+		</section>
+	{% endif %}
 </article>
 {% if request.is_ajax %}
 	<a class="close-reveal-modal">&#215;</a>

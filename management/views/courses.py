@@ -24,19 +24,29 @@ def courses_add(request):
 		course_form = CourseForm(request.POST, prefix='course')
 		speaker_form = SpeakerForm(request.POST, request.FILES, prefix='speaker')
 		contact_formset = ContactInformationFormset(request.POST, prefix='contact')
-		if course_form.is_valid() and speaker_form.is_valid() and contact_formset.is_valid():
+
+		if course_form.is_valid():
 			course = course_form.save(commit=False)
-			contact = contact_formset.save(commit=False)
-			speaker = speaker_form.save()
+			if speaker_form.has_changed():
+				if speaker_form.is_valid() and contact_formset.is_valid():
+					contact = contact_formset.save(commit=False)
+					speaker = speaker_form.save()
 
-			course.speaker = speaker
-			for c in contact:
-				c.speaker = speaker
-				c.save()
-			course.save()
-			course_form.save_m2m()
+					course.speaker = speaker
 
-			return redirect('management_courses')
+					for c in contact:
+						c.speaker = speaker
+						c.save()
+
+					course.save()
+					course_form.save_m2m()
+
+					return redirect('management_courses')
+			else:
+					course.save()
+					course_form.save_m2m()
+
+					return redirect('management_courses')
 	else:
 		speaker_form = SpeakerForm(prefix='speaker')
 		course_form = CourseForm(prefix='course')
@@ -65,19 +75,28 @@ def courses_edit(request, course_pk):
 		speaker_form = SpeakerForm(request.POST, request.FILES, instance=speaker, prefix='speaker')
 		contact_formset = ContactInformationFormset(request.POST, instance=speaker, prefix='contact')
 
-		if course_form.is_valid() and speaker_form.is_valid() and contact_formset.is_valid():
+		if course_form.is_valid():
 			course = course_form.save(commit=False)
-			contact = contact_formset.save(commit=False)
-			speaker = speaker_form.save()
-			course.speaker = speaker
+			if speaker_form.has_changed():
+				if speaker_form.is_valid() and contact_formset.is_valid():
+					contact = contact_formset.save(commit=False)
+					speaker = speaker_form.save()
 
-			for c in contact:
-				c.speaker = speaker
-				c.save()
-			course.save()
-			course_form.save_m2m()
+					course.speaker = speaker
 
-			return redirect('management_courses')
+					for c in contact:
+						c.speaker = speaker
+						c.save()
+
+					course.save()
+					course_form.save_m2m()
+
+					return redirect('management_courses')
+			else:
+				course.save()
+				course_form.save_m2m()
+
+				return redirect('management_courses')
 	else:
 		course_form = CourseForm(instance=course, prefix='course')
 		speaker_form = SpeakerForm(instance=speaker, prefix='speaker')
