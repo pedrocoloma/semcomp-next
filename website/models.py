@@ -225,7 +225,7 @@ class Lecture(models.Model):
 	def get_absolute_url(self):
 		return reverse(
 			'event_details_slug',
-			args=[str(self.id), self.slot.slug()]
+			args=[str(self.slot.id), self.slot.slug()]
 		)
 
 class Course(models.Model):
