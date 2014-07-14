@@ -6717,6 +6717,31 @@ th.hide-for-touch {
     display: table-cell !important;
   }
 }
+.xy-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.x-center {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.y-center {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 body {
   background-color: #004F78;
 }
@@ -7090,4 +7115,21 @@ a .schedule-event:hover {
 }
 .minicursos .coursetitle {
   text-align: center;
+}
+
+.courseinfo .courselogo {
+  text-align: center;
+}
+@media only screen and (min-width: 40.063em) {
+  .courseinfo .courselogo {
+    height: 10rem;
+    max-height: 10rem;
+  }
+  .courseinfo .courselogo img {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
 }
