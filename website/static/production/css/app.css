@@ -6732,7 +6732,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/17/static/img/header.png?1400038085');
+  background-image: url('/17/static/img/header.png?1400183898');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6761,7 +6761,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/17/static/img/hero-background.jpg?1404882072') no-repeat center center;
+  background: url('/17/static/img/hero-background.jpg?1405275795') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7081,4 +7081,13 @@ a .schedule-event:hover {
 .static-map-management {
   height: 256px;
   margin-top: -100.5px;
+}
+
+.minicursos .courselogo a img {
+  display: block;
+  height: 10rem;
+  max-height: 10rem;
+}
+.minicursos .coursetitle {
+  text-align: center;
 }

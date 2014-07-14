@@ -342,3 +342,13 @@ a .schedule-event:hover {
 	margin-top: -128px + $static-map-height / 2;
 }
 
+.minicursos {
+    .courselogo a img{
+        display:block;
+        height:10rem;
+        max-height: 10rem;
+    }
+    .coursetitle {
+        text-align: center;
+    }
+}
