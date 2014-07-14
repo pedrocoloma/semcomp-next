@@ -11,3 +11,4 @@ sass-cache
 __pycache__
 resources/Dockerfile
 *~
+*.fuse_hidden*
