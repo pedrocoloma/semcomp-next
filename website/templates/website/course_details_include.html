@@ -1,17 +1,24 @@
 {% load semcomp %}
-
-<article class="row panel">
+{% spaceless %}
+<article class="row panel courseinfo">
 	<section class="medium-7 columns">
-		<h1>{{course.title}}<br>
-			{% if course.start_date == course.end_date %}
-				<small>{{course.start_date|date:"d/m/Y (l)"}}<br>
-				{{course.start_time}} - {{course.end_time}}</small>
-			{% else %}
-				<small>{{course.start_date|date:"d/m/Y"}} {{course.start_time}}<br>
-					{{course.end_date|date:"d/m/Y"}} {{course.end_time}}</small>
-			{% endif %}
-		</h1>
-		<span class="label round track-{{course.track}}">Pacote {{course.get_track_display}}</span>
+		<div class="row">
+			<div class="medium-3 columns courselogo">
+				<img src="{{ course.photo.url }}" alt="">
+			</div>
+			<div class="medium-9 columns">
+				<h1>{{course.title}}<br>
+					{% if course.start_date == course.end_date %}
+						<small>{{course.start_date|date:"d/m/Y (l)"}}<br>
+						{{course.start_time}} - {{course.end_time}}</small>
+					{% else %}
+						<small>{{course.start_date|date:"d/m/Y"}} {{course.start_time}}<br>
+							{{course.end_date|date:"d/m/Y"}} {{course.end_time}}</small>
+					{% endif %}
+				</h1>
+				<span class="label round track-{{course.track}}">Pacote {{course.get_track_display}}</span>
+			</div>
+		</div>
 		<h2>Descrição</h2>
 		{{course.description|linebreaks}}
 		<h2>Pré-requisitos</h2>
@@ -35,3 +42,4 @@
 {% if request.is_ajax %}
 	<a class="close-reveal-modal">&#215;</a>
 {% endif %}
+{% endspaceless %}

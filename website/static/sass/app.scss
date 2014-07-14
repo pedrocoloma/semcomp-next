@@ -2,6 +2,7 @@
 @import "localsettings";
 @import "foundation";
 @import "compass";
+@import "xy-center";
 
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
 
@@ -350,5 +351,19 @@ a .schedule-event:hover {
     }
     .coursetitle {
         text-align: center;
+    }
+}
+.courseinfo{
+    .courselogo{        
+            text-align: center;
+    }
+    @media #{$medium-up}{
+        .courselogo {
+            height:10rem;
+            max-height:10rem;
+            img {
+                @include y-center();
+            }
+        }
     }
 }
