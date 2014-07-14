@@ -1,2 +1,17 @@
 <h2> Minicursos </h2>
-Colunas: {{ instance.colunas }}
+<ul class="
+{% if instance.columns_small %} small-block-grid-{{ instance.columns_small }} {% endif %}
+{% if instance.columns_medium %} medium-block-grid-{{ instance.columns_medium }} {% endif %}
+{% if instance.columns_large %} large-block-grid-{{ instance.columns_large }} {% endif %} 
+minicursos">
+{% for course in courses %}
+<li>
+	<div class="courselogo">
+		<a href="#"><img src="{{ course.photo.url }}"></a>
+	</div>
+	<div class="coursetitle">
+		<a href="#">{{ course.title }}</a>
+	</div>
+</li>
+{% endfor %}
+</ul>
