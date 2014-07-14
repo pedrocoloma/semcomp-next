@@ -194,9 +194,9 @@ class EventData(models.Model):
 
 class Speaker(models.Model):
 	name = models.CharField(_(u'Nome'), max_length=100)
-	occupation = models.CharField(_(u'Ocupação'), max_length=255)
-	photo = models.ImageField(_(u'Foto'), upload_to=speaker_upload_to)
-	bio = models.TextField(_(u'Biografia'))
+	occupation = models.CharField(_(u'Ocupação'), max_length=255, blank=True)
+	photo = models.ImageField(_(u'Foto'), upload_to=speaker_upload_to, blank=True)
+	bio = models.TextField(_(u'Biografia'), blank=True)
 
 	def __unicode__(self):
 		return self.name
