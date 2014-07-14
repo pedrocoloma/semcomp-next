@@ -11,7 +11,9 @@ class Migration(SchemaMigration):
         # Adding model 'MinicursosPluginModel'
         db.create_table(u'minicursos_minicursospluginmodel', (
             (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
-            ('colunas', self.gf('django.db.models.fields.IntegerField')()),
+            ('columns_small', self.gf('django.db.models.fields.IntegerField')()),
+            ('columns_medium', self.gf('django.db.models.fields.IntegerField')(blank=True)),
+            ('columns_large', self.gf('django.db.models.fields.IntegerField')(blank=True)),
         ))
         db.send_create_signal(u'minicursos', ['MinicursosPluginModel'])
 
@@ -46,7 +48,9 @@ class Migration(SchemaMigration):
         u'minicursos.minicursospluginmodel': {
             'Meta': {'object_name': 'MinicursosPluginModel', '_ormbases': ['cms.CMSPlugin']},
             u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
-            'colunas': ('django.db.models.fields.IntegerField', [], {})
+            'columns_large': ('django.db.models.fields.IntegerField', [], {'blank': 'True'}),
+            'columns_medium': ('django.db.models.fields.IntegerField', [], {'blank': 'True'}),
+            'columns_small': ('django.db.models.fields.IntegerField', [], {})
         }
     }
 
