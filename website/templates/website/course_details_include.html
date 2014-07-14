@@ -20,12 +20,14 @@
 		{% endif %}
 	</section>
 	{% if course.speaker %}
+	{% with speaker=course.speaker %}
 		<section class="medium-5 columns">
-			<h3>{{course.speaker.name}}<br>
-				<small>{{course.speaker.occupation}}</small></h3>
-			<img src={{course.speaker.photo.url}}>
-			{{course.speaker.bio|linebreaks}}
+			<h3>{{speaker.name}}<br>
+				<small>{{speaker.occupation}}</small></h3>
+			{% if speaker.photo %}<img src={{speaker.photo.url}}>{% endif %}
+			{{speaker.bio|linebreaks}}
 		</section>
+	{% endwith %}
 	{% endif %}
 </article>
 {% if request.is_ajax %}
