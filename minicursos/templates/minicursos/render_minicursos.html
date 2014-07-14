@@ -7,10 +7,10 @@ minicursos">
 {% for course in courses %}
 <li>
 	<div class="courselogo">
-		<a href="#"><img src="{{ course.photo.url }}"></a>
+		<a href="{{ course.get_absolute_url }}"><img src="{{ course.photo.url }}"></a>
 	</div>
 	<div class="coursetitle">
-		<a href="#">{{ course.title }}</a>
+		<a href="{{ course.get_absolute_url }}">{{ course.title }}</a>
 	</div>
 </li>
 {% endfor %}
