@@ -91,7 +91,10 @@ def lectures_edit(request, lecture_pk):
 		lecture_form = LectureForm(instance=lecture, prefix='lecture')
 		speaker_form = SpeakerForm(instance=speaker, prefix='speaker')
 		contact_formset = ContactInformationFormset(instance=speaker, prefix='contact')
-		lecture_form.fields['slot'].queryset = Event.objects.unused('palestra', lecture.slot.id)
+		if lecture.slot:
+			lecture_form.fields['slot'].queryset = Event.objects.unused('palestra', lecture.slot.id)
+		else:
+			lecture_form.fields['slot'].queryset = Event.objects.unused('palestra')
 
 	context = {
 		'lecture_form': lecture_form,
