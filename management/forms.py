@@ -23,7 +23,7 @@ class PlaceForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
 	class Meta:
 		model = Event
-		fields = ('type', 'start_date', 'start_time', 'end_date', 'end_time')
+		fields = ('type', 'color', 'start_date', 'start_time', 'end_date', 'end_time')
 
 class LectureForm(forms.ModelForm):
 	class Meta:

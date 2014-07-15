@@ -263,15 +263,8 @@ form img{
 	font-size: 0.8 * $base-font-size;
 	line-height: 0.8 * $base-line-height;
 	color: white;
+	overflow: hidden;
 	@include border-radius(4px);
-
-	&.palestra { background-color: $iso-red; }
-	&.minicurso { background-color: $iso-green; }
-	&.coffee { background-color: $iso-blue; }
-	&.neutro { background-color: $iso-yellow; }
-	&.cultural { background-color: $iso-cyan; }
-	&.outro { background-color: $iso-magenta; }
-
 }
 
 a .schedule-event:hover {
@@ -308,7 +301,6 @@ a .schedule-event:hover {
 
 .track-A { background-color: $iso-yellow; }
 .track-V { background-color: $iso-green; }
-
 
 // www.andy-howard.com/verticalAndHorizontalAlignment/index.html
 .outer-container {

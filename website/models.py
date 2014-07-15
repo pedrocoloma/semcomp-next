@@ -110,6 +110,8 @@ class Event(models.Model):
 	start_time = models.TimeField(_(u'Horário de início'))
 	end_date = models.DateField(_(u'Dia final'))
 	end_time = models.TimeField(_(u'Horário de término'))
+	# 7 caracteres: #abc123
+	color = models.CharField(_(u'Cor'), max_length=7, default='85144B')
 
 	objects = EventManager()
 

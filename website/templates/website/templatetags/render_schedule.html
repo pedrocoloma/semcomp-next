@@ -1,4 +1,4 @@
-{% load i18n mathfilters %}
+{% load i18n mathfilters semcomp %}
 
 <div class="panel">
 	<ul class="small-block-grid-7 schedule-header">
@@ -28,9 +28,9 @@
 							{% endif %}
 						>
 					{% endif %}
-						<div class="schedule-event {{event.type}}"
+						<div class="schedule-event"
 							{# olhar no css qual o tamanho da linha se for alterar aqui #}
-							 style="left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
+							 style="background-color: {{event.obj.color}}; color: {% contrast_color event.obj.color %}; left: 0; right: 0; top: {{event.start_slot|mul:20}}px; height: {{event.slots|mul:20}}px;">
 							<div class="outer-container">
 								<div class="inner-container">
 									{% if event.type == "palestra" %}

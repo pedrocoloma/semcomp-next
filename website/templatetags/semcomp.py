@@ -40,6 +40,22 @@ def render_user_bar(context):
 		 'user': user,
 	}
 
+# https://github.com/Compass/compass/blob/5247e8668020ca90635786a461605069fc5c5fa4/frameworks/compass/stylesheets/compass/utilities/color/_contrast.scss
+@register.simple_tag
+def contrast_color(color, dark='#000000', light='#ffffff', threshold=0.4):
+	c = color[1:]
+	r,g,b = c[0:2], c[2:4], c[4:6]
+	r,g,b = map(lambda x: int(x, 16), (r,g,b))
+	r,g,b = map(lambda x: x / 255.0, (r,g,b))
+
+	lightness = 0.30 * r + 0.59 * g + 0.11 * b
+
+	if lightness < threshold:
+		return light
+	else:
+		return dark
+
+
 @register.inclusion_tag('website/templatetags/render_schedule.html')
 def render_schedule(render_type="user"):
 	first_day = settings.SEMCOMP_START_DATE

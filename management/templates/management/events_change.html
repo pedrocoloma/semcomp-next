@@ -18,7 +18,8 @@
 			<legend>Adicionar evento</legend>
 		{% endif %}
 		<div class="row">
-			{% include "management/render_field.html" with field=form.type width="large-12" only %}
+			{% include "management/render_field.html" with field=form.color width="large-2" only %}
+			{% include "management/render_field.html" with field=form.type width="large-10" only %}
 		</div>
 		<div class="row">
 			{% include "management/render_field.html" with field=form.start_date width="large-6" only %}
@@ -45,6 +46,7 @@
 	<link rel="stylesheet" href="{% static "css/pickadate/default.css" %}">
 	<link rel="stylesheet" href="{% static "css/pickadate/default.date.css" %}">
 	<link rel="stylesheet" href="{% static "css/pickadate/default.time.css" %}">
+	<link rel="stylesheet" href="{% static "bower_components/spectrum/spectrum.css" %}">
 {% endblock %}
 
 {% block extrajs %}
@@ -52,11 +54,12 @@
 	<script src="{% static "js/pickadate/picker.date.js" %}"></script>
 	<script src="{% static "js/pickadate/picker.time.js" %}"></script>
 	<script src="{% static "js/pickadate/translations/pt_BR.js" %}"></script>
+	<script src="{% static "bower_components/spectrum/spectrum.js" %}"></script>
 	<script type="text/javascript">
 		$("#id_start_date").pickadate({
 			format: 'dd/mm/yyyy',
-			min: [{{first_day|date:"Y,m-1,d"}}],
-			max: [{{last_day|date:"Y,m-1,d"}}],
+			min: [{{first_day|date:"Y,n-1,d"}}],
+			max: [{{last_day|date:"Y,n-1,d"}}],
 			today: '',
 			onSet: function (e) {
 				$("#id_end_date").val(
@@ -66,8 +69,8 @@
 		});
 		$("#id_end_date").pickadate({
 			format: 'dd/mm/yyyy',
-			min: [{{first_day|date:"Y,m-1,d"}}],
-			max: [{{last_day|date:"Y,m-1,d"}}],
+			min: [{{first_day|date:"Y,n-1,d"}}],
+			max: [{{last_day|date:"Y,n-1,d"}}],
 			today: '',
 		});
 		$("#id_start_time").pickatime({
@@ -95,5 +98,21 @@
 				$('.event-extra-data').removeClass('hide');
 			}
 		}).change();
+
+		// Color picker pra escolher a cor do evento
+		// http://clrs.cc/
+		$("#id_color").spectrum({
+			preferredFormat: "hex",
+			showPalette: true,
+			showPaletteOnly: true,
+			palette: [
+				["#001F3F", "#0074D9", "#7FDBFF"],
+				["#39CCCC", "#3D9970", "#2ECC40"],
+				["#01FF70", "#FFDC00", "#FF851B"],
+				["#FF4136", "#85144B", "#F012BE"],
+				["#B10DC9", "#111111", "#AAAAAA"],
+				["#DDDDDD", "#FFFFFF"],
+			]
+		});
 	</script>
 {% endblock %}
