@@ -7075,3 +7075,7 @@ a .schedule-event:hover {
   vertical-align: middle;
   text-align: center;
 }
+
+#add-place-map {
+  height: 380px;
+}
