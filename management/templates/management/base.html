@@ -9,6 +9,7 @@
 {% block base_content %}
 	<div class="row">
 		<div class="large-3 columns">
+			<div class="panel">
 			<ul class="side-nav">
 				<li {% if active_overview %}class="active"{% endif %}>
 					<a href="{% url "management_overview" %}">
@@ -46,6 +47,7 @@
 					</a>
 				</li>
 			</ul>
+			</div>
 		</div>
 		<div class="large-9 columns user-content">
 			{% block user_content %}{% endblock %}
