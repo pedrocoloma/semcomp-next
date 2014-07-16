@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db.models import Q
 from cms.models import Page
 
-from website.models import Company, Event
+from website.models import Company, Event, Place
 
 register = template.Library()
 
@@ -90,6 +90,16 @@ def render_schedule(render_type="user"):
 	}
 
 	return context
+
+@register.simple_tag
+def render_place(place):
+	assert isinstance(place, Place)
+
+	if place.static_map:
+		html = '<img src="{0}">'
+		return html.format(place.static_map.url)
+	else:
+		return ''
 
 
 @register.assignment_tag
