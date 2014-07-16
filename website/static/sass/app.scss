@@ -386,10 +386,14 @@ label {
     color: #fff;
 }
 
-a .dark-bg{
+a.dark-bg{
     color: #fff;
+    &:hover{
+        color: #00B3EE;
+    }
 }
-a:focus .dark-bg{
-    color: #00B3EE;
+
+.blue-bg{
+    color: #eee;
 }
 

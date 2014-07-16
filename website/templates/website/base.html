@@ -112,7 +112,7 @@
              
               <div class="large-12 columns">
 		{% for link in sitemap.links %}
-			<a href="{{ link.get_absolute_url }}">{{ link.get_title }}</a>
+			<a class="dark-bg" href="{{ link.get_absolute_url }}">{{ link.get_title }}</a>
 		{% endfor %}
 	      </div>
         </div>
