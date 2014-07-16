@@ -60,11 +60,13 @@ class MinicursosPluginModel(CMSPlugin):
   columns_medium = models.IntegerField(
     _(u'Número de colunas (Telas médias)'),
     blank=True,
+    null=True,
     validators=[validaColunas],
     )
   columns_large = models.IntegerField(
     _(u'Número de colunas (Telas grandes)'),
     blank=True,
+    null=True,
     validators=[validaColunas],
     )
   def __unicode__(self):
