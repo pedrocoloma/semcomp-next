@@ -1,3 +1,4 @@
+{% load thumbnail %}
 <h2> Minicursos </h2>
 <ul class="
 {% if instance.columns_small %} small-block-grid-{{ instance.columns_small }} {% endif %}
@@ -7,7 +8,7 @@ minicursos">
 {% for course in courses %}
 <li>
 	<div class="courselogo">
-		<a href="{{ course.get_absolute_url }}"><img src="{{ course.photo.url }}"></a>
+		<a href="{{ course.get_absolute_url }}"><img src="{% thumbnail course.photo.url 0x200 %}"></a>
 	</div>
 	<div class="coursetitle">
 		<a href="{{ course.get_absolute_url }}">{{ course.title }}</a>
