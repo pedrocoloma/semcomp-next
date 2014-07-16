@@ -187,11 +187,12 @@ body{
     }
 }
 
-@media #{$large-up} {
+//@media #{$large-up} {
 	img.realizacao {
-		padding-top: 30px;
+		//padding-top: 30px;
+        margin-left: 10px;
 	}
-}
+//}
 
 .semcomp-contatos {
 	color: black;

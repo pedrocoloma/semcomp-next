@@ -6943,11 +6943,10 @@ body .rodape-link a {
   }
 }
 
-@media only screen and (min-width: 64.063em) {
-  img.realizacao {
-    padding-top: 30px;
-  }
+img.realizacao {
+  margin-left: 10px;
 }
+
 .semcomp-contatos {
   color: black;
   list-style-type: none;
