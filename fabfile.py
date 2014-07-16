@@ -40,7 +40,7 @@ def run_django_command(command, opts):
 	# primeiro garante que tem um uwsgi rodando já
 	result = fig('ps -q semcomp17uwsgi')
 	if not result.strip():
-		fig('up -d --no-recreate semcomp17uwsgi')
+		fig('up -d --no-deps semcomp17uwsgi')
 	
 	# tem que enfiar o settings *depois* do comando
 	cmd = '{python} {manage} {cmd} --settings {settings} {opts}'.format(
@@ -57,8 +57,8 @@ def run_django_command(command, opts):
 def deploy():
 	pull()
 
-	fig('up -d --no-recreate semcomp17uwsgi')
-	fig('up -d --no-recreate frontend')
+	fig('up -d --no-deps semcomp17uwsgi')
+	fig('up -d --no-deps frontend')
 
 @task
 def full_deploy():
@@ -68,5 +68,5 @@ def full_deploy():
 	run_django_command('migrate', '--noinput')
 	run_django_command('collectstatic', '--noinput')
 
-	fig('up -d --no-recreate semcomp17uwsgi')
-	fig('up -d --no-recreate frontend')
+	fig('up -d --no-deps semcomp17uwsgi')
+	fig('up -d --no-deps frontend')
