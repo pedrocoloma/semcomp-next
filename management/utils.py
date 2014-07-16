@@ -45,7 +45,7 @@ def get_neighboring_tiles(zoom, xtile_float, ytile_float):
 	return tiles
 		
 def create_montage(tiles):
-	montage = Image.new(mode='RGB', size=(256 * 2, 256 * 2))
+	montage = Image.new(mode='RGBA', size=(256 * 2, 256 * 2))
 	for i,offset in enumerate(ordered_offsets(1, 1)):
 		montage.paste(tiles[i], (256 * offset[0], 256 * offset[1]))
 	
@@ -79,9 +79,10 @@ def draw_marker(image, markerfile):
 	x = (image_width / 2) - (marker_width / 2)
 	y = (image_height / 2) - marker_height
 
-	image.paste(marker, (x, y))
+	blank_image = Image.new(mode='RGBA', size=(256, 256), color=(0,0,0,0))
+	blank_image.paste(marker, (x, y))
 
-	return image
+	return Image.alpha_composite(image, blank_image)
 
 def get_static_map_image(lat, lon, zoom):
 	xtile_float, ytile_float = latlon_to_tiles(lat, lon, zoom)
@@ -91,5 +92,5 @@ def get_static_map_image(lat, lon, zoom):
 
 	marker_path = find('img/maps/marker.png')
 
-	return draw_marker(final_image, marker_path)
+	return draw_marker(final_image, marker_path).convert('RGB').convert('P', palette=Image.ADAPTIVE)
 
