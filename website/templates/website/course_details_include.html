@@ -17,7 +17,7 @@
 		<h2>Pré-requisitos</h2>
 		{{course.requirements|linebreaks}}
 		{% if course.place %}
-			<h2>Local: <small>{{{course.place.name}}</small></h2>
+			<h2>Local: <small>{{course.place.name}}</small></h2>
 			{% render_place course.place %}
 		{% endif %}
 	</section>
