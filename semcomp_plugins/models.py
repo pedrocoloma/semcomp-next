@@ -70,4 +70,9 @@ class MinicursosPluginModel(CMSPlugin):
     validators=[validaColunas],
     )
   def __unicode__(self):
-    return u'Minicursos: (%d/%d/%d) colunas' % (self.columns_small, self.columns_medium, self.columns_large)
+    return u'Minicursos: (%d/%d/%d) colunas' % (
+      self.columns_small,
+      int(self.columns_medium or self.columns_small),
+      int(self.columns_large or 
+        int(self.columns_medium or self.columns_small))
+      )
