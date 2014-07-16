@@ -9,7 +9,7 @@
 {% endaddtoblock %}
 
 <div class="row">
-	<div class="large-8 columns">
+	<div class="large-7 columns">
 		<div id="add-place-map"></div>
 		{% if form.latitude.errors %}
 			<div class="error">
@@ -17,7 +17,7 @@
 			</div>
 		{% endif %}
 	</div>
-	<div class="large-4 columns">
+	<div class="large-5 columns">
 		<p>Clique no mapa e altere o <em>zoom</em> para definir o local.</p>
 		<form
 			id="add-place"
@@ -32,8 +32,6 @@
 			{% for field in form.hidden_fields %}
 				{{field}}
 			{% endfor %}
-			<fieldset>
-				<legend>{% trans "Adicionar local" %}</legend>
 				{{form.non_field_errors}}
 				<div class="row">
 					{% for field in form.visible_fields %}
@@ -46,10 +44,10 @@
 						</div>
 					{% endfor %}
 					<div class="large-12 columns">
-						<input class="button" type="submit" value="{% trans "Salvar" %}">
+						<input class="button right" type="submit" value="{% trans "Salvar" %}">
+        <a href="#" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
 					</div>
 				</div>
-			</fieldset>
 		</form>
 	</div>
 </div>

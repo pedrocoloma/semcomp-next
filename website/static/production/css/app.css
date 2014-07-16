@@ -7067,8 +7067,12 @@ a .schedule-event:hover {
   width: 100%;
 }
 
+@media only screen and (max-width: 40em) {
+  .static-map-container {
+    max-width: 100px;
+  }
+}
 .crop-static-map {
-  width: 256px;
   height: 55px;
   overflow: hidden;
   margin-bottom: 20px;

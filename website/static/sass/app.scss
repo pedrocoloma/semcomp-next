@@ -324,8 +324,13 @@ a .schedule-event:hover {
 	width: 100%;
 }
 
+@media #{$small-only} {
+	.static-map-container {
+		max-width: 100px;
+	}
+}
+
 .crop-static-map {
-	width: 256px;
 	height: $static-map-height;
 	overflow: hidden;
 
