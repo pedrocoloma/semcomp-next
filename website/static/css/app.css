@@ -7113,12 +7113,10 @@ a .schedule-event:hover {
   text-align: center;
 }
 .minicursos .courselogo a img {
-  height: 100px;
   max-height: 100px;
 }
 @media only screen and (min-width: 40.063em) {
   .minicursos .courselogo a img {
-    height: 180px;
     max-height: 180px;
   }
 }
