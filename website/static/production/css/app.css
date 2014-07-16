@@ -4250,17 +4250,17 @@ dialog[open] {
 }
 .side-nav li a:not(.button) {
   display: block;
-  color: #333333;
+  color: #008cba;
   margin: 0;
   padding: 0.4375rem 0.875rem;
 }
 .side-nav li a:not(.button):hover, .side-nav li a:not(.button):focus {
   background: rgba(0, 0, 0, 0.025);
-  color: #707070;
+  color: #1cc7ff;
 }
 .side-nav li.active > a:first-child:not(.button) {
-  color: #333333;
-  font-weight: bold;
+  color: #1cc7ff;
+  font-weight: normal;
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
 .side-nav li.divider {
@@ -4271,7 +4271,7 @@ dialog[open] {
   border-top-color: white;
 }
 .side-nav li.heading {
-  color: #333333;
+  color: #008cba;
   font-size: 0.875rem;
   font-weight: bold;
   text-transform: uppercase;

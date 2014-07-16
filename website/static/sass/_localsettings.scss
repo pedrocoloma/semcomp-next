@@ -5,3 +5,8 @@ $header-font-color: #222;
 $legend-bg: none;
 $form-label-font-color: scale-color(#fff, $lightness: -30%);
 
+$menu-link-color-active: #333;
+$menu-link-color: #333;
+$side-nav-font-weight: bold;
+$side-nav-link-color: $menu-link-color;
+$side-nav-link-color-active: $menu-link-color-active;
