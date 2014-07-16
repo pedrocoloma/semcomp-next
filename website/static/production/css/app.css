@@ -7084,6 +7084,7 @@ a .schedule-event:hover {
   text-align: center;
 }
 
+<<<<<<< HEAD
 #add-place-map {
   height: 280px;
 }
@@ -7108,10 +7109,21 @@ a .schedule-event:hover {
   margin-top: -100.5px;
 }
 
+=======
+.minicursos .courselogo {
+  padding: 5px;
+  text-align: center;
+}
+>>>>>>> Corrige exibição do minicurso.
 .minicursos .courselogo a img {
-  display: block;
-  height: 10rem;
-  max-height: 10rem;
+  height: 100px;
+  max-height: 100px;
+}
+@media only screen and (min-width: 40.063em) {
+  .minicursos .courselogo a img {
+    height: 180px;
+    max-height: 180px;
+  }
 }
 .minicursos .coursetitle {
   text-align: center;
