@@ -381,3 +381,15 @@ a .schedule-event:hover {
         text-indent: 2rem;
     }
 }
+
+label {
+    color: #fff;
+}
+
+a .dark-bg{
+    color: #fff;
+}
+a:focus .dark-bg{
+    color: #00B3EE;
+}
+
