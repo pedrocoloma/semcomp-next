@@ -40,7 +40,11 @@ def company_upload_to(instance, filename):
 
 def speaker_upload_to(instance, filename):
 	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', 'name')
-	
+
+def place_map_upload_to(instance, filename):
+	name = slugify(instance.name)
+	path = Path('mapas', '{0}.png'.format(name))
+	return path.as_posix()
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
@@ -77,6 +81,10 @@ class Place(models.Model):
 	latitude = models.DecimalField(max_digits=12, decimal_places=8)
 	longitude = models.DecimalField(max_digits=12, decimal_places=8)
 	zoom = models.IntegerField()
+	static_map = models.ImageField(
+		_(u'Mapa estático'),
+		upload_to=place_map_upload_to
+	)
 
 	def __unicode__(self):
 		return self.name

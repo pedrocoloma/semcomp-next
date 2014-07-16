@@ -3,6 +3,8 @@ import operator
 import random
 from StringIO import StringIO
 
+from django.contrib.staticfiles.finders import find
+
 from PIL import Image
 import requests
 
@@ -87,5 +89,7 @@ def get_static_map_image(lat, lon, zoom):
 	montage = create_montage(tiles)
 	final_image = crop_map_image(montage, xtile_float, ytile_float)
 
-	return draw_marker(final_image, 'marker.png')
+	marker_path = find('img/maps/marker.png')
+
+	return draw_marker(final_image, marker_path)
 
