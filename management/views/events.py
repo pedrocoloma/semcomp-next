@@ -22,6 +22,7 @@ def manage_events(request):
 
 @staff_required
 def events_add(request):
+	print request.POST
 	if request.method == 'POST':
 		form = EventForm(request.POST)
 		if form.is_valid():
@@ -34,6 +35,8 @@ def events_add(request):
 				elif hasattr(event, 'eventdata'):
 					event.eventdata.delete()
 				return redirect('management_events')
+		else:
+			formset = EventDataFormset(request.POST)
 	else:
 		form = EventForm()
 		formset = EventDataFormset(instance=Event())
@@ -57,8 +60,8 @@ def events_edit(request, event_pk):
 
 	if request.method == 'POST':
 		form = EventForm(request.POST, instance=event)
+		formset = EventDataFormset(request.POST, instance=event)
 		if form.is_valid():
-			formset = EventDataFormset(request.POST, instance=event)
 			if formset.is_valid():
 				event = form.save()
 				if event.needs_event_data():

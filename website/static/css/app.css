@@ -6999,29 +6999,12 @@ form img {
   font-size: 80%;
   line-height: 120%;
   color: white;
+  overflow: hidden;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-}
-.schedule-event.palestra {
-  background-color: #d80f0f;
-}
-.schedule-event.minicurso {
-  background-color: #009700;
-}
-.schedule-event.coffee {
-  background-color: #5151fd;
-}
-.schedule-event.neutro {
-  background-color: #868600;
-}
-.schedule-event.cultural {
-  background-color: #008f8f;
-}
-.schedule-event.outro {
-  background-color: #b700b7;
 }
 
 a .schedule-event:hover {
