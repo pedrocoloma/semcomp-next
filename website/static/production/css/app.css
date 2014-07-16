@@ -4250,17 +4250,17 @@ dialog[open] {
 }
 .side-nav li a:not(.button) {
   display: block;
-  color: #008cba;
+  color: #333333;
   margin: 0;
   padding: 0.4375rem 0.875rem;
 }
 .side-nav li a:not(.button):hover, .side-nav li a:not(.button):focus {
   background: rgba(0, 0, 0, 0.025);
-  color: #1cc7ff;
+  color: #707070;
 }
 .side-nav li.active > a:first-child:not(.button) {
-  color: #1cc7ff;
-  font-weight: normal;
+  color: #333333;
+  font-weight: bold;
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
 .side-nav li.divider {
@@ -4271,7 +4271,7 @@ dialog[open] {
   border-top-color: white;
 }
 .side-nav li.heading {
-  color: #008cba;
+  color: #333333;
   font-size: 0.875rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -6757,7 +6757,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/17/static/img/header.png?1400183898');
+  background-image: url('/17/static/img/header.png?1405619194');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6786,7 +6786,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/17/static/img/hero-background.jpg?1405275795') no-repeat center center;
+  background: url('/17/static/img/hero-background.jpg?1405619194') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7154,4 +7154,16 @@ a .schedule-event:hover {
 .courseinfo p {
   text-align: justify;
   text-indent: 2rem;
+}
+
+label {
+  color: #fff;
+}
+
+a .dark-bg {
+  color: #fff;
+}
+
+a:focus .dark-bg {
+  color: #00B3EE;
 }
