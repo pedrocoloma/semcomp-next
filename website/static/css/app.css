@@ -7058,3 +7058,23 @@ a .schedule-event:hover {
   vertical-align: middle;
   text-align: center;
 }
+
+#add-place-map {
+  height: 280px;
+}
+
+.management-table {
+  width: 100%;
+}
+
+.crop-static-map {
+  width: 256px;
+  height: 55px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.static-map-management {
+  height: 256px;
+  margin-top: -100.5px;
+}

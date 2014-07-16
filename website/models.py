@@ -40,7 +40,11 @@ def company_upload_to(instance, filename):
 
 def speaker_upload_to(instance, filename):
 	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', 'name')
-	
+
+def place_map_upload_to(instance, filename):
+	name = slugify(instance.name)
+	path = Path('mapas', '{0}.png'.format(name))
+	return path.as_posix()
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
@@ -77,6 +81,10 @@ class Place(models.Model):
 	latitude = models.DecimalField(max_digits=12, decimal_places=8)
 	longitude = models.DecimalField(max_digits=12, decimal_places=8)
 	zoom = models.IntegerField()
+	static_map = models.ImageField(
+		_(u'Mapa estático'),
+		upload_to=place_map_upload_to
+	)
 
 	def __unicode__(self):
 		return self.name
@@ -191,7 +199,13 @@ class EventData(models.Model):
 	slot = models.OneToOneField(Event)
 	name = models.CharField(_(u'Nome'), max_length=64, blank=True)
 	description = models.TextField(_(u'Descrição'), blank=True)
-	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	place = models.ForeignKey(
+		'Place',
+		blank=True,
+		null=True,
+		verbose_name=_(u'Local'),
+		on_delete=models.SET_NULL
+	)
 
 
 class Speaker(models.Model):
@@ -221,7 +235,13 @@ class Lecture(models.Model):
 	slot = models.OneToOneField(Event, null=True, blank=True)
 	title = models.CharField(_(u'Título'), max_length=100)
 	description = models.TextField(_(u'Descrição'), blank=True)
-	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	place = models.ForeignKey(
+		'Place',
+		blank=True,
+		null=True,
+		verbose_name=_(u'Local'),
+		on_delete=models.SET_NULL,
+	)
 	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
 
 	def get_absolute_url(self):
@@ -243,7 +263,13 @@ class Course(models.Model):
 	track = models.CharField(_(u'Pacote'), max_length=1, choices=TRACK_TYPES)
 	description = models.TextField(_(u'Descrição'), blank=True)
 	requirements = models.TextField(_(u'Pré-requisitos'), blank=True)
-	place = models.ForeignKey('Place', blank=True, null=True, verbose_name=_(u'Local'))
+	place = models.ForeignKey(
+		'Place',
+		blank=True,
+		null=True,
+		verbose_name=_(u'Local'),
+		on_delete=models.SET_NULL,
+	)
 	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
 
 	def get_absolute_url(self):

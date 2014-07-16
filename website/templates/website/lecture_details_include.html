@@ -1,3 +1,5 @@
+{% load semcomp %}
+
 <article class="row panel">
 	<section class="medium-7 columns">
 		<h1>{{event.lecture.title}}<br>
@@ -6,8 +8,8 @@
 		<h2>Descrição</h2>
 		{{event.description|linebreaks}}
 		{% if event.place %}
-			<h2>Local: <small>lugar e tal pode ser meio grande o texto aqui</small></h2>
-			<p>mostrar mapa aqui</p>
+			<h2>Local: <small>{{event.place.name}}</small></h2>
+			{% render_place event.place %}
 		{% endif %}
 	</section>
 	{% if event.lecture.speaker %}
