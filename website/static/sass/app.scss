@@ -17,6 +17,8 @@ $iso-yellow: rgb(134, 134, 0);
 $iso-cyan: rgb(0, 143, 143);
 $iso-magenta: rgb(183, 0, 183);
 
+$static-map-height: 55px;
+
 body {
     background-color: #004F78;
 }
@@ -112,7 +114,7 @@ main {
     background: white;
     border-radius: 20px;
     padding: 1.25rem;
-    
+
     > ul{
     	padding:0.5rem;
     }
@@ -151,11 +153,9 @@ main {
 }
 
 footer {
-	
     		background-color: #eee;
     		padding-top: 1.25rem;
     		padding-bottom: 1.25rem;
-	
 }
 
 .hrzinho {
@@ -325,5 +325,23 @@ a .schedule-event:hover {
 }
 
 #add-place-map {
-	height: 380px;
+	height: 280px;
 }
+
+.management-table {
+	width: 100%;
+}
+
+.crop-static-map {
+	width: 256px;
+	height: $static-map-height;
+	overflow: hidden;
+
+	margin-bottom: 20px;
+}
+
+.static-map-management {
+	height: 256px;
+	margin-top: -128px + $static-map-height / 2;
+}
+
