@@ -398,3 +398,7 @@ a.dark-bg{
     color: #eee;
 }
 
+.justify-text{
+    text-align:justify;
+    text-justify:inter-word; // IE
+}
