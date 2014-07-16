@@ -11,13 +11,15 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.utils import six
 
-from cms.api import create_page
 from menus.menu_pool import menu_pool
 
 from account.cms_app import SemcompUserApphook
 
 class UserMenuTests(TestCase):
 	def setUp(self):
+		# previne algum tipo de import circular bizarro
+		from cms.api import create_page
+
 		UserModel = get_user_model()
 		self.factory = RequestFactory()
 		self.anon_user = AnonymousUser()

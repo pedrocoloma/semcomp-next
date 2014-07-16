@@ -181,6 +181,7 @@ LOGIN_REDIRECT_URL = 'account_overview'
 SOUTH_MIGRATION_MODULES = {
 	'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
+SOUTH_TESTS_MIGRATE = False
 
 THUMBNAIL_PROCESSORS = (
 	'easy_thumbnails.processors.colorspace',
