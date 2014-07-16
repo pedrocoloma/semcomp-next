@@ -1,10 +1,11 @@
 {% load semcomp %}
 {% spaceless %}
+{% load thumbnail %}n
 <article class="row panel courseinfo">
 	<section class="medium-7 columns">
 		<div class="row">
 			<div class="medium-3 columns courselogo">
-				<img src="{{ course.photo.url }}" alt="">
+				<img src="{% thumbnail course.photo 110x0%}" alt="">
 			</div>
 			<div class="medium-9 columns">
 				<h1>{{course.title}}<br>
