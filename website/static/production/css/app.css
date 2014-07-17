@@ -4250,17 +4250,17 @@ dialog[open] {
 }
 .side-nav li a:not(.button) {
   display: block;
-  color: #008cba;
+  color: #333333;
   margin: 0;
   padding: 0.4375rem 0.875rem;
 }
 .side-nav li a:not(.button):hover, .side-nav li a:not(.button):focus {
   background: rgba(0, 0, 0, 0.025);
-  color: #1cc7ff;
+  color: #707070;
 }
 .side-nav li.active > a:first-child:not(.button) {
-  color: #1cc7ff;
-  font-weight: normal;
+  color: #333333;
+  font-weight: bold;
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 }
 .side-nav li.divider {
@@ -4271,7 +4271,7 @@ dialog[open] {
   border-top-color: white;
 }
 .side-nav li.heading {
-  color: #008cba;
+  color: #333333;
   font-size: 0.875rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -7087,15 +7087,6 @@ a .schedule-event:hover {
   height: 280px;
 }
 
-.management-table {
-  width: 100%;
-}
-
-@media only screen and (max-width: 40em) {
-  .static-map-container {
-    max-width: 100px;
-  }
-}
 .crop-static-map {
   height: 55px;
   overflow: hidden;
@@ -7173,4 +7164,11 @@ a.dark-bg:hover {
 .justify-text {
   text-align: justify;
   text-justify: inter-word;
+}
+
+@media only screen and (max-width: 40em) {
+  .management-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+  }
 }

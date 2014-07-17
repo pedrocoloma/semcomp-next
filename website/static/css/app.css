@@ -7087,15 +7087,6 @@ a .schedule-event:hover {
   height: 280px;
 }
 
-.management-table {
-  width: 100%;
-}
-
-@media only screen and (max-width: 40em) {
-  .static-map-container {
-    max-width: 100px;
-  }
-}
 .crop-static-map {
   height: 55px;
   overflow: hidden;
@@ -7173,4 +7164,11 @@ a.dark-bg:hover {
 .justify-text {
   text-align: justify;
   text-justify: inter-word;
+}
+
+@media only screen and (max-width: 40em) {
+  .management-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+  }
 }

@@ -322,15 +322,6 @@ a .schedule-event:hover {
 	height: 280px;
 }
 
-.management-table {
-	width: 100%;
-}
-
-@media #{$small-only} {
-	.static-map-container {
-		max-width: 100px;
-	}
-}
 
 .crop-static-map {
 	height: $static-map-height;
@@ -364,6 +355,7 @@ a .schedule-event:hover {
         text-align: center;
     }
 }
+
 .courseinfo{
     .courselogo{        
             text-align: center;
@@ -402,3 +394,11 @@ a.dark-bg{
     text-align:justify;
     text-justify:inter-word; // IE
 }
+
+@media #{$small-only} {
+	.management-table-scroll {
+		width: 100%;
+		overflow-x: auto;
+	}
+}
+
