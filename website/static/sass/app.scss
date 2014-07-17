@@ -347,11 +347,16 @@ a .schedule-event:hover {
     .courselogo{
         padding: 5px;
         text-align: center;
+        height:100px;
+        @media #{$medium-up}{
+            height:180px;
+        }
         a img{
             max-height:100px;
             @media #{$medium-up}{
                 max-height:180px;
             }
+            @include y-center();
         }
     }
     .coursetitle {
