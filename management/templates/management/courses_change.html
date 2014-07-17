@@ -25,6 +25,18 @@
         {% include "management/render_field.html" with field=course_form.title width="large-12" only %}
       </div>
       <div class="row">
+          <div class="medium-4 columns">
+            <img src=
+            {% if course_form.instance.photo %}
+            "{{ course_form.instance.photo.url }}"
+            {% else %}
+             "http://placehold.it/200&text=Sem+Logo" 
+             {% endif %} >
+          </div>
+
+          {% include "management/render_field.html" with field=course_form.photo width="medium-8 " only %}
+      </div>
+      <div class="row">
         {% include "management/render_field.html" with field=course_form.place width="large-6" only %}
         {% include "management/render_field.html" with field=course_form.track width="large-6" only %}
       </div>

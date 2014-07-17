@@ -6717,6 +6717,31 @@ th.hide-for-touch {
     display: table-cell !important;
   }
 }
+.xy-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.x-center {
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.y-center {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 body {
   background-color: #004F78;
 }
@@ -6732,7 +6757,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/static/img/header.png?1400038085');
+  background-image: url('/static/img/header.png?1400183898');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6761,7 +6786,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/static/img/hero-background.jpg?1404882072') no-repeat center center;
+  background: url('/static/img/hero-background.jpg?1405275795') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7081,4 +7106,41 @@ a .schedule-event:hover {
 .static-map-management {
   height: 256px;
   margin-top: -100.5px;
+}
+
+.minicursos .courselogo {
+  padding: 5px;
+  text-align: center;
+}
+.minicursos .courselogo a img {
+  max-height: 100px;
+}
+@media only screen and (min-width: 40.063em) {
+  .minicursos .courselogo a img {
+    max-height: 180px;
+  }
+}
+.minicursos .coursetitle {
+  text-align: center;
+}
+
+.courseinfo .courselogo {
+  text-align: center;
+}
+@media only screen and (min-width: 40.063em) {
+  .courseinfo .courselogo {
+    height: 10rem;
+    max-height: 10rem;
+  }
+  .courseinfo .courselogo img {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+}
+.courseinfo p {
+  text-align: justify;
+  text-indent: 2rem;
 }
