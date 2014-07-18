@@ -1,7 +1,7 @@
 {% load thumbnail %}
 {% spaceless %}
 {% if sponsors %}
-<h1> Patrocinadores </h1>
+<h1 class="blue-bg"> Patrocinadores </h1>
 {% for sponsor in sponsors %}
 <div class="row sponsor-description" data-equalizer>
 	<div class="medium-8 {% cycle "" "medium-push-4" %} columns">
@@ -26,7 +26,7 @@
 {% endfor %}
 {% endif %}
 {% if partners %}
-<h1> Apoio </h1>
+<h1 class="blue-bg"> Apoio </h1>
 {% for partner in partners %}
 <div class="row partner-description" data-equalizer>
 	<div class="medium-8 {% cycle "" "medium-push-4" %} columns">

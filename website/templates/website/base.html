@@ -65,7 +65,11 @@
         <div class="row text-center">
           <div class="medium-4 columns">
             <h1>Realização</h1>
-              <img class="realizacao" src="{% static "img/organizacao.jpg" %}" alt="Realização: FoG, ICMC, PET">
+              <div style="display: inline;">
+              <a href="http://www.fog.icmc.usp.br/" target="_blank"><img class="realizacao" src="{% static "img/foglogo.png" %}" alt="FoG" width="100"> </a>
+              <a href="http://www.icmc.usp.br/" target="_blank"><img class="realizacao" src="{% static "img/icmclogo.png" %}" alt="ICMC" width="150"></a>
+              <a href="http://pet.icmc.usp.br/" target="_blank"><img class="realizacao" src="{% static "img/petlogo.png" %}" alt="PET Computação" width="140"></a>
+            </div>
             </div>
 
             <div class="medium-4 columns">
@@ -74,7 +78,7 @@
               <ul class="semcomp-contatos">
                 <li >Telefone 1: (16) 3373-9703</li>
                 <li>Telefone 2: (16) 3373-9686</li>
-                <li>E-mail: <a href="malito:semcomp@icmc.usp.br">semcomp@icmc.usp.br</a></li>
+                <li>E-mail: <a href="mailto:semcomp@icmc.usp.br">semcomp@icmc.usp.br</a></li>
               </ul>
 
             {% static_placeholder "contato" %}
@@ -112,7 +116,7 @@
              
               <div class="large-12 columns">
 		{% for link in sitemap.links %}
-			<a href="{{ link.get_absolute_url }}">{{ link.get_title }}</a>
+			<a class="dark-bg" href="{{ link.get_absolute_url }}">{{ link.get_title }}</a>
 		{% endfor %}
 	      </div>
         </div>
