@@ -76,3 +76,28 @@ class MinicursosPluginModel(CMSPlugin):
       int(self.columns_large or 
         int(self.columns_medium or self.columns_small))
       )
+class PalestrasPluginModel(CMSPlugin):
+  columns_small = models.IntegerField(
+    _(u'Número de colunas (Telas pequenas)'),
+    blank=False,
+    validators=[validaColunas],
+    )
+  columns_medium = models.IntegerField(
+    _(u'Número de colunas (Telas médias)'),
+    blank=True,
+    null=True,
+    validators=[validaColunas],
+    )
+  columns_large = models.IntegerField(
+    _(u'Número de colunas (Telas grandes)'),
+    blank=True,
+    null=True,
+    validators=[validaColunas],
+    )
+  def __unicode__(self):
+    return u'Palestras: (%d/%d/%d) colunas' % (
+      self.columns_small,
+      int(self.columns_medium or self.columns_small),
+      int(self.columns_large or 
+        int(self.columns_medium or self.columns_small))
+      )

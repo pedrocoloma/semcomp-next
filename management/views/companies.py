@@ -9,7 +9,7 @@ from ..decorators import staff_required
 def manage_companies(request):
 	context = {'active_companies': True}
 	companies = Company.objects.all()
-	context['companies'] = companies
+	context['companies'] = companies.order_by('name')
 	context['sponsorships'] = companies.exclude(type='Z')
 	context['partnerships'] = companies.filter(type='Z')
 
