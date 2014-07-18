@@ -2,7 +2,9 @@
 {% spaceless %}
 {% load thumbnail %}
 <article class="row panel courseinfo">
-	<section class="medium-7 columns">
+	<section class="
+	{% if course.speaker %} medium-7 {% else %} medium-12 {% endif %}
+	columns">
 		<div class="row">
 			<div class="medium-3 columns courselogo">
 				<img src="{% thumbnail course.photo 110x0%}" alt="">
@@ -21,9 +23,13 @@
 			</div>
 		</div>
 		<h2>Descrição</h2>
-		{{course.description|linebreaks}}
-		<h2>Pré-requisitos</h2>
-		{{course.requirements|linebreaks}}
+		{% if course.description %}
+			{{course.description|linebreaks}}
+		{% endif %}
+		{% if course.requirements %}
+			<h2>Pré-requisitos</h2>
+			{{course.requirements|linebreaks}}
+		{% endif %}
 		{% if course.place %}
 			<h2>Local: <small>{{course.place.name}}</small></h2>
 			{% render_place course.place %}
