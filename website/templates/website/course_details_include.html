@@ -40,7 +40,7 @@
 		<section class="medium-5 columns">
 			<h3>{{speaker.name}}<br>
 				<small>{{speaker.occupation}}</small></h3>
-			{% if speaker.photo %}<img src={{speaker.photo.url}}>{% endif %}
+			{% if speaker.photo %}<div class="text-center"><img src={{speaker.photo.url}}></div>{% endif %}
 			{{speaker.bio|linebreaks}}
 		</section>
 	{% endwith %}
