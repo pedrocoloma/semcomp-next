@@ -1,0 +1,18 @@
+{% load thumbnail %}
+<h2> Palestras </h2>
+<ul class="
+{% if instance.columns_small %} small-block-grid-{{ instance.columns_small }} {% endif %}
+{% if instance.columns_medium %} medium-block-grid-{{ instance.columns_medium }} {% endif %}
+{% if instance.columns_large %} large-block-grid-{{ instance.columns_large }} {% endif %} 
+minicursos">
+{% for lecture in lectures %}
+<li>
+	<div class="courselogo">
+		<a href="{{ lecture.get_absolute_url }}"><img src="{% thumbnail lecture.speaker.photo 0x200 %}"></a>
+	</div>
+	<div class="coursetitle">
+		<a href="{{ lecture.get_absolute_url }}">{{ lecture.title }}</a>
+	</div>
+</li>
+{% endfor %}
+</ul>
