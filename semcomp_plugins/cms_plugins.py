@@ -3,8 +3,8 @@ from cms.plugin_pool import plugin_pool
 from cms.models.pluginmodel import CMSPlugin
 from django.utils.translation import ugettext_lazy as _
 
-from .models import MultiColumns, Column, MinicursosPluginModel
-from website.models import Course
+from .models import MultiColumns, Column, MinicursosPluginModel, PalestrasPluginModel
+from website.models import Course, Lecture
 
 class MultiColumnsPlugin(CMSPluginBase):
 	model = MultiColumns
@@ -36,8 +36,20 @@ class MinicursosPlugin(CMSPluginBase):
 			'courses': Course.objects.order_by('title')
 			})
 		return context
+class PalestrasPlugin(CMSPluginBase):
+	model = PalestrasPluginModel
+	name = _(u'Palestras')
+	render_template = "semcomp_plugins/render_palestras.html"
+
+	def render(self, context, instance, placeholder):
+		context.update({
+			'instance': instance,
+			'lectures': Lecture.objects.order_by('title')
+			})
+		return context
 
 plugin_pool.register_plugin(MultiColumnsPlugin)
 plugin_pool.register_plugin(ColumnPlugin)
 plugin_pool.register_plugin(SchedulePlugin)
 plugin_pool.register_plugin(MinicursosPlugin)
+plugin_pool.register_plugin(PalestrasPlugin)
