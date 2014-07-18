@@ -85,6 +85,7 @@ def lectures_edit(request, lecture_pk):
 					lecture.save()
 					return redirect('management_lectures')
 			else:
+				lecture.speaker = speaker
 				lecture.save()
 				return redirect('management_lectures')
 	else:

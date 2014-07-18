@@ -93,6 +93,7 @@ def courses_edit(request, course_pk):
 
 					return redirect('management_courses')
 			else:
+				course.speaker = speaker
 				course.save()
 				course_form.save_m2m()
 
