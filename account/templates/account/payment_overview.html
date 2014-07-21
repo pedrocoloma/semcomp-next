@@ -1,0 +1,18 @@
+{% extends "account/base.html" %}
+{% load cms_tags %}
+{% block user_content %}
+{% spaceless %}
+
+{% include "account/render_payment_status.html" with inscricao=inscricao only %}
+{% if not inscricao %}
+	<div class="panel">
+		{% static_placeholder "instrucoes_pagamento" %}
+		<p class="text-right">
+			Já realizou o depósito?
+			<a class="button" href="#">Envie o Comprovante</a>
+		</p>
+	</div>
+{% endif %}
+
+{% endspaceless %}
+{% endblock %}
