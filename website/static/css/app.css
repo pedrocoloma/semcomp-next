@@ -6757,7 +6757,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/static/img/header.png?1405619194');
+  background-image: url('/static/img/header.png?1400183898');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6786,7 +6786,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/static/img/hero-background.jpg?1405619194') no-repeat center center;
+  background: url('/static/img/hero-background.jpg?1405275795') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7171,4 +7171,12 @@ a.dark-bg:hover {
     width: 100%;
     overflow-x: auto;
   }
+}
+.payment_status dt {
+  font-style: bold;
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0.5rem 0.2rem;
+}
+.payment_status dd, .payment_status dt {
+  color: black;
 }
