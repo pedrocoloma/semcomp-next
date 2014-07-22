@@ -37,6 +37,7 @@
 				<tr>
 					<td>Nome</td>
 					<td>Email</td>
+					<td>Informações</td>
 					<td>Inscrição</td>
 				</tr>
 			</thead>
@@ -45,7 +46,8 @@
 					<tr>
 						<td>{{ user.full_name }}</td>
 						<td>{{ user.email }}</td>
-						<td><a href="#" class="small button" >Validar </a></td>
+						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Editar </a></td>
+						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Validar </a></td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -60,6 +62,7 @@
 				<tr>
 					<td>Nome</td>
 					<td>Email</td>
+					<td>Informações</td>
 					<td>Inscrição</td>
 				</tr>
 			</thead>
@@ -68,7 +71,8 @@
 					<tr>
 						<td>{{ user.full_name }}</td>
 						<td>{{ user.email }}</td>
-						<td><a href="#" class="small button" >Validar </a></td>
+						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Editar </a></td>
+						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Validar </a></td>
 					</tr>
 				{% endfor %}
 			</tbody>

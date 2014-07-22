@@ -1,0 +1,56 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+{% spaceless %}
+<form 
+action="{% url "management_users_edit" user.pk %}" 
+method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<fieldset>
+	<legend>Informações do Usuário</legend>
+	<div class="row">
+		{% include "management/render_field.html" with field=user_form.email width="large-12 " only %}
+	</div>
+	<div class="row">
+		{% include "management/render_field.html" with field=user_form.full_name width="large-12 " only %}
+	</div>
+	<div class="row">
+		{% include "management/render_field.html" with field=user_form.id_usp width="large-12 " only %}
+	</div>
+	<div class="row">
+		<div class="medium-4 columns {% if user_form.is_active.errors %}error{% endif%}">
+			{{user_form.is_active.label_tag}}<small>{{user_form.is_active.help_text}}</small>
+			<div class="large round switch">
+				{{ user_form.is_active }}
+				<label for="id_is_active"></label>
+			</div>
+			{% for error in user_form.is_active.errors %}
+				<small>{{error}}</small>
+			{% endfor %}
+		</div>
+		<div class="medium-4 columns {% if user_form.is_admin.errors %}error{% endif%}">
+			{{user_form.is_admin.label_tag}}<small>{{user_form.is_admin.help_text}}</small>
+			<div class="large round switch">
+				{{ user_form.is_admin }}
+				<label for="id_is_admin"></label>
+			</div>
+			{% for error in user_form.is_admin.errors %}
+				<small>{{error}}</small>
+			{% endfor %}
+		</div>
+		<div class="medium-4 columns {% if user_form.is_staff.errors %}error{% endif%}">
+			{{user_form.is_staff.label_tag}}<small>{{user_form.is_staff.help_text}}</small>
+			<div class="large round switch">
+				{{ user_form.is_staff }}
+				<label for="id_is_staff"></label>
+			</div>
+			{% for error in user_form.is_staff.errors %}
+				<small>{{error}}</small>
+			{% endfor %}
+		</div>
+	</div>
+	<input class="button right" type="submit" value="Salvar">
+</fieldset>
+</form>
+{% endspaceless %}
+{% endblock %}
