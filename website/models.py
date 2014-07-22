@@ -373,26 +373,16 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Inscricao(models.Model):
-	#estas constandes deveriam estar em um painel separado de administracao, mas como isso nao existe ainda, deixarei aqui.
-	#preco da inscricao padrao padrao
-	preco_sem_coffee = 20.00
-	#preco da inscricao com coffee
-	preco_coffee = 40.00
-
 	user = models.ForeignKey(SemcompUser,
 		primary_key=True
 		)
 	pagamento = models.BooleanField(default=False)
-	coffee = models.BooleanField(default=False)
+	coffee = models.BooleanField(u'Coffee Break',
+		default=False)
 	comprovante = models.ImageField(
-		_(u'Comprovante'),
-		upload_to=speaker_upload_to, 
-		blank=True,		 
+		_(u'Comprovante de Pagamento'),
+		upload_to=comprovantes_upload_to,
+		blank=False,
 		null=True,
 		)
 	avaliado = models.BooleanField(default=False)
-	
-	def preco(self):
-		if self.coffee:
-			return preco_coffee
-		return preco_sem_coffee
