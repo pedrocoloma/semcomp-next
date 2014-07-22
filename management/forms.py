@@ -52,14 +52,19 @@ class UserManagementForm(forms.ModelForm):
 	class Meta:
 		model = SemcompUser
 		fields = {'email', 'full_name', 'id_usp', 'is_active', 'is_admin', 'is_staff'}
+		help_texts = {
+			'full_name': _(u'Nome completo, como aparecerá no certificado'),
+			'id_usp': _(u'Deixe em branco para participantes de de fora da USP')
+		}
 class InscricaoManagementForm(forms.ModelForm):
 	comentario = forms.CharField(
-			label=_(u'Comentário'),
+			label=_(u'Comentários'),
 			widget=forms.Textarea,
+			help_text=_(u'Caso o comprovante seja alterado ou rejeitado, você pode justificar ao usuário neste campo'),
 		)
-	def __init__(self, *args, **kwargs):
-		super(InscricaoManagementForm, self).__init__(*args, **kwargs)
-		self.fields['comprovante'].required = False
 	class Meta:
 		model = Inscricao
 		fields = {'coffee', 'comprovante', 'numero_documento'}
+	def __init__(self, *args, **kwargs):
+		super(InscricaoManagementForm, self).__init__(*args, **kwargs)
+		self.fields['comprovante'].required = False
