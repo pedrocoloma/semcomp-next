@@ -347,9 +347,9 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	)
 
 	# campos django-admin
-	is_active = models.BooleanField(default=True)
-	is_admin = models.BooleanField(default=False)
-	is_staff = models.BooleanField(default=False)
+	is_active = models.BooleanField(u'Ativo', default=True)
+	is_admin = models.BooleanField(u'Administrador', default=False)
+	is_staff = models.BooleanField(u'Organização', default=False)
 
 	# pra ver depois quando que cada um se inscreveu
 	date_joined = models.DateTimeField(default=timezone.now)
@@ -384,5 +384,13 @@ class Inscricao(models.Model):
 		upload_to=comprovantes_upload_to,
 		blank=False,
 		null=True,
+		)
+	numero_documento = models.CharField(
+			_(u'Número do Documento'),
+			help_text=_(u'Anote aqui algum número que identifique o comprovante, garantindo que este só seja cadastrado uma única vez'),
+			max_length='30',
+			null=True,
+			blank=True,
+			unique=True,
 		)
 	avaliado = models.BooleanField(default=False)

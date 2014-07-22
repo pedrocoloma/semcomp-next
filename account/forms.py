@@ -4,4 +4,4 @@ from website.models import Inscricao
 class InscricoesForm(forms.ModelForm):
 	class Meta:
 		model = Inscricao
-		fields = ['coffee', 'comprovante']
+		fields = ['comprovante']
