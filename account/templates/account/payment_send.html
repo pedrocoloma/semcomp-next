@@ -1,0 +1,43 @@
+{% extends "account/base.html" %}
+{% load cms_tags %}
+{% block user_content %}
+{% spaceless %}
+
+<div class="panel">
+	{% static_placeholder "instrucoes_pagamento_comprovante" %}
+</div>
+<form
+	action="{% url "account_payment_send" %}"
+	method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	<fieldset>
+		<legend>Comprovante de pagamento</legend>
+		<div class="row">
+			<div class="medium-4 columns">
+				{% if inscricao.comprovante %}
+					<img src="{{inscricao.comprovante.url}}" >
+				{% else %}
+					<img src="http://placehold.it/200&text=Sem+Comprovante" >
+				{% endif %}
+				
+			</div>
+			<div class="medium-8 columns {% if form.comprovante.errors %}error{% endif%}">
+				{{ form.comprovante.label_tag }}
+				{{form.comprovante}}
+				{% for error in form.comprovante.errors %}
+					<small>{{error}}</small>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="row payment_buttons">
+			<div class="medium-6 columns">
+				<button class="expand button success round" name="com_coffee">Inscrição COM Coffee Break</button>
+			</div>
+			<div class="medium-6 columns">
+				<button class="expand button alert round" name="sem_coffee" >Inscrição SEM Coffee Break</button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endspaceless %}
+{% endblock %}
