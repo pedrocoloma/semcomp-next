@@ -17,8 +17,10 @@ INSTALLED_APPS += (
 	'djrill',
 	'raven.contrib.django.raven_compat',
 )
-MANDRILL_API_KEY = os.getenv("API_KEY_MANDRILL")
-EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+SENDGRID_USER = os.getenv('SEMCOMP17_SENDGRID_USER')
+SENDGRID_PASSWORD = os.getenv('SEMCOMP17_SENDGRID_PASSWORD')
 
 SECRET_KEY = os.getenv('SEMCOMP17_SECRET_KEY')
 
