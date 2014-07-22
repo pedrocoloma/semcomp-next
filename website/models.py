@@ -15,6 +15,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
+import hashlib
 
 def _base_upload_to_by_field(instance, image, base_path, field):
 	# get image data and reset the fp position
@@ -22,7 +23,7 @@ def _base_upload_to_by_field(instance, image, base_path, field):
 	data = im.read()
 	im.seek(0)
 
-	filename = slugify(getattr(instance, field))
+	filename = slugify(field)
 	bytes_io = BytesIO(data)
 
 	image = Image.open(bytes_io)
@@ -36,10 +37,10 @@ def _base_upload_to_by_field(instance, image, base_path, field):
 	return path.as_posix()
 
 def company_upload_to(instance, filename):
-	return _base_upload_to_by_field(instance, 'logo', 'empresas', 'name')
+	return _base_upload_to_by_field(instance, 'logo', 'empresas', instance.name)
 
 def speaker_upload_to(instance, filename):
-	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', 'name')
+	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', instance.name)
 
 def place_map_upload_to(instance, filename):
 	name = slugify(instance.name)
@@ -47,10 +48,10 @@ def place_map_upload_to(instance, filename):
 	return path.as_posix()
 
 def course_upload_to(instance, filename):
-	return _base_upload_to_by_field(instance, 'photo', 'minicursos', 'title')
+	return _base_upload_to_by_field(instance, 'photo', 'minicursos', instance.title)
 
 def comprovantes_upload_to(instance, filename):
-	return _base_upload_to_by_field(instance, 'comprovante', 'comprovantes', 'user')
+	return _base_upload_to_by_field(instance, 'comprovante', 'comprovantes', unicode(hashlib.sha224(instance.user.email).hexdigest()[:10]))
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
