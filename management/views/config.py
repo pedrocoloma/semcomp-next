@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect
 from website.models import SemcompConfig
 
 from ..forms import SemcompConfigForm
+from ..decorators import staff_required, admin_required
 
+@admin_required
 def manage_config(request):
 	form_fields = SemcompConfig.objects.filter(type='datetime')
 	
