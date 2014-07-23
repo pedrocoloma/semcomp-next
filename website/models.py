@@ -15,7 +15,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 from django.core.validators import ValidationError
-
+from south.modelsinspector import add_introspection_rules
 import hashlib
 
 def _base_upload_to_by_field(instance, image, base_path, field):
@@ -412,3 +412,4 @@ class Inscricao(models.Model):
 					% (user.full_name, user.email)
 				 )
 		return super(Inscricao, self).unique_error_message(self, model_class, unique_check)
+add_introspection_rules([], ["^website\.models\.NullableCharField"])
