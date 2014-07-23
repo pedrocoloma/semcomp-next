@@ -1,3 +1,5 @@
+{% load thumbnail %}
+
 <div class="row">
   <div class="text-center">
     <h1 class="blue-bg">Palestras empresariais</h1>
@@ -11,7 +13,7 @@
           </td>
           <td class="text-center">
             <a href="{{lecture.company.url}}">
-            <img style="margin-left: auto; margin-right: auto;display: block; height: 100px; text-align: center;" src="{{lecture.company.logo.url}}">
+              <img class="b-lecture" src="{% thumbnail lecture.company.logo 0x100 %}">
               {{ lecture.company }}
             </a>
           </td>
