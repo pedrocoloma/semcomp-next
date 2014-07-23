@@ -223,7 +223,7 @@ td {
 form img{
 	width:100%;
 }
-.sponsor-description {
+.sponsor-description, .partner-description {
 	color:black;
 	margin-top:1rem;
 	margin-bottom:1rem;
@@ -236,6 +236,7 @@ form img{
 	}
 	p{
 		text-indent:2rem;
+        text-align:justify;
 	}
 	.link{
 		position:absolute;
@@ -248,8 +249,7 @@ form img{
 		}
 	}
 	.company-logo {
-		display:table-cell;
-		vertical-align:middle;
+        height:100%;
 		img{
 			width:100%;
 			height:auto;
