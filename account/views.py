@@ -38,6 +38,7 @@ def payment_send(request):
 			inscricao = inscricao_form.save(commit=False)
 			inscricao.coffee = coffee
 			inscricao.user = request.user
+			inscricao.avaliado=False;
 			inscricao.save()
 			return redirect('account_payment')
 	else:
