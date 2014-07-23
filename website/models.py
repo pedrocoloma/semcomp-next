@@ -478,12 +478,13 @@ class RecruitmentProcess(models.Model):
 		on_delete=models.SET_NULL,
 		verbose_name = _(u'Local'),
 	)
-	company = models.ForeignKey(
+	company = models.OneToOneField(
 		Company,
 		null=True,
 		blank=True,
 		on_delete=models.SET_NULL,
 		verbose_name=_(u'Empresa'),
+		related_name='recruitment_process',
 	)
 
 class BusinessLecture(models.Model):
@@ -494,12 +495,13 @@ class BusinessLecture(models.Model):
 		blank=True,
 		null=True,
 		on_delete=models.SET_NULL,
-		verbose_name=_(u'Local')
+		verbose_name=_(u'Local'),
 	)
-	company = models.ForeignKey(
+	company = models.OneToOneField(
 		Company,
 		null=True,
 		blank=True,
 		on_delete=models.SET_NULL,
-		verbose_name=_(u'Empresa')
+		verbose_name=_(u'Empresa'),
+		related_name='business_lecture'
 	)

@@ -7247,7 +7247,23 @@ img.b-lecture {
   display: block;
 }
 
+img.image-center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .side-nav label {
   color: #222222;
   font-weight: bold;
+}
+
+.company-in-fair {
+  min-height: 350px;
+}
+.company-in-fair img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 100px;
 }

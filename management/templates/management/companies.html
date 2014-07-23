@@ -1,5 +1,7 @@
 {% extends "management/base.html" %}
 
+{% load thumbnail %}
+
 {% block user_content %}
 <div class="row">
 	<h1 class="blue-bg">Empresas</h1>
@@ -12,23 +14,29 @@
 	</div>
 </div>
 <div class="row">
-	{% for company in companies %}
-		<div class="large-6 columns">
-			<a href="{% url "management_companies_edit" company.pk %}">
-				<div class="panel">
-					<ul class="large-block-grid-2">
-						<style>
-							.large-block-grid-2 img { height: 100px; }
-						</style>
-						<li><img src="{% if company.logo %}{{company.logo.url}}{% else %}http://placehold.it/200x200&text=sem%20logo{% endif %}"></li>
-						<li>
-							<p>{{company.name}}</p>
-							<p>{{company.get_type_display}}</p>
-						</li>
-					</ul>
-				</div>
-			</a>
-		</div>
-	{% endfor %}
+	<div class="management-table-scroll">
+		<table>
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Logo</th>
+					<th>Pacote</th>
+					<th>Na feira</th>
+					<th>Editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for company in companies %}
+					<tr>
+						<td>{{company.name}}</td>
+						<td><img class="image-center" src="{% thumbnail company.logo 0x30 %}"></td>
+						<td>{{company.get_type_display}}</td>
+						<td class="text-center">{% if company.in_fair %}<i class="fa fa-check"></i>{% endif %}</td>
+						<td><a class="button expand" href="{% url "management_companies_edit" company.pk %}"><i class="fa fa-edit"></i> Editar</a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 </div>
 {% endblock %}
