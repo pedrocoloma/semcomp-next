@@ -7265,5 +7265,8 @@ img.image-center {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+.company-logo-container {
   height: 100px;
 }

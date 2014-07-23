@@ -110,7 +110,7 @@ def render_schedule(render_type="user"):
 
 @register.inclusion_tag('website/templatetags/render_recruitment_processes.html')
 def render_recruitment_processes():
-	processes = RecruitmentProcess.objects.exclude(company=None)
+	processes = RecruitmentProcess.objects.exclude(company=None).order_by('start_datetime')
 	context = {
 		'processes': processes,
 	}
@@ -118,7 +118,7 @@ def render_recruitment_processes():
 
 @register.inclusion_tag('website/templatetags/render_business_lectures.html')
 def render_business_lectures():
-	lectures = BusinessLecture.objects.exclude(company=None)
+	lectures = BusinessLecture.objects.exclude(company=None).order_by('start_datetime')
 	context = {
 		'lectures': lectures,
 	}

@@ -6,8 +6,10 @@
 		<div class="small-12 medium-6 columns">
 			<div class="panel company-in-fair text-center">
 				<a href="{{company.url}}">
-					<img src="{% thumbnail company.logo 261x100 %}">
-					<h3>{{company.name}}</h3>
+					<div class="company-logo-container">
+						<img src="{% thumbnail company.logo 261x100 %}">
+						<h3>{{company.name}}</h3>
+					</div>
 				</a>
 				{% if company.recruitment_process %}
 					<p>Processo seletivo:<br>{{company.recruitment_process.start_datetime}}</p>
