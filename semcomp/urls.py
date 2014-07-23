@@ -27,5 +27,5 @@ urlpatterns = solid_i18n_patterns('',
 # isso está aqui porque esse módulo só é carregado quando chega a primeira
 # requisição. ela é colocada aqui porque ela precisa que as tabelas já existam
 # e assim ela é executada só uma vez antes de todo o resto
-from website import create_semcomp_config
+from website.utils import create_semcomp_config
 create_semcomp_config()
