@@ -8,3 +8,9 @@ def staff_required(function):
 		raise PermissionDenied
 	return user_passes_test(staff_test)(function)
 
+def admin_required(function):
+	def admin_test(user):
+		if user.is_authenticated() and user.is_staff and user.is_admin:
+			return True
+		raise PermissionDenied
+	return user_passes_test(admin_test)(function)
