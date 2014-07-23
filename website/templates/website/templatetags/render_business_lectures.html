@@ -4,8 +4,7 @@
   <div class="text-center">
     <h1 class="blue-bg">Palestras empresariais</h1>
   </div>
-  <div class="large-8 large-centered columns">
-    <table style="width: 100%;">
+	<table class="large-12 columns">
       {% for lecture in lectures %}
         <tr>
           <td class="text-center">
@@ -13,13 +12,12 @@
           </td>
           <td class="text-center">
             <a href="{{lecture.company.url}}">
-              <img class="b-lecture" src="{% thumbnail lecture.company.logo 0x100 %}">
+              <img class="b-lecture" src="{% thumbnail lecture.company.logo 0x50 %}">
               {{ lecture.company }}
             </a>
           </td>
         </tr>
       {% endfor %}
     </table>
-  </div>
 </div>
 

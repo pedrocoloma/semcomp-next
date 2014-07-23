@@ -7246,3 +7246,8 @@ img.b-lecture {
   max-height: 100px;
   display: block;
 }
+
+.side-nav label {
+  color: #222222;
+  font-weight: bold;
+}

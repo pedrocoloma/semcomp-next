@@ -1,0 +1,20 @@
+{% extends "website/base.html" %}
+
+{% load cms_tags menu_tags %}
+
+{% block base_content %}
+  <div class="row">
+    <div class="large-4 columns">
+      <div class="panel">
+        <ul class="side-nav">
+          <li><label>SAIBA MAIS</label></li>
+          {% show_menu_below_id "feira" 0 100 100 100 "menu/side_menu.html" %}
+        </ul>
+      </div>
+    </div>
+    <div class="large-8 columns">
+      {% placeholder "page_content" %}
+    </div>
+  </div>
+{% endblock %}
+

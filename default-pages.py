@@ -62,6 +62,7 @@ pages = [
 	}),
 	('feira', {
 		'title': u'Feira',
+		'reverse_id': 'feira',
 	}),
 	('contato', {
 		'title': u'Contato',

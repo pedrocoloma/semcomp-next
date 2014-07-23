@@ -2,7 +2,7 @@
 	<div class="text-center">
 		<h1 class="blue-bg">Processos seletivos</h1>
 	</div>
-	<div class="large-8 large-centered columns">
+	<div class="large-12 columns">
 		{% regroup processes|dictsort:"start_datetime" by start_datetime|date:"j \d\e F (l)" as process_list %}
 		{% for day in process_list %}
 			<div class="text-center">
