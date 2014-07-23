@@ -14,7 +14,7 @@
 					<li {% if active_overview %}class="active"{% endif %}><a href="{% url "account_overview" %}"><i class="fa fa-fw fa-home"></i> {% trans "Visão geral" %}</a></li>
 					<li {% if active_payment %}class="active"{% endif %}><a href="{% url "account_payment" %}"><i class="fa fa-fw fa-usd"></i> {% trans "Pagamento" %}</a></li>
 					<li {% if active_courses %}class="active"{% endif %}><a href="{% url "account_courses" %}"><i class="fa fa-fw fa-pencil"></i> {% trans "Minicursos" %}</a></li>
-					<li><a href="{% url "logout" %}"><i class="fa fa-fw fa-sign-out"></i> {% trans "Sair" %}</a></li>
+					<li><a href="{% url "account_logout" %}"><i class="fa fa-fw fa-sign-out"></i> {% trans "Sair" %}</a></li>
 					{% if user.is_staff %}
 						<li><a href="{% page_url "admin" %}"><i class="fa fa-fw fa-cog"></i> {% trans "Administração" %}</a></li>
 					{% endif %}
