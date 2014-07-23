@@ -33,4 +33,6 @@ urlpatterns = patterns('',
 	url(r'^empresas/adicionar/$', 'management.views.companies_add', name='management_companies_add'),
 	url(r'^empresas/editar/(\d+)/$', 'management.views.companies_edit', name='management_companies_edit'),
 	url(r'^empresas/apagar/(\d+)/$', 'management.views.companies_delete', name='management_companies_delete'),
+
+	url(r'^configuracoes/$', 'management.views.manage_config', name='management_config'),
 )

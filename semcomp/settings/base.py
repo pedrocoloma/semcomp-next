@@ -56,6 +56,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.static',
 	'cms.context_processors.media',
 	'sekizai.context_processors.sekizai',
+	'website.context_processors.semcomp',
 )
 
 ROOT_URLCONF = 'semcomp.urls'
@@ -194,4 +195,21 @@ THUMBNAIL_PROCESSORS = (
 AUTH_USER_MODEL = 'website.SemcompUser'
 
 SIGNUP_FORM_CLASS = 'website.forms.UserSignupForm'
-SIGNUP_ALLOWED = False
+SIGNUP_ALLOWED = 'website.utils.signup_allowed'
+
+SEMCOMP_CONFIG = {
+	# Esses são os valores padrão, podem ser alterados em runtime
+	'REGISTRATION_DATE': (
+		u'Abertura das inscrições',
+		'datetime',
+		datetime.datetime(2014, 7, 23, 12)),
+	'COURSE_REGISTRATION_DATE': (
+		u'Abertura das inscrições para minicursos',
+		'datetime',
+		datetime.datetime(2014, 8, 11, 12)),
+	'PAYMENT_DATE': (
+		u'Início dos pagamentos',
+		'datetime',
+		datetime.datetime(2014, 8, 4)),
+}
+

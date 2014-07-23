@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import os
 from django.conf import settings
 from django.conf.urls import patterns, url, include
@@ -20,3 +22,10 @@ urlpatterns = solid_i18n_patterns('',
 	url(r'^', include('website.urls')),
 	url(r'^', include('cms.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# isso está aqui porque esse módulo só é carregado quando chega a primeira
+# requisição. ela é colocada aqui porque ela precisa que as tabelas já existam
+# e assim ela é executada só uma vez antes de todo o resto
+from website.utils import create_semcomp_config
+create_semcomp_config()
