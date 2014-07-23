@@ -36,6 +36,7 @@ class MinicursosPlugin(CMSPluginBase):
 			'courses': Course.objects.order_by('title')
 			})
 		return context
+
 class PalestrasPlugin(CMSPluginBase):
 	model = PalestrasPluginModel
 	name = _(u'Palestras')
@@ -48,8 +49,14 @@ class PalestrasPlugin(CMSPluginBase):
 			})
 		return context
 
+class RecruitmentProcessesPlugin(CMSPluginBase):
+	model = CMSPlugin
+	name = _(u'Processos seletivos')
+	render_template = 'semcomp_plugins/render_recruitment_processes.html'
+
 plugin_pool.register_plugin(MultiColumnsPlugin)
 plugin_pool.register_plugin(ColumnPlugin)
 plugin_pool.register_plugin(SchedulePlugin)
 plugin_pool.register_plugin(MinicursosPlugin)
 plugin_pool.register_plugin(PalestrasPlugin)
+plugin_pool.register_plugin(RecruitmentProcessesPlugin)

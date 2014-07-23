@@ -83,6 +83,9 @@ class Company(models.Model):
 
 	url = models.URLField()
 
+	def __unicode__(self):
+		return self.name
+
 
 class Place(models.Model):
 	name = models.CharField(_(u'Nome'), max_length=100)

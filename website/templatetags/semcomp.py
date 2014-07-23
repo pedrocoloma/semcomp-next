@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db.models import Q
 from cms.models import Page
 
-from website.models import Company, Event, Place
+from website.models import Company, Event, Place, RecruitmentProcess
 
 register = template.Library()
 
@@ -106,6 +106,16 @@ def render_schedule(render_type="user"):
 	}
 
 	return context
+
+
+@register.inclusion_tag('website/templatetags/render_recruitment_processes.html')
+def render_recruitment_processes():
+	processes = RecruitmentProcess.objects.exclude(company=None)
+	context = {
+		'processes': processes,
+	}
+	return context
+
 
 @register.simple_tag
 def render_place(place):
