@@ -56,4 +56,7 @@ def courses(request):
 
 def account_logout(request):
 	logout(request)
+	return redirect('account_logout_view')
+
+def account_logout_view(request):
 	return render(request, 'account/logout.html')
