@@ -1,0 +1,72 @@
+{% extends "management/base.html" %}
+
+{% load i18n static %}
+
+{% block user_content %}
+  <form
+    {% if form.instance.pk %}
+      action="{% url "management_business_lectures_edit" form.instance.pk %}"
+    {% else %}
+      action="{% url "management_business_lectures_add" %}"
+    {% endif %}
+    method="post">
+    {% csrf_token %}
+    <fieldset>
+      {% if form.instance.pk %}
+        <legend>Editar palestra empresarial</legend>
+      {% else %}
+        <legend>Criar palestra empresarial</legend>
+      {% endif %}
+      <div class="row">
+        {% include "management/render_field.html" with field=form.start_datetime width="large-12" only %}
+      </div>
+      <div class="row">
+        {% include "management/render_field.html" with field=form.end_datetime width="large-12" only %}
+      </div>
+      <div class="row">
+        {% include "management/render_field.html" with field=form.company width="large-6" only %}
+        {% include "management/render_field.html" with field=form.place width="large-6" only %}
+      </div>
+
+      <input type="submit" class="button right" value="{% trans "Salvar" %}">
+      {% if form.instance.pk %}
+        <a href="{% url "management_business_lectures_delete" form.instance.pk %}" class="button left alert" onclick="return confirm('Tem certeza que deseja apagar?');">{% trans "Apagar" %}</a>
+      {% endif %}
+    </fieldset>
+  </form>
+{% endblock %}
+
+{% block extracss %}
+  {{block.super}}
+	<link rel="stylesheet" href="{% static "css/pickadate/default.css" %}">
+	<link rel="stylesheet" href="{% static "css/pickadate/default.date.css" %}">
+	<link rel="stylesheet" href="{% static "css/pickadate/default.time.css" %}">
+  <style>
+    input[id*="datetime"] {
+      width: 49%;
+      display: inline;
+    }
+    input[id$="datetime_0"] {
+      margin-right: 1%;
+    }
+    input[id$="datetime_1"] {
+      margin-left: 1%;
+    }
+  </style>
+{% endblock %}
+
+{% block extrajs %}
+	<script src="{% static "js/pickadate/picker.js" %}"></script>
+	<script src="{% static "js/pickadate/picker.date.js" %}"></script>
+	<script src="{% static "js/pickadate/picker.time.js" %}"></script>
+	<script src="{% static "js/pickadate/translations/pt_BR.js" %}"></script>
+	<script type="text/javascript">
+    $('input[id$="datetime_0"]').pickadate({
+      format: 'dd/mm/yyyy',
+      today: '',
+    });
+    $('input[id$="datetime_1"]').pickatime({
+      format: 'HH:i',
+    });
+	</script>
+{% endblock %}

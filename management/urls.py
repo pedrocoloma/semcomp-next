@@ -39,6 +39,11 @@ urlpatterns = patterns('',
 	url(r'^processos/editar/(\d+)/$', 'management.views.processes_edit', name='management_processes_edit'),
 	url(r'^processos/apagar/(\d+)/$', 'management.views.processes_delete', name='management_processes_delete'),
 
+	url(r'^palestras-empresariais/$', 'management.views.manage_business_lectures', name='management_business_lectures'),
+	url(r'^palestras-empresariais/adicionar/$', 'management.views.business_lectures_add', name='management_business_lectures_add'),
+	url(r'^palestras-empresariais/editar/(\d+)/$', 'management.views.business_lectures_edit', name='management_business_lectures_edit'),
+	url(r'^palestras-empresariais/deletar/(\d+)/$', 'management.views.business_lectures_delete', name='management_business_lectures_delete'),
+
 	url(r'^configuracoes/$', 'management.views.manage_config', name='management_config'),
 
 )

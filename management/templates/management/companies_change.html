@@ -39,7 +39,8 @@
 					{% include "management/render_field.html" with field=form.url width="large-12" only %}
 				</div>
 				<div class="row">
-					{% include "management/render_field.html" with field=form.type width="large-12" only %}
+					{% include "management/render_checkbox_field.html" with field=form.in_fair width="large-4" only %}
+					{% include "management/render_field.html" with field=form.type width="large-8" only %}
 				</div>
 				<div class="row">
 					{% include "management/render_field.html" with field=form.description width="large-12" only %}

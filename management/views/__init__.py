@@ -9,6 +9,7 @@ from .users import *
 from .courses import *
 from .companies import *
 from .processes import *
+from .business import *
 from .config import *
 
 @staff_required

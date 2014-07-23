@@ -1,0 +1,42 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+  <div class="row">
+    <div class="large-12 columns">
+      <h1 class="blue-bg">Palestras empresariais</h1>
+      <div class="management-table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Horário</th>
+              <th>Empresa</th>
+              <th>Local</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lecture in lectures %}
+              <tr>
+                <td>{{lecture.start_datetime}}<br>{{lecture.end_datetime}}</td>
+                {% if lecture.company %}
+                  <td>{{lecture.company}}</td>
+                {% else %}
+                  <td><span class="alert-box alert">Sem empresa</span></td>
+                {% endif %}
+                {% if lecture.place %}
+                  <td>{{lecture.place}}</td>
+                {% else %}
+                  <td><span class="alert-box alert">Sem local</span></td>
+                {% endif %}
+                <td><a href="{% url "management_business_lectures_edit" lecture.pk %}" class="button expand"><i class="fa fa-edit"></i> Editar</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="large-12 columns">
+      <a class="button expand" href="{% url "management_business_lectures_add" %}">Adicionar palestra empresarial</a>
+    </div>
+  </div>
+{% endblock %}

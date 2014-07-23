@@ -83,6 +83,11 @@ class Company(models.Model):
 
 	url = models.URLField()
 
+	in_fair = models.BooleanField(
+		_(u'Vai participar da feira?'),
+		default=False
+	)
+
 	def __unicode__(self):
 		return self.name
 
@@ -496,5 +501,5 @@ class BusinessLecture(models.Model):
 		null=True,
 		blank=True,
 		on_delete=models.SET_NULL,
-		verbose_name=_(u'Local')
+		verbose_name=_(u'Empresa')
 	)
