@@ -6757,7 +6757,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/static/img/header.png?1405619194');
+  background-image: url('/static/img/header.png?1400183898');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6786,7 +6786,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/static/img/hero-background.jpg?1405619194') no-repeat center center;
+  background: url('/static/img/hero-background.jpg?1405275795') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -6982,36 +6982,36 @@ form img {
   width: 100%;
 }
 
-.sponsor-description {
+.sponsor-description, .partner-description {
   color: black;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.sponsor-description h2 {
+.sponsor-description h2, .partner-description h2 {
   font-size: 1.618rem;
 }
-.sponsor-description .panel {
+.sponsor-description .panel, .partner-description .panel {
   position: relative;
   height: 100%;
 }
-.sponsor-description p {
+.sponsor-description p, .partner-description p {
   text-indent: 2rem;
+  text-align: justify;
 }
-.sponsor-description .link {
+.sponsor-description .link, .partner-description .link {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
   float: right;
   font-size: 0.667rem;
 }
-.sponsor-description .link ::before {
+.sponsor-description .link ::before, .partner-description .link ::before {
   content: "Site: ";
 }
-.sponsor-description .company-logo {
-  display: table-cell;
-  vertical-align: middle;
+.sponsor-description .company-logo, .partner-description .company-logo {
+  height: 100%;
 }
-.sponsor-description .company-logo img {
+.sponsor-description .company-logo img, .partner-description .company-logo img {
   width: 100%;
   height: auto;
 }
