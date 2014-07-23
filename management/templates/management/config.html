@@ -1,0 +1,61 @@
+{% extends "management/base.html" %}
+
+{% load static %}
+
+{% block user_content %}
+<div class="row">
+	<div class="large-12 columns">
+		<h1 class="blue-bg">Datas importantes</h1>
+		<form action="{% url "management_config" %}" method="post">
+			{% csrf_token %}
+			<div class="row">
+				{% for field in form %}
+					<div class="large-12 columns config-field-group">
+						{{field.label_tag}} {{field}}
+					</div>
+				{% endfor %}
+			</div>
+			<input type="submit" value="Salvar" class="button expand">
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block extracss %}
+	{{block.super}}
+	<link rel="stylesheet" href="{% static "css/pickadate/default.css" %}">
+	<link rel="stylesheet" href="{% static "css/pickadate/default.date.css" %}">
+	<link rel="stylesheet" href="{% static "css/pickadate/default.time.css" %}">
+	<link rel="stylesheet" href="{% static "bower_components/spectrum/spectrum.css" %}">
+	<style>
+		.config-field-group input {
+			width: 49%;
+			margin-left: 1%;
+			margin-right: 1%;
+			display: inline;
+		}
+		.config-field-group input:first-of-type { margin-left: 0; }
+		.config-field-group input:last-of-type { margin-right: 0; }
+	</style>
+{% endblock %}
+
+{% block extrajs %}
+	<script src="{% static "js/pickadate/picker.js" %}"></script>
+	<script src="{% static "js/pickadate/picker.date.js" %}"></script>
+	<script src="{% static "js/pickadate/picker.time.js" %}"></script>
+	<script src="{% static "js/pickadate/translations/pt_BR.js" %}"></script>
+	<script type="text/javascript">
+		$('.config-field-group').each(function (index, element) {
+			var datetime = $(element).find('[id^="id_config_datetime"]');
+			if (datetime.length) {
+				datetime.first().pickadate({
+					format: 'dd/mm/yyyy',
+					today: '',
+				});
+				datetime.last().pickatime({
+					format: 'HH:i',
+				});
+			}
+		});
+	</script>
+{% endblock %}

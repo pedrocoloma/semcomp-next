@@ -195,3 +195,20 @@ AUTH_USER_MODEL = 'website.SemcompUser'
 
 SIGNUP_FORM_CLASS = 'website.forms.UserSignupForm'
 SIGNUP_ALLOWED = False
+
+SEMCOMP_CONFIG = {
+	# Esses são os valores padrão, podem ser alterados em runtime
+	'REGISTRATION_DATE': (
+		u'Abertura das inscrições',
+		'datetime',
+		datetime.datetime(2014, 7, 23, 12)),
+	'COURSE_REGISTRATION_DATE': (
+		u'Abertura das inscrições para minicursos',
+		'datetime',
+		datetime.datetime(2014, 8, 11, 12)),
+	'PAYMENT_DATE': (
+		u'Início dos pagamentos',
+		'datetime',
+		datetime.datetime(2014, 8, 4)),
+}
+

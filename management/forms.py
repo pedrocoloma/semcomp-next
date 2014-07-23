@@ -3,7 +3,19 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
-from website.models import Company, Place, Event, EventData, Lecture, Course, Speaker, ContactInformation, SemcompUser, Inscricao
+from website.models import (
+	Company,
+	ContactInformation,
+	Course,
+	Event,
+	EventData,
+	Inscricao,
+	Lecture,
+	Place,
+	SemcompConfig
+	SemcompUser,
+	Speaker,
+)
 
 class CompanyForm(forms.ModelForm):
 	class Meta:
@@ -44,6 +56,37 @@ class SpeakerForm(forms.ModelForm):
 		model = Speaker
 		fields = ('name', 'occupation', 'photo', 'bio')
 
+class SemcompConfigForm(forms.Form):
+	def __init__(self, *args, **kwargs):
+		form_fields = kwargs.pop('form_fields')
+
+		super(SemcompConfigForm, self).__init__(*args, **kwargs)
+
+		for field in form_fields:
+			if field.type == 'text':
+				field_name = 'config_text_field_{0}'.format(field.pk)
+				self.fields[field_name] = forms.CharField(label=field.name)
+			elif field.type == 'bool':
+				field_name = 'config_bool_field_{0}'.format(field.pk)
+				self.fields[field_name] = forms.BooleanField(label=field.name)
+			elif field.type == 'datetime':
+				field_name = 'config_datetime_field_{0}'.format(field.pk)
+				self.fields[field_name] = forms.SplitDateTimeField(label=field.name)
+
+			if field.pk:
+				self.initial[field_name] = field.get_value()
+
+	def save(self):
+		for field_name in self.changed_data:
+			field = self.fields[field_name]
+			field_data = self.cleaned_data[field_name]
+
+			config = SemcompConfig.objects.get(name=field.label)
+			config.set_value(field_data)
+			config.save()
+
+
+
 ContactInformationFormset = inlineformset_factory(Speaker, ContactInformation)
 
 EventDataFormset = inlineformset_factory(Event, EventData, max_num=1, can_delete=False)
@@ -56,6 +99,7 @@ class UserManagementForm(forms.ModelForm):
 			'full_name': _(u'Nome completo, como aparecerá no certificado'),
 			'id_usp': _(u'Deixe em branco para participantes de de fora da USP')
 		}
+
 class InscricaoManagementForm(forms.ModelForm):
 	comentario = forms.CharField(
 			label=_(u'Comentários'),
