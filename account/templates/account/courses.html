@@ -1,1 +1,7 @@
 {% extends "account/base.html" %}
+{% load cms_tags %}
+{% block user_content %}
+<div class="panel">
+{% static_placeholder "account_minicursos_placeholder" %}
+</div>
+{% endblock %}
