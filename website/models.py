@@ -14,7 +14,9 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
-
+from django.core.validators import ValidationError
+from south.modelsinspector import add_introspection_rules
+import hashlib
 
 def _base_upload_to_by_field(instance, image, base_path, field):
 	# get image data and reset the fp position
@@ -22,7 +24,7 @@ def _base_upload_to_by_field(instance, image, base_path, field):
 	data = im.read()
 	im.seek(0)
 
-	filename = slugify(getattr(instance, field))
+	filename = slugify(field)
 	bytes_io = BytesIO(data)
 
 	image = Image.open(bytes_io)
@@ -36,10 +38,10 @@ def _base_upload_to_by_field(instance, image, base_path, field):
 	return path.as_posix()
 
 def company_upload_to(instance, filename):
-	return _base_upload_to_by_field(instance, 'logo', 'empresas', 'name')
+	return _base_upload_to_by_field(instance, 'logo', 'empresas', instance.name)
 
 def speaker_upload_to(instance, filename):
-	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', 'name')
+	return _base_upload_to_by_field(instance, 'photo', 'palestrantes', instance.name)
 
 def place_map_upload_to(instance, filename):
 	name = slugify(instance.name)
@@ -47,7 +49,10 @@ def place_map_upload_to(instance, filename):
 	return path.as_posix()
 
 def course_upload_to(instance, filename):
-	return _base_upload_to_by_field(instance, 'photo', 'minicursos', 'title')
+	return _base_upload_to_by_field(instance, 'photo', 'minicursos', instance.title)
+
+def comprovantes_upload_to(instance, filename):
+	return _base_upload_to_by_field(instance, 'comprovante', 'comprovantes', unicode(hashlib.sha224(instance.user.email).hexdigest()[:10]))
 
 class Company(models.Model):
 	COMPANY_TYPE_CHOICES = (
@@ -314,7 +319,6 @@ class SemcompUserManager(BaseUserManager):
 		user.save(using=self._db)
 		return user
 
-
 class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(
 		_(u'Email'),
@@ -344,9 +348,9 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	)
 
 	# campos django-admin
-	is_active = models.BooleanField(default=True)
-	is_admin = models.BooleanField(default=False)
-	is_staff = models.BooleanField(default=False)
+	is_active = models.BooleanField(u'Ativo', default=True)
+	is_admin = models.BooleanField(u'Administrador', default=False)
+	is_staff = models.BooleanField(u'Organização', default=False)
 
 	# pra ver depois quando que cada um se inscreveu
 	date_joined = models.DateTimeField(default=timezone.now)
@@ -367,5 +371,45 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 
 	def __unicode__(self):
 		return self.full_name
+class NullableCharField(models.CharField):
+    description = ""
+    __metaclass__ = models.SubfieldBase
+    def to_python(self, value):
+        if isinstance(value, models.CharField):
+            return value
+        return value or ''
+    def get_prep_value(self, value):
+        return value or None
 
+class Inscricao(models.Model):
+	user = models.ForeignKey(SemcompUser,
+		primary_key=True
+		)
+	pagamento = models.BooleanField(default=False)
+	coffee = models.BooleanField(u'Coffee Break',
+		default=False)
+	comprovante = models.ImageField(
+		_(u'Comprovante de Pagamento'),
+		upload_to=comprovantes_upload_to,
+		blank=False,
+		null=True,
+		)
+	numero_documento = NullableCharField(
+			_(u'Número do Documento'),
+			help_text=_(u'Anote aqui algum número que identifique o comprovante, garantindo que este só seja cadastrado uma única vez'),
+			max_length='30',
+			null=True,
+			blank=True,
+			unique=True,
+		)
+	avaliado = models.BooleanField(default=False)
+	def unique_error_message(self, model_class, unique_check):
+		qs = Inscricao.objects.filter(numero_documento=self.numero_documento).exclude(user=self.user)
 
+		if qs.exists():
+			user = qs[0].user
+			return _(u'Número de documento já utilizado por: %s ( %s )'
+					% (user.full_name, user.email)
+				 )
+		return super(Inscricao, self).unique_error_message(self, model_class, unique_check)
+add_introspection_rules([], ["^website\.models\.NullableCharField"])

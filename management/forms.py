@@ -2,8 +2,8 @@
 
 from django import forms
 from django.forms.models import inlineformset_factory
-
-from website.models import Company, Place, Event, EventData, Lecture, Course, Speaker, ContactInformation
+from django.utils.translation import ugettext_lazy as _
+from website.models import Company, Place, Event, EventData, Lecture, Course, Speaker, ContactInformation, SemcompUser, Inscricao
 
 class CompanyForm(forms.ModelForm):
 	class Meta:
@@ -47,3 +47,25 @@ class SpeakerForm(forms.ModelForm):
 ContactInformationFormset = inlineformset_factory(Speaker, ContactInformation)
 
 EventDataFormset = inlineformset_factory(Event, EventData, max_num=1, can_delete=False)
+
+class UserManagementForm(forms.ModelForm):
+	class Meta:
+		model = SemcompUser
+		fields = {'email', 'full_name', 'id_usp', 'is_active', 'is_admin', 'is_staff'}
+		help_texts = {
+			'full_name': _(u'Nome completo, como aparecerá no certificado'),
+			'id_usp': _(u'Deixe em branco para participantes de de fora da USP')
+		}
+class InscricaoManagementForm(forms.ModelForm):
+	comentario = forms.CharField(
+			label=_(u'Comentários'),
+			widget=forms.Textarea,
+			help_text=_(u'Caso o comprovante seja alterado ou rejeitado, você pode justificar ao usuário neste campo'),
+			required=False,
+		)
+	class Meta:
+		model = Inscricao
+		fields = {'coffee', 'comprovante', 'numero_documento'}
+	def __init__(self, *args, **kwargs):
+		super(InscricaoManagementForm, self).__init__(*args, **kwargs)
+		self.fields['comprovante'].required = False

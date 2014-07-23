@@ -401,4 +401,18 @@ a.dark-bg{
 		overflow-x: auto;
 	}
 }
+dt{
+    font-weight:bold;
+}
+.payment_status{
+    dt{
+        margin: 0.5rem 0 0.5rem 0.2rem;
+    }
+    dd, dt{
+        color:#333;
+    }
+}
 
+.payment_buttons button{
+    margin:1rem auto; 
+}

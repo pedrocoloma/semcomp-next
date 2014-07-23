@@ -1,10 +1,83 @@
 {% extends "management/base.html" %}
 
 {% block user_content %}
+{% spaceless %}
 <div class="row">
-    <h1 class="blue-bg">Usuários</h1>
-	<div class="large-6 columns">
-		<p>Alguma coisa aqui</p>
+	<h1 class="blue-bg">Estatísticas</h1>
+	<table>
+		<tbody>
+			<tr>
+				<td>Total de inscritos</td>
+				<td>{{ total_inscritos }}</td>
+			</tr>
+			<tr>
+				<td>Total de participantes</td>
+				<td>{{ total_pagos }}</td>
+			</tr>
+			<tr>
+				<td>Participantes COM Coffee Break</td>
+				<td>{{ total_coffee }}</td>
+			</tr>
+			<tr>
+				<td>Participantes SEM Coffee Break</td>
+				<td>{{ total_sem_coffee }}</td>
+			</tr>
+			<tr>
+				<td>Pendentes de avaliação</td>
+				<td>{{ total_pendentes }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="row">
+	<h1 class="blue-bg">Pendentes de avaliação</h1>
+	<div class="small-12 columns">
+		<table>
+			<thead>
+				<tr>
+					<td>Nome</td>
+					<td>Email</td>
+					<td>Informações</td>
+					<td>Inscrição</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in pendencias %}
+					<tr>
+						<td>{{ user.full_name }}</td>
+						<td>{{ user.email }}</td>
+						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Editar </a></td>
+						<td><a href="{% url "management_users_validate" user.pk %}" class="small expand button" >Validar </a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<h1 class="blue-bg">Usuários</h1>
+</div>
+<div class="row">
+	<div class="small-12 columns">
+		<table>
+			<thead>
+				<tr>
+					<td>Nome</td>
+					<td>Email</td>
+					<td>Informações</td>
+					<td>Inscrição</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in usuarios %}
+					<tr>
+						<td>{{ user.full_name }}</td>
+						<td>{{ user.email }}</td>
+						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Editar </a></td>
+						<td><a href="{% url "management_users_validate" user.pk %}" class="small expand button" >Validar </a></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
 </div>
+{% endspaceless %}
 {% endblock %}

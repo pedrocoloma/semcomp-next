@@ -1,0 +1,91 @@
+{% extends "management/base.html" %}
+{% load sekizai_tags %}
+
+{% block user_content %}
+{% spaceless %}
+<form 
+action="{% url "management_users_validate" user.pk %}" 
+method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<fieldset>
+	<legend>Inscrição</legend>
+	{% if inscricao_form.non_field_errors %}
+		{{ inscricao_form.non_field_errors.as_ul }}
+	{% endif %}
+	<fieldset>
+		<legend>Usuário</legend>
+		<div class="row">
+			<div class="small-12 columns">
+				<dt>Nome:</dt>
+				<dd>{{user.full_name}}</dd>
+			</div>
+		</div>
+		<div class="row">
+			<div class="medium-6 columns">
+				<dt>Email:</dt>
+				<dd>{{user.email}}</dd>
+			</div>
+			<div class="medium-6 columns">
+				<dt>NUSP:</dt>
+				<dd>{{user.id_usp}}</dd>
+			</div>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Comprovante</legend>
+		<div class="row">
+			<div class="medium-4 columns">
+				{% if inscricao.comprovante %}
+						<a target="_blank" href="{{inscricao.comprovante.url}}"><img src="{{inscricao.comprovante.url}}" ></a>
+				{% else %}
+					<img src="http://placehold.it/200&text=Sem+Comprovante" >
+				{% endif %}
+				
+			</div>
+			<div class="medium-8 columns">
+				<div class="row">
+					<div class="medium-12 columns">
+							{{ inscricao_form.coffee.label_tag }}
+						<div class="switch round large">
+							{{ inscricao_form.coffee }}
+							<label for="id_coffee"></label>
+						</div> 
+					</div>
+				</div>
+				<div class="row">
+					{% include "management/render_field.html" with field=inscricao_form.comprovante width="large-12 " only %}
+				</div>
+				<div class="row">
+					{% include "management/render_field.html" with field=inscricao_form.numero_documento width="large-12 " only %}
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Ação</legend>
+		<div class="row">
+			{% include "management/render_field.html" with field=inscricao_form.comentario width="large-12 " only %}
+		</div>
+		<div class="row payment_buttons">
+			<small>Salvar modificações aprova/rejeita o comprovante e notifica o usuário:</small><br>
+			<div class="medium-6 columns">
+				<button class="expand button success round" name="aprovar">APROVAR Comprovante</button>
+			</div>
+			<div class="medium-6 columns">
+				<button class="expand button alert round" name="rejeitar" >REJEITAR Comprovante</button>
+			</div>
+		</div>
+	</fieldset>
+	<div class="text-right">
+	<small>Salvar modificações sem notificar o usuário:</small><br>
+		<button class="button right" name="salvar">	Salvar</button>
+	</div>
+</fieldset>
+</form>
+{% addtoblock "js" %}
+<script src="js/foundation/foundation.clearing.js"></script>
+{% endaddtoblock %}
+{% endspaceless %}
+{% endblock %}
+
+

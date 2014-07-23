@@ -3,16 +3,7 @@
 {% block user_content %}
 	<div class="row">
 		<div class="large-6 columns">
-			<div class="panel">
-				<h5>Pagamento</h5>
-				<p>Você ainda não fez o pagamento da inscrição.</p>
-			</div>
-		</div>
-		<div class="large-6 columns">
-			<div class="panel">
-				<h5>Minicursos</h5>
-				<p>A inscrição para os minicursos abre dia <strong>21/10</strong> ao <strong>meio dia</strong></p>
-			</div>
+			{% include "account/render_payment_status.html" with inscricao=inscricao only %}
 		</div>
 	</div>
 {% endblock %}

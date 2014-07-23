@@ -26,6 +26,8 @@ urlpatterns = patterns('',
 
 
 	url(r'^usuarios/$', 'management.views.manage_users', name='management_users'),
+	url(r'^usuarios/edit/(\d+)$', 'management.views.users_edit', name='management_users_edit'),
+	url(r'^usuarios/validate/(\d+)$', 'management.views.users_validate', name='management_users_validate'),
 
 	url(r'^empresas/$', 'management.views.manage_companies', name='management_companies'),
 	url(r'^empresas/adicionar/$', 'management.views.companies_add', name='management_companies_add'),
