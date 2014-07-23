@@ -41,6 +41,7 @@ pages = [
 	}),
 	('programacao', {
 		'title': u'Programação',
+		'reverse_id': 'programacao',
 	}),
 	('account', {
 		'title': u'Área do usuário',
