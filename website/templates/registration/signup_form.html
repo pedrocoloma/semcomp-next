@@ -10,10 +10,7 @@
 					<legend>Criar nova conta</legend>
 					{% csrf_token %}
 					{{form.as_p}}
-					<div class="row">
-						<div class="large-6 push-6 columns">
-							<input class="button full-width small" type="submit" value="{% trans "Criar" %}">
-						</div>
+					<input class="button expand small" type="submit" value="{% trans "Criar conta" %}">
 					</div>
 				</fieldset>
 			</form>
