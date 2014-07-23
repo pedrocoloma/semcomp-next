@@ -194,7 +194,7 @@ THUMBNAIL_PROCESSORS = (
 AUTH_USER_MODEL = 'website.SemcompUser'
 
 SIGNUP_FORM_CLASS = 'website.forms.UserSignupForm'
-SIGNUP_ALLOWED = False
+SIGNUP_ALLOWED = 'website.utils.signup_allowed'
 
 SEMCOMP_CONFIG = {
 	# Esses são os valores padrão, podem ser alterados em runtime
