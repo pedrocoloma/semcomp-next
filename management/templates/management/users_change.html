@@ -2,7 +2,7 @@
 
 {% block user_content %}
 {% spaceless %}
-<form action="{% url "management_users_edit" user.pk %}">
+<form action="{% url "management_users_edit" user.pk %}" method="POST">
 {% csrf_token %}
 <fieldset>
 	<legend>Informações do Usuário</legend>
@@ -26,9 +26,9 @@
 				<small>{{error}}</small>
 			{% endfor %}
 		</div>
-		<div class="medium-4 columns {% if user_form.is_admin.errors %}error{% endif%}">
+		<div class="medium-4 columns {% if user_form.is_admin.errors %}error{% endif%} {% if not admin %}hide{% endif %}">
 			{{user_form.is_admin.label_tag}}<small>{{user_form.is_admin.help_text}}</small>
-			<div class="large round switch">
+			<div class="large round switch ">
 				{{ user_form.is_admin }}
 				<label for="id_is_admin"></label>
 			</div>
@@ -36,7 +36,9 @@
 				<small>{{error}}</small>
 			{% endfor %}
 		</div>
-		<div class="medium-4 columns {% if user_form.is_staff.errors %}error{% endif%}">
+		<div class="medium-4 columns {% if user_form.is_staff.errors %}error{% endif%} {% if not admin %}hide{% endif %}">
+		{% if admin %}
+		{% endif %}
 			{{user_form.is_staff.label_tag}}<small>{{user_form.is_staff.help_text}}</small>
 			<div class="large round switch">
 				{{ user_form.is_staff }}
