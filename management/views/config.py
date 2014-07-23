@@ -5,10 +5,7 @@ from website.models import SemcompConfig
 from ..forms import SemcompConfigForm
 
 def manage_config(request):
-	config_fields = [
-		'REGISTRATION_DATE', 'COURSE_REGISTRATION_DATE', 'PAYMENT_DATE'
-	]
-	form_fields = SemcompConfig.objects.filter(title__in=config_fields)
+	form_fields = SemcompConfig.objects.filter(type='datetime')
 	
 	form = SemcompConfigForm(request.POST or None, form_fields=form_fields)
 	
