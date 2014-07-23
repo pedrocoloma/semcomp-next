@@ -18,9 +18,10 @@
 		{% endfor %}
 	</div>
 </article>
-<div id="course-modal" class="reveal-modal" data-reveal>
-	<a class="close-reveal-modal">&#215;</a>
-</div>
 {% if request.is_ajax %}
 	<a class="close-reveal-modal">&#215;</a>
+{% else %}
+	<div id="course-modal" class="reveal-modal" data-reveal>
+		<a class="close-reveal-modal">&#215;</a>
+	</div>
 {% endif %}
