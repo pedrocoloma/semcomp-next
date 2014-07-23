@@ -23,9 +23,13 @@ $(document).foundation();
     function getOpenModal() {
         var selected = $('.reveal-modal.open[data-reveal]');
         if (selected.length == 1)
+        {
             return selected.attr('id');
+        }
         else
+        {
             return null;
+        }
     }
 
     configModals();
@@ -53,7 +57,7 @@ $(document).foundation();
         } else {
             window.history.pushState(
                 {
-                    modalID: $(this).attr('id'),
+                    //modalID: $(this).attr('id'),
                 }, null,
                 ScheduleData.baseURL
             );
@@ -62,15 +66,31 @@ $(document).foundation();
 
     window.onpopstate = function(e) {
         configModals();
-        ScheduleData.triggeredByPop = true;
 
         if (e.state && e.state.modalID) {
             ScheduleData.anchorURL = location.pathname;
-            $('#' + e.state.modalID).foundation('reveal', 'open', location.pathname);
+
+            var modal = getOpenModal();
+            if (modal) {
+                ScheduleData.triggeredByPop = true;
+                $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+                  $(document).off('closed.fndtn.reveal');
+                  ScheduleData.triggeredByPop = true;
+                  $('#' + e.state.modalID).foundation('reveal', 'open', location.pathname);
+                });
+                $('#' + modal).foundation('reveal', 'close');
+            }
+            else{
+                  ScheduleData.triggeredByPop = true;
+                  $('#' + e.state.modalID).foundation('reveal', 'open', location.pathname);
+            }
+
+            
         } else {
             var modal = getOpenModal();
             if (modal) {
-                $('#' + modal).foundation('reveal', 'close')
+                ScheduleData.triggeredByPop = true;
+                $('#' + modal).foundation('reveal', 'close');
             }
         }
     };
