@@ -6,7 +6,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from forms import InscricoesForm
 @login_required
 def account_overview(request):
-	return render(request, 'account/index.html', {'active_overview': True})
+	try:
+		inscricao = Inscricao.objects.get(user=request.user)
+	except ObjectDoesNotExist:
+		inscricao = None
+	return render(request, 'account/index.html', {'active_overview': True, 'inscricao':inscricao})
 
 @login_required
 def payment_overview(request):
