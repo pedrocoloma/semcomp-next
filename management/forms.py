@@ -12,9 +12,9 @@ from website.models import (
 	Inscricao,
 	Lecture,
 	Place,
-	SemcompConfig
+	SemcompConfig,
 	SemcompUser,
-	Speaker,
+	Speaker
 )
 
 class CompanyForm(forms.ModelForm):
