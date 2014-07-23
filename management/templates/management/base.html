@@ -46,6 +46,11 @@
 						<i class="fa fa-fw fa-building-o"></i> {% trans "Empresas" %}
 					</a>
 				</li>
+				<li {% if active_processes %}class="active"{% endif %}>
+					<a href="{% url "management_processes" %}">
+						<i class="fa fa-fw fa-briefcase"></i> {% trans "Processos seletivos" %}
+					</a>
+				</li>
 				{% if user.is_admin %}
 				<li {% if active_config %}class="active"{% endif %}>
 					<a href="{% url "management_config" %}">

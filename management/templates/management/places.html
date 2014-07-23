@@ -34,7 +34,7 @@
                   <span class="alert-box alert">Sem mapa estático, editar para criar</span>
                 {% endif %}
               </td>
-              <td><a title="Editar" class="button" href="{% url "management_places_edit" place.pk %}"><i class="fa fa-edit"></i> Editar</a></td>
+              <td><a title="Editar" class="button expand" href="{% url "management_places_edit" place.pk %}"><i class="fa fa-edit"></i> Editar</a></td>
             </tr>
           {% endfor %}
         </tbody>

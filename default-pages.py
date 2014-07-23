@@ -60,6 +60,9 @@ pages = [
 		'in_navigation': False,
 		'reverse_id': 'patrocinadores',
 	}),
+	('feira', {
+		'title': u'Feira',
+	}),
 	('contato', {
 		'title': u'Contato',
 		'template': TWOROWS_TEMPLATE,
@@ -70,6 +73,7 @@ pages = [
 		'title': u'Blog',
 		'apphook': BlogApp,
 		'apphook_namespace': 'semcomp_blog',
+		'in_navigation': False,
 	}),
 ]
 

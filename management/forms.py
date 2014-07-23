@@ -12,6 +12,7 @@ from website.models import (
 	Inscricao,
 	Lecture,
 	Place,
+	RecruitmentProcess,
 	SemcompConfig,
 	SemcompUser,
 	Speaker
@@ -113,3 +114,11 @@ class InscricaoManagementForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(InscricaoManagementForm, self).__init__(*args, **kwargs)
 		self.fields['comprovante'].required = False
+
+class RecruitmentProcessForm(forms.ModelForm):
+	class Meta:
+		model = RecruitmentProcess
+		widgets = {
+			'start_datetime': forms.SplitDateTimeWidget,
+			'end_datetime': forms.SplitDateTimeWidget
+		}

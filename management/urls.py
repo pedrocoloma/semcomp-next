@@ -34,5 +34,11 @@ urlpatterns = patterns('',
 	url(r'^empresas/editar/(\d+)/$', 'management.views.companies_edit', name='management_companies_edit'),
 	url(r'^empresas/apagar/(\d+)/$', 'management.views.companies_delete', name='management_companies_delete'),
 
+	url(r'^processos/$', 'management.views.manage_processes', name='management_processes'),
+	url(r'^processos/adicionar/$', 'management.views.processes_add', name='management_processes_add'),
+	url(r'^processos/editar/(\d+)/$', 'management.views.processes_edit', name='management_processes_edit'),
+	url(r'^processos/apagar/(\d+)/$', 'management.views.processes_delete', name='management_processes_delete'),
+
 	url(r'^configuracoes/$', 'management.views.manage_config', name='management_config'),
+
 )

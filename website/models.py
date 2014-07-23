@@ -459,3 +459,39 @@ class SemcompConfig(models.Model):
 
 	def set_value(self, value):
 		setattr(self, 'value_' + self.type, value)
+
+class RecruitmentProcess(models.Model):
+	start_datetime = models.DateTimeField(_(u'Horário de início'))
+	end_datetime = models.DateTimeField(_(u'Horário de término'))
+	place = models.ForeignKey(
+		Place,
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL,
+		verbose_name = _(u'Local'),
+	)
+	company = models.ForeignKey(
+		Company,
+		null=True,
+		blank=True,
+		on_delete=models.SET_NULL,
+		verbose_name=_(u'Empresa'),
+	)
+
+class BusinessLecture(models.Model):
+	start_datetime = models.DateTimeField(_(u'Horário de início'))
+	end_datetime = models.DateTimeField(_(u'Horário de término'))
+	place = models.ForeignKey(
+		Place,
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL,
+		verbose_name=_(u'Local')
+	)
+	company = models.ForeignKey(
+		Company,
+		null=True,
+		blank=True,
+		on_delete=models.SET_NULL,
+		verbose_name=_(u'Local')
+	)

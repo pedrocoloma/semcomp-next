@@ -401,6 +401,13 @@ a.dark-bg{
 		overflow-x: auto;
 	}
 }
+
+.management-table-scroll {
+	table {
+		width: 100%;
+	}
+}
+
 dt{
     font-weight:bold;
 }
