@@ -432,8 +432,8 @@ class SemcompConfig(models.Model):
 	name = models.CharField(
 		_(u'Nome'),
 		max_length=100,
-		help_text=messages['title_regex'],
 		unique=True,
+		help_text=_(u'Nome amigável pro campo'),
 		validators=[
 			validators.RegexValidator(
 				r'[A-Z_]+', messages['title_regex'])
@@ -442,8 +442,8 @@ class SemcompConfig(models.Model):
 	title = models.CharField(
 		_(u'Título'),
 		max_length=100,
+		help_text=messages['title_regex'],
 		unique=True,
-		help_text=_(u'Nome amigável pro campo'),
 	)
 	type = models.CharField(
 		_(u'Tipo'),

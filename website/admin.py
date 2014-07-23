@@ -1,10 +1,11 @@
 from django import forms
 from django.contrib import admin
-from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.models import Group
+from django.utils.translation import ugettext_lazy as _
 
-from .models import SemcompUser
+from .models import SemcompUser, SemcompConfig
 from .forms import UserSignupForm
 
 
@@ -54,4 +55,13 @@ class SemcompUserAdmin(UserAdmin):
 	ordering = ('email',)
 	filter_horizontal = ()
 
+class SemcompConfigAdmin(admin.ModelAdmin):
+	list_display = ('title', 'name', 'type', 'value')
+	fields = ('title', 'name', 'type')
+
+	def value(self, obj):
+		return obj.get_value()
+	value.short_description = _(u'Value')
+
 admin.site.register(SemcompUser, SemcompUserAdmin)
+admin.site.register(SemcompConfig, SemcompConfigAdmin)
