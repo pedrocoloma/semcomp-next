@@ -371,6 +371,8 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 
 	def __unicode__(self):
 		return self.full_name
+
+
 class NullableCharField(models.CharField):
     description = ""
     __metaclass__ = models.SubfieldBase
@@ -380,6 +382,7 @@ class NullableCharField(models.CharField):
         return value or ''
     def get_prep_value(self, value):
         return value or None
+
 
 class Inscricao(models.Model):
 	user = models.ForeignKey(SemcompUser,
@@ -413,3 +416,46 @@ class Inscricao(models.Model):
 				 )
 		return super(Inscricao, self).unique_error_message(self, model_class, unique_check)
 add_introspection_rules([], ["^website\.models\.NullableCharField"])
+
+
+class SemcompConfig(models.Model):
+	TYPE_CHOICES = (
+		('text', _(u'Texto')),
+		('datetime', _(u'Data/Hora')),
+		('bool', _(u'Booleano')),
+	)
+
+	messages = {
+		'title_regex': _(u'Só são válidos nomes usando [A-Z_]'),
+	}
+
+	name = models.CharField(
+		_(u'Nome'),
+		max_length=100,
+		help_text=messages['title_regex'],
+		unique=True,
+		validators=[
+			validators.RegexValidator(
+				r'[A-Z_]+', messages['title_regex'])
+		]
+	)
+	title = models.CharField(
+		_(u'Título'),
+		max_length=100,
+		unique=True,
+		help_text=_(u'Nome amigável pro campo'),
+	)
+	type = models.CharField(
+		_(u'Tipo'),
+		max_length=8,
+		choices=TYPE_CHOICES
+	)
+	value_text = models.TextField(default='')
+	value_datetime = models.DateTimeField(auto_now_add=True)
+	value_bool = models.BooleanField(default=False)
+
+	def get_value(self):
+		return getattr(self, 'value_' + self.type)
+
+	def set_value(self, value):
+		setattr(self, 'value_' + self.type, value)
