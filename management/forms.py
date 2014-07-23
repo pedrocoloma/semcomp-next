@@ -61,6 +61,7 @@ class InscricaoManagementForm(forms.ModelForm):
 			label=_(u'Comentários'),
 			widget=forms.Textarea,
 			help_text=_(u'Caso o comprovante seja alterado ou rejeitado, você pode justificar ao usuário neste campo'),
+			required=False,
 		)
 	class Meta:
 		model = Inscricao

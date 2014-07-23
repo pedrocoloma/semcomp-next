@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
+from django.core.validators import ValidationError
 
 import hashlib
 
@@ -370,7 +371,15 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 
 	def __unicode__(self):
 		return self.full_name
-
+class NullableCharField(models.CharField):
+    description = ""
+    __metaclass__ = models.SubfieldBase
+    def to_python(self, value):
+        if isinstance(value, models.CharField):
+            return value
+        return value or ''
+    def get_prep_value(self, value):
+        return value or None
 
 class Inscricao(models.Model):
 	user = models.ForeignKey(SemcompUser,
@@ -385,7 +394,7 @@ class Inscricao(models.Model):
 		blank=False,
 		null=True,
 		)
-	numero_documento = models.CharField(
+	numero_documento = NullableCharField(
 			_(u'Número do Documento'),
 			help_text=_(u'Anote aqui algum número que identifique o comprovante, garantindo que este só seja cadastrado uma única vez'),
 			max_length='30',
@@ -394,3 +403,12 @@ class Inscricao(models.Model):
 			unique=True,
 		)
 	avaliado = models.BooleanField(default=False)
+	def unique_error_message(self, model_class, unique_check):
+		qs = Inscricao.objects.filter(numero_documento=self.numero_documento).exclude(user=self.user)
+
+		if qs.exists():
+			user = qs[0].user
+			return _(u'Número de documento já utilizado por: %s ( %s )'
+					% (user.full_name, user.email)
+				 )
+		return super(Inscricao, self).unique_error_message(self, model_class, unique_check)
