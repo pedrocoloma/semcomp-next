@@ -10,6 +10,9 @@
 			<iframe width="853" height="480" src="//www.youtube.com/embed/QQ7uVYVIgjE?rel=0" allowfullscreen></iframe>
 		</div>
 	</div>
+	{% if signup_allowed and not user.is_authenticated %}
+		<a href="{% url "signup_signup" %}" class="button radius">Inscreva-se!</a>
+	{% endif %}
     <p class="media-icons">
       <a href="https://facebook.com/semcomp17">
         <span class="fa-stack fa-2x">
