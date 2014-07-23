@@ -15,7 +15,7 @@ def mail_user(aprovado, comentario, nome, email):
     	'nome': nome,
     	'comentario': comentario,
     	})
-    data['from_email'] = 'semcomp@icmc.usp.br'
+    data['from_email'] = settings.DEFAULT_FROM_EMAIL
     data['recipient_list'] = [email]
 
     msg = EmailMultiAlternatives(subject=data['subject'], body=data['message'], from_email=data['from_email'], to=data['recipient_list'])
