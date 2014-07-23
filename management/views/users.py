@@ -5,10 +5,27 @@ from ..forms import UserManagementForm, InscricaoManagementForm
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.core.exceptions import ObjectDoesNotExist
+from django.template import loader
 
-def mail_user(aprovado, comentario, email):
-	print aprovado
-	send_mail('Pagamento', 'Seu pagamento foi aprovado', 'from@teste.com', [email], fail_silently=False)
+def mail_user(aprovado, comentario, nome, email):
+    data = {}
+    data['subject'] = 'Contato Semcomp'
+    data['message'] = loader.render_to_string('management/payment_notification.txt', {
+    	'aprovado': aprovado,
+    	'nome': nome,
+    	'comentario': comentario,
+    	})
+    data['from_email'] = 'semcomp@icmc.usp.br'
+    data['recipient_list'] = [email]
+
+    msg = EmailMultiAlternatives(subject=data['subject'], body=data['message'], from_email=data['from_email'], to=data['recipient_list'])
+
+    msg.attach_alternative(loader.render_to_string('management/payment_notification.html', {
+    	'aprovado': aprovado,
+    	'nome': nome,
+    	'comentario': comentario,
+    	}), "text/html")
+    msg.send(fail_silently=False)
 @staff_required
 def manage_users(request):
 	usuarios = SemcompUser.objects.all()
@@ -58,11 +75,11 @@ def users_validate(request, user_pk):
 			if 'aprovar' in request.POST:
 				i.pagamento = True
 				i.avaliado=True
-				mail_user(True, "nada", user.email)
+				mail_user(True, inscricao_form.cleaned_data.get('comentario'), user.full_name, user.email)
 			elif 'rejeitar' in request.POST:
 				i.pagamento = False
 				i.avaliado=True
-				mail_user(False, "nada", user.email)
+				mail_user(False, inscricao_form.cleaned_data.get('comentario'), user.full_name, user.email)
 			i.save()
 			return redirect('management_users')
 	else:

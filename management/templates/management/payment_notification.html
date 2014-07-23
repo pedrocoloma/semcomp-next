@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <meta charset='UTF-8'>
+    </head>
+    <body style='background-color: #eee; margin: 0px; padding: 0px;'>
+        <div style='padding: 15px;'>
+        <a href='http://semcomp.icmc.usp.br'><img src="http://semcomp.icmc.usp.br/17/static/img/email/logo-semcomp-17.png" height='100px'></a>
+        </div>
+        <div style='font-family:  \"Open Sans\", \"Helvetica Neue\", \"Helvetica\", Helvetica, Arial, sans-serif; background-color: #fff; padding: 20px;'>
+        <h2>Contato Semcomp 17</h2>
+        <p><strong>Enviado por:</strong> {{ name }}</p>
+        <p><strong>E-mail:</strong> {{ email }}</p>
+        <p><strong>Mensagem:</strong></p>
+        {% if aprovado %}
+            <p>Seu pagamento foi aprovado, e sua participação na Semcomp está confirmada!</p>
+        {% else %}
+            <p>Seu comprovante de pagamento não foi aceito, e sua inscrição para a Semcomp não foi realizada!</p>
+            <p>Para mais informações, entre em contato conosco pelo email semcomp@icmc.usp.br</p>
+        {% endif %}
+        {% if comentario %}
+            <strong>Comentário:</strong>
+            <p>{{comentario}}</p>
+        {% endif %}
+        </div>
+        <div style='padding: 15px;'>
+            <div style='float:right;'>
+            <a href='https://facebook.com/semcomp17'><img src="http://semcomp.icmc.usp.br/17/static/img/email/facebook-72.png" height='50px'></a>
+            <a href='https://plus.google.com/+semcomp'><img src="http://semcomp.icmc.usp.br/17/static/img/email/google-plus-72.png" height='50px'></a>
+            <a href='https://twitter.com/semcomp'><img src="http://semcomp.icmc.usp.br/17/static/img/email/twitter-72.png" height='50px'></a>
+            </div>
+        </div>
+    </body>
+</html>
