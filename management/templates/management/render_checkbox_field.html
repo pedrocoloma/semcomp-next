@@ -1,7 +1,10 @@
 <div class="{{width}} columns {{extraclasses}} {% if field.errors %}error{% endif%}">
   {{field.label_tag}}{% if field.help_text %}<small>{{field.help_text}}</small>{% endif %}
+  <div class="switch">
 	{{field}}
+  <label for="{{field.id_for_label}}"></label>
 	{% for error in field.errors %}
 		<small>{{error}}</small>
 	{% endfor %}
+  </div>
 </div>

@@ -4681,7 +4681,7 @@ table tr td {
   text-align: left;
 }
 table tr.even, table tr.alt, table tr:nth-of-type(even) {
-  background: #f9f9f9;
+  background: #eeeeee;
 }
 table thead tr th,
 table tfoot tr th,
@@ -6806,7 +6806,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/17/static/img/header.png?1400183898');
+  background-image: url('/17/static/img/header.png?1405619194');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6835,7 +6835,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/17/static/img/hero-background.jpg?1405275795') no-repeat center center;
+  background: url('/17/static/img/hero-background.jpg?1405619194') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7221,6 +7221,10 @@ a.dark-bg:hover {
     overflow-x: auto;
   }
 }
+.management-table-scroll table {
+  width: 100%;
+}
+
 dt {
   font-weight: bold;
 }
@@ -7234,4 +7238,32 @@ dt {
 
 .payment_buttons button {
   margin: 1rem auto;
+}
+
+img.b-lecture {
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 100px;
+  display: block;
+}
+
+img.image-center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.side-nav label {
+  color: #222222;
+  font-weight: bold;
+}
+
+.company-in-fair {
+  min-height: 350px;
+}
+.company-in-fair img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 100px;
 }

@@ -1,0 +1,21 @@
+{% load semcomp thumbnail %}
+
+<h1 class="blue-bg">Dentro da feira</h1>
+<div class="row">
+	{% for company in companies %}
+		<div class="small-12 medium-6 columns">
+			<div class="panel company-in-fair text-center">
+				<a href="{{company.url}}">
+					<img src="{% thumbnail company.logo 261x100 %}">
+					<h3>{{company.name}}</h3>
+				</a>
+				{% if company.recruitment_process %}
+					<p>Processo seletivo:<br>{{company.recruitment_process.start_datetime}}</p>
+				{% endif %}
+				{% if company.business_lecture %}
+					<p>Palestra empresarial:<br>{{company.business_lecture.start_datetime}}</p>
+				{% endif %}
+			</div>
+		</div>
+	{% endfor %}
+</div>

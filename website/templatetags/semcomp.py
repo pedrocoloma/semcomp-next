@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db.models import Q
 from cms.models import Page
 
-from website.models import Company, Event, Place
+from website.models import Company, Event, Place, RecruitmentProcess, BusinessLecture
 
 register = template.Library()
 
@@ -107,6 +107,32 @@ def render_schedule(render_type="user"):
 
 	return context
 
+
+@register.inclusion_tag('website/templatetags/render_recruitment_processes.html')
+def render_recruitment_processes():
+	processes = RecruitmentProcess.objects.exclude(company=None)
+	context = {
+		'processes': processes,
+	}
+	return context
+
+@register.inclusion_tag('website/templatetags/render_business_lectures.html')
+def render_business_lectures():
+	lectures = BusinessLecture.objects.exclude(company=None)
+	context = {
+		'lectures': lectures,
+	}
+	return context
+
+@register.inclusion_tag('website/templatetags/render_career_fair_companies.html')
+def render_career_fair_companies():
+	companies = Company.objects.filter(in_fair=True)
+	context = {
+		'companies': companies
+	}
+	return context
+
+
 @register.simple_tag
 def render_place(place):
 	assert isinstance(place, Place)
@@ -128,6 +154,12 @@ def split_list_n(variable, parts):
 		variable,
 		int(math.ceil(len(variable) / float(parts)))
 	)
+
+@register.assignment_tag
+def split_list_chunks(variable, size):
+	if size < 1:
+		size = 1
+	return [variable[i:i + size] for i in range(0, len(variable), size)]
 
 ################### helper functions ####################
 

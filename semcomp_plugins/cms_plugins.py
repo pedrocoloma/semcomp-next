@@ -36,6 +36,7 @@ class MinicursosPlugin(CMSPluginBase):
 			'courses': Course.objects.order_by('title')
 			})
 		return context
+
 class PalestrasPlugin(CMSPluginBase):
 	model = PalestrasPluginModel
 	name = _(u'Palestras')
@@ -48,8 +49,27 @@ class PalestrasPlugin(CMSPluginBase):
 			})
 		return context
 
+class RecruitmentProcessesPlugin(CMSPluginBase):
+	model = CMSPlugin
+	name = _(u'Processos seletivos')
+	render_template = 'semcomp_plugins/render_recruitment_processes.html'
+
+class BusinessLecturesPlugin(CMSPluginBase):
+	model = CMSPlugin
+	name = _(u'Palestras empresariais')
+	render_template = 'semcomp_plugins/render_business_lectures.html'
+
+class CareerFairCompaniesPlugin(CMSPluginBase):
+	model = CMSPlugin
+	name = _(u'Empresas feira')
+	render_template = 'semcomp_plugins/render_career_fair_companies.html'
+	cache = False
+
 plugin_pool.register_plugin(MultiColumnsPlugin)
 plugin_pool.register_plugin(ColumnPlugin)
 plugin_pool.register_plugin(SchedulePlugin)
 plugin_pool.register_plugin(MinicursosPlugin)
 plugin_pool.register_plugin(PalestrasPlugin)
+plugin_pool.register_plugin(RecruitmentProcessesPlugin)
+plugin_pool.register_plugin(BusinessLecturesPlugin)
+plugin_pool.register_plugin(CareerFairCompaniesPlugin)

@@ -83,6 +83,14 @@ class Company(models.Model):
 
 	url = models.URLField()
 
+	in_fair = models.BooleanField(
+		_(u'Vai participar da feira?'),
+		default=False
+	)
+
+	def __unicode__(self):
+		return self.name
+
 
 class Place(models.Model):
 	name = models.CharField(_(u'Nome'), max_length=100)
@@ -459,3 +467,41 @@ class SemcompConfig(models.Model):
 
 	def set_value(self, value):
 		setattr(self, 'value_' + self.type, value)
+
+class RecruitmentProcess(models.Model):
+	start_datetime = models.DateTimeField(_(u'Horário de início'))
+	end_datetime = models.DateTimeField(_(u'Horário de término'))
+	place = models.ForeignKey(
+		Place,
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL,
+		verbose_name = _(u'Local'),
+	)
+	company = models.OneToOneField(
+		Company,
+		null=True,
+		blank=True,
+		on_delete=models.SET_NULL,
+		verbose_name=_(u'Empresa'),
+		related_name='recruitment_process',
+	)
+
+class BusinessLecture(models.Model):
+	start_datetime = models.DateTimeField(_(u'Horário de início'))
+	end_datetime = models.DateTimeField(_(u'Horário de término'))
+	place = models.ForeignKey(
+		Place,
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL,
+		verbose_name=_(u'Local'),
+	)
+	company = models.OneToOneField(
+		Company,
+		null=True,
+		blank=True,
+		on_delete=models.SET_NULL,
+		verbose_name=_(u'Empresa'),
+		related_name='business_lecture'
+	)

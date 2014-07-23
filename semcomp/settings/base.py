@@ -70,6 +70,7 @@ CMS_TEMPLATES = (
 	('website/home.html', 'Home'),
 	('website/tworows.html', 'tworows'),
 	('website/empresas.html', 'empresas'),
+  ('website/career_fair.html', 'Career fair')
 )
 
 CMS_PERMISSION = True

@@ -4,6 +4,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from website.models import (
+	BusinessLecture,
 	Company,
 	ContactInformation,
 	Course,
@@ -12,6 +13,7 @@ from website.models import (
 	Inscricao,
 	Lecture,
 	Place,
+	RecruitmentProcess,
 	SemcompConfig,
 	SemcompUser,
 	Speaker
@@ -20,7 +22,7 @@ from website.models import (
 class CompanyForm(forms.ModelForm):
 	class Meta:
 		model = Company
-		fields = ['name', 'logo', 'url', 'type', 'description']
+		fields = ['name', 'logo', 'url', 'type', 'description', 'in_fair']
 
 class PlaceForm(forms.ModelForm):
 	class Meta:
@@ -113,3 +115,19 @@ class InscricaoManagementForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(InscricaoManagementForm, self).__init__(*args, **kwargs)
 		self.fields['comprovante'].required = False
+
+class RecruitmentProcessForm(forms.ModelForm):
+	class Meta:
+		model = RecruitmentProcess
+		widgets = {
+			'start_datetime': forms.SplitDateTimeWidget,
+			'end_datetime': forms.SplitDateTimeWidget
+		}
+
+class BusinessLectureForm(forms.ModelForm):
+	class Meta:
+		model = BusinessLecture
+		widgets = {
+			'start_datetime': forms.SplitDateTimeWidget,
+			'end_datetime': forms.SplitDateTimeWidget
+		}
