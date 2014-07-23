@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db.models import Q
 from cms.models import Page
 
-from website.models import Company, Event, Place, RecruitmentProcess
+from website.models import Company, Event, Place, RecruitmentProcess, BusinessLecture
 
 register = template.Library()
 
@@ -113,6 +113,14 @@ def render_recruitment_processes():
 	processes = RecruitmentProcess.objects.exclude(company=None)
 	context = {
 		'processes': processes,
+	}
+	return context
+
+@register.inclusion_tag('website/templatetags/render_business_lectures.html')
+def render_business_lectures():
+	lectures = BusinessLecture.objects.exclude(company=None)
+	context = {
+		'lectures': lectures,
 	}
 	return context
 
