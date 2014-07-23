@@ -1,0 +1,11 @@
+Olá, {{nome}}
+{% if aprovado %}
+Seu pagamento foi aprovado, e sua participação na Semcomp está confirmada!
+{% else %}
+Seu comprovante de pagamento não foi aceito, e sua inscrição para a Semcomp não foi realizada!
+Para mais informações, entre em contato conosco pelo email semcomp@icmc.usp.br
+{% endif %}
+{% if comentario %}
+Comentário:
+{{comentario}}
+{% endif %}
