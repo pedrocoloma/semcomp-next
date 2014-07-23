@@ -9,6 +9,20 @@ def signup_allowed():
 
 	return now() > registration_config.get_value()
 
+def course_registration_open():
+	course_registration_config = SemcompConfig.objects.get(
+		title='COURSE_REGISTRATION_DATE'
+	)
+
+	return now() > course_registration_config.get_value()
+
+def payment_open():
+	payment_config = SemcompConfig.objects.get(
+		title='PAYMENT_DATE'
+	)
+
+	return now() > payment_config.get_value()
+
 def create_semcomp_config():
 	from website.models import SemcompConfig
 	from django.conf import settings

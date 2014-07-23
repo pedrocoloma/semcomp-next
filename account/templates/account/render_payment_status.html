@@ -1,18 +1,18 @@
 <div class="payment_status panel">
-	<dt>Pagamento</dt>
+	<h2>Pagamento</h2>
 	{% if inscricao and inscricao.pagamento %}
-		<dd>Pagamento realizado!</dd>	
+		<p>Pagamento realizado!</p>
 	{% elif inscricao and inscricao.comprovante %}	
-		<dd>Aguardando confirmação do pagamento</dd>
+		<p>Aguardando confirmação do pagamento</p>
 	{% else %}
-	<dd>Você ainda NÃO fez o pagamento da inscrição!</dd>
+		<p>Você ainda NÃO fez o pagamento da inscrição!</p>
 	{% endif %}
 	{% if inscricao %}
-	<dt> Coffee Break </dt>
+		<h2> Coffee Break </h2>
 		{% if inscricao.coffee %}
-		<dd>COM Coffee Break</dd>
+			<p>COM Coffee Break</p>
 		{% else %}
-		<dd>SEM Coffee Break</dd>
+			<p>SEM Coffee Break</p>
 		{% endif %}
 	{% endif %}
 </div>

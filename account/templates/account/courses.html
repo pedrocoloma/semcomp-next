@@ -1,7 +1,15 @@
 {% extends "account/base.html" %}
 {% load cms_tags %}
 {% block user_content %}
-<div class="panel">
-{% static_placeholder "account_minicursos_placeholder" %}
-</div>
+	<div class="panel">
+		<h2>Minicursos</h2>
+		{% if course_registration_open %}
+		{% else %}
+			<div data-alert class="alert-box info radius">
+				As inscrições para minicursos vão abrir dia
+				{{course_registration_date|date:"SHORT_DATE_FORMAT"}} as
+				{{course_registration_date|time:"TIME_FORMAT"}}
+			</div>
+		{% endif %}
+	</div>
 {% endblock %}
