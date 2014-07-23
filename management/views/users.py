@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
+from django.conf import settings
 
 def mail_user(aprovado, comentario, nome, email):
     data = {}
