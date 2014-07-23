@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 from website.models import Inscricao
 from django.core.exceptions import ObjectDoesNotExist
 from forms import InscricoesForm
@@ -52,3 +53,7 @@ def payment_send(request):
 @login_required
 def courses(request):
 	return render(request, 'account/courses.html', {'active_courses': True})
+
+def account_logout(request):
+	logout(request)
+	return render(request, 'account/logout.html')
