@@ -13,7 +13,8 @@ class Migration(SchemaMigration):
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['website.SemcompUser'], primary_key=True)),
             ('pagamento', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('coffee', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('comprovante', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
+            ('comprovante', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True)),
+            ('numero_documento', self.gf('website.models.NullableCharField')(max_length='30', unique=True, null=True, blank=True)),
             ('avaliado', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'website', ['Inscricao'])
@@ -95,7 +96,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Inscricao'},
             'avaliado': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'coffee': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'comprovante': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'comprovante': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True'}),
+            'numero_documento': ('website.models.NullableCharField', [], {'max_length': "'30'", 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'pagamento': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['website.SemcompUser']", 'primary_key': 'True'})
         },
