@@ -7,7 +7,7 @@ from ..decorators import staff_required, admin_required
 
 @admin_required
 def manage_config(request):
-	form_fields = SemcompConfig.objects.filter(type='datetime')
+	form_fields = SemcompConfig.objects.filter(type='datetime').order_by('name')
 	
 	form = SemcompConfigForm(request.POST or None, form_fields=form_fields)
 	
