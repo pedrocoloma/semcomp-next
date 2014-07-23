@@ -64,10 +64,12 @@
     $('input[id$="datetime_0"]').pickadate({
       format: 'dd/mm/yyyy',
       today: '',
+	  min: [2014, 8, 18],
+	  max: [2014, 8, 24],
     });
     $('input[id$="datetime_1"]').pickatime({
       min: [10, 0],
-      interval: 20,
+      interval: 10,
       format: 'HH:i',
     });
 	</script>
