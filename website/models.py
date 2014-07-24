@@ -350,8 +350,7 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 		max_length=8,
 		blank=True,
 		validators=[
-			validators.RegexValidator(
-				r'\d+', _(u'Entre com um número USP válido')),
+			validators.RegexValidator(r'^\d+$',_(u'Entre com um número USP válido')),
 		],
 	)
 
