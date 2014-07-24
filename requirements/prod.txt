@@ -1,5 +1,4 @@
 -r base.txt
 psycopg2==2.5.3
-djrill==1.1.1
 raven==5.0.0
 sendgrid-django==1.0.0

@@ -14,7 +14,6 @@ DATABASES = {
     }
 }
 INSTALLED_APPS += (
-	'djrill',
 	'raven.contrib.django.raven_compat',
 )
 
