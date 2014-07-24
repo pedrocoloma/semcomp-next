@@ -138,8 +138,8 @@ def render_place(place):
 	assert isinstance(place, Place)
 
 	if place.static_map:
-		html = '<img src="{0}">'
-		return html.format(place.static_map.url)
+		html = '<a href="{0}" target="_blank"><img src="{1}" alt="{2}"></a>'
+		return html.format(place_map_url(place),place.static_map.url, place.name)
 	else:
 		return ''
 
@@ -160,6 +160,12 @@ def split_list_chunks(variable, size):
 	if size < 1:
 		size = 1
 	return [variable[i:i + size] for i in range(0, len(variable), size)]
+
+
+@register.simple_tag
+def place_map_url(place):
+	url = "http://www.openstreetmap.org/?mlat={0}&mlon={1}#map={2}/{0}/{1}"
+	return url.format(place.latitude, place.longitude,place.zoom)
 
 ################### helper functions ####################
 
