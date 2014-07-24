@@ -34,7 +34,7 @@ def manage_users(request):
 	
 	return render(request, 'management/users.html', {
 		'active_users': True,
-		'usuarios': usuarios,
+		'usuarios': usuarios.order_by('full_name'),
 		'pendencias': pendencias,
 		'total_inscritos': usuarios.count(),
 		'total_pagos':Inscricao.objects.filter(pagamento=True).count(),
@@ -49,11 +49,13 @@ def users_edit(request, user_pk):
 	if request.method == 'POST':
 		user_form = UserManagementForm(request.POST, instance=user)
 		if 'is_admin' in user_form.changed_data or 'is_staff' in user_form.changed_data:
-			return redirect('management_users')
+			if not request.user.is_admin:
+				return redirect('management_users')
 		if(user_form.is_valid()):
 			user_form.save()
 			return redirect('management_users')
-	user_form = UserManagementForm(instance=user)
+	else:
+		user_form = UserManagementForm(instance=user)
 	return render(request, 'management/users_change.html', {
 		'active_users': True,
 		'admin':request.user.is_admin,

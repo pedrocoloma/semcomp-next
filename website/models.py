@@ -350,8 +350,7 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 		max_length=8,
 		blank=True,
 		validators=[
-			validators.RegexValidator(
-				r'\d+', _(u'Entre com um número USP válido')),
+			validators.RegexValidator(r'^\d+$',_(u'Entre com um número USP válido')),
 		],
 	)
 
@@ -379,6 +378,9 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 
 	def __unicode__(self):
 		return self.full_name
+
+	def inscricao(self):
+		return Inscricao.objects.get(user=self)
 
 
 class NullableCharField(models.CharField):
@@ -444,7 +446,7 @@ class SemcompConfig(models.Model):
 		help_text=_(u'Nome amigável pro campo'),
 		validators=[
 			validators.RegexValidator(
-				r'[A-Z_]+', messages['title_regex'])
+				r'^[A-Z_]+$', messages['title_regex'])
 		]
 	)
 	title = models.CharField(

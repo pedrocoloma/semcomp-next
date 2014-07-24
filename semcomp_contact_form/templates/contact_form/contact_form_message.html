@@ -11,7 +11,7 @@
         <p><strong>Enviado por:</strong> {{ name }}</p>
         <p><strong>E-mail:</strong> {{ email }}</p>
         <p><strong>Mensagem:</strong></p>
-        <p>{{ body }}</p>
+        {{ body|linebreaks }}
         </div>
         <div style='padding: 15px;'>
             <div style='float:right;'>
