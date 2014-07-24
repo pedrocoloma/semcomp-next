@@ -54,7 +54,8 @@ def users_edit(request, user_pk):
 		if(user_form.is_valid()):
 			user_form.save()
 			return redirect('management_users')
-	user_form = UserManagementForm(instance=user)
+	else:
+		user_form = UserManagementForm(instance=user)
 	return render(request, 'management/users_change.html', {
 		'active_users': True,
 		'admin':request.user.is_admin,
