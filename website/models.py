@@ -379,6 +379,9 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	def __unicode__(self):
 		return self.full_name
 
+	def inscricao(self):
+		return Inscricao.objects.get(user=self)
+
 
 class NullableCharField(models.CharField):
     description = ""

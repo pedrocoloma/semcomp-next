@@ -37,6 +37,7 @@
 				<tr>
 					<td>Nome</td>
 					<td>Email</td>
+					<td>Pagamento</td>
 					<td>Informações</td>
 					<td>Inscrição</td>
 				</tr>
@@ -46,6 +47,15 @@
 					<tr>
 						<td>{{ user.full_name }}</td>
 						<td>{{ user.email }}</td>
+						<td>
+						{% if user.inscricao.pagamento %}
+						OK
+						{% elif user.inscricao.comprovante and not user.inscricao.avaliado %}
+						Pendente
+						{% else %}
+						Não
+						{% endif %}
+						</td>
 						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Editar </a></td>
 						<td><a href="{% url "management_users_validate" user.pk %}" class="small expand button" >Validar </a></td>
 					</tr>
@@ -62,6 +72,7 @@
 				<tr>
 					<td>Nome</td>
 					<td>Email</td>
+					<td>Pagamento</td>
 					<td>Informações</td>
 					<td>Inscrição</td>
 				</tr>
@@ -71,6 +82,15 @@
 					<tr>
 						<td>{{ user.full_name }}</td>
 						<td>{{ user.email }}</td>
+						<td>
+						{% if user.inscricao.pagamento %}
+						OK
+						{% elif user.inscricao.comprovante and not user.inscricao.avaliado %}
+						Pendente
+						{% else %}
+						Não
+						{% endif %}
+						</td>
 						<td><a href="{% url "management_users_edit" user.pk %}" class="small expand button" >Editar </a></td>
 						<td><a href="{% url "management_users_validate" user.pk %}" class="small expand button" >Validar </a></td>
 					</tr>
