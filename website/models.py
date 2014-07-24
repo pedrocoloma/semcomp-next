@@ -5,6 +5,7 @@ from PIL import Image
 from io import BytesIO
 from pathlib import Path
 
+from django.core.validators import EMPTY_VALUES
 from django.core import validators
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
@@ -393,8 +394,41 @@ class NullableCharField(models.CharField):
     def get_prep_value(self, value):
         return value or None
 
+def DV_maker(v):
+	if v >= 2:
+		return 11 - v
+	return 0
+def validate_CPF(value):
+	"""
+	Value can be either a string in the format XXX.XXX.XXX-XX or an
+	11-digit number.
+	"""
+	if value in EMPTY_VALUES:
+		return u''
+	if not value.isdigit():
+		value = re.sub("[-\.]", "", value)
+	orig_value = value[:]
+	try:
+		int(value)
+	except ValueError:
+		raise ValidationError(_(u'CPF Inválido'))
+	if len(value) != 11:
+		raise ValidationError(_(u'CPF Inválido'))
+	orig_dv = value[-2:]
+
+	new_1dv = sum([i * int(value[idx]) for idx, i in enumerate(range(10, 1, -1))])
+	new_1dv = DV_maker(new_1dv % 11)
+	value = value[:-2] + str(new_1dv) + value[-1]
+	new_2dv = sum([i * int(value[idx]) for idx, i in enumerate(range(11, 1, -1))])
+	new_2dv = DV_maker(new_2dv % 11)
+	value = value[:-1] + str(new_2dv)
+	if value[-2:] != orig_dv:
+		raise ValidationError(_(u'CPF Inválido'))
+
+	return orig_value
 
 class Inscricao(models.Model):
+
 	user = models.ForeignKey(SemcompUser,
 		primary_key=True
 		)
@@ -416,6 +450,14 @@ class Inscricao(models.Model):
 			unique=True,
 		)
 	avaliado = models.BooleanField(default=False)
+	CPF = models.CharField(
+		_(u'CPF'),
+		help_text=_(u'Seu CPF (Somente números!)'),
+		max_length='11',
+		blank=False,
+		validators=[
+			validate_CPF
+		],)
 	def unique_error_message(self, model_class, unique_check):
 		qs = Inscricao.objects.filter(numero_documento=self.numero_documento).exclude(user=self.user)
 

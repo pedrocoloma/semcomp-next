@@ -21,12 +21,25 @@
 				{% endif %}
 				
 			</div>
-			<div class="medium-8 columns {% if form.comprovante.errors %}error{% endif%}">
-				{{ form.comprovante.label_tag }}
-				{{form.comprovante}}
-				{% for error in form.comprovante.errors %}
-					<small>{{error}}</small>
-				{% endfor %}
+			<div class="medium-8 columns">
+				<div class="row">
+					<div class="small-12 columns {% if form.comprovante.errors %}error{% endif%}">
+						{{ form.comprovante.label_tag }}
+						{{form.comprovante}}
+						{% for error in form.comprovante.errors %}
+							<small>{{error}}</small>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="small-12 columns {% if form.CPF.errors %}error{% endif%}">
+						{{ form.CPF.label_tag }}
+						{{form.CPF}}
+						{% for error in form.CPF.errors %}
+							<small>{{error}}</small>
+						{% endfor %}
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row payment_buttons">
