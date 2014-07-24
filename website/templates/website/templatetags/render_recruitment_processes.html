@@ -13,7 +13,9 @@
 					<div class="row">
 						{% with process.company as company %}
 							<div class="small-4 columns">
+							<a href="{{company.url}}">
 								<img src="{{company.logo.url}}">
+							</a>
 							</div>
 							<div class="small-8 columns">
 								<h3>{{company.name}}</h3>
