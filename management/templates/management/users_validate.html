@@ -58,6 +58,9 @@ method="post" enctype="multipart/form-data">
 				<div class="row">
 					{% include "management/render_field.html" with field=inscricao_form.numero_documento width="large-12 " only %}
 				</div>
+				<div class="row">
+					{% include "management/render_field.html" with field=inscricao_form.CPF width="large-12 " only %}
+				</div>
 			</div>
 		</div>
 	</fieldset>

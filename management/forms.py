@@ -111,7 +111,7 @@ class InscricaoManagementForm(forms.ModelForm):
 		)
 	class Meta:
 		model = Inscricao
-		fields = {'coffee', 'comprovante', 'numero_documento'}
+		fields = {'coffee', 'comprovante', 'CPF', 'numero_documento'}
 	def __init__(self, *args, **kwargs):
 		super(InscricaoManagementForm, self).__init__(*args, **kwargs)
 		self.fields['comprovante'].required = False
