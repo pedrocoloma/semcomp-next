@@ -443,7 +443,7 @@ class SemcompConfig(models.Model):
 		help_text=_(u'Nome amigável pro campo'),
 		validators=[
 			validators.RegexValidator(
-				r'[A-Z_]+', messages['title_regex'])
+				r'^[A-Z_]+$', messages['title_regex'])
 		]
 	)
 	title = models.CharField(
