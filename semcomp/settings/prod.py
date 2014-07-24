@@ -45,3 +45,34 @@ RAVEN_CONFIG = {
 	'dsn': os.getenv('RAVEN_CONFIG'),
 }
 
+LOGGING = {
+	'version': 1,
+	'disable_existing_loggers': True,
+	'root': {
+		'level': 'WARNING',
+		'handlers': ['sentry'],
+	},
+	'handlers': {
+		'sentry': {
+			'level': 'ERROR',
+			'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+		},
+	},
+	'loggers': {
+		'django': {
+			'level': 'ERROR',
+			'handlers': ['sentry'],
+			'propagate': False,
+		},
+		'django.request': {
+			'handlers': ['sentry'],
+			'level': 'ERROR',
+			'propagate': False,
+		},
+		'django.security': {
+			'handlers': ['sentry'],
+			'level': 'ERROR',
+			'propagate': False,
+		},
+	}
+}
