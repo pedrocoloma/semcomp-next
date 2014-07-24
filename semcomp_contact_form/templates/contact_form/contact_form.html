@@ -2,6 +2,12 @@
 {% load cms_tags %}
 
 {% block base_content %}
+{% spaceless %}
+<div class="row">
+  <div class="small-12 columns panel">
+    {% static_placeholder "FAQ" %}
+  </div>
+</div>
   <div class="row">
     <div class="large-12 columns panel">
       
@@ -19,4 +25,5 @@
 
     </div>
   </div>
+{% endspaceless %}
 {% endblock %}
