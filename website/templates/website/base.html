@@ -4,7 +4,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{% block title %}Semcomp{% endblock %}</title>
+    <meta name="description" content="A Semcomp (Semana da Computação) é um evento que ocorre anualmente no ICMC na USP São Carlos para complementar a formação profissional e acadêmica.">
+    <link rel="author" href="https://plus.google.com/+semcomp"/>
+    <meta property="og:title" content="Semcomp"/>
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://semcomp.icmc.usp.br" />
+    <meta property="og:image" content="http://semcomp.icmc.usp.br/static/img/Logo_Semcomp_500.jpg" />
+    <meta property="og:description" content="A Semcomp (Semana da Computação) é um evento que ocorre anualmente no ICMC na USP São Carlos para complementar a formação profissional e acadêmica." />
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="http://semcomp.icmc.usp.br">
+    <meta property="twitter:site" content="@semcomp" />
+    <meta property="twitter:title" content="Semcomp" />
+    <meta property="twitter:description" content="A Semcomp (Semana da Computação) é um evento que ocorre anualmente no ICMC na USP São Carlos para complementar a formação profissional e acadêmica." />
+    <meta property="twitter:image" content="http://semcomp.icmc.usp.br/static/img/Logo_Semcomp_500.jpg" />
+    <meta property="twitter:url" content="http://semcomp.icmc.usp.br" />
+
+
     {% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
     {% addtoblock "css" %}
       <link rel="stylesheet" href="{% static "css/app.css" %}">
@@ -17,6 +34,8 @@
   </head>
   <body>
     {% cms_toolbar %}
+    <div style="display: none;"><a href="https://plus.google.com/+semcomp" rel="publisher">Google+</a></div>
+
 <div class="off-canvas-wrap" data-offcanvas>
   <div class="inner-wrap">
 <nav class="tab-bar"> 
