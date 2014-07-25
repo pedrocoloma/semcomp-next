@@ -20,6 +20,9 @@ $iso-magenta: rgb(183, 0, 183);
 
 $static-map-height: 55px;
 
+$messages-border-color: darken($table-even-row-bg, 20%);
+$messages-line-height: 40px;
+
 body {
     background-color: #004F78;
 }
@@ -453,4 +456,61 @@ img.image-center {
 
 .company-logo-container {
 	min-height: 100px;
+}
+
+.email-list {
+	width: 100%;
+	table-layout: fixed;
+}
+
+.email-preview {
+	cursor: pointer;
+
+	&:hover {
+		background-color: darken($table-even-row-bg, 20%);
+	}
+
+	.email-replied {
+		width: 5%;
+		text-align: center;
+	}
+	.email-from {
+		width: 25%;
+	}
+	.email-body {
+		width: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: inline-block;
+	}
+	.email-date {
+		width: 20%;
+	}
+	
+}
+
+.email-message {
+	color: invert($body-font-color);
+}
+
+.sender-info {
+	display: inline-block;
+
+	> img {
+		float: left;
+	}
+	.contact-info {
+		margin-left: 60px;
+	}
+}
+
+.message-time {
+	float: right;
+}
+
+.message-body-form {
+	input[type="submit"] {
+		margin-top: 20px;
+	}
 }

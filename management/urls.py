@@ -4,6 +4,9 @@ from django.conf.urls import patterns, url, include
 urlpatterns = patterns('',
 	url(r'^$', 'management.views.manage_overview', name='management_overview'),
 
+	url(r'^mensagens/$', 'management.views.manage_messages', name='management_messages'),
+	url(r'^mensagens/(\d+)/$', 'management.views.messages_detail', name='management_messages_detail'),
+
 	url(r'^locais/$', 'management.views.manage_places', name='management_places'),
 	url(r'^locais/adicionar/$', 'management.views.places_add', name='management_places_add'),
 	url(r'^locais/editar/(\d+)/$', 'management.views.places_edit', name='management_places_edit'),

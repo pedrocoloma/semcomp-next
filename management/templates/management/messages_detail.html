@@ -1,0 +1,32 @@
+{% extends "management/base.html" %}
+
+{% load static %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			{% include "management/messages_detail_include.html" with message=email_message only %}
+		</div>
+		{% if replies %}
+			{% for reply in replies %}
+				<div class="large-12 columns">
+					{% include "management/messages_detail_include.html" with message=reply only %}
+				</div>
+			{% endfor %}
+		{% endif %}
+		<div class="large-12 columns">
+			<div class="panel">
+				<p>Respondendo para: {{email_message.from_email}}</p>
+				<form class="message-body-form clearfix" action="{% url "management_messages_detail" email_message.pk %}" method="post">
+					{% csrf_token %}
+					{{form.html_body}}
+					<input class="button right" type="submit" value="Enviar">
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block extrajs %}
+	{% include "management/ckeditor_include.html" with textarea_id="id_html_body" only %}
+{% endblock %}

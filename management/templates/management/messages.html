@@ -1,0 +1,29 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1 class="blue-bg">Mensagens</h1>
+			<table class="email-list">
+				<tbody>
+					{% for message in email_messages %}
+						<tr class="email-preview" data-email-url="{% url "management_messages_detail" message.pk %}">
+							<td class="email-replied">{% if message.replied %}<i class="fa fa-reply"></i>{% endif %}</td>
+							<td class="email-from">{{message.from_name}}</td>
+							<td class="email-body">{{message.body}}</td>
+							<td class="email-date">{{message.date_sent|date:"d/m/Y H:i"}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
+
+{% block extrajs %}
+	<script type="text/javascript">
+		$("tr[data-email-url]").click(function() {
+			window.location.href = $(this).attr('data-email-url');
+		});
+	</script>
+{% endblock %}

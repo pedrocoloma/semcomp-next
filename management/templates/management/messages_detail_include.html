@@ -1,0 +1,22 @@
+{% load gravatar %}
+
+<div class="panel email-message">
+	<div class="email-header">
+		<div class="sender-info">
+			<img style="" src="{% gravatar_url email_message.from_email 50 %}">
+			<div class="contact-info" style="">
+				<p><strong>{{message.from_name}}</strong> <br><small>{{message.from_email}}</small></p>
+			</div>
+		</div>
+		<div class="message-time">
+			<p title="{{message.date_sent}}">{% if message.is_old %}{{message.date_sent|date}}{% else %}{{message.date_sent|time:"TIME_FORMAT"}}{% endif %}</p>
+		</div>
+	</div>
+	<div class="email-body">
+		{% if message.html_body %}
+			{{message.html_body|safe}}
+		{% else %}
+			{{message.body|safe|linebreaks}}
+		{% endif %}
+	</div>
+</div>

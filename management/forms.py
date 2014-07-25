@@ -18,6 +18,7 @@ from website.models import (
 	SemcompUser,
 	Speaker
 )
+from semcomp_contact_form.models import Message
 
 class CompanyForm(forms.ModelForm):
 	class Meta:
@@ -131,3 +132,8 @@ class BusinessLectureForm(forms.ModelForm):
 			'start_datetime': forms.SplitDateTimeWidget,
 			'end_datetime': forms.SplitDateTimeWidget
 		}
+
+class MessageForm(forms.ModelForm):
+	class Meta:
+		model = Message
+		fields = ('html_body',)

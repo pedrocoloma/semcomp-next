@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from ..decorators import staff_required
 
+from .messages import *
 from .events import *
 from .places import *
 from .lectures import *
