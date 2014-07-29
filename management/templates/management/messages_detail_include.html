@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		<div class="message-time">
-			<p title="{{message.date_sent}}">{% if message.is_old %}{{message.date_sent|date}}{% else %}{{message.date_sent|time:"TIME_FORMAT"}}{% endif %}</p>
+			<p title="{{message.date_sent}}">{% if message.is_old %}{{message.date_sent|date:"SHORT_DATE_FORMAT"}}{% else %}{{message.date_sent|time:"TIME_FORMAT"}}{% endif %}</p>
 		</div>
 	</div>
 	<div class="email-body">

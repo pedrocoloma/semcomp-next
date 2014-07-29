@@ -2,6 +2,7 @@
 
 from datetime import datetime
 
+from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -58,3 +59,18 @@ class Message(models.Model):
 			return True
 		else:
 			return False
+	
+	def send_as_reply(self):
+		if not self.pk:
+			return
+		if not self.in_reply_to:
+			raise ValueError(_(u'Mensagem não é uma resposta'))
+
+		msg = EmailMultiAlternatives(
+			_(u'Contato Semcomp 17'),
+			self.body,
+			self.from_email,
+			[self.in_reply_to.from_email]
+		)
+		msg.attach_alternative(self.html_body, 'text/html')
+		msg.send()
