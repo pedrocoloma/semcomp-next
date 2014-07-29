@@ -13,10 +13,12 @@ from website.models import SemcompUser
 
 class MessageManager(models.Manager):
 	def unanswered(self):
-		return self.filter(
-			being_replied=False,
-			in_reply_to=False,
-		)
+		replied_ids = self \
+			.exclude(in_reply_to=None) \
+			.values_list('in_reply_to__id', flat=True) \
+			.distinct()
+
+		return self.filter(in_reply_to=None).exclude(pk__in=replied_ids)
 
 class Message(models.Model):
 	last_ping = models.DateTimeField(

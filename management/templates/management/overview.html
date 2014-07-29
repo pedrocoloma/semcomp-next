@@ -1,1 +1,21 @@
 {% extends "management/base.html" %}
+
+{% load i18n %}
+
+{% block user_content %}
+	<div class="row">
+		{% with unanswered_messages|length as msg_len %}
+		{% if msg_len %}
+			<div class="large-6 columns">
+				<a href="{% url "management_messages" %}">
+					<div class="panel">
+						<p>há <strong>{{msg_len}}</strong>
+						{% blocktrans count counter=msg_len %}mensagem{% plural %}mensagens{% endblocktrans %}
+						<strong>sem resposta</strong></p>
+					</div>
+				</a>
+			</div>
+		{% endif %}
+		{% endwith %}
+	</div>
+{% endblock %}
