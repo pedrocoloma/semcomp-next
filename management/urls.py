@@ -6,6 +6,7 @@ urlpatterns = patterns('',
 
 	url(r'^mensagens/$', 'management.views.manage_messages', name='management_messages'),
 	url(r'^mensagens/(\d+)/$', 'management.views.messages_detail', name='management_messages_detail'),
+	url(r'^mensagens/apagar/(\d+)/$', 'management.views.messages_delete', name='management_messages_delete'),
 
 	url(r'^locais/$', 'management.views.manage_places', name='management_places'),
 	url(r'^locais/adicionar/$', 'management.views.places_add', name='management_places_add'),

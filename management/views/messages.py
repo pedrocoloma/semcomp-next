@@ -61,3 +61,12 @@ def messages_detail(request, message_pk):
 		'form': form
 	}
 	return render(request, 'management/messages_detail.html', context)
+
+@staff_required
+def messages_delete(request, message_pk):
+	message = get_object_or_404(Message, pk=message_pk)
+
+	# delete cascade nas respostas
+	message.delete()
+
+	return redirect('management_messages')

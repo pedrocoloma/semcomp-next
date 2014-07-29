@@ -21,12 +21,23 @@
 					{% csrf_token %}
 					{{form.html_body}}
 					<input class="button right" type="submit" value="Enviar">
+					<a class="button alert left" href="#" data-reveal-id="delete-modal">Apagar</a>
 				</form>
 			</div>
 		</div>
+	</div>
+	<div class="reveal-modal small panel" id="delete-modal" data-reveal>
+		<p>Isso vai apagar todas as mensagens deste tópico permanentemente. Deseja continuar?</p>
+		<a href="{% url "management_messages_delete" email_message.pk %}" class="right button alert">Destruir todas as<br>mensagens para sempre</a>
+		<a href="#" class="left button" onclick="closeModal();" >Eu errei, desculpe!</a>
 	</div>
 {% endblock %}
 
 {% block extrajs %}
 	{% include "management/ckeditor_include.html" with textarea_id="id_html_body" only %}
+	<script type="text/javascript">
+		function closeModal() {
+			$('#delete-modal').foundation('reveal', 'close');
+		}
+	</script>
 {% endblock %}
