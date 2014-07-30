@@ -1,0 +1,23 @@
+{% load semcomp thumbnail %}
+
+{% spaceless %}
+{% load thumbnail %}
+<article class="row panel justify-text courseinfo">
+	<section class="medium-7 columns">
+		<h1>{{company.name}}</h1>
+		{% if company.description %}
+			{{company.description|linebreaks}}
+		{% endif %}
+	</section>
+	<section class="medium-5 columns">
+		{% if company.logo %}<div class="text-center"><img src={% thumbnail company.logo 370x0 %}></div>{% endif %}
+		{% if company.url %}
+			<h2>Site</h2>
+			<a href="{{company.url}}">{{company.url}}</a>
+		{% endif %}
+	</section>
+</article>
+{% if request.is_ajax %}
+	<a class="close-reveal-modal">&#215;</a>
+{% endif %}
+{% endspaceless %}

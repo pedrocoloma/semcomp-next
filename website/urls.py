@@ -9,4 +9,6 @@ urlpatterns = patterns('',
 	url(r'^programacao/evento/(\d+)/([-\w]+)/$', 'website.views.event_details', name='event_details_slug'),
 	url(r'^programacao/minicurso/(\d+)/$', 'website.views.course_details', name='course_details'),
 	url(r'^programacao/minicurso/(\d+)/([-\w]+)/$', 'website.views.course_details', name='course_details_slug'),
+	url(r'^empresas/(\d+)/$', 'website.views.company_details', name='company_details'),
+	url(r'^empresas/(\d+)/([-\w]+)/$', 'website.views.company_details', name='company_details_slug'),
 )
