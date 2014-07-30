@@ -14,7 +14,7 @@
 					<div class="row">
 						{% with process.company as company %}
 							<div class="small-4 columns">
-							<a href="{{company.url}}">
+							<a href="{{company.get_absolute_url}}">
 								<img src="{{company.logo.url}}">
 							</a>
 							</div>

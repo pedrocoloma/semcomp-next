@@ -5,7 +5,7 @@
 	{% for company in companies %}
 		<div class="small-12 medium-6 columns">
 			<div class="panel company-in-fair text-center">
-				<a href="{{company.url}}">
+				<a href="{{company.get_absolute_url}}">
 					<div class="company-logo-container">
 						<img src="{% thumbnail company.logo 261x100 %}">
 						<h3>{{company.name}}</h3>
