@@ -20,9 +20,19 @@
 			</section>
 		</div>
 		<div class="row">
+			{% if recruitment %}
 			<section class="medium-6 columns">
 				<h2>Processo seletivo</h2>
+				<dt>Horário: </dt>
+				<dd>{{recruitment.start_datetime|date:"d/m/Y (l)"}} </dd>
+				<dd>{{recruitment.start_datetime|time:"TIME_FORMAT"}} - {{recruitment.end_datetime|time:"TIME_FORMAT"}}</dd>
+				{% if recruitment.place %}
+					<dt>Local:</dt>
+					<dd>{{recruitment.place.name}}</dd>
+					<dd>{% render_place recruitment.place %}</dd>
+				{% endif %}
 			</section>
+			{% endif %}
 			{% if lecture %}
 			<section class="medium-6 columns">
 				<h2>Palestra empresarial</h2>
