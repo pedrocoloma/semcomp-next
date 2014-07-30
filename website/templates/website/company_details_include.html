@@ -3,19 +3,41 @@
 {% spaceless %}
 {% load thumbnail %}
 <article class="row panel justify-text courseinfo">
-	<section class="medium-7 columns">
-		<h1>{{company.name}}</h1>
-		{% if company.description %}
-			{{company.description|linebreaks}}
-		{% endif %}
-	</section>
-	<section class="medium-5 columns">
-		{% if company.logo %}<div class="text-center"><img src={% thumbnail company.logo 370x0 %}></div>{% endif %}
-		{% if company.url %}
-			<h2>Site</h2>
-			<a href="{{company.url}}">{{company.url}}</a>
-		{% endif %}
-	</section>
+	<div class="small-12 columns">
+		<div class="row">
+			<section class="medium-8 columns">
+				<h1>{{company.name}}</h1>
+				{% if company.description %}
+					{{company.description|linebreaks}}
+				{% endif %}
+			</section>
+			<section class="medium-4 columns">
+				{% if company.logo %}<div class="text-center"><img src={% thumbnail company.logo 370x0 %}></div>{% endif %}
+				{% if company.url %}
+					<h2>Site</h2>
+					<a href="{{company.url}}">{{company.url}}</a>
+				{% endif %}
+			</section>
+		</div>
+		<div class="row">
+			<section class="medium-6 columns">
+				<h2>Processo seletivo</h2>
+			</section>
+			{% if lecture %}
+			<section class="medium-6 columns">
+				<h2>Palestra empresarial</h2>
+				<dt>Horário: </dt>
+				<dd>{{lecture.start_datetime|date:"d/m/Y (l)"}} </dd>
+				<dd>{{lecture.start_datetime|time:"TIME_FORMAT"}} - {{lecture.end_datetime|time:"TIME_FORMAT"}}</dd>
+				{% if lecture.place %}
+					<dt>Local:</dt>
+					<dd>{{lecture.place.name}}</dd>
+					<dd>{% render_place lecture.place %}</dd>
+				{% endif %}
+			</section>
+			{% endif %}
+		</div>
+	</div>
 </article>
 {% if request.is_ajax %}
 	<a class="close-reveal-modal">&#215;</a>

@@ -3,8 +3,9 @@
 from django.db.models import Max, Min
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 
-from website.models import Event, Course, Company
+from website.models import Event, Course, Company, BusinessLecture
 
 def event_details(request, event_id, slug=None):
 	event = get_object_or_404(Event, pk=event_id)
@@ -77,8 +78,14 @@ def company_details(request, company_id, slug=None):
 	detail_template = 'website/company_details_include.html'
 	main_template = 'website/event_details.html'
 
+	try:
+		lecture = BusinessLecture.objects.get(company=company)
+	except ObjectDoesNotExist:
+		lecture = None
+
 	context = {
 		'company': company,
+		'lecture': lecture,
 	}
 	if request.is_ajax():
 		template = detail_template
