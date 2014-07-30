@@ -1,0 +1,64 @@
+{% extends "management/base.html" %}
+
+{% load static django_select2_tags %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+				<form method="post" action="{% url "management_messages_new" %}" class="message-body-form clearfix">
+					{% csrf_token %}
+					<fieldset>
+						<legend>Enviar mensagem</legend>
+					<div class="row">
+						{% include "management/render_field.html" with field=form.type width="large-6" only %}
+						<div class="to-email-container">
+							{% include "management/render_field.html" with field=form.to_email width="large-6" only %}
+						</div>
+					</div>
+					<div class="to-email-alert row">
+						<div class="large-12 columns">
+							<div class="alert-box alert" data-alert>
+								<p><strong>Atenção</strong>: O email para todos os participantes será enviado a partir
+								do endereço <strong>no-reply@semcomp.icmc.usp.br</strong>. Organizadores não vão receber o email.</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						{% include "management/render_field.html" with field=form.subject width="large-12" only %}
+					</div>
+					<div class="row">
+						{% include "management/render_field.html" with field=form.body width="large-12" only %}
+					</div>
+					<input type="submit" class="button right" value="Enviar">
+				</fieldset>
+				</form>
+		</div>
+	</div>
+{% endblock %}
+
+{% block extracss %}
+	{% import_django_select2_css %}
+	<script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+{% endblock %}
+
+{% block basejs %}
+	<script src="{% static "bower_components/foundation/js/foundation.min.js" %}"></script>
+	<script src="{% static "js/app.js" %}"></script>
+	{% import_django_select2_js %}
+	{% include "management/ckeditor_include.html" with textarea_id="id_body" only %}
+	<script type="text/javascript">
+		$("#id_type").change(function() {
+			var value = $(this).val();
+			var input_container = $('.to-email-container');
+			var alert_container = $('.to-email-alert');
+			if (value == "one") {
+				input_container.removeClass('hide');
+				alert_container.addClass('hide');
+			} else {
+				input_container.addClass('hide');
+				alert_container.removeClass('hide');
+			}
+
+		}).change();
+	</script>
+{% endblock %}

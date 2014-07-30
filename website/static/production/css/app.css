@@ -7321,3 +7321,7 @@ img.image-center {
 .message-body-form .button {
   margin-top: 20px;
 }
+
+.select2-container {
+  width: 100%;
+}

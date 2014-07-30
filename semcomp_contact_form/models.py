@@ -18,7 +18,11 @@ class MessageManager(models.Manager):
 			.values_list('in_reply_to__id', flat=True) \
 			.distinct()
 
-		return self.filter(in_reply_to=None).exclude(pk__in=replied_ids)
+		return self \
+			.filter(in_reply_to=None, is_announcement=False) \
+			.exclude(pk__in=replied_ids)
+	def announcements(self):
+		return self.filter(is_announcement=True)
 
 class Message(models.Model):
 	last_ping = models.DateTimeField(
@@ -31,12 +35,15 @@ class Message(models.Model):
 		null=True,
 		related_name='replies'
 	)
+	to_email = models.EmailField(max_length=254)
 	sent_by = models.ForeignKey(
 		SemcompUser,
 		null=True,
 		on_delete=models.SET_NULL,
 		related_name='replied_messages'
 	)
+
+	is_announcement = models.BooleanField(default=True)
 
 	from_name = models.CharField(max_length=100)
 	from_email = models.EmailField(max_length=254)

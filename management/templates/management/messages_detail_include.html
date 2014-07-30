@@ -5,7 +5,13 @@
 		<div class="sender-info">
 			<img style="" src="{% gravatar_url email_message.from_email 50 %}">
 			<div class="contact-info" style="">
-				<p><strong>{{message.from_name}}</strong> <br><small>{{message.from_email}}</small></p>
+				<p>
+					<strong>{{message.from_name}}</strong><br>
+					<small>{{message.from_email}}</small>
+					{% if message.to_email %}
+						<br><small><strong>Para</strong>: {{message.to_email}}</small>
+					{% endif %}
+				</p>
 			</div>
 		</div>
 		<div class="message-time">

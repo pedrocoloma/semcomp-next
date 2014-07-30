@@ -14,17 +14,19 @@
 				</div>
 			{% endfor %}
 		{% endif %}
-		<div class="large-12 columns">
-			<div class="panel">
-				<p>Respondendo para: {{email_message.from_email}}</p>
-				<form class="message-body-form clearfix" action="{% url "management_messages_detail" email_message.pk %}" method="post">
-					{% csrf_token %}
-					{{form.html_body}}
-					<input class="button right" type="submit" value="Enviar">
-					<a class="button alert left" href="#" data-reveal-id="delete-modal">Apagar</a>
-				</form>
+		{% if not email_message.is_announcement %}
+			<div class="large-12 columns">
+				<div class="panel">
+					<p>Respondendo para: {{email_message.from_email}}</p>
+					<form class="message-body-form clearfix" action="{% url "management_messages_detail" email_message.pk %}" method="post">
+						{% csrf_token %}
+						{{form.html_body}}
+						<input class="button right" type="submit" value="Enviar">
+						<a class="button alert left" href="#" data-reveal-id="delete-modal">Apagar</a>
+					</form>
+				</div>
 			</div>
-		</div>
+		{% endif %}
 	</div>
 	<div class="reveal-modal small panel" id="delete-modal" data-reveal>
 		<p>Isso vai apagar todas as mensagens deste tópico permanentemente. Deseja continuar?</p>
