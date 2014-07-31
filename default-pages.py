@@ -59,7 +59,7 @@ pages = [
 		'title': u'Patrocinadores e Apoio',
 		'template': EMPRESAS_TEMPLATE,
 		'in_navigation': False,
-		'reverse_id': 'patrocinadores',
+		'reverse_id': 'patrocinadores-e-apoio',
 	}),
 	('feira', {
 		'title': u'Feira',

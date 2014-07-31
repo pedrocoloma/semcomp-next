@@ -76,7 +76,7 @@ def company_details(request, company_id, slug=None):
 		return redirect(absolute_url)
 
 	detail_template = 'website/company_details_include.html'
-	main_template = 'website/event_details.html'
+	main_template = 'website/company_details.html'
 
 	try:
 		lecture = BusinessLecture.objects.get(company=company)
