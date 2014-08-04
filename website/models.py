@@ -92,6 +92,12 @@ class Company(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def get_absolute_url(self):
+		return reverse(
+			'company_details_slug',
+			args=[str(self.id), slugify(self.name)]
+		)
+
 
 class Place(models.Model):
 	name = models.CharField(_(u'Nome'), max_length=100)

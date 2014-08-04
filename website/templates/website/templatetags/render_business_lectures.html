@@ -11,7 +11,7 @@
             {{lecture.start_datetime|time:"TIME_FORMAT"}} - {{lecture.end_datetime|time:"TIME_FORMAT"}}
           </td>
           <td class="text-center">
-            <a href="{{lecture.company.url}}">
+            <a href="{{lecture.company.get_absolute_url}}">
               <img class="b-lecture" src="{% thumbnail lecture.company.logo 0x50 %}">
               {{ lecture.company }}
             </a>

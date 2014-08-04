@@ -19,7 +19,7 @@
 		<div class="panel" data-equalizer-watch >
 		<div class="company-logo">
 			<div class="y-center">
-              <a href="{{sponsor.url}}"><img src="{% thumbnail sponsor.logo 261x0 %}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a>
+              <a href="{{sponsor.get_absolute_url}}"><img src="{% thumbnail sponsor.logo 261x0 %}" alt="{{sponsor.name}}" title="{{sponsor.name}}"></a>
             </div>
 	      </div>
 	      </div>
@@ -46,7 +46,7 @@
 		<div class="panel" data-equalizer-watch >
 		<div class="company-logo">
 			<div class="y-center">
-              <a href="{{partner.url}}"><img src="{% thumbnail partner.logo 261x0 %}" alt="{{partner.name}}" title="{{partner.name}}"></a>
+              <a href="{{partner.get_absolute_url}}"><img src="{% thumbnail partner.logo 261x0 %}" alt="{{partner.name}}" title="{{partner.name}}"></a>
             </div>
 	      </div>
 	      </div>

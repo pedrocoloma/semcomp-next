@@ -6806,7 +6806,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/17/static/img/header.png?1405619194');
+  background-image: url('/17/static/img/header.png?1400183898');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6835,7 +6835,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/17/static/img/hero-background.jpg?1405619194') no-repeat center center;
+  background: url('/17/static/img/hero-background.jpg?1405275795') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7193,6 +7193,14 @@ a .schedule-event:hover {
 .courseinfo p {
   text-align: justify;
   text-indent: 2rem;
+}
+.courseinfo dt {
+  color: #666;
+  font-size: 1.8rem;
+}
+.courseinfo dd {
+  color: #999;
+  font-size: 1.5rem;
 }
 
 label {
