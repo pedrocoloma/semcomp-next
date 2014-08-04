@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
 from website.models import SemcompUser, Inscricao
 from ..decorators import staff_required
@@ -7,6 +8,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.conf import settings
+from django.http import HttpResponse
+import csv
 
 def mail_user(aprovado, comentario, nome, email):
     data = {}
@@ -98,3 +101,39 @@ def users_validate(request, user_pk):
 		'inscricao': inscricao,
 		'inscricao_form': inscricao_form,
 		})
+
+@staff_required
+def users_download(request):
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="usuarios.csv"'
+
+	writer = csv.writer(response)
+	writer.writerow([u'Nome', u'email', u'CPF', u'Status Pagamento', u'Coffee', u'URL Comprovante', u'Número Documento'.encode('utf-8')])
+	usuarios = SemcompUser.objects.all()
+	inscricoes = Inscricao.objects.all()
+	for u in usuarios:
+		nome = u.full_name.encode('utf-8')
+		email = u.email.encode('utf-8')
+		try:
+			i = inscricoes.get(user=u)
+			CPF = i.CPF
+			status = i.status_pagamento().encode('utf-8')
+			if i.coffee:
+				coffee = u'Sim'
+			else:
+				coffee = u'Não'.encode('utf-8')
+			if i.comprovante:
+				URL = i.comprovante.url.encode('utf-8')
+			else:
+				URL = None
+			documento = i.numero_documento
+			if documento:
+				documento = documento.encode('utf-8')
+		except ObjectDoesNotExist :
+			CPF = None
+			status = None
+			coffee = None
+			URL = None
+			documento = None
+		writer.writerow([nome, email, CPF, status, coffee, URL, documento])
+	return response

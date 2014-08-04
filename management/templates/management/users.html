@@ -63,9 +63,9 @@
 			</tbody>
 		</table>
 	</div>
-	<h1 class="blue-bg">Usuários</h1>
 </div>
 <div class="row">
+	<h1 class="blue-bg">Usuários</h1>
 	<div class="small-12 columns">
 		<table>
 			<thead>
@@ -97,6 +97,9 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		<div class="panel">
+			<a href="{% url "management_users_download" %}"><i class="fa fa-file-excel-o"></i> Baixar Lista de usuários (.csv)</a>
+		</div>
 	</div>
 </div>
 {% endspaceless %}

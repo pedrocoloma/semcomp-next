@@ -458,6 +458,13 @@ class Inscricao(models.Model):
 		validators=[
 			validate_CPF
 		],)
+	def status_pagamento(self):
+		if self.pagamento:
+			return _(u'OK')
+		elif self.comprovante and not self.avaliado:
+			return _(u'Pendente')
+		else:
+			return _(u'Não')
 	def unique_error_message(self, model_class, unique_check):
 		qs = Inscricao.objects.filter(numero_documento=self.numero_documento).exclude(user=self.user)
 
