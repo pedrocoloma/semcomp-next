@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.conf import settings
 from django.http import HttpResponse
-import unicodecsv as csv
+import csv
 
 def mail_user(aprovado, comentario, nome, email):
     data = {}
@@ -107,10 +107,7 @@ def users_download(request):
 	response = HttpResponse(content_type='text/csv')
 	response['Content-Disposition'] = 'attachment; filename="usuarios.csv"'
 
-	response.write(u'sep=,\n')
-	response.write(u'\ufeff'.encode('utf8')) # para o excel ler utf8
-
-	writer = csv.writer(response, csv.excel)
+	writer = csv.writer(response)
 	writer.writerow([u'Nome', u'email', u'CPF', u'Status Pagamento', u'Coffee', u'URL Comprovante', u'Número Documento'.encode('utf-8')])
 	usuarios = SemcompUser.objects.all()
 	inscricoes = Inscricao.objects.all()
@@ -126,7 +123,7 @@ def users_download(request):
 			else:
 				coffee = u'Não'.encode('utf-8')
 			if i.comprovante:
-				URL = '%s%s' % ('http://semcomp.icmc.usp.br', i.comprovante.url.encode('utf-8'))
+				URL = i.comprovante.url.encode('utf-8')
 			else:
 				URL = None
 			documento = i.numero_documento
