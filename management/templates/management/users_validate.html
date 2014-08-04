@@ -1,8 +1,10 @@
 {% extends "management/base.html" %}
-{% load sekizai_tags %}
-
+{% load sekizai_tags cms_tags %}
 {% block user_content %}
 {% spaceless %}
+<div class="panel">
+{% static_placeholder "instrucoes_validacao" %}
+</div>
 <form 
 action="{% url "management_users_validate" user.pk %}" 
 method="post" enctype="multipart/form-data">
