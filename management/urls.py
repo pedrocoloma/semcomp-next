@@ -8,6 +8,7 @@ urlpatterns = patterns('',
 	url(r'^mensagens/(\d+)/$', 'management.views.messages_detail', name='management_messages_detail'),
 	url(r'^mensagens/apagar/(\d+)/$', 'management.views.messages_delete', name='management_messages_delete'),
 	url(r'^mensagens/nova/$', 'management.views.messages_new', name='management_messages_new'),
+	url(r'^mensagens/ping/$', 'management.views.messages_ping', name='management_messages_ping'),
 
 	url(r'^locais/$', 'management.views.manage_places', name='management_places'),
 	url(r'^locais/adicionar/$', 'management.views.places_add', name='management_places_add'),

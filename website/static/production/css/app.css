@@ -7282,7 +7282,7 @@ img.image-center {
 .email-preview:hover {
   background-color: #bbbbbb;
 }
-.email-preview .email-replied {
+.email-preview .email-status {
   width: 5%;
   text-align: center;
 }

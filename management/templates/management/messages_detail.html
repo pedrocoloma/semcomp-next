@@ -14,6 +14,9 @@
 				</div>
 			{% endfor %}
 		{% endif %}
+		<div class="large-12 columns hide being-edited-message">
+			<div data-alert class="alert-box alert being-edited-content"></div>
+		</div>
 		{% if not email_message.is_announcement %}
 			<div class="large-12 columns">
 				<div class="panel">
@@ -37,9 +40,82 @@
 
 {% block extrajs %}
 	{% include "management/ckeditor_include.html" with textarea_id="id_html_body" only %}
+	<script src="{% static "bower_components/jquery-cookie/jquery.cookie.js" %}"></script>
+	<script src="{% static "js/ajax_csrf.js" %}"></script>
+	<script src="{% static "js/page_visibility.js" %}"></script>
 	<script type="text/javascript">
 		function closeModal() {
 			$('#delete-modal').foundation('reveal', 'close');
 		}
+
+		function debounce(fn, delay) {
+			var timer = null;
+			var first = true;
+			return function () {
+				var context = this, args = arguments;
+				clearTimeout(timer);
+				timer = setTimeout(function () {
+					fn.apply(context, args);
+				}, delay);
+				if (first) {
+					first = false;
+					fn.apply(context, args);
+				}
+			};
+		}
+
+		for (var instance in CKEDITOR.instances) {
+			CKEDITOR.instances[instance].on('change', debounce(function() {
+				$.post(
+					'{% url "management_messages_ping" %}',
+					{
+						'ids': ['{{email_message.pk}}']
+					},
+					function(data, status, xhr) {
+						if (status == 'success' && !data.error) {
+							var result = data.data;
+						} else {
+							console.log('ajax failure', status, data);
+						}
+					},
+					'json'
+				);
+			}, 2000));
+		}
+
+		function pingMessages() {
+			$.get(
+				'{% url "management_messages_ping" %}',
+				{
+					'ids': ['{{email_message.pk}}'],
+					'removeSelf': true
+				},
+				function(data, status, xhr) {
+					if (status == 'success' && !data.error) {
+						var result = data.data;
+						for (var key in result) {
+							if (result.hasOwnProperty(key)) {
+								var value = result[key][0];
+								var from = result[key][1];
+
+								var alert_message = $('.being-edited-message');
+								var alert_content = alert_message.find('.being-edited-content');
+
+								if (value) {
+									alert_message.removeClass('hide');
+									alert_content.text(from + ' já está respondendo a esta mensagem');
+								} else {
+									alert_message.addClass('hide');
+								}
+							}
+						}
+					}
+				},
+				'json'
+			);
+		}
+
 	</script>
+	<!-- esse script tem que estar depois da função pingMessages -->
+	<script src="{% static "js/ping_messages.js" %}"></script>
 {% endblock %}

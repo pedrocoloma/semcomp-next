@@ -1,11 +1,14 @@
 # coding: utf-8
 
-from datetime import datetime
+from datetime import datetime, timedelta
+import json
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.timezone import utc
+from django.utils.timezone import utc, now
+from django.views.decorators.http import require_http_methods
 
 import bleach
 
@@ -14,6 +17,13 @@ from website.models import SemcompUser
 
 from ..forms import MessageForm, NewMessageForm
 from ..decorators import staff_required
+
+def render_json_response(data, **kwargs):
+	return HttpResponse(
+		json.dumps(data),
+		content_type='application/json',
+		**kwargs
+	)
 
 @staff_required
 def manage_messages(request):
@@ -128,3 +138,47 @@ def messages_new(request):
 		'form': form
 	}
 	return render(request, 'management/messages_new.html', context)
+
+@staff_required
+@require_http_methods(['GET', 'POST'])
+def messages_ping(request):
+	response = {}
+	if request.method == 'GET':
+		ids = request.GET.getlist('ids[]')
+		remove_self = 'removeSelf' in request.GET
+
+		try:
+			ids = map(int, ids)
+			
+			messages = Message.objects.filter(pk__in=ids)
+			name = lambda u: u.full_name if u else None
+
+			response['data'] = {}
+			for m in messages:
+				if remove_self:
+					if m.last_ping_by == request.user:
+						continue
+				response['data'][m.pk] = [
+					m.is_being_replied_to(),
+					name(m.last_ping_by)
+				]
+		except ValueError:
+			response['error'] = u'IDs inválidos'
+	else:
+		ids = request.POST.getlist('ids[]')
+		try:
+			ids = map(int, ids)
+
+			messages = Message.objects.filter(pk__in=ids)
+			for m in messages:
+				# não altera quem tá mexendo numa mensagem se outro
+				# apressadinho quiser responder em cima
+				if m.is_being_replied_to() and m.last_ping_by != request.user:
+					continue
+				m.last_ping = now()
+				m.last_ping_by = request.user
+				m.save()
+		except ValueError:
+			response['error'] = u'IDs inválidos'
+
+	return render_json_response(response)

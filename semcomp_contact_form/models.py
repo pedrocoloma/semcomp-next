@@ -30,6 +30,12 @@ class Message(models.Model):
 		# apite quando a mensagem acabou de ser criada
 		default=datetime(2000, 1, 1).replace(tzinfo=timezone.utc)
 	)
+	last_ping_by = models.ForeignKey(
+		SemcompUser,
+		null=True,
+		on_delete=models.SET_NULL,
+		related_name='+',
+	)
 	in_reply_to = models.ForeignKey(
 		'self',
 		null=True,
