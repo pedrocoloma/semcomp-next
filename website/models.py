@@ -295,6 +295,7 @@ class Course(models.Model):
 	)
 	speaker = models.ForeignKey(Speaker, blank=True, null=True, verbose_name=_(u'Palestrante'))
 	photo = models.ImageField(_(u'Foto'), upload_to=course_upload_to)
+	vacancies = models.PositiveIntegerField(_(u'Vagas'), default=0)
 
 	def get_absolute_url(self):
 		return reverse(

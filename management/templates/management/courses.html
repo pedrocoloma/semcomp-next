@@ -13,6 +13,7 @@
               <th>pacote</th>
               <th>local</th>
               <th>palestrante</th>
+              <th>vagas</th>
               <th>editar</th>
             </tr>
           </thead>
@@ -30,6 +31,7 @@
                 <td class="track-{{course.track}}">{{course.get_track_display}}</td>
                 <td>{{course.place|default:"<span class=\"alert-box alert\">sem local</span>"}}</td>
                 <td>{{course.speaker|default:"<span class=\"alert-box alert\">sem palestrante</span>"}}</td>
+                <td>{{course.vacancies}}</td>
                 <td><a href="{% url "management_courses_edit" course.pk %}"><i class="fa fa-pencil-square-o fa-2x"></i></td>
               </tr>
             {% endfor %}
