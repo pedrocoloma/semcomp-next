@@ -1,4 +1,6 @@
 Contato Semcomp 17
 Enviado por: {{ name }}
-E-mail: {{ email }}
 Mensagem:{{ body }}
+
+Responda a mensagem em:
+    http://{{site}}{% url "management_messages_detail" message_instance.pk %}

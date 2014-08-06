@@ -9,9 +9,14 @@
         <div style='font-family:  \"Open Sans\", \"Helvetica Neue\", \"Helvetica\", Helvetica, Arial, sans-serif; background-color: #fff; padding: 20px;'>
         <h2>Contato Semcomp 17</h2>
         <p><strong>Enviado por:</strong> {{ name }}</p>
-        <p><strong>E-mail:</strong> {{ email }}</p>
         <p><strong>Mensagem:</strong></p>
         {{ body|linebreaks }}
+
+		<p><strong>Responda à mensagem em:</strong></p>
+		<a href="http://{{site}}{% url "management_messages_detail" message_instance.pk %}">
+			http://{{site}}{% url "management_messages_detail" message_instance.pk %}
+		</a>
+        <a href="{% url "management_messages_detail" message_instance.pk %}">Responda à mensagem no site da Semcomp:</a>
         </div>
         <div style='padding: 15px;'>
             <div style='float:right;'>

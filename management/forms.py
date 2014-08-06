@@ -3,6 +3,10 @@
 from django import forms
 from django.forms.models import inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
+
+from django_select2.widgets import Select2Widget
+from django_select2.fields import ModelSelect2Field, AutoModelSelect2Field
+
 from website.models import (
 	BusinessLecture,
 	Company,
@@ -18,6 +22,16 @@ from website.models import (
 	SemcompUser,
 	Speaker
 )
+from semcomp_contact_form.models import Message
+
+######### Fields
+
+class SemcompUserSelect2Field(AutoModelSelect2Field):
+	queryset = SemcompUser.objects
+	search_fields = ['email__icontains', 'full_name__icontains']
+
+######### Forms
+
 
 class CompanyForm(forms.ModelForm):
 	class Meta:
@@ -131,3 +145,31 @@ class BusinessLectureForm(forms.ModelForm):
 			'start_datetime': forms.SplitDateTimeWidget,
 			'end_datetime': forms.SplitDateTimeWidget
 		}
+
+class MessageForm(forms.ModelForm):
+	class Meta:
+		model = Message
+		fields = ('html_body',)
+
+class NewMessageForm(forms.Form):
+	MESSAGE_TYPES = (
+		('one', _(u'Individual')),
+		('bulk', _(u'Para todos os inscritos')),
+	)
+
+	type = forms.ChoiceField(
+		choices=MESSAGE_TYPES,
+		label=_(u'Tipo de mensagem'),
+	)
+	to_email = SemcompUserSelect2Field(
+		label=_(u'Para'),
+		required=False,
+	)
+	subject = forms.CharField(
+		max_length=254,
+		label=_(u'Assunto'),
+	)
+	body = forms.CharField(
+		widget=forms.Textarea,
+		label=_(u'Mensagem'),
+	)

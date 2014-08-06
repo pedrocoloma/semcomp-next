@@ -16,6 +16,11 @@
 						<i class="fa fa-fw fa-home"></i> {% trans "Visão geral" %}
 					</a>
 				</li>
+				<li {% if active_messages %}class="active"{% endif %}>
+					<a href="{% url "management_messages" %}">
+						<i class="fa fa-fw fa-envelope"></i> {% trans "Mensagens" %}
+					</a>
+				</li>
 				<li {% if active_places %}class="active"{% endif %}>
 					<a href="{% url "management_places" %}">
 						<i class="fa fa-fw fa-map-marker"></i> {% trans "Locais" %}

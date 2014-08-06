@@ -1,0 +1,101 @@
+{% extends "management/base.html" %}
+
+{% load static %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1 class="blue-bg left">Mensagens</h1>
+			<a href="{% url "management_messages_new" %}" class="button right">Nova mensagem</a>
+			<table class="email-list">
+				<tbody>
+					{% for message in email_messages %}
+					<tr class="email-preview" data-email-url="{% url "management_messages_detail" message.pk %}" data-message-id="{{message.pk}}" {% if message.replied %}data-replied="true"{% endif %}>
+							<td class="email-status"></td>
+							<td class="email-from">{{message.from_name}}</td>
+							<td class="email-body">{{message.body}}</td>
+							<td class="email-date">{{message.date_sent|date:"d/m/Y H:i"}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<h1 class="blue-bg left">Mensagens gerais</h1>
+			<table class="email-list">
+				<tbody>
+					{% for message in announcements %}
+						<tr class="email-preview" data-email-url="{% url "management_messages_detail" message.pk %}">
+							<td class="email-from">{{message.from_name}}</td>
+							<td class="email-body">{{message.body}}</td>
+							<td class="email-date">{{message.date_sent|date:"d/m/Y H:i"}}</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
+
+{% block extrajs %}
+	<script src="{% static "bower_components/jquery-cookie/jquery.cookie.js" %}"></script>
+	<script src="{% static "js/ajax_csrf.js" %}"></script>
+	<script src="{% static "js/page_visibility.js" %}"></script>
+	<script type="text/javascript">
+		$("tr[data-email-url]").click(function() {
+			window.location.href = $(this).attr('data-email-url');
+		});
+	</script>
+	<script type="text/javascript">
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				var csrftoken = $.cookie('csrftoken');
+				xhr.setRequestHeader('X-CSRFToken', csrftoken);
+			}
+		});
+
+		function pingMessages() {
+			var message_ids = $('tr[data-message-id]').map(
+				function() {
+					return $(this).attr('data-message-id');
+				}
+			).get();
+
+			$.get(
+				'{% url "management_messages_ping" %}',
+				{
+					'ids': message_ids
+				},
+				function(data, status, xhr) {
+					if (status == 'success' && !data.error) {
+						var result = data.data;
+						for (var key in result) {
+							if (result.hasOwnProperty(key)) {
+								var value = result[key][0];
+								var from = result[key][1];
+								var tr = $('tr[data-message-id="' + key + '"]')
+								var cell = tr.find('.email-status');
+
+								cell.children().remove();
+								if (value) {
+									cell.append($('<i />').addClass('fa fa-spin fa-circle-o-notch').attr('title',from + ' está respondendo'));
+								} else {
+									if (tr.attr('data-replied')) {
+										cell.append($('<i />').addClass('fa fa-reply'));
+									}
+								}
+							}
+						}
+					} else {
+						console.log('ajax failure', status, data);
+					}
+				},
+				'json'
+			);
+		}
+	</script>
+	<!-- esse script tem que estar depois da função pingMessages -->
+	<script src="{% static "js/ping_messages.js" %}"></script>
+{% endblock %}

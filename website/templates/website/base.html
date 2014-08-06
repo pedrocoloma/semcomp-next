@@ -155,9 +155,11 @@
 </div>
     {% render_block "js" postprocessor "compressor.contrib.sekizai.compress" %}
     {% addtoblock "js" %}
-      <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
-      <script src="{% static "bower_components/foundation/js/foundation.min.js" %}"></script>
-      <script src="{% static "js/app.js" %}"></script>
+      {% block basejs %}
+        <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+        <script src="{% static "bower_components/foundation/js/foundation.min.js" %}"></script>
+        <script src="{% static "js/app.js" %}"></script>
+	  {% endblock %}
       {% block extrajs %}{% endblock %}
     {% endaddtoblock %}
   </body>

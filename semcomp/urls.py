@@ -15,6 +15,7 @@ admin.autodiscover()
 urlpatterns = solid_i18n_patterns('',
     url(r'^djangoadmin/', include(admin.site.urls)),
 	url(r'^accounts/', include('signup.urls')),
+	url(r'^select2/', include('django_select2.urls')),
 	url(r'^', include('website.urls')),
 	url(r'^', include('cms.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

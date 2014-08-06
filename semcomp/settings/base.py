@@ -86,6 +86,7 @@ INSTALLED_APPS = (
 	'account',
 	'management',
 	'semcomp_plugins',
+    'semcomp_contact_form',
 	# django-cms plugins
 	'djangocms_flash',
 	'djangocms_googlemap',
@@ -127,7 +128,7 @@ INSTALLED_APPS = (
 	'taggit',
 	'cmsplugin_flickr_slideshow',
     'contact_form',
-    'semcomp_contact_form',
+	'django_gravatar',
 )
 
 

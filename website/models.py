@@ -334,6 +334,9 @@ class SemcompUserManager(BaseUserManager):
 		user.save(using=self._db)
 		return user
 
+	def registered(self):
+		return self.filter(is_active=True, is_staff=False)
+
 class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(
 		_(u'Email'),

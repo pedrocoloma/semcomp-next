@@ -7278,3 +7278,58 @@ img.image-center {
 .company-logo-container {
   min-height: 100px;
 }
+
+.email-list {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.email-preview {
+  cursor: pointer;
+}
+.email-preview:hover {
+  background-color: #bbbbbb;
+}
+.email-preview .email-status {
+  width: 5%;
+  text-align: center;
+}
+.email-preview .email-from {
+  width: 25%;
+}
+.email-preview .email-body {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+.email-preview .email-date {
+  width: 20%;
+}
+
+.email-message {
+  color: #111111;
+}
+
+.sender-info {
+  display: inline-block;
+}
+.sender-info > img {
+  float: left;
+}
+.sender-info .contact-info {
+  margin-left: 60px;
+}
+
+.message-time {
+  float: right;
+}
+
+.message-body-form .button {
+  margin-top: 20px;
+}
+
+.select2-container {
+  width: 100%;
+}
