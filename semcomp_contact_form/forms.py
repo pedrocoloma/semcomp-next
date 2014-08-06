@@ -65,6 +65,7 @@ class SemcompContactForm(ContactForm):
             from_name=self.cleaned_data['name'],
             from_email=self.cleaned_data['email'],
             body=self.cleaned_data['body'],
+            is_announcement=False,
         )
 
         # Coloca o nono objeto no contexto pra poder usar em templates
