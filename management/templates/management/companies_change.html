@@ -30,7 +30,7 @@
 				</div>
 				<div class="row">
 					<div class="medium-4 columns">
-						<img src="{{ company.logo.url|default:"http://placehold.it/200&text=Sem+Logo" }}" >
+						<img src="{% if company.logo %}{{company.logo.url}}{% else %}http://placehold.it/200&text=Sem+Logo{% endif %}" >
 					</div>
 
 					{% include "management/render_field.html" with field=form.logo width="medium-8 " only %}
