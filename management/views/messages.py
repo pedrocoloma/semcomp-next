@@ -52,8 +52,6 @@ def messages_detail(request, message_pk):
 				new_message.html_body, strip=True, tags=['a'])
 			new_message.in_reply_to = message
 			new_message.to_email = message.from_email
-			# o last_ping vai lá pra trás de novo pra não ter treta
-			new_message.last_ping = datetime(2000, 1, 1).replace(tzinfo=utc)
 			# é, isso é um pouco estranho, mas 1) o admin pode mudar de
 			# nome/email e eu quero guardar os dados de como que foi a mensagem
 			# 2) o mesmo modelo é usado pra mensagens do form e mensagens aqui,
@@ -63,10 +61,15 @@ def messages_detail(request, message_pk):
 			new_message.from_name = request.user.full_name
 			new_message.from_email = request.user.email
 			new_message.sent_by = request.user
+			# isso é só uma resposta
+			new_message.is_announcement = False
 
 			new_message.save()
 
 			new_message.send_as_reply()
+
+			# o last_ping vai lá pra trás pra não aparecer como sendo respondida
+			message.last_ping = datetime(2000, 1, 1).replace(tzinfo=utc)
 
 			return redirect('management_messages')
 
