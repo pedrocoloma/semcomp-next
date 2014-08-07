@@ -91,7 +91,7 @@ class SemcompContactForm(ContactForm):
 
         # Envia uma mensagem de confirmação pro usuário
         data = {}
-        data['subject'] = 'Contato Semcomp'
+        data['subject'] = u'Contato Semcomp 17'
         data['message'] = loader.render_to_string(
             'contact_form/contact_form_message_sender.txt',
             context

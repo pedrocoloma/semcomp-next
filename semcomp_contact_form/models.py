@@ -76,6 +76,21 @@ class Message(models.Model):
 		else:
 			return False
 	
+	def _build_reply_body(self, base_body):
+		assert self.pk
+		assert self.in_reply_to
+
+		# coloca o corpo da mensagem anterior como resposta
+		original = self.in_reply_to
+		reply_body = "De: {}\nData: {}\nMensagem:\n{}".format(
+			'{} <{}>'.format(original.from_name, original.from_email),
+			original.date_sent,
+			original.body
+		)
+
+		return '{}\n{}'.format(base_body, reply_body)
+
+
 	def send_as_reply(self):
 		if not self.pk:
 			return
@@ -83,10 +98,10 @@ class Message(models.Model):
 			raise ValueError(ugettext(u'Mensagem não é uma resposta'))
 
 		msg = EmailMultiAlternatives(
-			subject=ugettext(u'Contato Semcomp 17'),
-			body=self.body,
+			subject=ugettext(u'Re: Contato Semcomp 17'),
+			body=self._build_reply_body(self.body),
 			from_email=self.from_email,
-			to=[self.in_reply_to.from_email]
+			to=[self.in_reply_to.from_email],
 		)
-		msg.attach_alternative(self.html_body, 'text/html')
+		msg.attach_alternative(self._build_reply_body(self.html_body), 'text/html')
 		msg.send(fail_silently=False)
