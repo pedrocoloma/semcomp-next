@@ -82,13 +82,13 @@ class Message(models.Model):
 
 		# coloca o corpo da mensagem anterior como resposta
 		original = self.in_reply_to
-		reply_body = "De: {}\nData: {}\nMensagem:\n{}".format(
-			'{} <{}>'.format(original.from_name, original.from_email),
+		reply_body = u"De: {}\nData: {}\nMensagem:\n{}".format(
+			u'{} <{}>'.format(original.from_name, original.from_email),
 			original.date_sent,
 			original.body
 		)
 
-		return '{}\n{}'.format(base_body, reply_body)
+		return u'{}\n{}'.format(base_body, reply_body)
 
 
 	def send_as_reply(self):
