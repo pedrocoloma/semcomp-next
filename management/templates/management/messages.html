@@ -66,8 +66,7 @@
 			$.get(
 				'{% url "management_messages_ping" %}',
 				{
-					'ids': message_ids,
-					'removeSelf': true
+					'ids': message_ids
 				},
 				function(data, status, xhr) {
 					if (status == 'success' && !data.error) {
