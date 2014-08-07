@@ -76,7 +76,7 @@ class Message(models.Model):
 		else:
 			return False
 	
-	def _build_reply_body(self, base_body):
+	def _build_reply_body(self, base_body, html=False):
 		assert self.pk
 		assert self.in_reply_to
 
@@ -88,7 +88,11 @@ class Message(models.Model):
 			original.body
 		)
 
-		return u'{}\n{}'.format(base_body, reply_body)
+		full_body = u'{}\n{}'.format(base_body, reply_body)
+		if html:
+			full_body = full_body.replace('\n', '<br>')
+
+		return full_body
 
 
 	def send_as_reply(self):
@@ -103,5 +107,8 @@ class Message(models.Model):
 			from_email=self.from_email,
 			to=[self.in_reply_to.from_email],
 		)
-		msg.attach_alternative(self._build_reply_body(self.html_body), 'text/html')
+		msg.attach_alternative(
+			self._build_reply_body(self.html_body, True),
+			'text/html'
+		)
 		msg.send(fail_silently=False)
