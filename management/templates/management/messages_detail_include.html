@@ -22,7 +22,7 @@
 		{% if message.html_body %}
 			{{message.html_body|safe}}
 		{% else %}
-			{{message.body|safe|linebreaks}}
+			{{message.body|linebreaks}}
 		{% endif %}
 	</div>
 </div>
