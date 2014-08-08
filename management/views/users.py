@@ -38,7 +38,7 @@ def manage_users(request):
 	return render(request, 'management/users.html', {
 		'active_users': True,
 		'usuarios': usuarios.order_by('full_name'),
-		'pendencias': pendencias,
+		'pendencias': pendencias.order_by('full_name'),
 		'total_inscritos': usuarios.count(),
 		'total_pagos':Inscricao.objects.filter(pagamento=True).count(),
 		'total_coffee': Inscricao.objects.filter(pagamento=True, coffee=True).count(),
