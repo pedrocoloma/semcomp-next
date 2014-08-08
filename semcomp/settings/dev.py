@@ -23,3 +23,5 @@ STATIC_ROOT = PROJECT_DIR.joinpath('static').as_posix()
 STATIC_URL = '/static/'
 
 DEFAULT_FROM_EMAIL = 'contato@semcomp.icmc.usp.br'
+
+CELERY_ALWAYS_EAGER = True

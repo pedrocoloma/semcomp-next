@@ -87,6 +87,7 @@ INSTALLED_APPS = (
 	'management',
 	'semcomp_plugins',
     'semcomp_contact_form',
+	'stats',
 	# django-cms plugins
 	'djangocms_flash',
 	'djangocms_googlemap',
@@ -179,3 +180,4 @@ SEMCOMP_CONFIG = {
 		datetime.datetime(2014, 8, 4)),
 }
 
+ELASTICSEARCH_INDEX = 'semcomp-17'
