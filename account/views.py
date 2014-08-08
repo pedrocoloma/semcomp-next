@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from website.models import Inscricao
 from django.core.exceptions import ObjectDoesNotExist
 from forms import InscricoesForm
+from website.models import Course
+from website.models import Event
 @login_required
 def account_overview(request):
 	try:
@@ -57,7 +60,37 @@ def payment_send(request):
 
 @login_required
 def courses(request):
-	return render(request, 'account/courses.html', {'active_courses': True})
+	try:
+		inscricao = Inscricao.objects.get(user=request.user)
+	except ObjectDoesNotExist:
+		inscricao = None
+
+	slots = []
+	slot1 = {'day': u'Terça'}
+	slot1['tracks'] = []
+	slot2 = {'day': u'Quinta'}
+	slot2['tracks'] = []
+	slots.append(slot1)
+	slots.append(slot2)
+
+	# pega os slots de minicurso
+	events = Event.objects.filter(type='minicurso')
+	# separa o primeiro e o ultimo dia dos minicursos
+	first_day_slot = events[0]
+	last_day_slot = events[len(events)-1]
+
+	cA = first_day_slot.course_set.filter(track='A')
+	cV = first_day_slot.course_set.filter(track='V')
+	slot1['tracks'].append(cA)
+	slot1['tracks'].append(cV)
+
+	cA = last_day_slot.course_set.filter(track='A')
+	cV = last_day_slot.course_set.filter(track='V')
+	slot2['tracks'].append(cA)
+	slot2['tracks'].append(cV)
+
+
+	return render(request, 'account/courses.html', {'active_courses': True, 'slots': slots, 'inscricao': inscricao})
 
 def account_logout(request):
 	logout(request)

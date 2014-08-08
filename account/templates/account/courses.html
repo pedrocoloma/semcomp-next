@@ -1,15 +1,79 @@
 {% extends "account/base.html" %}
 {% load cms_tags %}
+{% load thumbnail %}
+{% load staticfiles %}
 {% block user_content %}
 	<div class="panel">
 		<h2>Minicursos</h2>
-		{% if course_registration_open %}
-		{% else %}
+		{# {% if course_registration_open %} #}
+			{% if inscricao and inscricao.pagamento %}
+
+			{# if não se inscreveu em minicurso mas pagou #}
+			<div data-alert class="alert-box warning radius">
+				Você ainda não fez sua inscrição nos minicursos. Você pode escolher até 2 minicursos, um na terça e outro na quinta.
+				Os minicursos escolhidos devem pertencer ao mesmo pacote.
+			</div>
+
+			{# if inscrito em pleo menos um minicurso #}
+				<div data-alert class="alert-box success radius">
+					Sua vaga está garantida nos minicursos. Veja detalhes do minicurso que você se inscreveu abaixo.
+				</div>
+				{# colocar os minicursos inscritos aqui#}
+			{# endif #}
+			{% for slot in slots %}
+			<hr>
+			<h2> {{slot.day}} </h2><br>
+				{% for track in slot.tracks %}
+					{% if track %}
+						<h3> Pacote {{track.0.get_track_display}} </h3>
+						<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 minicursos">
+						{% for course in track %}
+						<li>
+							<div class="">
+								<div class="courselogo">
+									<img src="{% thumbnail course.photo 0x180 %}">
+								</div>
+								<div class="coursetitle">
+									{{ course.title }}
+									<br>
+									X vagas
+								</div>
+							</div>
+							<div class="coursetitle">
+								<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
+							</div>
+						</li>
+						{% endfor %}
+						</ul>
+					{% endif %}
+				{% endfor %}
+				<ul class="small-block-grid-1 medium-block-grid-1 large-block-grid-1 minicursos">
+				<li>
+					<div class="">
+						<div class="courselogo">
+							<img src="{% static "img/none.png" %}">
+						</div>
+						<div class="coursetitle">
+							Nenhum
+						</div>
+					</div>
+				</li>
+				</ul>
+			{% endfor %}
+
+			{% else %}
+			<div data-alert class="alert-box alert radius">
+				As inscrições para os minicursos estão abertas porém você ainda não pode se inscrever pois não teve o pagamento confirmado.
+				Confirme seu pagamento caso queira se inscrever nos minicursos.
+			</div>
+			{% endif %}
+
+		{# {% else %} #}
 			<div data-alert class="alert-box info radius">
 				As inscrições para minicursos vão abrir dia
 				{{course_registration_date|date:"SHORT_DATE_FORMAT"}} as
 				{{course_registration_date|time:"TIME_FORMAT"}}
 			</div>
-		{% endif %}
+		{# {% endif %} #}
 	</div>
 {% endblock %}
