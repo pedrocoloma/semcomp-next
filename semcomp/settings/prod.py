@@ -57,6 +57,15 @@ LOGGING = {
 			'level': 'ERROR',
 			'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
 		},
+		'elasticsearch': {
+			'level': 'DEBUG',
+			'class': 'stats.handlers.ElasticSearchHandler',
+		},
+		'event-file': {
+			'level': 'DEBUG',
+			'class': 'logging.FileHandler',
+			'filename': '/data/log/events.log',
+		},
 	},
 	'loggers': {
 		'django': {
@@ -72,6 +81,11 @@ LOGGING = {
 		'django.security': {
 			'handlers': ['sentry'],
 			'level': 'ERROR',
+			'propagate': False,
+		},
+		'stats': {
+			'handlers': ['elasticsearch', 'event-file'],
+			'level': 'DEBUG',
 			'propagate': False,
 		},
 	}
