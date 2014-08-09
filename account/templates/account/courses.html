@@ -2,34 +2,69 @@
 {% load cms_tags %}
 {% load thumbnail %}
 {% load staticfiles %}
+{% load semcomp %}
 {% block user_content %}
+<script>
+	function switch_course(el,radio,group){
+		$(group).removeClass("minicurso-radio-checked");
+		$(el).addClass("minicurso-radio-checked");
+		$(radio).prop("checked", true);
+	}
+</script>
 	<div class="panel">
 		<h2>Minicursos</h2>
-		{# {% if course_registration_open %} #}
+		{% if course_registration_open %}
 			{% if inscricao and inscricao.pagamento %}
 
-			{# if não se inscreveu em minicurso mas pagou #}
-			<div data-alert class="alert-box warning radius">
-				Você ainda não fez sua inscrição nos minicursos. Você pode escolher até 2 minicursos, um na terça e outro na quinta.
-				Os minicursos escolhidos devem pertencer ao mesmo pacote.
-			</div>
-
-			{# if inscrito em pleo menos um minicurso #}
+			{% if user_courses %}
 				<div data-alert class="alert-box success radius">
 					Sua vaga está garantida nos minicursos. Veja detalhes do minicurso que você se inscreveu abaixo.
 				</div>
-				{# colocar os minicursos inscritos aqui#}
-			{# endif #}
+				<h3>Minicursos inscritos</h3>
+				{% for course in user_courses %}
+				<div class="row">
+						<div class="small-4 columns">
+							<a href="{{ course.get_absolute_url }}">
+								<img src="{% thumbnail course.photo 0x180 %}">
+							</a>
+						</div>
+						<div class="small-8 columns">
+							<h3>{{ course.title }}</h3>
+								{% if course.start_date == course.end_date %}
+									<p>{{course.start_date|date:"d/m/Y (l)"}}<br>
+									{{course.start_time}} - {{course.end_time}}</p>
+								{% else %}
+									<small>{{course.start_date|date:"d/m/Y"}} {{course.start_time}}<br>
+										{{course.end_date|date:"d/m/Y"}} {{course.end_time}}</small>
+								{% endif %}
+							{% if course.place %}
+								<h4>Local: {{course.place.name}}</h4>
+							{% endif %}
+							<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
+						</div>
+				</div>
+				<br><br>
+				{% endfor %}
+
+			{% else %}
+				<div data-alert class="alert-box warning radius">
+					Você ainda não fez sua inscrição nos minicursos. Você pode escolher até 2 minicursos, um na terça e outro na quinta.
+					Os minicursos escolhidos devem pertencer ao mesmo pacote.
+				</div>
+			{% endif %}
+			<form  action="{% url "account_course_register" %}" method="post">
+			{% csrf_token %}
 			{% for slot in slots %}
+			{% with forloop.counter as slotid %}
 			<hr>
-			<h2> {{slot.day}} </h2><br>
+			<h2> {{slot.day|date:"l (d/m)"}} </h2><br>
 				{% for track in slot.tracks %}
 					{% if track %}
 						<h3> Pacote {{track.0.get_track_display}} </h3>
 						<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 minicursos">
 						{% for course in track %}
 						<li>
-							<div class="">
+							<div class="minicurso-radio group-{{slotid}}" onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')">
 								<div class="courselogo">
 									<img src="{% thumbnail course.photo 0x180 %}">
 								</div>
@@ -42,24 +77,30 @@
 							<div class="coursetitle">
 								<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
 							</div>
+							<input type="radio" class="minicurso-radio-button" name="minicurso-{{slotid}}" id="course{{ course.id }}" value="{{ course.id }}" />
 						</li>
 						{% endfor %}
 						</ul>
 					{% endif %}
 				{% endfor %}
-				<ul class="small-block-grid-1 medium-block-grid-1 large-block-grid-1 minicursos">
+				<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 minicursos">
 				<li>
-					<div class="">
+					<div class="minicurso-radio group-{{slotid}}" onclick="switch_course(this,'#course-1{{slotid}}','.group-{{slotid}}')">
 						<div class="courselogo">
-							<img src="{% static "img/none.png" %}">
+							<img src="{% static "img/none.png" %}" style="width:inherit;">
 						</div>
 						<div class="coursetitle">
 							Nenhum
 						</div>
+						<input type="radio" class="minicurso-radio-button" name="minicurso-{{slotid}}" id="course-1{{slotid}}" value="-1" required/>
 					</div>
 				</li>
 				</ul>
+			{% endwith %}
 			{% endfor %}
+			<input type="submit" class="button right" value="Salvar Inscrição">
+			<br><br><br>
+			</form>
 
 			{% else %}
 			<div data-alert class="alert-box alert radius">
@@ -68,12 +109,12 @@
 			</div>
 			{% endif %}
 
-		{# {% else %} #}
+		{% else %}
 			<div data-alert class="alert-box info radius">
 				As inscrições para minicursos vão abrir dia
 				{{course_registration_date|date:"SHORT_DATE_FORMAT"}} as
 				{{course_registration_date|time:"TIME_FORMAT"}}
 			</div>
-		{# {% endif %} #}
+		{% endif %}
 	</div>
 {% endblock %}

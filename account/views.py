@@ -7,6 +7,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from forms import InscricoesForm
 from website.models import Course
 from website.models import Event
+from account.models import CourseRegistration
+from django.db.models import Max, Min
+
 @login_required
 def account_overview(request):
 	try:
@@ -66,9 +69,9 @@ def courses(request):
 		inscricao = None
 
 	slots = []
-	slot1 = {'day': u'Terça'}
+	slot1 = {}
 	slot1['tracks'] = []
-	slot2 = {'day': u'Quinta'}
+	slot2 = {}
 	slot2['tracks'] = []
 	slots.append(slot1)
 	slots.append(slot2)
@@ -78,6 +81,9 @@ def courses(request):
 	# separa o primeiro e o ultimo dia dos minicursos
 	first_day_slot = events[0]
 	last_day_slot = events[len(events)-1]
+
+	slot1['day'] = first_day_slot.start_date
+	slot2['day'] = last_day_slot.start_date
 
 	cA = first_day_slot.course_set.filter(track='A')
 	cV = first_day_slot.course_set.filter(track='V')
@@ -89,8 +95,31 @@ def courses(request):
 	slot2['tracks'].append(cA)
 	slot2['tracks'].append(cV)
 
+	user_courses = CourseRegistration.objects.filter(user=request.user)
+	#user_courses = Course.objects.all()[:2]
 
-	return render(request, 'account/courses.html', {'active_courses': True, 'slots': slots, 'inscricao': inscricao})
+	for course in user_courses:
+		course_date_time = course.slots.aggregate(
+			Min('start_time'), Max('end_time'),
+			Min('start_date'), Max('end_date')
+		)
+		# annotate manually
+		course.start_time = course_date_time['start_time__min']
+		course.end_time = course_date_time['end_time__max']
+		course.start_date = course_date_time['start_date__min']
+		course.end_date = course_date_time['end_date__max']
+
+
+	return render(request, 'account/courses.html', {'active_courses': True, 'slots': slots, 'inscricao': inscricao, 'user_courses': user_courses})
+
+@login_required
+def course_register(request):
+	try:
+		inscricao = Inscricao.objects.get(user=request.user)
+	except ObjectDoesNotExist:
+		inscricao = None
+
+	return redirect('account_courses')
 
 def account_logout(request):
 	logout(request)
