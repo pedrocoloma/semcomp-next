@@ -32,7 +32,7 @@ LOGGING = {
 	'handlers': {
 		'event-file': {
 			'level': 'DEBUG',
-			'class': 'logging.FileHandler',
+			'class': 'stats.handlers.JSONFileHandler',
 			'filename': PROJECT_DIR.joinpath('events.log').as_posix(),
 		},
 	},

@@ -3,7 +3,29 @@ from django.shortcuts import render, redirect, get_object_or_404
 from management.forms import CompanyForm
 from website.models import Company
 
+import stats
+
 from ..decorators import staff_required
+
+def add_event(request, form, company, action):
+	data = {
+		'action': action,
+		'user': {
+			'id': request.user.id,
+			'name': request.user.full_name,
+			'email': request.user.email,
+		},
+		'company': {
+			'id': company.pk,
+			'name': company.name,
+		}
+	}
+
+	if action == 'change':
+		data['company']['changed_fields'] = form.changed_data
+
+	stats.add_event('management-company', data)
+
 
 @staff_required
 def manage_companies(request):
@@ -22,7 +44,8 @@ def companies_add(request):
 	if request.method == 'POST':
 		form = CompanyForm(request.POST, request.FILES)
 		if form.is_valid():
-			form.save()
+			company = form.save()
+			add_event(request, form, company, 'add')
 			return redirect('management_companies')
 	else:
 		form = CompanyForm()
@@ -38,7 +61,8 @@ def companies_edit(request, company_pk):
 	if request.method == 'POST':
 		form = CompanyForm(request.POST, request.FILES, instance=company)
 		if form.is_valid():
-			form.save()
+			company = form.save()
+			add_event(request, form, company, 'change')
 			return redirect('management_companies')
 	else:
 		form = CompanyForm(instance=company)
@@ -53,6 +77,9 @@ def companies_edit(request, company_pk):
 @staff_required
 def companies_delete(request, company_pk):
 	company = get_object_or_404(Company, pk=company_pk)
+
+	# fazer log antes de apagar pra pegar o ID
+	add_event(request, None, company, 'delete')
 
 	company.delete()
 

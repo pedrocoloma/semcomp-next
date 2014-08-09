@@ -63,7 +63,7 @@ LOGGING = {
 		},
 		'event-file': {
 			'level': 'DEBUG',
-			'class': 'logging.FileHandler',
+			'class': 'stats.handlers.JSONFileHandler',
 			'filename': '/data/log/events.log',
 		},
 	},
