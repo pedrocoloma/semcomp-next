@@ -14,7 +14,7 @@ django-filer==0.9.5
 django-gravatar2==1.1.4
 django-mathfilters==0.1.3
 django-reversion==1.8.0
-django-signup==0.5.0
+django-signup==0.6.0
 djangocms-file==0.0.1
 djangocms-flash==0.0.2
 djangocms-googlemap==0.0.5
