@@ -29,5 +29,3 @@ class BasicStatsTest(StatsTest):
 		add_event('special-group-type', {'nonsense': 'data'})
 		self.assertEventCreated('special-group-type')
 
-class CompaniesStatsTest(StatsTest):
-	pass

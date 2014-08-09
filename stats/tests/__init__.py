@@ -1,1 +1,1 @@
-from .test_management_companies import *
+from .test_common import *
