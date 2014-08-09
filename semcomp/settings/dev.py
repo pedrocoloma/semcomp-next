@@ -33,7 +33,7 @@ LOGGING = {
 		'event-file': {
 			'level': 'DEBUG',
 			'class': 'logging.FileHandler',
-			'filename': PROJECT_DIR.joinpath('events.log'),
+			'filename': PROJECT_DIR.joinpath('events.log').as_posix(),
 		},
 	},
 	'loggers': {
