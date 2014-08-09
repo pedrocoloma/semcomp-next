@@ -1,15 +1,20 @@
-# -*- coding:utf-8 -*-
+# coding: utf-8
+
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template import loader
+
+import unicodecsv as csv
+
+import stats
 from website.models import SemcompUser, Inscricao
+
 from ..decorators import staff_required
 from ..forms import UserManagementForm, InscricaoManagementForm
-from django.core.mail import send_mail
-from django.core.mail import EmailMultiAlternatives
-from django.core.exceptions import ObjectDoesNotExist
-from django.template import loader
-from django.conf import settings
-from django.http import HttpResponse
-import unicodecsv as csv
 
 def mail_user(aprovado, comentario, nome, email):
     data = {}
@@ -30,6 +35,7 @@ def mail_user(aprovado, comentario, nome, email):
     	'comentario': comentario,
     	}), "text/html")
     msg.send(fail_silently=False)
+
 @staff_required
 def manage_users(request):
 	usuarios = SemcompUser.objects.all()
@@ -54,8 +60,27 @@ def users_edit(request, user_pk):
 		if 'is_admin' in user_form.changed_data or 'is_staff' in user_form.changed_data:
 			if not request.user.is_admin:
 				return redirect('management_users')
-		if(user_form.is_valid()):
-			user_form.save()
+		if user_form.is_valid():
+			user = user_form.save()
+
+			stats.add_event(
+				'management-users',
+				{
+					'action': 'change',
+					'target_user': {
+						'id': user.pk,
+						'full_name': user.full_name,
+						'is_active': user.is_active,
+						'is_admin': user.is_admin,
+						'is_staff': user.is_staff,
+						'changed_fields': user_form.changed_data
+					},
+					'user': {
+						'id': request.user.pk,
+						'name': request.user.full_name,
+					}
+				}
+			)
 			return redirect('management_users')
 	else:
 		user_form = UserManagementForm(instance=user)
@@ -65,6 +90,7 @@ def users_edit(request, user_pk):
 		'user': user,
 		'user_form':user_form,
 		})
+
 @staff_required
 def users_validate(request, user_pk):
 	user = get_object_or_404(SemcompUser, pk=user_pk)
@@ -78,14 +104,42 @@ def users_validate(request, user_pk):
 			inscricao_form = InscricaoManagementForm(request.POST, request.FILES, instance=inscricao)
 		if inscricao_form.is_valid():
 			i = inscricao_form.save(commit=False)
+
+			validation_data = {
+				'action': 'validate',
+				'status': 'none',
+				'user': {
+					'id': request.user.pk,
+					'name': request.user.full_name
+				}
+			}
+
 			if 'aprovar' in request.POST:
+				validation_data['status'] = 'approved'
+
 				i.pagamento = True
 				i.avaliado=True
+
 				mail_user(True, inscricao_form.cleaned_data.get('comentario'), user.full_name, user.email)
 			elif 'rejeitar' in request.POST:
+				validation_data['status'] = 'rejected'
+
 				i.pagamento = False
 				i.avaliado=True
 				mail_user(False, inscricao_form.cleaned_data.get('comentario'), user.full_name, user.email)
+
+			validation_data['registration'] = {
+				'paid': i.pagamento,
+				'evaluated': i.avaliado,
+				'coffee': i.coffee,
+				'user': {
+					'id': user.pk,
+					'name': user.full_name,
+				},
+				'changed_fields': inscricao_form.changed_data,
+			}
+			stats.add_event('management-users', validation_data)
+
 			i.save()
 			return redirect('management_users')
 	else:
@@ -139,4 +193,16 @@ def users_download(request):
 			URL = None
 			documento = None
 		writer.writerow([nome, email, CPF, status, coffee, URL, documento])
+
+	stats.add_event(
+		'management-users',
+		{
+			'action': 'download',
+			'user': {
+				'id': request.user.pk,
+				'name': request.user.full_name,
+			}
+		}
+	)
+
 	return response
