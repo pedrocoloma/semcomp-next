@@ -23,6 +23,6 @@ class CompaniesTest(ManagementTest):
 			reverse('management_companies_add'),
 			post_data
 		)
-		self.assertEventCreated('management-company')
+		self.assertEventCreated('management-companies')
 
 
