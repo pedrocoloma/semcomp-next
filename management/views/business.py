@@ -24,7 +24,7 @@ def add_event(request, form, lecture, action):
 	if action == 'change':
 		data['lecture']['changed_fields'] = form.changed_data
 
-	stats.add_event('management-business-lecture', data)
+	stats.add_event('management-business-lectures', data)
 
 
 def manage_business_lectures(request):

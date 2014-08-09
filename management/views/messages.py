@@ -74,7 +74,7 @@ def messages_detail(request, message_pk):
 			message.save()
 
 			stats.add_event(
-				'management-message',
+				'management-messages',
 				{
 					'action': 'reply',
 					'to_message': {
@@ -105,7 +105,7 @@ def messages_delete(request, message_pk):
 	message = get_object_or_404(Message, pk=message_pk)
 
 	stats.add_event(
-		'management-message',
+		'management-messages',
 		{
 			'action': 'delete',
 			'message_list': [
@@ -184,7 +184,7 @@ def messages_new(request):
 			}
 			if to_type == 'one':
 				stats_data['message']['recipient'] = to_user.email
-			stats.add_event('management-message', stats_data)
+			stats.add_event('management-messages', stats_data)
 
 			for user in users:
 				msg = EmailMultiAlternatives(

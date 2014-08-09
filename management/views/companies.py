@@ -24,7 +24,7 @@ def add_event(request, form, company, action):
 	if action == 'change':
 		data['company']['changed_fields'] = form.changed_data
 
-	stats.add_event('management-company', data)
+	stats.add_event('management-companies', data)
 
 
 @staff_required

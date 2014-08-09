@@ -78,6 +78,11 @@ class SemcompConfigForm(forms.Form):
 
 		super(SemcompConfigForm, self).__init__(*args, **kwargs)
 
+		# usado de verdade só no save(), mas é declarado aqui pra que não
+		# dê erro em alguém que tente acessar esse atributo antes da função
+		# save() ser chamada
+		self.new_config = []
+
 		for field in form_fields:
 			if field.type == 'text':
 				field_name = 'config_text_field_{0}'.format(field.pk)
@@ -100,6 +105,8 @@ class SemcompConfigForm(forms.Form):
 			config = SemcompConfig.objects.get(name=field.label)
 			config.set_value(field_data)
 			config.save()
+
+			self.new_config.append(config)
 
 
 
