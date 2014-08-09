@@ -12,6 +12,7 @@ from django.views.decorators.http import require_http_methods
 
 import bleach
 
+import stats
 from semcomp_contact_form.models import Message
 from website.models import SemcompUser
 
@@ -70,6 +71,23 @@ def messages_detail(request, message_pk):
 
 			# o last_ping vai lá pra trás pra não aparecer como sendo respondida
 			message.last_ping = datetime(2000, 1, 1).replace(tzinfo=utc)
+			message.save()
+
+			stats.add_event(
+				'management-message',
+				{
+					'action': 'reply',
+					'to_message': {
+						'id': message.id,
+						'from_email': message.from_email,
+						'from_name': message.from_name,
+					},
+					'user': {
+						'id': request.user.pk,
+						'name': request.user.full_name,
+					}
+				}
+			)
 
 			return redirect('management_messages')
 
@@ -85,6 +103,24 @@ def messages_detail(request, message_pk):
 @staff_required
 def messages_delete(request, message_pk):
 	message = get_object_or_404(Message, pk=message_pk)
+
+	stats.add_event(
+		'management-message',
+		{
+			'action': 'delete',
+			'message_list': [
+				{
+					'id': m.pk,
+					'from_name': m.from_name,
+					'from_email': m.from_email,
+				} for m in list(message.replies.all()) + [message]
+			],
+			'user': {
+				'id': request.user.pk,
+				'name': request.user.full_name
+			}
+		}
+	)
 
 	# delete cascade nas respostas
 	message.delete()
@@ -117,23 +153,39 @@ def messages_new(request):
 				is_announcement=True,
 			)
 
-
 			# determina pra quem vai a mensagem
-			if form.cleaned_data['type'] == 'one':
+			to_type = form.cleaned_data['type']
+			to_user = form.cleaned_data['to_email']
+			if to_type == 'one':
 				users = [form.cleaned_data['to_email']]
-			elif form.cleaned_data['type'] == 'bulk':
+			elif to_type == 'bulk':
 				users = SemcompUser.objects.registered()
-			elif form.cleaned_data['type'] == 'no_payment':
+			elif to_type == 'no_payment':
 				users = SemcompUser.objects.no_payment()
-			elif form.cleaned_data['type'] == 'pending':
+			elif to_type == 'pending':
 				users = SemcompUser.objects.pending()
-			elif form.cleaned_data['type'] == 'paid':
+			elif to_type == 'paid':
 				users = SemcompUser.objects.paid()
-			elif form.cleaned_data['type'] == 'coffee':
+			elif to_type == 'coffee':
 				users = SemcompUser.objects.coffee()
-			elif form.cleaned_data['type'] == 'no_coffee':
+			elif to_type == 'no_coffee':
 				users = SemcompUser.objects.no_coffee()
 			
+			stats_data = {
+				'action': 'send',
+				'user': {
+					'id': request.user.pk,
+					'name': request.user.full_name,
+				},
+				'message': {
+					'type': to_type,
+					'subject': form.cleaned_data['subject'],
+				}
+			}
+			if to_type == 'one':
+				stats_data['message']['recipient'] = to_user.email
+			stats.add_event('management-message', stats_data)
+
 			for user in users:
 				msg = EmailMultiAlternatives(
 					form.cleaned_data['subject'],
