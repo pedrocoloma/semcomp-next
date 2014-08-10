@@ -155,6 +155,11 @@ class NewMessageForm(forms.Form):
 	MESSAGE_TYPES = (
 		('one', _(u'Individual')),
 		('bulk', _(u'Para todos os inscritos')),
+		('no_payment', _(u'Para todos os que não pagaram')),
+		('pending', _(u'Para todos os pendentes')),
+		('paid', _(u'Para todos com pagamento confirmado (participantes)')),
+		('coffee', _(u'Para todos os participantes com coffee')),
+		('no_coffee', _(u'Para todos os participantes sem coffee')),
 	)
 
 	type = forms.ChoiceField(

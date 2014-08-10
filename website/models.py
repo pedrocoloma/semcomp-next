@@ -337,6 +337,21 @@ class SemcompUserManager(BaseUserManager):
 	def registered(self):
 		return self.filter(is_active=True, is_staff=False)
 
+	def paid(self):
+		return self.filter(is_active=True, is_staff=False, inscricao__pagamento=True)
+
+	def pending(self):
+		return self.filter(is_active=True, is_staff=False, inscricao__pagamento=False, inscricao__avaliado=False).exclude(inscricao__comprovante__exact='')
+
+	def no_payment(self):
+		return self.filter(is_active=True, is_staff=False).exclude(inscricao__pagamento=True).exclude(pk__in=self.pending().values('pk'))
+
+	def coffee(self):
+		return self.filter(is_active=True, is_staff=False, inscricao__pagamento=True, inscricao__coffee=True)
+
+	def no_coffee(self):
+		return self.filter(is_active=True, is_staff=False, inscricao__pagamento=True, inscricao__coffee=False)
+
 class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(
 		_(u'Email'),
