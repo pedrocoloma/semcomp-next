@@ -121,9 +121,19 @@ def messages_new(request):
 			# determina pra quem vai a mensagem
 			if form.cleaned_data['type'] == 'one':
 				users = [form.cleaned_data['to_email']]
-			else:
+			elif form.cleaned_data['type'] == 'bulk':
 				users = SemcompUser.objects.registered()
-
+			elif form.cleaned_data['type'] == 'no_payment':
+				users = SemcompUser.objects.no_payment()
+			elif form.cleaned_data['type'] == 'pending':
+				users = SemcompUser.objects.pending()
+			elif form.cleaned_data['type'] == 'paid':
+				users = SemcompUser.objects.paid()
+			elif form.cleaned_data['type'] == 'coffee':
+				users = SemcompUser.objects.coffee()
+			elif form.cleaned_data['type'] == 'no_coffee':
+				users = SemcompUser.objects.no_coffee()
+			
 			for user in users:
 				msg = EmailMultiAlternatives(
 					form.cleaned_data['subject'],
