@@ -23,3 +23,24 @@ STATIC_ROOT = PROJECT_DIR.joinpath('static').as_posix()
 STATIC_URL = '/static/'
 
 DEFAULT_FROM_EMAIL = 'contato@semcomp.icmc.usp.br'
+
+CELERY_ALWAYS_EAGER = True
+
+LOGGING = {
+	'version': 1,
+	'disable_existing_loggers': False,
+	'handlers': {
+		'event-file': {
+			'level': 'DEBUG',
+			'class': 'stats.handlers.JSONFileHandler',
+			'filename': PROJECT_DIR.joinpath('events.log').as_posix(),
+		},
+	},
+	'loggers': {
+		'stats': {
+			'handlers': ['event-file'],
+			'level': 'DEBUG',
+			'propagate': False,
+		},
+	}
+}

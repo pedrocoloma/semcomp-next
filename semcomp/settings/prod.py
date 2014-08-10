@@ -45,6 +45,8 @@ RAVEN_CONFIG = {
 	'dsn': os.getenv('RAVEN_CONFIG'),
 }
 
+BROKER_URL = os.getenv('CELERY_BROKER_URL')
+
 LOGGING = {
 	'version': 1,
 	'disable_existing_loggers': True,
@@ -56,6 +58,15 @@ LOGGING = {
 		'sentry': {
 			'level': 'ERROR',
 			'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+		},
+		'elasticsearch': {
+			'level': 'DEBUG',
+			'class': 'stats.handlers.ElasticSearchHandler',
+		},
+		'event-file': {
+			'level': 'DEBUG',
+			'class': 'stats.handlers.JSONFileHandler',
+			'filename': '/log/events.log',
 		},
 	},
 	'loggers': {
@@ -72,6 +83,11 @@ LOGGING = {
 		'django.security': {
 			'handlers': ['sentry'],
 			'level': 'ERROR',
+			'propagate': False,
+		},
+		'stats': {
+			'handlers': ['elasticsearch', 'event-file'],
+			'level': 'DEBUG',
 			'propagate': False,
 		},
 	}
