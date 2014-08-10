@@ -113,7 +113,11 @@
 								<div class="coursetitle">
 									{{ course.title }}
 									<br>
-									{{ vagas }} vagas
+									{% if vagas > 0 %}
+										{{ vagas }} vaga{{ vagas|pluralize }}
+									{% else %}
+										Vagas Esgotadas
+									{% endif %}
 								</div>
 							</div>
 							<div class="coursetitle">
