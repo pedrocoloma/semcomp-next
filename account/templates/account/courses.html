@@ -38,6 +38,16 @@
 		<h2>Minicursos</h2>
 		{% if course_registration_open %}
 			{% if inscricao and inscricao.pagamento %}
+			{% if error and error == 1 %}
+			<div data-alert class="alert-box alert radius">
+				Os cursos selecionados devem pertencer ao mesmo pacote!
+			</div>
+			{% endif %}
+			{% if error and error == 2 %}
+			<div data-alert class="alert-box alert radius">
+				O minicurso selecionado não possui vagas! :(
+			</div>
+			{% endif %}
 
 			{% if user_courses %}
 				<div data-alert class="alert-box success radius">
