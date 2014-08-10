@@ -307,6 +307,8 @@ class Course(models.Model):
 		)
 	def get_remaining_vacancies(self):
 		return self.vacancies - CourseRegistration.objects.filter(course=self).count()
+	def get_number_of_subscribers(self):
+		return CourseRegistration.objects.filter(course=self).count()
 
 
 
