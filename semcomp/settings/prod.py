@@ -45,6 +45,8 @@ RAVEN_CONFIG = {
 	'dsn': os.getenv('RAVEN_CONFIG'),
 }
 
+BROKER_URL = os.getenv('CELERY_BROKER_URL')
+
 LOGGING = {
 	'version': 1,
 	'disable_existing_loggers': True,
@@ -64,7 +66,7 @@ LOGGING = {
 		'event-file': {
 			'level': 'DEBUG',
 			'class': 'stats.handlers.JSONFileHandler',
-			'filename': '/data/log/events.log',
+			'filename': '/log/events.log',
 		},
 	},
 	'loggers': {
