@@ -7343,10 +7343,14 @@ img.image-center {
   background-color: #00aadd;
 }
 
-.minicurso-radio-checked {
-  background-color: #00aadd;
-}
-
 .minicurso-radio-button {
   opacity: 0;
+}
+
+.sem-vagas {
+  background-color: #bbb;
+}
+
+.minicurso-radio-checked {
+  background-color: #00aadd;
 }

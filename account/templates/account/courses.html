@@ -88,15 +88,16 @@
 						<h3> Pacote {{track.0.get_track_display}} </h3>
 						<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 minicursos">
 						{% for course in track %}
+						{% with vagas=course.get_remaining_vacancies %}
 						<li>
-							<div class="minicurso-radio group-{{slotid}}" onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')">
+							<div class="minicurso-radio group-{{slotid}} {% if vagas == 0 %} sem-vagas {% endif %}" onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')">
 								<div class="courselogo">
 									<img src="{% thumbnail course.photo 0x180 %}">
 								</div>
 								<div class="coursetitle">
 									{{ course.title }}
 									<br>
-									{{ course.get_remaining_vacancies }} vagas
+									{{ vagas }} vagas
 								</div>
 							</div>
 							<div class="coursetitle">
@@ -104,6 +105,7 @@
 							</div>
 							<input type="radio" class="minicurso-radio-button" data-track="{{track.0.get_track_display}}" name="minicurso-{{slotid}}" id="course{{ course.id }}" value="{{ course.id }}" />
 						</li>
+						{% endwith %}
 						{% endfor %}
 						</ul>
 					{% endif %}
