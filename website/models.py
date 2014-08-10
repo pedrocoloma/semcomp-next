@@ -18,6 +18,7 @@ from django.utils.translation import ungettext_lazy
 from django.core.validators import ValidationError
 from south.modelsinspector import add_introspection_rules
 from django.conf import settings
+from account.models import CourseRegistration
 import hashlib
 
 def _base_upload_to_by_field(instance, image, base_path, field):
@@ -586,10 +587,3 @@ class BusinessLecture(models.Model):
 		verbose_name=_(u'Empresa'),
 		related_name='business_lecture'
 	)
-
-class CourseRegistration(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL)
-	course = models.ForeignKey(Course)
-
-	class Meta:
-		unique_together = ('user', 'course')
