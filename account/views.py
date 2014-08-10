@@ -97,8 +97,8 @@ def course_register(request):
 
 		user_courses = get_user_courses(request.user)
 
-		minicurso1 = request.POST['minicurso-1']
-		minicurso2 = request.POST['minicurso-2']
+		minicurso1 = request.POST['minicurso-0']
+		minicurso2 = request.POST['minicurso-1']
 
 		minicurso_terca_novo = False
 		minicurso_quinta_novo = False

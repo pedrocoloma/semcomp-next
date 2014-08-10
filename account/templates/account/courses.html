@@ -12,8 +12,8 @@
 	}
 
 	function validateMinicursos(){
-		var minicurso1 = $('input[name=minicurso-1]:checked').data('track');
-		var minicurso2 = $('input[name=minicurso-2]:checked').data('track');
+		var minicurso1 = $('input[name=minicurso-0]:checked').data('track');
+		var minicurso2 = $('input[name=minicurso-1]:checked').data('track');
 		console.log(minicurso1);
 		console.log(minicurso2);
 
@@ -90,7 +90,7 @@
 			<form  action="{% url "account_course_register" %}" method="post" onsubmit="return validateMinicursos()">
 			{% csrf_token %}
 			{% for slot in slots %}
-			{% with forloop.counter as slotid %}
+			{% with forloop.counter0 as slotid %}
 			<hr>
 			<h2> {{slot.day|date:"l (d/m)"}} </h2><br>
 				{% for track in slot.tracks %}
@@ -100,7 +100,13 @@
 						{% for course in track %}
 						{% with vagas=course.get_remaining_vacancies %}
 						<li>
-							<div class="minicurso-radio group-{{slotid}} {% if vagas == 0 %} sem-vagas {% endif %}" onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')">
+							<div class="minicurso-radio group-{{slotid}} {% if vagas == 0 %} sem-vagas {% endif %} {% if user_courses %}
+										{% for reg in user_courses %}
+												{% if reg.course == course  %}
+												minicurso-radio-checked
+												{% endif %}
+										{% endfor %}
+									{% endif %}" onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')">
 								<div class="courselogo">
 									<img src="{% thumbnail course.photo 0x180 %}">
 								</div>
@@ -113,7 +119,14 @@
 							<div class="coursetitle">
 								<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
 							</div>
-							<input type="radio" class="minicurso-radio-button" data-track="{{track.0.get_track_display}}" name="minicurso-{{slotid}}" id="course{{ course.id }}" value="{{ course.id }}" />
+							<input type="radio" class="minicurso-radio-button" data-track="{{track.0.get_track_display}}" name="minicurso-{{slotid}}" id="course{{ course.id }}" value="{{ course.id }}" 
+								{% if user_courses %}
+									{% for reg in user_courses %}
+											{% if reg.course == course  %}
+											checked
+											{% endif %}
+									{% endfor %}
+								{% endif %} />
 						</li>
 						{% endwith %}
 						{% endfor %}
