@@ -5,9 +5,7 @@ from django.contrib.auth import logout
 from website.models import Inscricao
 from django.core.exceptions import ObjectDoesNotExist
 from forms import InscricoesForm
-from website.models import Course
-from website.models import Event
-from account.models import CourseRegistration
+from website.models import Course,Event,CourseRegistration
 from django.db.models import Max, Min
 
 @login_required
@@ -96,9 +94,9 @@ def courses(request):
 	slot2['tracks'].append(cV)
 
 	user_courses = CourseRegistration.objects.filter(user=request.user)
-	#user_courses = Course.objects.all()[:2]
 
-	for course in user_courses:
+	for reg in user_courses:
+		course = reg.course
 		course_date_time = course.slots.aggregate(
 			Min('start_time'), Max('end_time'),
 			Min('start_date'), Max('end_date')

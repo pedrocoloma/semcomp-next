@@ -17,6 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 from django.core.validators import ValidationError
 from south.modelsinspector import add_introspection_rules
+from django.conf import settings
 import hashlib
 
 def _base_upload_to_by_field(instance, image, base_path, field):
@@ -297,11 +298,15 @@ class Course(models.Model):
 	photo = models.ImageField(_(u'Foto'), upload_to=course_upload_to)
 	vacancies = models.PositiveIntegerField(_(u'Vagas'), default=0)
 
+
 	def get_absolute_url(self):
 		return reverse(
 			'course_details_slug',
 			args=[str(self.id), slugify(self.title)]
 		)
+	def get_remaining_vacancies(self):
+		return self.vacancies - CourseRegistration.objects.filter(course=self).count()
+
 
 
 class SemcompUserManager(BaseUserManager):
@@ -581,3 +586,10 @@ class BusinessLecture(models.Model):
 		verbose_name=_(u'Empresa'),
 		related_name='business_lecture'
 	)
+
+class CourseRegistration(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	course = models.ForeignKey(Course)
+
+	class Meta:
+		unique_together = ('user', 'course')
