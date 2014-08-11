@@ -166,8 +166,6 @@ def course_register(request):
 			)
 			if sucesso:
 				minicursos_sucesso.append(minicurso_terca_novo)
-				if(minicurso_terca_novo):
-					email_course(request, request.user, minicurso_terca_novo)
 			else:
 				minicursos_lotados.append(minicurso_terca_novo)
 				error = 2
@@ -179,8 +177,6 @@ def course_register(request):
 			)
 			if sucesso:
 				minicursos_sucesso.append(minicurso_quinta_novo)
-				if(minicurso_quinta_novo):
-					email_course(request, request.user, minicurso_quinta_novo)
 			else:
 				minicursos_lotados.append(minicurso_quinta_novo)
 				error = 2
@@ -215,15 +211,16 @@ def email_course(request, user, course):
 	course.start_date = course_date_time['start_date__min']
 	course.end_date = course_date_time['end_date__max']
 
+	msg_context = {
+		'user': user,
+		'course': course,
+		'absolute_uri': request.get_absolute_uri('/'),
+	}
+
 	data = {}
-	data['subject'] = u'Semcomp: Inscrição em minicurso'
+	data['subject'] = u'[Semcomp 17] Inscrição em minicurso'
 	data['message'] = loader.render_to_string(
-		'account/inscricao_minicurso.txt', 
-		{
-			'user': user,
-			'course': course,
-			'absolute_uri': 'http://semcomp.icmc.usp.br/17' #feio
-		}
+		'account/inscricao_minicurso.txt', msg_context
 	)
 	data['from_email'] = settings.DEFAULT_FROM_EMAIL
 	data['recipient_list'] = [user.email]
@@ -237,12 +234,7 @@ def email_course(request, user, course):
 
 	msg.attach_alternative(
 		loader.render_to_string(
-			'account/inscricao_minicurso.html',
-			{
-				'user': user,
-				'course': course,
-				'absolute_uri': 'http://semcomp.icmc.usp.br/17/' #feio
-			}
+			'account/inscricao_minicurso.html', msg_context
 		),
 		"text/html"
 	)
