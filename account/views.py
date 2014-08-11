@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import SuspiciousOperation
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
@@ -20,7 +19,7 @@ from website.models import Course, Event, Inscricao
 def account_overview(request):
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
-	except Inscricao.ObjectDoesNotExist:
+	except Inscricao.DoesNotExist:
 		inscricao = None
 
 	context = {
@@ -35,7 +34,7 @@ def account_overview(request):
 def payment_overview(request):
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
-	except Inscricao.ObjectDoesNotExist:
+	except Inscricao.DoesNotExist:
 		inscricao = None
 
 	context = {
@@ -59,7 +58,7 @@ def payment_send(request):
 				request.FILES,
 				instance=inscricao
 			)
-		except Inscricao.ObjectDoesNotExist:
+		except Inscricao.DoesNotExist:
 			inscricao_form = InscricoesForm(request.POST, request.FILES)
 
 		if inscricao_form.is_valid():
@@ -74,7 +73,7 @@ def payment_send(request):
 		try:
 			inscricao = Inscricao.objects.get(user=request.user)
 			inscricao_form = InscricoesForm(instance=inscricao)
-		except Inscricao.ObjectDoesNotExist:
+		except Inscricao.DoesNotExist:
 			inscricao_form = InscricoesForm()
 
 	context = {
@@ -90,7 +89,7 @@ def payment_send(request):
 def courses(request):
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
-	except Inscricao.ObjectDoesNotExist:
+	except Inscricao.DoesNotExist:
 		inscricao = None
 
 	slots = courses_slots()
@@ -143,7 +142,7 @@ def course_register(request):
 
 			if minicurso2 != '-1':
 				minicurso_quinta_novo = Course.objects.get(pk=minicurso2)
-		except Course.ObjectDoesNotExist:
+		except Course.DoesNotExist:
 			raise SuspiciousOperation(u'Minicurso não existe!')
 
 		minicurso_novo = minicurso_terca_novo and minicurso_quinta_novo
