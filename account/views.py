@@ -139,7 +139,7 @@ def course_register(request):
 
 	if request.method == 'POST':
 		# pega os slots de minicurso
-		events = Event.objects.filter(type='minicurso')
+		events = Event.objects.filter(type='minicurso').order_by('start_date')
 		# separa o primeiro e o ultimo dia dos minicursos
 		first_day_slot = events[0]
 		last_day_slot = events[len(events)-1]
