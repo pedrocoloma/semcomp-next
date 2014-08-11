@@ -81,13 +81,13 @@ def course_register(request):
 
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
-	except ObjectDoesNotExist:
+		if not inscricao.pagamento:
+			raise
+	except:
 		#não deixa tentar se inscrever sem ter feito pagamento
 		raise SuspiciousOperation(u"Inscrição em minicurso sem realizar o pagamento: '%s'" % request.user.full_name)
-
-	if not inscricao.pagamento:
-		raise SuspiciousOperation(u"Inscrição em minicurso sem realizar o pagamento: '%s'" % request.user.full_name)
-
+	minicursos_sucesso = []
+	minicursos_lotados = []
 	if request.method == 'POST':
 		# pega os slots de minicurso
 		events = Event.objects.filter(type='minicurso')
@@ -103,12 +103,14 @@ def course_register(request):
 		minicurso_terca_novo = False
 		minicurso_quinta_novo = False
 
-		if minicurso1 != '-1':
-			minicurso_terca_novo = Course.objects.get(pk=minicurso1)
+		try:
+			if minicurso1 != '-1':
+				minicurso_terca_novo = Course.objects.get(pk=minicurso1)
 
-		if minicurso2 != '-1':
-			minicurso_quinta_novo = Course.objects.get(pk=minicurso2)
-
+			if minicurso2 != '-1':
+				minicurso_quinta_novo = Course.objects.get(pk=minicurso2)
+		except ObjectDoesNotExist:
+			raise SuspiciousOperation(u'Minicurso não existe!')
 		error = 0
 		if (minicurso_terca_novo and minicurso_quinta_novo and minicurso_terca_novo.track == minicurso_quinta_novo.track) or (not minicurso_terca_novo or not minicurso_quinta_novo):
 			minicurso_terca_atual = False
@@ -121,10 +123,16 @@ def course_register(request):
 					minicurso_quinta_atual = reg
 
 			sucesso = register_in_course(request.user, minicurso_terca_atual, minicurso_terca_novo)
-			if not sucesso:
+			if sucesso:
+				minicursos_sucesso.append(minicurso_terca_novo)
+			else:
+				minicursos_lotados.append(minicurso_terca_novo)
 				error = 2
 			sucesso = register_in_course(request.user, minicurso_quinta_atual, minicurso_quinta_novo)
-			if not sucesso:
+			if sucesso:
+				minicursos_sucesso.append(minicurso_quinta_novo)
+			else:
+				minicursos_lotados.append(minicurso_quinta_novo)
 				error = 2
 
 
@@ -143,7 +151,15 @@ def course_register(request):
 	slots = courses_slots()
 	user_courses = get_user_courses(request.user)
 
-	return render(request, 'account/courses.html', {'active_courses': True, 'slots': slots, 'inscricao': inscricao, 'user_courses': user_courses, 'error':error})
+	return render(request, 'account/courses.html', {
+		'active_courses': True,
+		'slots': slots,
+		'inscricao': inscricao,
+		'user_courses': user_courses,
+		'error':error,
+		'minicursos_sucesso': minicursos_sucesso,
+		'minicursos_lotados': minicursos_lotados,
+		})
 
 @transaction.atomic
 def register_in_course(user,old,new):

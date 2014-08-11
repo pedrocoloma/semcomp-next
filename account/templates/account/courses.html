@@ -1,9 +1,8 @@
 {% extends "account/base.html" %}
 {% load cms_tags %}
-{% load thumbnail %}
-{% load staticfiles %}
-{% load semcomp %}
+{% load thumbnail semcomp staticfiles %}
 {% block user_content %}
+{% spaceless %}
 <script>
 	function switch_course(el,radio,group){
 		$(group).removeClass("minicurso-radio-checked");
@@ -43,12 +42,22 @@
 				Os cursos selecionados devem pertencer ao mesmo pacote!
 			</div>
 			{% endif %}
-			{% if error and error == 2 %}
-			<div data-alert class="alert-box alert radius">
-				O minicurso selecionado não possui vagas! :(
-			</div>
+			{% if minicursos_sucesso %}
+				<div data-alert class="alert-box success radius">
+					Você se inscreveu com sucesso nos seguintes minicursos:
+				{% for minicurso in minicursos_sucesso %}
+					{{minicurso.title}}{% if not forloop.last %}, {% endif %}
+				{% endfor %}
+				</div>
 			{% endif %}
-
+			{% if minicursos_lotados %}
+				<div data-alert class="alert-box alert radius">
+					Os seguintes minicursos não possuem mais vagas:
+				{% for minicurso in minicursos_lotados %}
+					{{minicurso.title}}{% if not forloop.last %}, {% endif %}
+				{% endfor %}
+				</div>
+			{% endif %}
 			{% if user_courses %}
 				<div data-alert class="alert-box success radius">
 					Sua vaga está garantida nos minicursos. Veja detalhes do minicurso que você se inscreveu abaixo.
@@ -171,4 +180,5 @@
 			</div>
 		{% endif %}
 	</div>
+{% endspaceless %}
 {% endblock %}
