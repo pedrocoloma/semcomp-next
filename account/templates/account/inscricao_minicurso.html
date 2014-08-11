@@ -1,0 +1,42 @@
+{% load thumbnail %}
+<html>
+    <head>
+        <meta charset='UTF-8'>
+    </head>
+    <body style='background-color: #eee; margin: 0px; padding: 0px;'>
+        <div style='padding: 15px;'>
+        <a href='http://semcomp.icmc.usp.br'><img src="http://semcomp.icmc.usp.br/17/static/img/email/logo-semcomp-17.png" height='100px'></a>
+        </div>
+        <div style='font-family:  \"Open Sans\", \"Helvetica Neue\", \"Helvetica\", Helvetica, Arial, sans-serif; background-color: #fff; padding: 20px;'>
+        <h2>Semcomp 17 - Inscrição em minicurso</h2>
+        <p>Olá {{user.full_name}},</p>
+        <p>Sua inscrição no seguinte minicurso está confirmada:</p>
+        <p><a href="{{absolute_uri}}{{ course.get_absolute_url }}">
+            <img src="{{absolute_uri}}{% thumbnail course.photo 0x180 %}">
+        </a></p>
+            <h3>{{ course.title }}</h3>
+                {% if course.start_date == course.end_date %}
+                    <p>{{course.start_date|date:"d/m/Y (l)"}}<br>
+                    {{course.start_time}} - {{course.end_time}}</p>
+                {% else %}
+                    <small>{{course.start_date|date:"d/m/Y"}} {{course.start_time}}<br>
+                        {{course.end_date|date:"d/m/Y"}} {{course.end_time}}</small>
+                {% endif %}
+            {% if course.place %}
+                <h4>Local: {{course.place.name}}</h4>
+            {% endif %}
+        <p>Para mais informações referente ao minicurso, visite a <a href="{{absolute_uri}}{{course.get_absolute_url}}">página do minicurso.</a></p>
+        
+
+        <p>Esperamos você na Semcomp!</p>
+        
+        </div>
+        <div style='padding: 15px;'>
+            <div style='float:right;'>
+            <a href='https://facebook.com/semcomp17'><img src="http://semcomp.icmc.usp.br/17/static/img/email/facebook-72.png" height='50px'></a>
+            <a href='https://plus.google.com/+semcomp'><img src="http://semcomp.icmc.usp.br/17/static/img/email/google-plus-72.png" height='50px'></a>
+            <a href='https://twitter.com/semcomp'><img src="http://semcomp.icmc.usp.br/17/static/img/email/twitter-72.png" height='50px'></a>
+            </div>
+        </div>
+    </body>
+</html>

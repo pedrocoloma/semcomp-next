@@ -1,0 +1,16 @@
+Olá {{user.full_name}},
+Sua inscrição no seguinte minicurso está confirmada:
+
+{{course.title}}
+{% if course.start_date == course.end_date %}
+{{course.start_date|date:"d/m/Y (l)"}}
+{{course.start_time}} - {{course.end_time}}
+{% else %}
+{{course.start_date|date:"d/m/Y"}} {{course.start_time}}
+{{course.end_date|date:"d/m/Y"}} {{course.end_time}}
+{% endif %}
+{% if course.place %}Local: {{course.place.name}}{% endif %}
+Para mais informações referente ao minicurso, visite:
+{{absolute_uri}}{{course.get_absolute_url}}
+
+Esperamos você na Semcomp!

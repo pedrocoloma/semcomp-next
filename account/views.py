@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
+from django.template import loader
 from website.models import Inscricao
 from django.core.exceptions import ObjectDoesNotExist
 from forms import InscricoesForm
@@ -10,7 +11,8 @@ from account.models import CourseRegistration
 from django.db.models import Max, Min
 from django.core.exceptions import SuspiciousOperation
 from django.db import transaction
-
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 @login_required
 def account_overview(request):
 	try:
@@ -88,6 +90,7 @@ def course_register(request):
 		raise SuspiciousOperation(u"Inscrição em minicurso sem realizar o pagamento: '%s'" % request.user.full_name)
 	minicursos_sucesso = []
 	minicursos_lotados = []
+	error = 0
 	if request.method == 'POST':
 		# pega os slots de minicurso
 		events = Event.objects.filter(type='minicurso')
@@ -111,7 +114,6 @@ def course_register(request):
 				minicurso_quinta_novo = Course.objects.get(pk=minicurso2)
 		except ObjectDoesNotExist:
 			raise SuspiciousOperation(u'Minicurso não existe!')
-		error = 0
 		if (minicurso_terca_novo and minicurso_quinta_novo and minicurso_terca_novo.track == minicurso_quinta_novo.track) or (not minicurso_terca_novo or not minicurso_quinta_novo):
 			minicurso_terca_atual = False
 			minicurso_quinta_atual = False
@@ -125,12 +127,16 @@ def course_register(request):
 			sucesso = register_in_course(request.user, minicurso_terca_atual, minicurso_terca_novo)
 			if sucesso:
 				minicursos_sucesso.append(minicurso_terca_novo)
+				if(minicurso_terca_novo):
+					email_course(request=request, user=request.user, course=minicurso_terca_novo)
 			else:
 				minicursos_lotados.append(minicurso_terca_novo)
 				error = 2
 			sucesso = register_in_course(request.user, minicurso_quinta_atual, minicurso_quinta_novo)
 			if sucesso:
 				minicursos_sucesso.append(minicurso_quinta_novo)
+				if(minicurso_quinta_novo):
+					email_course(request=request, user=request.user, course=minicurso_quinta_novo)
 			else:
 				minicursos_lotados.append(minicurso_quinta_novo)
 				error = 2
@@ -161,6 +167,35 @@ def course_register(request):
 		'minicursos_lotados': minicursos_lotados,
 		})
 
+def email_course(request, user, course):
+	course_date_time = course.slots.aggregate(
+		Min('start_time'), Max('end_time'),
+		Min('start_date'), Max('end_date')
+	)
+	# annotate manually
+	course.start_time = course_date_time['start_time__min']
+	course.end_time = course_date_time['end_time__max']
+	course.start_date = course_date_time['start_date__min']
+	course.end_date = course_date_time['end_date__max']
+
+	data = {}
+	data['subject'] = u'Semcomp: Inscrição em minicurso'
+	data['message'] = loader.render_to_string('account/inscricao_minicurso.txt', {
+		'user': user,
+		'course': course,
+		'absolute_uri': 'http://semcomp.icmc.usp.br/17' #feio
+		})
+	data['from_email'] = settings.DEFAULT_FROM_EMAIL
+	data['recipient_list'] = [user.email]
+
+	msg = EmailMultiAlternatives(subject=data['subject'], body=data['message'], from_email=data['from_email'], to=data['recipient_list'])
+
+	msg.attach_alternative(loader.render_to_string('account/inscricao_minicurso.html', {
+		'user': user,
+		'course': course,
+		'absolute_uri': 'http://semcomp.icmc.usp.br/17' #feio
+		}), "text/html")
+	msg.send(fail_silently=False)
 @transaction.atomic
 def register_in_course(user,old,new):
 	tem_vagas = False
