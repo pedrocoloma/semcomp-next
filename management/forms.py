@@ -61,7 +61,7 @@ class LectureForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
 	class Meta:
 		model = Course
-		fields = ('slots', 'title', 'photo','track', 'description', 'requirements', 'place')
+		fields = ('slots', 'title', 'photo','track', 'description', 'requirements', 'place', 'vacancies')
 		widgets = {
 			# esse "style" é feio mas é menos feio do que não conseguir ver as opções
 			'slots': forms.SelectMultiple(attrs={'style': 'height:100px'})

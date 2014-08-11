@@ -6806,7 +6806,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/17/static/img/header.png?1400183898');
+  background-image: url('/17/static/img/header.png?1405619194');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6835,7 +6835,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/17/static/img/hero-background.jpg?1405275795') no-repeat center center;
+  background: url('/17/static/img/hero-background.jpg?1405619194') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7203,7 +7203,7 @@ a .schedule-event:hover {
   font-size: 1.5rem;
 }
 
-label {
+label:not(minicurso-label) {
   color: #fff;
 }
 
@@ -7332,4 +7332,25 @@ img.image-center {
 
 .select2-container {
   width: 100%;
+}
+
+.minicurso-radio {
+  padding: 5px;
+}
+
+.minicurso-radio:hover {
+  cursor: pointer;
+  background-color: #00aadd;
+}
+
+.minicurso-radio-button {
+  opacity: 0;
+}
+
+.sem-vagas {
+  background-color: #bbb;
+}
+
+.minicurso-radio-checked {
+  background-color: #00aadd;
 }

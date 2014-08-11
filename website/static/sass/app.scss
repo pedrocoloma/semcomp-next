@@ -386,7 +386,7 @@ a .schedule-event:hover {
     }
 }
 
-label {
+label:not(minicurso-label) {
     color: #fff;
 }
 
@@ -525,4 +525,25 @@ img.image-center {
 
 .select2-container {
 	width: 100%;
+}
+
+.minicurso-radio{
+    padding: 5px;
+}
+
+.minicurso-radio:hover{
+    cursor: pointer;
+    background-color: #00aadd;
+}
+
+.minicurso-radio-button{
+    opacity: 0;
+}
+
+.sem-vagas{
+    background-color: #bbb;
+}
+
+.minicurso-radio-checked{
+    background-color: #00aadd;
 }

@@ -37,8 +37,9 @@
           {% include "management/render_field.html" with field=course_form.photo width="medium-8 " only %}
       </div>
       <div class="row">
-        {% include "management/render_field.html" with field=course_form.place width="large-6" only %}
-        {% include "management/render_field.html" with field=course_form.track width="large-6" only %}
+        {% include "management/render_field.html" with field=course_form.place width="large-4" only %}
+        {% include "management/render_field.html" with field=course_form.track width="large-4" only %}
+        {% include "management/render_field.html" with field=course_form.vacancies width="large-4" only %}
       </div>
       <div class="row">
         {% include "management/render_field.html" with field=course_form.description width="large-12" only %}

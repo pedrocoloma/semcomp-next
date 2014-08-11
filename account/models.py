@@ -1,3 +1,11 @@
-from django.db import models
+# coding: utf-8
 
-# Create your models here.
+from django.db import models
+from django.conf import settings
+
+class CourseRegistration(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    course = models.ForeignKey('website.Course')
+
+    class Meta:
+        unique_together = ('user', 'course')

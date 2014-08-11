@@ -1,9 +1,195 @@
 {% extends "account/base.html" %}
 {% load cms_tags %}
+{% load thumbnail semcomp staticfiles %}
 {% block user_content %}
+{% spaceless %}
+<script>
+	function switch_course(el,radio,group){
+		$(group).removeClass("minicurso-radio-checked");
+		$(el).addClass("minicurso-radio-checked");
+		$(radio).prop("checked", true);
+	}
+
+	function validateMinicursos(){
+		var minicurso1 = $('input[name=minicurso-0]:checked').data('track');
+		var minicurso2 = $('input[name=minicurso-1]:checked').data('track');
+		console.log(minicurso1);
+		console.log(minicurso2);
+
+		if(minicurso1 != minicurso2){
+			if(minicurso1 == "none")
+				return confirm("Você selecionou nenhum minicurso na Terça-feira, você tem certeza disto?");
+			else if(minicurso2 == "none")
+				return confirm("Você selecionou nenhum minicurso na Quinta-feira, você tem certeza disto?");
+			else{
+				alert("Você deve selecionar minicursos de mesmo pacote nos dois dias.");
+				return false;
+			}
+		}else{
+			if(minicurso1 == "none"){
+				return confirm("Você não selecionou nenhum minicurso, tem certeza disto?");
+			} else {
+				{% if user_courses %}
+					return confirm("Você está modificando a sua inscrição, tem certeza disto?");
+				{% endif %}
+			}
+			return true;
+		}
+	}
+</script>
+	{% if course_registration_open or user.is_admin %}
+		{% if not course_registration_open and user.is_admin %}
+		<div data-alert class="alert-box warning radius">
+			Você está vendo esta página por ser administrador do sistema, no momento as inscrições estão fechadas!
+		</div>
+		{% endif %}
+		<div class="panel">
+			{% static_placeholder "info_minicursos" %}
+		</div>
+	{% endif %}
 	<div class="panel">
 		<h2>Minicursos</h2>
-		{% if course_registration_open %}
+		{% if course_registration_open or user.is_admin%}
+			{% if inscricao and inscricao.pagamento %}
+			{% if error and error == 1 %}
+			<div data-alert class="alert-box alert radius">
+				Os cursos selecionados devem pertencer ao mesmo pacote!
+			</div>
+			{% endif %}
+			{% if minicursos_sucesso %}
+				<div data-alert class="alert-box success radius">
+					Você se inscreveu com sucesso nos seguintes minicursos:
+				{% for minicurso in minicursos_sucesso %}
+					{{minicurso.title}}{% if not forloop.last %}, {% endif %}
+				{% endfor %}
+				</div>
+			{% endif %}
+			{% if minicursos_lotados %}
+				<div data-alert class="alert-box alert radius">
+					Os seguintes minicursos não possuem mais vagas:
+				{% for minicurso in minicursos_lotados %}
+					{{minicurso.title}}{% if not forloop.last %}, {% endif %}
+				{% endfor %}
+				</div>
+			{% endif %}
+			{% if user_courses %}
+				<div data-alert class="alert-box success radius">
+					Sua vaga está garantida nos minicursos. Veja detalhes do minicurso que você se inscreveu abaixo.
+				</div>
+				<h3>Minicursos inscritos</h3>
+				{% for reg in user_courses %}
+				{% with reg.course as course %}
+				<div class="row">
+						<div class="small-4 columns">
+							<a href="{{ course.get_absolute_url }}">
+								<img src="{% thumbnail course.photo 0x180 %}">
+							</a>
+						</div>
+						<div class="small-8 columns">
+							<h3>{{ course.title }}</h3>
+								{% if course.start_date == course.end_date %}
+									<p>{{course.start_date|date:"d/m/Y (l)"}}<br>
+									{{course.start_time}} - {{course.end_time}}</p>
+								{% else %}
+									<small>{{course.start_date|date:"d/m/Y"}} {{course.start_time}}<br>
+										{{course.end_date|date:"d/m/Y"}} {{course.end_time}}</small>
+								{% endif %}
+							{% if course.place %}
+								<h4>Local: {{course.place.name}}</h4>
+							{% endif %}
+							<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
+						</div>
+				</div>
+				<br><br>
+				{% endwith %}
+				{% endfor %}
+
+			{% else %}
+				<div data-alert class="alert-box warning radius">
+					Você ainda não fez sua inscrição nos minicursos. Você pode escolher até 2 minicursos, um na terça e outro na quinta.
+					Os minicursos escolhidos devem pertencer ao mesmo pacote.
+				</div>
+			{% endif %}
+			<form  action="{% url "account_course_register" %}" method="post" onsubmit="return validateMinicursos()">
+			{% csrf_token %}
+			{% for slot in slots %}
+			{% with forloop.counter0 as slotid %}
+			<hr>
+			<h2> {{slot.day|date:"l (d/m)"}} </h2><br>
+				{% for track in slot.tracks %}
+					{% if track %}
+						<h3> Pacote {{track.0.get_track_display}} </h3>
+						<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 minicursos">
+						{% for course in track %}
+						{% with vagas=course.get_remaining_vacancies %}
+						<li>
+							<div class="minicurso-radio group-{{slotid}} {% if vagas == 0 %} sem-vagas {% endif %} {% if user_courses %}
+										{% for reg in user_courses %}
+												{% if reg.course == course  %}
+												minicurso-radio-checked
+												{% endif %}
+										{% endfor %}
+									{% endif %}" onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')">
+								<div class="courselogo">
+									<img src="{% thumbnail course.photo 0x180 %}">
+								</div>
+								<div class="coursetitle">
+									{{ course.title }}
+									<br>
+									{% if vagas > 0 %}
+										{{ vagas }} vaga{{ vagas|pluralize }}
+									{% else %}
+										Vagas Esgotadas
+									{% endif %}
+								</div>
+							</div>
+							<div class="coursetitle">
+								<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
+							</div>
+							<input type="radio" class="minicurso-radio-button" data-track="{{track.0.get_track_display}}" name="minicurso-{{slotid}}" id="course{{ course.id }}" value="{{ course.id }}" 
+								{% if user_courses %}
+									{% for reg in user_courses %}
+											{% if reg.course == course  %}
+											checked
+											{% endif %}
+									{% endfor %}
+								{% endif %} />
+						</li>
+						{% endwith %}
+						{% endfor %}
+						</ul>
+					{% endif %}
+				{% endfor %}
+				<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 minicursos">
+				<li>
+					<div class="minicurso-radio group-{{slotid}}" onclick="switch_course(this,'#course-1{{slotid}}','.group-{{slotid}}')">
+						<div class="courselogo">
+							<img src="{% static "img/none.png" %}" style="width:inherit;">
+						</div>
+						<div class="coursetitle">
+							Nenhum
+						</div>
+						<input type="radio" class="minicurso-radio-button" data-track="none" name="minicurso-{{slotid}}" id="course-1{{slotid}}" value="-1" required/>
+					</div>
+				</li>
+				</ul>
+			{% endwith %}
+			{% endfor %}
+			{% if user_courses %}
+			<input type="submit" class="button right" value="Modificar Inscrição">
+			{% else %}
+			<input type="submit" class="button right" value="Salvar Inscrição">
+			{% endif %}
+			<br><br><br>
+			</form>
+
+			{% else %}
+			<div data-alert class="alert-box alert radius">
+				As inscrições para os minicursos estão abertas porém você ainda não pode se inscrever pois não teve o pagamento confirmado.
+				Confirme seu pagamento caso queira se inscrever nos minicursos.
+			</div>
+			{% endif %}
+
 		{% else %}
 			<div data-alert class="alert-box info radius">
 				As inscrições para minicursos vão abrir dia
@@ -12,4 +198,5 @@
 			</div>
 		{% endif %}
 	</div>
+{% endspaceless %}
 {% endblock %}
