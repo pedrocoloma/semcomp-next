@@ -28,6 +28,10 @@
 		}else{
 			if(minicurso1 == "none"){
 				return confirm("Você não selecionou nenhum minicurso, tem certeza disto?");
+			} else {
+				{% if user_courses %}
+					return confirm("Você está modificando a sua inscrição, tem certeza disto?");
+				{% endif %}
 			}
 			return true;
 		}
@@ -161,7 +165,11 @@
 				</ul>
 			{% endwith %}
 			{% endfor %}
+			{% if user_courses %}
+			<input type="submit" class="button right" value="Modificar Inscrição">
+			{% else %}
 			<input type="submit" class="button right" value="Salvar Inscrição">
+			{% endif %}
 			<br><br><br>
 			</form>
 
