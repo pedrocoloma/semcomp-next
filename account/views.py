@@ -13,6 +13,7 @@ from django.template import loader
 from account.forms import InscricoesForm
 from account.models import CourseRegistration
 from website.models import Course, Event, Inscricao
+import stats
 
 
 @login_required
@@ -67,6 +68,21 @@ def payment_send(request):
 			inscricao.user = request.user
 			inscricao.avaliado=False;
 			inscricao.save()
+
+			stats.add_event(
+				'account-payment',
+				{
+					'action': 'send',
+					'payment': {
+						'coffee': coffee,
+						'user': {
+							'id': request.user.pk,
+							'name': request.user.full_name,
+							'cpf': inscricao.CPF,
+						},
+					},
+				}
+			)
 
 			return redirect('account_payment')
 	else:
@@ -146,9 +162,9 @@ def course_register(request):
 			raise SuspiciousOperation(u'Minicurso não existe!')
 
 		minicurso_novo = minicurso_terca_novo and minicurso_quinta_novo
-		mesmo_pacote = minicurso_terca_novo.track == minicurso_quinta_novo.track
+		mesmo_pacote = lambda: minicurso_terca_novo.track == minicurso_quinta_novo.track
 
-		if (minicurso_novo and mesmo_pacote) or not minicurso_novo:
+		if (minicurso_novo and mesmo_pacote()) or not minicurso_novo:
 			minicurso_terca_atual = False
 			minicurso_quinta_atual = False
 
@@ -244,6 +260,14 @@ def email_course(request, user, course):
 def register_in_course(user, old, new):
 	tem_vagas = False
 
+	stats_data = {
+		'action': 'register',
+		'user': {
+			'id': user.pk,
+			'name': user.full_name,
+		},
+	}
+
 	# se selecionou um minicurso
 	if new:
 		tem_vagas = new.get_remaining_vacancies() > 0
@@ -259,17 +283,45 @@ def register_in_course(user, old, new):
 	# se o novo minicurso deve sobrescrever um minicurso antigo e o novo tem
 	# vagas, apaga a inscrição antiga e faz a nova
 	if old and new and old.course != new and tem_vagas:
+		stats_data['action'] = 'change'
+		stats_data['course'] = {
+			'id': new.pk,
+			'title': new.title,
+			'vacancies': new.get_remaining_vacancies() - 1,
+		}
+		stats_data['old_course'] = {
+			'id': old.course.pk,
+			'title': old.course.title,
+			'vacancies': old.course.get_remaining_vacancies() + 1,
+		}
+
 		old.delete()
 		cr = CourseRegistration(user=user,course=new)
 		cr.save()
 	elif old and not new:
 		# se tinha um minicurso mas selecionou 'nenhum' então apaga a
 		# inscrição antiga
+		stats_data['action'] = 'remove'
+		stats_data['course'] = {
+			'id': old.course.pk,
+			'title': old.course.title,
+			'vacancies': old.course.get_remaining_vacancies() + 1,
+		}
+
 		old.delete()
 	elif not old and new and tem_vagas:
 		# se não tinha uma inscrição e esta fazendo uma nova e tem vagas
+		stats_data['action'] = 'register'
+		stats_data['course'] = {
+			'id': new.pk,
+			'title': new.title,
+			'vacancies': new.get_remaining_vacancies() - 1,
+		}
+
 		cr = CourseRegistration(user=user,course=new)
 		cr.save()
+
+	stats.add_event('account-courses', stats_data)
 
 	return True
 
@@ -324,6 +376,26 @@ def get_user_courses(user):
 
 
 def account_logout(request):
+	def get_client_ip(request):
+		x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+		if x_forwarded_for:
+			ip = x_forwarded_for.split(',')[0]
+		else:
+			ip = request.META.get('REMOTE_ADDR')
+		return ip
+
+	stats.add_event(
+		'account-users',
+		{
+			'action': 'logout',
+			'user': {
+				'id': request.user.pk,
+				'name': request.user.full_name,
+			},
+			'client_ip': get_client_ip(request),
+		}
+	)
+
 	logout(request)
 	return redirect('account_logout_view')
 
