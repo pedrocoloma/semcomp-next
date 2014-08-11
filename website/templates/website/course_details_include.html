@@ -21,6 +21,18 @@
 					{% endif %}
 				</h1>
 				<span class="label round track-{{course.track}}">Pacote {{course.get_track_display}}</span>
+				<br><br>
+				{% with vagas=course.get_remaining_vacancies %}
+				{% if vagas > 0 %}
+					<div class="round success label">
+						Vagas disponíveis: {{ vagas }}
+					</div>
+				{% else %}
+					<div class="round alert label">
+					Vagas Esgotadas
+					</div>
+				{% endif %}
+			{% endwith %}
 			</div>
 		</div>
 		<h2>Descrição</h2>
