@@ -1,96 +1,127 @@
-# -*- coding: utf-8 -*-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout
-from django.template import loader
-from website.models import Inscricao
-from django.core.exceptions import ObjectDoesNotExist
-from forms import InscricoesForm
-from website.models import Course,Event
-from account.models import CourseRegistration
-from django.db.models import Max, Min
-from django.core.exceptions import SuspiciousOperation
-from django.db import transaction
+# coding: utf-8
+
 from django.conf import settings
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import SuspiciousOperation
 from django.core.mail import EmailMultiAlternatives
+from django.db import transaction
+from django.db.models import Max, Min
+from django.shortcuts import render, redirect
+from django.template import loader
+
+from account.forms import InscricoesForm
+from account.models import CourseRegistration
+from website.models import Course, Event, Inscricao
+
+
 @login_required
 def account_overview(request):
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
-	except ObjectDoesNotExist:
+	except Inscricao.ObjectDoesNotExist:
 		inscricao = None
-	return render(request, 'account/index.html', {'active_overview': True, 'inscricao':inscricao})
+
+	context = {
+		'active_overview': True,
+		'inscricao': inscricao,
+	}
+
+	return render(request, 'account/index.html', context)
+
 
 @login_required
 def payment_overview(request):
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
-	except ObjectDoesNotExist:
+	except Inscricao.ObjectDoesNotExist:
 		inscricao = None
-	return render(request, 'account/payment_overview.html', 
-			{
-			'active_payment': True,
-			'inscricao': inscricao
-			}
-		)
+
+	context = {
+		'active_payment': True,
+		'inscricao': inscricao,
+	}
+
+	return render(request, 'account/payment_overview.html', context)
+
+
 @login_required
 def payment_send(request):
 	inscricao = None
 	if request.method == 'POST':
 		coffee = 'com_coffee' in request.POST
+
 		try:
 			inscricao = Inscricao.objects.get(user=request.user)
-			inscricao_form = InscricoesForm(request.POST, request.FILES, instance=inscricao)
-		except ObjectDoesNotExist:
+			inscricao_form = InscricoesForm(
+				request.POST,
+				request.FILES,
+				instance=inscricao
+			)
+		except Inscricao.ObjectDoesNotExist:
 			inscricao_form = InscricoesForm(request.POST, request.FILES)
+
 		if inscricao_form.is_valid():
 			inscricao = inscricao_form.save(commit=False)
 			inscricao.coffee = coffee
 			inscricao.user = request.user
 			inscricao.avaliado=False;
 			inscricao.save()
+
 			return redirect('account_payment')
 	else:
 		try:
 			inscricao = Inscricao.objects.get(user=request.user)
 			inscricao_form = InscricoesForm(instance=inscricao)
-		except ObjectDoesNotExist:
+		except Inscricao.ObjectDoesNotExist:
 			inscricao_form = InscricoesForm()
-	return render(request, 'account/payment_send.html', 
-			{
-			'active_payment': True,
-			'inscricao': inscricao,
-			'form':inscricao_form,
-			}
-		)
+
+	context = {
+		'active_payment': True,
+		'inscricao': inscricao,
+		'form': inscricao_form
+	}
+
+	return render(request, 'account/payment_send.html', context)
+
 
 @login_required
 def courses(request):
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
-	except ObjectDoesNotExist:
+	except Inscricao.ObjectDoesNotExist:
 		inscricao = None
 
 	slots = courses_slots()
 
 	user_courses = get_user_courses(request.user)
 
+	context = {
+		'active_courses': True,
+		'slots': slots,
+		'inscricao': inscricao,
+		'user_courses': user_courses,
+	}
 
-	return render(request, 'account/courses.html', {'active_courses': True, 'slots': slots, 'inscricao': inscricao, 'user_courses': user_courses})
+	return render(request, 'account/courses.html', context)
+
 
 @login_required
 def course_register(request):
-
 	try:
 		inscricao = Inscricao.objects.get(user=request.user)
 		if not inscricao.pagamento:
 			raise
 	except:
 		#não deixa tentar se inscrever sem ter feito pagamento
-		raise SuspiciousOperation(u"Inscrição em minicurso sem realizar o pagamento: '%s'" % request.user.full_name)
+		msg = u"Inscrição em minicurso sem realizar o pagamento: '%s'"
+		raise SuspiciousOperation(msg % request.user.full_name)
+
 	minicursos_sucesso = []
 	minicursos_lotados = []
 	error = 0
+
 	if request.method == 'POST':
 		# pega os slots de minicurso
 		events = Event.objects.filter(type='minicurso')
@@ -112,9 +143,13 @@ def course_register(request):
 
 			if minicurso2 != '-1':
 				minicurso_quinta_novo = Course.objects.get(pk=minicurso2)
-		except ObjectDoesNotExist:
+		except Course.ObjectDoesNotExist:
 			raise SuspiciousOperation(u'Minicurso não existe!')
-		if (minicurso_terca_novo and minicurso_quinta_novo and minicurso_terca_novo.track == minicurso_quinta_novo.track) or (not minicurso_terca_novo or not minicurso_quinta_novo):
+
+		minicurso_novo = minicurso_terca_novo and minicurso_quinta_novo
+		mesmo_pacote = minicurso_terca_novo.track == minicurso_quinta_novo.track
+
+		if (minicurso_novo and mesmo_pacote) or not minicurso_novo:
 			minicurso_terca_atual = False
 			minicurso_quinta_atual = False
 
@@ -124,40 +159,38 @@ def course_register(request):
 				elif reg.course.start_date == last_day_slot.start_date:
 					minicurso_quinta_atual = reg
 
-			sucesso = register_in_course(request.user, minicurso_terca_atual, minicurso_terca_novo)
+			sucesso = register_in_course(
+				request.user,
+				minicurso_terca_atual,
+				minicurso_terca_novo
+			)
 			if sucesso:
 				minicursos_sucesso.append(minicurso_terca_novo)
 				if(minicurso_terca_novo):
-					email_course(request=request, user=request.user, course=minicurso_terca_novo)
+					email_course(request, request.user, minicurso_terca_novo)
 			else:
 				minicursos_lotados.append(minicurso_terca_novo)
 				error = 2
-			sucesso = register_in_course(request.user, minicurso_quinta_atual, minicurso_quinta_novo)
+
+			sucesso = register_in_course(
+				request.user,
+				minicurso_quinta_atual,
+				minicurso_quinta_novo
+			)
 			if sucesso:
 				minicursos_sucesso.append(minicurso_quinta_novo)
 				if(minicurso_quinta_novo):
-					email_course(request=request, user=request.user, course=minicurso_quinta_novo)
+					email_course(request, request.user, minicurso_quinta_novo)
 			else:
 				minicursos_lotados.append(minicurso_quinta_novo)
 				error = 2
-
-
-			#if minicurso_quinta_atual:
-			#	print "minicurso_quinta_atual quinta"
-			#	print minicurso_quinta_atual.course.title
-
-			#print "request:"
-			#print request.POST['minicurso-1']
-			#print request.POST['minicurso-2']
 		else:
 			error = 1 # minicursos de pacotes diferentes
-
-
 
 	slots = courses_slots()
 	user_courses = get_user_courses(request.user)
 
-	return render(request, 'account/courses.html', {
+	context = {
 		'active_courses': True,
 		'slots': slots,
 		'inscricao': inscricao,
@@ -166,7 +199,10 @@ def course_register(request):
 		'minicursos_sucesso': minicursos_sucesso,
 		'minicursos_lotados': minicursos_lotados,
 		'user': request.user,
-		})
+	}
+
+	return render(request, 'account/courses.html', context)
+
 
 def email_course(request, user, course):
 	course_date_time = course.slots.aggregate(
@@ -181,50 +217,71 @@ def email_course(request, user, course):
 
 	data = {}
 	data['subject'] = u'Semcomp: Inscrição em minicurso'
-	data['message'] = loader.render_to_string('account/inscricao_minicurso.txt', {
-		'user': user,
-		'course': course,
-		'absolute_uri': 'http://semcomp.icmc.usp.br/17' #feio
-		})
+	data['message'] = loader.render_to_string(
+		'account/inscricao_minicurso.txt', 
+		{
+			'user': user,
+			'course': course,
+			'absolute_uri': 'http://semcomp.icmc.usp.br/17' #feio
+		}
+	)
 	data['from_email'] = settings.DEFAULT_FROM_EMAIL
 	data['recipient_list'] = [user.email]
 
-	msg = EmailMultiAlternatives(subject=data['subject'], body=data['message'], from_email=data['from_email'], to=data['recipient_list'])
+	msg = EmailMultiAlternatives(
+		subject=data['subject'],
+		body=data['message'],
+		from_email=data['from_email'],
+		to=data['recipient_list']
+	)
 
-	msg.attach_alternative(loader.render_to_string('account/inscricao_minicurso.html', {
-		'user': user,
-		'course': course,
-		'absolute_uri': 'http://semcomp.icmc.usp.br/17' #feio
-		}), "text/html")
+	msg.attach_alternative(
+		loader.render_to_string(
+			'account/inscricao_minicurso.html',
+			{
+				'user': user,
+				'course': course,
+				'absolute_uri': 'http://semcomp.icmc.usp.br/17/' #feio
+			}
+		),
+		"text/html"
+	)
 	msg.send(fail_silently=False)
+
+
 @transaction.atomic
-def register_in_course(user,old,new):
+def register_in_course(user, old, new):
 	tem_vagas = False
+
 	# se selecionou um minicurso
 	if new:
 		tem_vagas = new.get_remaining_vacancies() > 0
+
 	# se é o mesmo minicurso de antes, nada a fazer
 	if old and new and old.course == new:
 		return True
+
 	# se nao tem vagas
 	if new and not tem_vagas:
 		return False
-	# se o novo minicurso deve sobrescrever um minicurso antigo e o novo tem vagas, apaga a inscrição antiga e faz a nova
+
+	# se o novo minicurso deve sobrescrever um minicurso antigo e o novo tem
+	# vagas, apaga a inscrição antiga e faz a nova
 	if old and new and old.course != new and tem_vagas:
-		print "minicurso terca old"
-		print old.course.title
 		old.delete()
 		cr = CourseRegistration(user=user,course=new)
 		cr.save()
-	# se tinha um minicurso mas selecionou 'nenhum' então apaga a inscrição antiga
 	elif old and not new:
+		# se tinha um minicurso mas selecionou 'nenhum' então apaga a
+		# inscrição antiga
 		old.delete()
-	# se não tinha uma inscrição e esta fazendo uma nova e tem vagas
 	elif not old and new and tem_vagas:
+		# se não tinha uma inscrição e esta fazendo uma nova e tem vagas
 		cr = CourseRegistration(user=user,course=new)
 		cr.save()
 
 	return True
+
 
 def courses_slots():
 	slots = []
@@ -255,6 +312,7 @@ def courses_slots():
 	slot2['tracks'].append(cV)
 
 	return slots
+
 
 def get_user_courses(user):
 	user_courses = CourseRegistration.objects.filter(user=user)
