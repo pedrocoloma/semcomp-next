@@ -165,6 +165,7 @@ def course_register(request):
 		'error':error,
 		'minicursos_sucesso': minicursos_sucesso,
 		'minicursos_lotados': minicursos_lotados,
+		'user': request.user,
 		})
 
 def email_course(request, user, course):

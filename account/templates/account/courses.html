@@ -37,9 +37,19 @@
 		}
 	}
 </script>
+	{% if course_registration_open or user.is_admin %}
+		{% if not course_registration_open and user.is_admin %}
+		<div data-alert class="alert-box warning radius">
+			Você está vendo esta página por ser administrador do sistema, no momento as inscrições estão fechadas!
+		</div>
+		{% endif %}
+		<div class="panel">
+			{% static_placeholder "info_minicursos" %}
+		</div>
+	{% endif %}
 	<div class="panel">
 		<h2>Minicursos</h2>
-		{% if course_registration_open %}
+		{% if course_registration_open or user.is_admin%}
 			{% if inscricao and inscricao.pagamento %}
 			{% if error and error == 1 %}
 			<div data-alert class="alert-box alert radius">
