@@ -282,7 +282,7 @@ def register_in_course(user, old, new):
 
 	# se o novo minicurso deve sobrescrever um minicurso antigo e o novo tem
 	# vagas, apaga a inscrição antiga e faz a nova
-	if old and new and old.course != new and tem_vagas:
+	if old and new and old.course.id != new.id and tem_vagas:
 		stats_data['action'] = 'change'
 		stats_data['course'] = {
 			'id': new.pk,
