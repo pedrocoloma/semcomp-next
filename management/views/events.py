@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 
+import stats
 from website.models import Event
 
 from ..decorators import staff_required
@@ -22,7 +23,6 @@ def manage_events(request):
 
 @staff_required
 def events_add(request):
-	print request.POST
 	if request.method == 'POST':
 		form = EventForm(request.POST)
 		if form.is_valid():
@@ -34,6 +34,22 @@ def events_add(request):
 					formset.save()
 				elif hasattr(event, 'eventdata'):
 					event.eventdata.delete()
+
+				stats.add_event(
+					'management-events',
+					{
+						'action': 'add',
+						'event': {
+							'id': event.id,
+							'type': event.type,
+						},
+						'user': {
+							'id': request.user.id,
+							'name': request.user.full_name,
+						},
+					}
+				)
+
 				return redirect('management_events')
 		else:
 			formset = EventDataFormset(request.POST)
@@ -68,6 +84,23 @@ def events_edit(request, event_pk):
 					formset.save()
 				elif hasattr(event, 'eventdata'):
 					event.eventdata.delete()
+
+				stats.add_event(
+					'management-events',
+					{
+						'action': 'change',
+						'event': {
+							'id': event.id,
+							'type': event.type,
+							'changed_fields': form.changed_data + map(lambda x: x.changed_data, formset)
+						},
+						'user': {
+							'id': request.user.id,
+							'name': request.user.full_name,
+						},
+					}
+				)
+
 			return redirect('management_events')
 	else:
 		form = EventForm(instance=event)
@@ -89,6 +122,21 @@ def events_edit(request, event_pk):
 @staff_required
 def events_delete(request, event_pk):
 	event = get_object_or_404(Event, pk=event_pk)
+
+	stats.add_event(
+		'management-events',
+		{
+			'action': 'delete',
+			'user': {
+				'id': request.user.id,
+				'name': request.user.full_name,
+			},
+			'event': {
+				'id': event.id,
+				'type': event.type,
+			},
+		}
+	)
 
 	event.delete()
 
