@@ -60,21 +60,20 @@ def attendance_submit(request, event_pk):
 				att, created = Attendance.objects.get_or_create_from_badge(
 					event, badge
 				)
-				attendance_list.append((att, created))
+				# guarda qual foi o número de crachá que usou pra dar presença
+				attendance_list.append((att, badge, created))
 
 			json_data = []
-			for att,created in attendance_list:
+			for att,key,created in attendance_list:
 				user = att.user
 				if user.full_name:
-					key = user.id
 					value = user.full_name
 					new_user = False
 				else:
-					key = user.id_usp
 					value = user.id_usp
 					new_user = True
 				json_data.append({
-					'key': unicode(key),
+					'key': key,
 					'value': unicode(value),
 					'created': created,
 					'new_user': new_user

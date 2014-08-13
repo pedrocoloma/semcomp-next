@@ -7,6 +7,8 @@ from django import db
 from django.conf import settings
 from django.db import models
 
+import stats
+
 from website.models import SemcompUser
 
 
@@ -25,24 +27,41 @@ class AttendanceManager(models.Manager):
 			pass
 		# ...um id da base de dados...
 		try:
-			return SemcompUser.objects.get(id=badge), False
+			# nesse caso, precisa tirar o "1" da frente e os zeros
+			# que sobraram porque algum imbecil achou que alterar
+			# os dados que você tem "porque sim" é uma ótima ideia
+			badge_id = badge.lstrip('1').lstrip('0')
+			return SemcompUser.objects.get(id=badge_id), False
 		except:
 			pass
 		# ...ou pode ser um mané que não fez inscrição na semcomp e devia
 		# passar vergonha mas vou criar um usuário pra ele com o que deveria
 		# ser o número usp. se não for, quero que ele se foda
-		while True:
-			try:
-				domain = 'usuario-sem-cadastro.semcomp.icmc.usp.br'
-				box = ''.join(random.sample(string.ascii_letters.lower(), 20))
-				email = '{}@{}'.format(box, domain)
-				user = SemcompUser.objects.create(id_usp=badge, email=email)
-				return user, True
-			except db.IntegrityError:
-				# Se isso aconteceu é porque o email não é único, por incrível
-				# que pareça. É bem pouco provável que o email rand ali de cima
-				# seja escolhido duas vezes, mas se escolher, só faz de novo
-				pass
+		try:
+			# cria o usuário usando o nusp como email. isso ajuda a
+			# garantir unicidade dos cadastros automaticamente
+			domain = 'usuario-sem-cadastro.semcomp.icmc.usp.br'
+			email = '{}@{}'.format(badge, domain)
+			user = SemcompUser.objects.create(id_usp=badge, email=email)
+			return user, True
+		except db.IntegrityError:
+			# se isso acontecer, algo muito ruim deu errado. registra a ação e
+			# joga um erro porque isso é sério
+			stats.add_event(
+				'management-attendance',
+				{
+					'action': 'error',
+					'target-user': {
+						'badge': badge,
+						'badge-number': badge_number,
+					},
+					'event': {
+						'id': event.pk,
+						'name': event.name(),
+					}
+				}
+			)
+			raise
 
 
 class Attendance(models.Model):
