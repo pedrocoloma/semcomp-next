@@ -1,4 +1,5 @@
   {% spaceless %}
+  <h2>Participantes</h2>
   <table>
     <thead>
       <tr>
@@ -14,7 +15,7 @@
           <td>{{user.full_name}}</td>
           <td>{{user.email}}</td>
           <td>{{user.id_usp}}</td>
-          <td>X</td>
+          <td><a class="tiny extend alert button" href="{% url "management_courses_expel" course.pk user.pk%}">Expulsar</a></td>
         </tr>
       {% endfor %}
     </tbody>

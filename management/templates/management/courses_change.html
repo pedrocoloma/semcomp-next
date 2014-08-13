@@ -71,6 +71,6 @@
     </fieldset>
   </form>
   {% if course_form.instance.pk %}
-    {% include "management/render_course_attendance.html" with users=users only %}
+    {% include "management/render_course_attendance.html" with users=users course=course_form.instance only %}
   {% endif %}
 {% endblock %}

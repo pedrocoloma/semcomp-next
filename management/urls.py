@@ -28,6 +28,7 @@ urlpatterns = patterns('',
 	url(r'^minicursos/$', 'management.views.manage_courses', name='management_courses'),
 	url(r'^minicursos/adicionar/$', 'management.views.courses_add', name='management_courses_add'),
 	url(r'^minicursos/editar/(\d+)/$', 'management.views.courses_edit', name='management_courses_edit'),
+	url(r'^minicursos/editar/(\d+)/expulsar/(\d+)$', 'management.views.courses_expel', name='management_courses_expel'),
 	url(r'^minicursos/apagar/(\d+)/$', 'management.views.courses_delete', name='management_courses_delete'),
 
 

@@ -1,10 +1,11 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
-
-from website.models import Event, Course, Speaker
+from account.models import CourseRegistration
+from website.models import Event, Course, Speaker, SemcompUser
 
 from ..decorators import staff_required
 
-from ..forms import CourseForm, SpeakerForm, ContactInformationFormset
+from ..forms import CourseForm, CourseExpelForm, SpeakerForm, ContactInformationFormset
 
 @staff_required
 def manage_courses(request):
@@ -112,6 +113,27 @@ def courses_edit(request, course_pk):
 		'users': course.get_registred_users()
 	}
 	return render(request,'management/courses_change.html', context)
+@staff_required
+def courses_expel(request, course_pk, user_pk):
+	course = get_object_or_404(Course, pk=course_pk)
+	user = get_object_or_404(SemcompUser, pk=user_pk)
+	if request.method == 'POST':
+		form = CourseExpelForm(request.POST)
+		if form.is_valid():
+			try:
+				registration = CourseRegistration.objects.get(user=user, course=course)
+				registration.delete()
+			except ObjectDoesNotExist:
+				pass
+			return redirect('management_courses_edit', course.pk)
+	else:
+		form = CourseExpelForm()
+	context = {
+		'form': form,
+		'user': user,
+		'course': course
+	}
+	return render(request,'management/courses_expel.html', context)
 
 @staff_required
 def courses_delete(request, course_pk):
