@@ -1,9 +1,11 @@
+import json
 import math
 import operator
 import random
 from StringIO import StringIO
 
 from django.contrib.staticfiles.finders import find
+from django.http import HttpResponse
 
 from PIL import Image
 import requests
@@ -94,3 +96,9 @@ def get_static_map_image(lat, lon, zoom):
 
 	return draw_marker(final_image, marker_path).convert('RGB').convert('P', palette=Image.ADAPTIVE)
 
+def render_json_response(data, **kwargs):
+	return HttpResponse(
+		json.dumps(data),
+		content_type='application/json',
+		**kwargs
+	)

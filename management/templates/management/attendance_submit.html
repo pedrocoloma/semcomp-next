@@ -1,27 +1,173 @@
 {% extends "management/base.html" %}
 
+{% load static %}
+
 {% block user_content %}
 	<div class="row">
 		<div class="large-12 columns">
 			<h1 class="blue-bg">Presença</h1>
 			<h2 class="blue-bg">{{event.name}}</h2>
-			<form action="{% url "management_attendance_submit" event.pk %}" method="post">
+			<form action="{% url "management_attendance_submit" event.pk %}" method="post" id="attendance-form" data-abide="ajax">
 				{% csrf_token %}
 				<div class="row collapse">
+					<label for="badge-number-input">Número do crachá/Número USP</label>
 					<div class="small-8 columns">
-						<input name="badge-number" type="text" pattern="[0-9]*" maxlength="8" placeholder="Número do crachá ou Número USP...">
+						<input id="badge-number-input" name="badge-number" type="text" pattern="[0-9]+" maxlength="8">
+						<small class="error">Somente números e no máximo 8 dígitos</small>
 					</div>
 					<div class="small-4 columns">
 						<input class="button postfix" type="submit" value="Cadastrar">
 					</div>
 				</div>
 			</form>
-			<div class="panel">
-				<h2>Presentes</h2>
+			<div class="attendees panel">
+				<h2>Presentes <span class="hide badge-spinner"><i class="fa fa-spin fa-spinner"></i></span></h2>
 				{% for attendance in event.attendance_set.all %}
 					<span class="label{% if not attendance.user.full_name %} warning{% endif %}">{{attendance.user.full_name|default:attendance.user.id_usp}}</span>
 				{% endfor %}
 			</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block extrajs %}
+	<script src="{% static "bower_components/jquery-cookie/jquery.cookie.js" %}"></script>
+	<script src="{% static "js/ajax_csrf.js" %}"></script>
+	<script type="text/javascript">
+		var badge_list = [];
+
+		(function($, window, document, undefined) {
+			window.BadgeStorage = {
+				init: function() {
+					console.log('BadgeStorage.init');
+
+					if (Modernizr.localstorage) {
+						this.storageKey = 'badge-list-' + '{{event.pk}}';
+						if (!localStorage.getItem(this.storageKey))
+							localStorage.setItem(this.storageKey, "[]");
+					} else if (navigator.cookieEnabled) {
+						this.cookieNname = 'badge-list-' + '{{event.pk}}';
+						$.cookie.json = true;
+						if (!$.cookie(this.cookieName))
+							$.cookie(this.cookieName, []);
+					} else{
+						// se chegou aqui, é porque recarregou a página, e aí
+						// não existe badgeList de qualquer jeito
+						this.badgeList = [];
+					}
+				},
+				add: function (badge) {
+					console.log('BadgeStorage.add', badge);
+					var data = this.retrieve();
+					data.push(badge);
+					this.replace(data);
+				},
+				replace: function(badgeList) {
+					console.log('BadgeStorage.replace', badgeList);
+					if (Modernizr.localstorage) {
+						localStorage.setItem(
+							this.storageKey,
+							JSON.stringify(badgeList)
+						);
+					} else if (navigator.cookieEnabled) {
+						$.cookie(this.cookieName, badgeList);
+					} else {
+						this.badgeList = badgeList;
+					}
+				},
+				retrieve: function () {
+					console.log('BadgeStorage.retrieve');
+					if (Modernizr.localstorage) {
+						var data = JSON.parse(localStorage.getItem(this.storageKey));
+						return data;
+					} else if (navigator.cookieEnabled) {
+						var data = $.cookie(this.cookieName);
+						return data;
+					} else {
+						return this.badgeList;
+					}
+				},
+				remove: function (badge) {
+					console.log('BadgeStore.remove', badge);
+					var badgeList = this.retrieve();
+					var index = badgeList.indexOf(badge);
+					var changed = false;
+
+					while (index != -1) {
+						changed = true;
+
+						badgeList.splice(index, 1);
+						index = badgeList.indexOf(badge);
+					}
+
+					if (changed)
+						this.replace(badgeList);
+				}
+			}
+		}(jQuery, window, window.document));
+
+		function assert(condition, message) {
+			if (!condition) {
+				message = message || 'Assertion failed';
+				if (typeof Error !== "undefined") {
+					throw new Error(message);
+				}
+				throw message;
+			}
+		}
+
+		function submitBadges() {
+			var badgeList = BadgeStorage.retrieve();
+			var attendees = $('.attendees');
+			$.post('', {'badge-list': badgeList}, function(data) {
+				assert(data instanceof Array, 'Resposta do servidor deve ser um Array');
+				for (var i=0 ; i<data.length ; ++i) {
+					BadgeStorage.remove(data[i].key);
+
+					if (data[i].created) {
+						var span = $('<span class="label"></span>').html(data[i].value);
+						if (data[i].new_user)
+							span.addClass('warning');
+						attendees.append(span);
+						// adiciona um espaço pros spans não ficarem colados
+						attendees.append(' ');
+					}
+				}
+
+				var storageData = BadgeStorage.retrieve();
+				if (storageData.length == 0)
+					$('.badge-spinner').hide();
+			});
+		}
+
+		var throttledSubmitBadges = Foundation.utils.throttle(
+			submitBadges, 2 * 1000
+		);
+
+		BadgeStorage.init();
+
+		// 'valid' deveria ser 'valid.fndtn.abide', mas tem um bug que faz
+		// os eventos serem lançados duas vezes:
+		// https://github.com/zurb/foundation/issues/5392
+		$('#attendance-form').on('valid', function() {
+			var input = $('input[name="badge-number"]');
+			var badge = input.val().replace(/^[0]+/g, '');
+
+			console.log('valid form', badge);
+			if (badge == '') {
+				var data = BadgeStorage.retrieve();
+				if (data.length == 0)
+					$('.badge-spinner').hide();
+				return false;
+			}
+
+			BadgeStorage.add(badge);
+			throttledSubmitBadges();
+
+			input.val('');
+			$('.badge-spinner').show();
+
+			return false;
+		});
+	</script>
 {% endblock %}

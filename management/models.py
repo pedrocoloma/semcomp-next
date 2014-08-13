@@ -11,11 +11,11 @@ from website.models import SemcompUser
 
 
 class AttendanceManager(models.Manager):
-	def create_from_badge(self, event, badge_number):
-		badge = badge_number.lstrip('0')
+	def get_or_create_from_badge(self, event, badge_number):
+		badge = badge_number.strip().lstrip('0')
 		user,created = self.__get_user_from_badge(badge)
 
-		return Attendance.objects.create(user=user, event=event)
+		return Attendance.objects.get_or_create(user=user, event=event)
 
 	def __get_user_from_badge(self, badge):
 		# O crachá pode ser um número usp...

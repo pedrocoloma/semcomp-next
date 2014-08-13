@@ -1,11 +1,9 @@
 # coding: utf-8
 
 from datetime import datetime, timedelta
-import json
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import utc, now
 from django.views.decorators.http import require_http_methods
@@ -18,13 +16,7 @@ from website.models import SemcompUser
 
 from ..forms import MessageForm, NewMessageForm
 from ..decorators import staff_required
-
-def render_json_response(data, **kwargs):
-	return HttpResponse(
-		json.dumps(data),
-		content_type='application/json',
-		**kwargs
-	)
+from ..utils import render_json_response
 
 @staff_required
 def manage_messages(request):

@@ -414,7 +414,10 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 		return self.email
 
 	def __unicode__(self):
-		return self.full_name
+		if self.full_name:
+			return self.full_name
+		else:
+			return self.id_usp
 
 	def inscricao(self):
 		return Inscricao.objects.get(user=self)
