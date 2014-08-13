@@ -3,6 +3,10 @@
 {% load i18n %}
 
 {% block user_content %}
+{% for message in messages %}
+  <div class="alert-box {{message.tags}}">{{message}}</div>
+{% endfor %}
+
   <form
     method="post"
     enctype="multipart/form-data"
