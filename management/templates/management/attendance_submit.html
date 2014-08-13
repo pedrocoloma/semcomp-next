@@ -145,6 +145,13 @@
 		);
 
 		BadgeStorage.init();
+		// verifica se tem alguma transação pendente, e se tiver já executa
+		(function() {
+			var data = BadgeStorage.retrieve();
+			if (data.length != 0) {
+				throttledSubmitBadges();
+			}
+		})();
 
 		// 'valid' deveria ser 'valid.fndtn.abide', mas tem um bug que faz
 		// os eventos serem lançados duas vezes:
