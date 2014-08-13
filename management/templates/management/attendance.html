@@ -1,0 +1,31 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1 class="blue-bg">Presença</h1>
+			<div class="management-table-scroll">
+				<table>
+					<thead>
+						<tr>
+							<th>nome evento</th>
+							<th>pessoas presentes</th>
+							<th>cadastrar presença</th>
+							<th>relatório</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for event in events %}
+							<tr>
+								<td>{{event.name}}</td>
+								<td>{{event.attendance}}</td>
+								<td><a href="#" class="small expand button">Cadastrar</a></td>
+								<td><a href="#" class="small expand button">Relatório</a></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}

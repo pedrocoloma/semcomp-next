@@ -196,6 +196,9 @@ class Event(models.Model):
 		else:
 			return slugify(self.name())
 
+	def attendance(self):
+		return self.attendance_set.count()
+
 	def get_absolute_url(self):
 		if self.type == 'palestra':
 			return self.lecture.get_absolute_url()

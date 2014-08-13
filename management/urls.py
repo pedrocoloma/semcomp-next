@@ -51,6 +51,9 @@ urlpatterns = patterns('',
 	url(r'^palestras-empresariais/editar/(\d+)/$', 'management.views.business_lectures_edit', name='management_business_lectures_edit'),
 	url(r'^palestras-empresariais/deletar/(\d+)/$', 'management.views.business_lectures_delete', name='management_business_lectures_delete'),
 
+	url(r'^presenca/$', 'management.views.manage_attendance', name='management_attendance'),
+	url(r'^presenca/(\d+)/$', 'management.views.attendance_submit', name='management_attendance_submit'),
+
 	url(r'^configuracoes/$', 'management.views.manage_config', name='management_config'),
 
 )

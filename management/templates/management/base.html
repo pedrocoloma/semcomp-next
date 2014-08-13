@@ -61,6 +61,11 @@
 						<i class="fa fa-fw fa-suitcase"></i> {% trans "Palestras empresariais" %}
 					</a>
 				</li>
+				<li {% if active_attendance %}class="active"{% endif %}>
+					<a href="{% url "management_attendance" %}">
+						<i class="fa fa-fw fa-list"></i> {% trans "Presença" %}
+					</a>
+				</li>
 				{% if user.is_admin %}
 				<li {% if active_config %}class="active"{% endif %}>
 					<a href="{% url "management_config" %}">

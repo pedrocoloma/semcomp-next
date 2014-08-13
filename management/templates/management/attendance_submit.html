@@ -1,0 +1,27 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1 class="blue-bg">Presença</h1>
+			<h2 class="blue-bg">{{event.name}}</h2>
+			<form action="{% url "management_attendance_submit" event.pk %}" method="post">
+				{% csrf_token %}
+				<div class="row collapse">
+					<div class="small-8 columns">
+						<input name="badge-number" type="text" pattern="[0-9]*" maxlength="8" placeholder="Número do crachá ou Número USP...">
+					</div>
+					<div class="small-4 columns">
+						<input class="button postfix" type="submit" value="Cadastrar">
+					</div>
+				</div>
+			</form>
+			<div class="panel">
+				<h2>Presentes</h2>
+				{% for attendance in event.attendance_set.all %}
+					<span class="label">{{attendance.user.full_name|default:attendance.user.id_usp}}</span>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endblock %}
