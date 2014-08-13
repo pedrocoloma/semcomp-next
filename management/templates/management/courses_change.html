@@ -70,4 +70,7 @@
       {% endif %}
     </fieldset>
   </form>
+  {% if course_form.instance.pk %}
+    {% include "management/render_course_attendance.html" with users=users only %}
+  {% endif %}
 {% endblock %}

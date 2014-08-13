@@ -109,6 +109,7 @@ def courses_edit(request, course_pk):
 		'speaker_form': speaker_form,
 		'contact_formset': contact_formset,
 		'active_courses': True,
+		'users': course.get_registred_users()
 	}
 	return render(request,'management/courses_change.html', context)
 
