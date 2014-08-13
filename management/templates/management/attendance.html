@@ -19,7 +19,7 @@
 							<tr>
 								<td>{{event.name}}</td>
 								<td>{{event.attendance}}</td>
-								<td><a href="#" class="small expand button">Cadastrar</a></td>
+								<td><a href="{% url "management_attendance_submit" event.pk %}" class="small expand button">Cadastrar</a></td>
 								<td><a href="#" class="small expand button">Relatório</a></td>
 							</tr>
 						{% endfor %}

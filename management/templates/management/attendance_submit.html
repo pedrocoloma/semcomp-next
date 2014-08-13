@@ -19,7 +19,7 @@
 			<div class="panel">
 				<h2>Presentes</h2>
 				{% for attendance in event.attendance_set.all %}
-					<span class="label">{{attendance.user.full_name|default:attendance.user.id_usp}}</span>
+					<span class="label{% if not attendance.user.full_name %} warning{% endif %}">{{attendance.user.full_name|default:attendance.user.id_usp}}</span>
 				{% endfor %}
 			</div>
 		</div>

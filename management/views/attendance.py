@@ -11,7 +11,6 @@ from ..models import Attendance
 def manage_attendance(request):
 	context = {
 		'active_attendance': True,
-		'form': AttendanceForm(),
 		'events': Event.objects.all(),
 	}
 	return render(request, 'management/attendance.html', context)
