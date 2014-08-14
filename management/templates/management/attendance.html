@@ -26,6 +26,13 @@
 					</tbody>
 				</table>
 			</div>
+			{% if not events %}
+			<div class="panel">
+				<p>Sem eventos pra cadastrar presença? Você pode precisar ir na
+				<a href="{% url "management_events" %}">aba de eventos</a> e
+				cadastrar algum evento para contar presença</p>
+			</div>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}

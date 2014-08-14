@@ -11,16 +11,31 @@
 		<div class="large-3 columns">
 			<div class="panel">
 			<ul class="side-nav">
+				<li><label>Geral</label></li>
 				<li {% if active_overview %}class="active"{% endif %}>
 					<a href="{% url "management_overview" %}">
 						<i class="fa fa-fw fa-home"></i> {% trans "Visão geral" %}
 					</a>
 				</li>
+				<li class="divider"></li>
+				<li><label>Ações</label></li>
 				<li {% if active_messages %}class="active"{% endif %}>
 					<a href="{% url "management_messages" %}">
 						<i class="fa fa-fw fa-envelope"></i> {% trans "Mensagens" %}
 					</a>
 				</li>
+				<li {% if active_attendance %}class="active"{% endif %}>
+					<a href="{% url "management_attendance" %}">
+						<i class="fa fa-fw fa-list"></i> {% trans "Presença" %}
+					</a>
+				</li>
+				<li {% if active_users %}class="active"{% endif %}>
+					<a href="{% url "management_users" %}">
+						<i class="fa fa-fw fa-users"></i> {% trans "Usuários" %}
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li><label>Cadastrar coisas</label></li>
 				<li {% if active_places %}class="active"{% endif %}>
 					<a href="{% url "management_places" %}">
 						<i class="fa fa-fw fa-map-marker"></i> {% trans "Locais" %}
@@ -41,11 +56,6 @@
 						<i class="fa fa-fw fa-pencil"></i> {% trans "Minicursos" %}
 					</a>
 				</li>
-				<li {% if active_users %}class="active"{% endif %}>
-					<a href="{% url "management_users" %}">
-						<i class="fa fa-fw fa-users"></i> {% trans "Usuários" %}
-					</a>
-				</li>
 				<li {% if active_companies %}class="active"{% endif %}>
 					<a href="{% url "management_companies" %}">
 						<i class="fa fa-fw fa-building-o"></i> {% trans "Empresas" %}
@@ -61,12 +71,9 @@
 						<i class="fa fa-fw fa-suitcase"></i> {% trans "Palestras empresariais" %}
 					</a>
 				</li>
-				<li {% if active_attendance %}class="active"{% endif %}>
-					<a href="{% url "management_attendance" %}">
-						<i class="fa fa-fw fa-list"></i> {% trans "Presença" %}
-					</a>
-				</li>
 				{% if user.is_admin %}
+				<li class="divider"></li>
+				<li><label>Configurações avançadas</label></li>
 				<li {% if active_config %}class="active"{% endif %}>
 					<a href="{% url "management_config" %}">
 						<i class="fa fa-fw fa-cog"></i> {% trans "Configurações" %}

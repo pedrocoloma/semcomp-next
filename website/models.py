@@ -145,6 +145,11 @@ class Event(models.Model):
 	end_time = models.TimeField(_(u'Horário de término'))
 	# 7 caracteres: #abc123
 	color = models.CharField(_(u'Cor'), max_length=7, default='#85144B')
+	used_for_attendance = models.BooleanField(
+		_(u'Conta presença'),
+		default=False,
+		help_text=_(u'Não tem efeito em minicursos')
+	)
 
 	objects = EventManager()
 

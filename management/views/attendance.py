@@ -2,7 +2,7 @@
 
 import re
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
 from website.models import Event
@@ -14,9 +14,15 @@ from ..utils import render_json_response
 
 @staff_required
 def manage_attendance(request):
+	events = Event.objects.exclude(
+		type='minicurso'
+	).filter(
+		used_for_attendance=True
+	)
+
 	context = {
 		'active_attendance': True,
-		'events': Event.objects.all(),
+		'events': events
 	}
 	return render(request, 'management/attendance.html', context)
 
@@ -24,6 +30,8 @@ def manage_attendance(request):
 @staff_required
 def attendance_submit(request, event_pk):
 	event = get_object_or_404(Event, pk=event_pk)
+	if event.type == 'minicurso' or not event.used_for_attendance:
+		raise Http404
 
 	if request.method == 'POST':
 		if request.is_ajax():

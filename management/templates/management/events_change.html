@@ -18,8 +18,9 @@
 			<legend>Adicionar evento</legend>
 		{% endif %}
 		<div class="row">
-			{% include "management/render_field.html" with field=form.color width="large-2" only %}
-			{% include "management/render_field.html" with field=form.type width="large-10" only %}
+			{% include "management/render_field.html" with field=form.color width="large-3" only %}
+			{% include "management/render_checkbox_field.html" with field=form.used_for_attendance width="large-3" only %}
+			{% include "management/render_field.html" with field=form.type width="large-6" only %}
 		</div>
 		<div class="row">
 			{% include "management/render_field.html" with field=form.start_date width="large-6" only %}
