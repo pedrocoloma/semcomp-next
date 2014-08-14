@@ -33,6 +33,15 @@
 				cadastrar algum evento para contar presença</p>
 			</div>
 			{% endif %}
+			<h1 class="blue-bg">Relatório geral de presença</h1>
+			<div class="row">
+				<div class="small-6 columns">
+					<a href="{% url "management_attendance_report" "xls" %}" class="button expand"><i class="fa fa-file-excel-o"></i> Excel</a>
+				</div>
+				<div class="small-6 columns">
+					<a href="{% url "management_attendance_report" "pdf" %}" class="button expand"><i class="fa fa-file-pdf-o"></i> PDF</a>
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}

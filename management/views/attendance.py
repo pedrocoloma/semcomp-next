@@ -1,11 +1,19 @@
 # coding: utf-8
 
 import re
+try:
+	from cStringIO import StringIO
+except ImportError:
+	from StringIO import StringIO
 
+from django.db.models import Count
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.translation import ugettext as _
 
-from website.models import Event
+import xlsxwriter
+
+from website.models import Event, SemcompUser
 
 from ..decorators import staff_required
 from ..models import Attendance
@@ -84,3 +92,80 @@ def attendance_submit(request, event_pk):
 	}
 
 	return render(request, 'management/attendance_submit.html', context)
+
+
+@staff_required
+def attendance_report(request, report_type):
+	if report_type not in ['pdf', 'xls']:
+		raise Http404
+
+	output = StringIO()
+	report = globals()['write_report_' + report_type](output)
+
+	content_types = {
+		'pdf': 'application/pdf',
+		'xls': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+	}
+	content_filename = _(u'relatorio-presenca-semcomp-17.')
+	content_filename += u'xlsx' if report_type == 'xls' else u'pdf'
+	content_disposition = u'attachment; filename={}.{}'.format(
+		content_filename, report_type
+	)
+
+	response = HttpResponse(
+		output.read(),
+		content_type=content_types[report_type],
+	)
+	response['Content-Disposition'] = content_disposition
+
+	return response
+
+
+def get_attendance_data():
+	total_events = Event.objects.exclude(
+		type='minicurso'
+	).filter(
+		used_for_attendance=True
+	).count()
+	# Isso aqui assume que os dados que foram inseridos na base de dados são
+	# todos corretos, i.e., nenhum usuário recebeu presença em um evento que na
+	# verdade não deveria receber presença pelo site (como um minicurso)
+	users = SemcompUser.objects.registered().annotate(Count('attendance'))
+
+	return total_events, users
+
+
+def write_report_xls(output):
+	workbook = xlsxwriter.Workbook(output)
+
+	bold = workbook.add_format({'bold': True})
+
+	sheet = workbook.add_worksheet(_(u'Presenças Semcomp 17'))
+
+	total_events, attendance_data = get_attendance_data()
+
+	# escreve cabeçalho
+	header_fields = [
+		_(u'Nome'), _(u'Número USP'), _(u'ID Semcomp'),
+		_(u'Crachá'), _(u'Presença')
+	]
+	for index,header in enumerate(header_fields):
+		sheet.write(0, index, header, bold)
+
+	# escreve dados presença
+	fields = ['full_name', 'id_usp', 'id', 'id']
+	for i,user in enumerate(attendance_data):
+		for j,field in enumerate(fields):
+			sheet.write(i + 1, j, getattr(user, field))
+
+		attendance = 100.0 * user.attendance__count / float(total_events)
+		sheet.write(i + 1, len(fields), '{}%'.format(int(attendance)))
+
+	workbook.close()
+
+	output.seek(0)
+
+
+def write_report_pdf():
+	print 'report pdf'
+
