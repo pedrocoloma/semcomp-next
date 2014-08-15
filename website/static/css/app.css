@@ -7354,3 +7354,7 @@ img.image-center {
 .minicurso-radio-checked {
   background-color: #00aadd;
 }
+
+.minicursos-panel {
+  text-align: center;
+}

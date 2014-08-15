@@ -24,9 +24,12 @@ def account_overview(request):
 	except Inscricao.DoesNotExist:
 		inscricao = None
 
+	user_courses = get_user_courses(request.user)
+
 	context = {
 		'active_overview': True,
 		'inscricao': inscricao,
+		'user_courses':user_courses,
 	}
 
 	return render(request, 'account/index.html', context)
