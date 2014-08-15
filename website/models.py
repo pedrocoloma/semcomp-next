@@ -309,7 +309,7 @@ class Course(models.Model):
 		return self.vacancies - CourseRegistration.objects.filter(course=self).count()
 	def get_number_of_subscribers(self):
 		return CourseRegistration.objects.filter(course=self).count()
-	def get_registred_users(self):
+	def get_registered_users(self):
 		return SemcompUser.objects.filter(courseregistration__course=self)
 
 

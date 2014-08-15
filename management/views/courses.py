@@ -121,7 +121,7 @@ def courses_members(request, course_pk):
 	context = {
 		'active_courses': True,
 		'course': course,
-		'users': course.get_registred_users(),
+		'users': course.get_registered_users(),
 	}
 	return render(request,'management/courses_members.html', context)
 @staff_required
@@ -135,14 +135,14 @@ def courses_expel(request, course_pk, user_pk):
 				registration = CourseRegistration.objects.get(user=user, course=course)
 				registration.delete()
 				messages.success(request, u'A inscrição do usuário %s foi cancelada para o minicurso %s.' % (user.full_name, course.title))
-			except ObjectDoesNotExist:
+			except CourseRegistration.DoesNotExist:
 				pass
 			return redirect('management_courses_members', course.pk)
 	else:
 		form = CourseExpelForm()
 	context = {
 		'form': form,
-		'user': user,
+		'course_member': user,
 		'course': course
 	}
 	return render(request,'management/courses_expel.html', context)

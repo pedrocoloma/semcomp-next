@@ -1,7 +1,7 @@
 {% extends "management/base.html" %}
 
 {% block user_content %}
-<form method="post" action="{% url "management_courses_expel" course.pk user.pk%}">
+<form method="post" action="{% url "management_courses_expel" course.pk course_member.pk%}">
 {% csrf_token %}
 <fieldset>
 	<legend>Cancelar inscrição em minicurso</legend>
@@ -13,17 +13,17 @@
 		<div class="row">
 			<div class="small-12 columns">
 				<dt>Nome:</dt>
-				<dd>{{user.full_name}}</dd>
+				<dd>{{course_member.full_name}}</dd>
 			</div>
 		</div>
 		<div class="row">
 			<div class="medium-6 columns">
 				<dt>Email:</dt>
-				<dd>{{user.email}}</dd>
+				<dd>{{course_member.email}}</dd>
 			</div>
 			<div class="medium-6 columns">
 				<dt>NUSP:</dt>
-				<dd>{{user.id_usp}}</dd>
+				<dd>{{course_member.id_usp}}</dd>
 			</div>
 		</div>
 	</fieldset>
