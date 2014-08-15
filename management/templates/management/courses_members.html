@@ -1,4 +1,10 @@
-  {% spaceless %}
+{% extends "management/base.html" %}
+
+{% block user_content %}
+{% spaceless %}
+{% for message in messages %}
+  <div class="alert-box {{message.tags}}">{{message}}</div>
+{% endfor %}
   <h2 class="blue-bg">Participantes</h2>
   <table>
     <thead>
@@ -21,3 +27,4 @@
     </tbody>
   </table>
 {% endspaceless %}
+{% endblock %}

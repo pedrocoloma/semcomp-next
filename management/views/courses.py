@@ -112,10 +112,19 @@ def courses_edit(request, course_pk):
 		'speaker_form': speaker_form,
 		'contact_formset': contact_formset,
 		'active_courses': True,
+	}
+	return render(request,'management/courses_change.html', context)
+@staff_required
+def courses_members(request, course_pk):
+	course = get_object_or_404(Course, pk=course_pk)
+
+	context = {
+		'active_courses': True,
+		'course': course,
 		'users': course.get_registred_users(),
 		'messages': messages.get_messages(request),
 	}
-	return render(request,'management/courses_change.html', context)
+	return render(request,'management/courses_members.html', context)
 @staff_required
 def courses_expel(request, course_pk, user_pk):
 	course = get_object_or_404(Course, pk=course_pk)
@@ -129,7 +138,7 @@ def courses_expel(request, course_pk, user_pk):
 				messages.success(request, u'A inscrição do usuário %s foi cancelada para o minicurso %s.' % (user.full_name, course.title))
 			except ObjectDoesNotExist:
 				pass
-			return redirect('management_courses_edit', course.pk)
+			return redirect('management_courses_members', course.pk)
 	else:
 		form = CourseExpelForm()
 	context = {
