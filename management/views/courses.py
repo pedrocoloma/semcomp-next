@@ -122,7 +122,6 @@ def courses_members(request, course_pk):
 		'active_courses': True,
 		'course': course,
 		'users': course.get_registred_users(),
-		'messages': messages.get_messages(request),
 	}
 	return render(request,'management/courses_members.html', context)
 @staff_required
