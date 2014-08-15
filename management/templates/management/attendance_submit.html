@@ -20,11 +20,13 @@
 					</div>
 				</div>
 			</form>
-			<div class="attendees panel">
+			<div class="panel">
 				<h2>Presentes <span class="hide badge-spinner"><i class="fa fa-spin fa-spinner"></i></span></h2>
-				{% for attendance in event.attendance_set.all %}
-					<span class="label{% if not attendance.user.full_name %} warning{% endif %}">{{attendance.user.full_name|default:attendance.user.id_usp}}</span>
-				{% endfor %}
+				<p class="attendees">
+						{% for attendance in event.attendance_set.all %}
+							<span class="label{% if not attendance.user.full_name %} warning{% endif %}">{{attendance.user.full_name|default:attendance.user.id_usp}}</span>
+						{% endfor %}
+				</p>
 			</div>
 		</div>
 	</div>
@@ -128,9 +130,9 @@
 						var span = $('<span class="label"></span>').html(data[i].value);
 						if (data[i].new_user)
 							span.addClass('warning');
-						attendees.append(span);
 						// adiciona um espaço pros spans não ficarem colados
-						attendees.append(' ');
+						attendees.prepend(' ');
+						attendees.prepend(span);
 					}
 				}
 
