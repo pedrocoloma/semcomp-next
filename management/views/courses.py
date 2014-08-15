@@ -7,7 +7,7 @@ from website.models import Event, Course, Speaker, SemcompUser
 
 from ..decorators import staff_required
 
-from ..forms import CourseForm, CourseExpelForm, SpeakerForm, ContactInformationFormset
+from ..forms import CourseForm, CourseMembersAddForm, CourseExpelForm, SpeakerForm, ContactInformationFormset
 
 @staff_required
 def manage_courses(request):
@@ -117,11 +117,18 @@ def courses_edit(request, course_pk):
 @staff_required
 def courses_members(request, course_pk):
 	course = get_object_or_404(Course, pk=course_pk)
-
+	form = CourseMembersAddForm(request.POST or None)
+	if request.method == 'POST':
+		if form.is_valid():
+			import pprint
+			pprint.pprint(form.member)
+			messages.success(request, u'O usuário foi adicionado com sucesso')
+			redirect('management_courses_members', course.pk)
 	context = {
 		'active_courses': True,
 		'course': course,
 		'users': course.get_registered_users(),
+		'form': form
 	}
 	return render(request,'management/courses_members.html', context)
 @staff_required

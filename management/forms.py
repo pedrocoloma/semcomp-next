@@ -79,6 +79,8 @@ class CourseExpelForm(forms.Form):
 		required=False
 	)
 
+class CourseMembersAddForm(forms.Form):
+	member = SemcompUserSelect2Field(label=_(u'Membro'))
 
 class SpeakerForm(forms.ModelForm):
 	class Meta:
