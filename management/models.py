@@ -23,6 +23,26 @@ class AttendanceManager(models.Manager):
 		# O crachá pode ser um número usp...
 		try:
 			return SemcompUser.objects.get(id_usp=badge), False
+		except SemcompUser.MultipleObjectsReturned:
+			# isso é falha na especificação do modelo de usuário: o número USP
+			# deveria ser único mas não é. Pega o primeiro da lista (ordenada,
+			# pra ser consistente) e usa pra presença
+			users = SemcompUser.objects.filter(id_usp=badge).order_by('id')
+
+			stats_data = {
+				'action': 'duplicate',
+				'badge': badge,
+				'users': [],
+			}
+			for u in users:
+				stats_data['users'].append({
+					'id': u.id,
+					'full_name': u.full_name,
+					'id_usp': u.id_usp,
+				})
+			stats.add_event('management-attendance', stats_data)
+
+			return users[0], False
 		except:
 			pass
 		# ...um id da base de dados...
@@ -51,10 +71,7 @@ class AttendanceManager(models.Manager):
 				'management-attendance',
 				{
 					'action': 'error',
-					'target-user': {
-						'badge': badge,
-						'badge-number': badge_number,
-					},
+					'badge': badge,
 					'event': {
 						'id': event.pk,
 						'name': event.name(),
