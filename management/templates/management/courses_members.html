@@ -42,17 +42,17 @@
   </tbody>
 </table>
 {% endspaceless %}
+{% endblock %}
+
 {% block extracss %}
   {% import_django_select2_css %}
   <script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
 {% endblock %}
 
 {% block basejs %}
-
-<script src="{% static "bower_components/foundation/js/foundation.min.js" %}"></script>
-<script src="{% static "js/app.js" %}"></script>
- {% import_django_select2_js %}
+  <script src="{% static "bower_components/foundation/js/foundation.min.js" %}"></script>
+  <script src="{% static "js/app.js" %}"></script>
+  {% import_django_select2_js %}
 {% endblock %}
 
-{% endblock %}
 
