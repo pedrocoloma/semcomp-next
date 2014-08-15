@@ -16,6 +16,13 @@ def course_registration_open():
 
 	return now() > course_registration_config.get_value()
 
+def course_registration_change_close():
+	course_registration_change_close_config = SemcompConfig.objects.get(
+		title='COURSE_CHANGE_REGISTER_DATE'
+	)
+
+	return now() > course_registration_change_close_config.get_value()
+
 def payment_open():
 	payment_config = SemcompConfig.objects.get(
 		title='PAYMENT_DATE'

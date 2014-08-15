@@ -50,7 +50,12 @@
 	<div class="panel">
 		<h2>Minicursos</h2>
 		{% if course_registration_open or user.is_admin%}
-			{% if inscricao and inscricao.pagamento %}
+			{% if not inscricao or not inscricao.pagamento %}
+			<div data-alert class="alert-box alert radius">
+				As inscrições para os minicursos estão abertas porém você ainda não pode se inscrever pois não teve o pagamento confirmado.
+				Confirme seu pagamento caso queira se inscrever nos minicursos.
+			</div>
+			{% endif%}
 			{% if error and error == 1 %}
 			<div data-alert class="alert-box alert radius">
 				Os cursos selecionados devem pertencer ao mesmo pacote!
@@ -75,6 +80,9 @@
 			{% if user_courses %}
 				<div data-alert class="alert-box success radius">
 					Sua vaga está garantida nos minicursos. Veja detalhes do minicurso que você se inscreveu abaixo.
+					{% if course_registration_change_close and user_courses%}
+					Você não pode alterar sua inscrição pois já passou da data limite para ateração de inscrição.
+					{% endif %}
 				</div>
 				<h3>Minicursos inscritos</h3>
 				{% for reg in user_courses %}
@@ -104,14 +112,17 @@
 				{% endwith %}
 				{% endfor %}
 
-			{% else %}
+			{% elif pode_inscrever %}
 				<div data-alert class="alert-box warning radius">
 					Você ainda não fez sua inscrição nos minicursos. Você pode escolher até 2 minicursos, um na terça e outro na quinta.
 					Os minicursos escolhidos devem pertencer ao mesmo pacote.
 				</div>
 			{% endif %}
+
+			{% if pode_inscrever %}
 			<form  action="{% url "account_course_register" %}" method="post" onsubmit="return validateMinicursos()">
 			{% csrf_token %}
+			{% endif %}
 			{% for slot in slots %}
 			{% with forloop.counter0 as slotid %}
 			<hr>
@@ -129,7 +140,13 @@
 												minicurso-radio-checked
 												{% endif %}
 										{% endfor %}
-									{% endif %}" onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')">
+									{% endif %} 
+									{% if pode_inscrever %}
+										minicurso-radio-active
+									{% endif %}" 
+									{% if pode_inscrever %}
+										onclick="switch_course(this,'#course{{ course.id }}','.group-{{slotid}}')"
+									{% endif %} >
 								<div class="courselogo">
 									<img src="{% thumbnail course.photo 0x180 %}">
 								</div>
@@ -146,6 +163,7 @@
 							<div class="coursetitle">
 								<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
 							</div>
+							{% if pode_inscrever %}
 							<input type="radio" class="minicurso-radio-button" data-track="{{track.0.get_track_display}}" name="minicurso-{{slotid}}" id="course{{ course.id }}" value="{{ course.id }}" 
 								{% if user_courses %}
 									{% for reg in user_courses %}
@@ -154,6 +172,7 @@
 											{% endif %}
 									{% endfor %}
 								{% endif %} />
+							{% endif %}
 						</li>
 						{% endwith %}
 						{% endfor %}
@@ -162,32 +181,31 @@
 				{% endfor %}
 				<ul class="small-block-grid-2 medium-block-grid-4 large-block-grid-4 minicursos">
 				<li>
-					<div class="minicurso-radio group-{{slotid}}" onclick="switch_course(this,'#course-1{{slotid}}','.group-{{slotid}}')">
+					<div class="minicurso-radio group-{{slotid}} {% if pode_inscrever %} minicurso-radio-active {% endif %}" {% if pode_inscrever %} onclick="switch_course(this,'#course-1{{slotid}}','.group-{{slotid}}')" {% endif %}>
 						<div class="courselogo">
 							<img src="{% static "img/none.png" %}" style="width:inherit;">
 						</div>
 						<div class="coursetitle">
 							Nenhum
 						</div>
-						<input type="radio" class="minicurso-radio-button" data-track="none" name="minicurso-{{slotid}}" id="course-1{{slotid}}" value="-1" required/>
+						{% if pode_inscrever %}
+							<input type="radio" class="minicurso-radio-button" data-track="none" name="minicurso-{{slotid}}" id="course-1{{slotid}}" value="-1" required/>
+						{% endif %}
 					</div>
 				</li>
 				</ul>
 			{% endwith %}
 			{% endfor %}
-			{% if user_courses %}
-			<input type="submit" class="button right" value="Modificar Inscrição">
-			{% else %}
-			<input type="submit" class="button right" value="Salvar Inscrição">
+			{% if pode_inscrever %}
+				{% if user_courses %}
+				<input type="submit" class="button right" value="Modificar Inscrição">
+				{% else %}
+				<input type="submit" class="button right" value="Salvar Inscrição">
+				{% endif %}
 			{% endif %}
 			<br><br><br>
+			{% if pode_inscrever %}
 			</form>
-
-			{% else %}
-			<div data-alert class="alert-box alert radius">
-				As inscrições para os minicursos estão abertas porém você ainda não pode se inscrever pois não teve o pagamento confirmado.
-				Confirme seu pagamento caso queira se inscrever nos minicursos.
-			</div>
 			{% endif %}
 
 		{% else %}

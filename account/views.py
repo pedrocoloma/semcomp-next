@@ -13,6 +13,7 @@ from django.template import loader
 from account.forms import InscricoesForm
 from account.models import CourseRegistration
 from website.models import Course, Event, Inscricao
+from website.utils import course_registration_change_close
 import stats
 
 
@@ -112,11 +113,20 @@ def courses(request):
 
 	user_courses = get_user_courses(request.user)
 
+	pode_inscrever = False
+	if inscricao and inscricao.pagamento and (not course_registration_change_close() or not user_courses):
+		# só pode se inscrever se:
+		# - não tiver pago
+		# - estiver dentro da data limite para altaração de minicursos em minicursos
+		# - tiver pago a inscrição mas não se inscreveu em nenhum minicurso ainda
+		pode_inscrever = True
+
 	context = {
 		'active_courses': True,
 		'slots': slots,
 		'inscricao': inscricao,
 		'user_courses': user_courses,
+		'pode_inscrever': pode_inscrever,
 	}
 
 	return render(request, 'account/courses.html', context)
@@ -201,11 +211,20 @@ def course_register(request):
 	slots = courses_slots()
 	user_courses = get_user_courses(request.user)
 
+	pode_inscrever = False
+	if inscricao and inscricao.pagamento and (not course_registration_change_close() or not user_courses):
+		# só pode se inscrever se:
+		# - não tiver pago
+		# - estiver dentro da data limite para altaração de minicursos em minicursos
+		# - tiver pago a inscrição mas não se inscreveu em nenhum minicurso ainda
+		pode_inscrever = True
+
 	context = {
 		'active_courses': True,
 		'slots': slots,
 		'inscricao': inscricao,
 		'user_courses': user_courses,
+		'pode_inscrever': pode_inscrever,
 		'error':error,
 		'minicursos_sucesso': minicursos_sucesso,
 		'minicursos_lotados': minicursos_lotados,

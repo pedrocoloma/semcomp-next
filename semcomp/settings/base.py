@@ -178,6 +178,10 @@ SEMCOMP_CONFIG = {
 		u'Início dos pagamentos',
 		'datetime',
 		datetime.datetime(2014, 8, 4)),
+	'COURSE_CHANGE_REGISTER_DATE': (
+		u'Limite para troca de inscrição de minicurso',
+		'datetime',
+		datetime.datetime(2014, 8, 17)),
 }
 
 ELASTICSEARCH_INDEX = 'semcomp-17'
