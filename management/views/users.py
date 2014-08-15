@@ -12,6 +12,7 @@ import unicodecsv as csv
 
 import stats
 from website.models import SemcompUser, Inscricao
+from account.models import CourseRegistration
 
 from ..decorators import staff_required
 from ..forms import UserManagementForm, InscricaoManagementForm
@@ -127,6 +128,7 @@ def users_validate(request, user_pk):
 				i.pagamento = False
 				i.avaliado=True
 				mail_user(False, inscricao_form.cleaned_data.get('comentario'), user.full_name, user.email)
+				CourseRegistration.objects.filter(user=user).delete() # apaga inscrições de minicurso do usuário se houver
 
 			validation_data['registration'] = {
 				'paid': i.pagamento,
