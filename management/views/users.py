@@ -88,7 +88,7 @@ def users_edit(request, user_pk):
 	return render(request, 'management/users_change.html', {
 		'active_users': True,
 		'admin':request.user.is_admin,
-		'user': user,
+		'user_edit': user,
 		'user_form':user_form,
 		})
 
@@ -163,7 +163,7 @@ def users_validate(request, user_pk):
 
 	return render(request, 'management/users_validate.html', {
 		'active_users': True,
-		'user': user,
+		'user_edit': user,
 		'inscricao': inscricao,
 		'inscricao_form': inscricao_form,
 		})

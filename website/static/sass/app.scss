@@ -22,7 +22,9 @@ $static-map-height: 55px;
 
 $messages-border-color: darken($table-even-row-bg, 20%);
 $messages-line-height: 40px;
-
+.error{
+     @extend .alert; //o django nao tem alert por padrao
+}
 body {
     background-color: #004F78;
 }

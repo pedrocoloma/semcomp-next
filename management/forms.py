@@ -66,6 +66,21 @@ class CourseForm(forms.ModelForm):
 			# esse "style" é feio mas é menos feio do que não conseguir ver as opções
 			'slots': forms.SelectMultiple(attrs={'style': 'height:100px'})
 		}
+class CourseExpelForm(forms.Form):
+	send_mail = forms.BooleanField(
+		label=_(u'Enviar Email'),
+		help_text=_(u'Avisar ao usuário sobre o cancelamento da inscrição?'),
+		required=False,
+	)
+	comentario = forms.CharField(
+		widget=forms.Textarea,
+		label=_(u'Comentário'),
+		help_text=_(u'(Opcional) Uma mensagem a ser enviada ao usuário, explicando o motivo do cancelamento.'),
+		required=False
+	)
+
+class CourseMembersAddForm(forms.Form):
+	member = SemcompUserSelect2Field(label=_(u'Membro'))
 
 class SpeakerForm(forms.ModelForm):
 	class Meta:

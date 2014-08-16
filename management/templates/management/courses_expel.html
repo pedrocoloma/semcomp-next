@@ -1,0 +1,47 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+<form method="post" action="{% url "management_courses_expel" course.pk course_member.pk%}">
+{% csrf_token %}
+<fieldset>
+	<legend>Cancelar inscrição em minicurso</legend>
+	<div class="warning alert-box">
+		ATENÇÃO! Você está cancelando a inscrição do seguinte usuário no minicurso <strong>"{{course.title}}"</strong>
+	</div>
+	<fieldset>
+		<legend>Informações do usuário</legend>
+		<div class="row">
+			<div class="small-12 columns">
+				<dt>Nome:</dt>
+				<dd>{{course_member.full_name}}</dd>
+			</div>
+		</div>
+		<div class="row">
+			<div class="medium-6 columns">
+				<dt>Email:</dt>
+				<dd>{{course_member.email}}</dd>
+			</div>
+			<div class="medium-6 columns">
+				<dt>NUSP:</dt>
+				<dd>{{course_member.id_usp}}</dd>
+			</div>
+		</div>
+	</fieldset>
+	<div class="row">
+		{% include "management/render_field.html" with field=form.send_mail width="large-12" only %}
+	</div>
+	<div class="row">
+		{% include "management/render_field.html" with field=form.comentario width="large-12" only %}
+	</div>
+	Cancelar a inscrição do usuário?
+	<div class="row">
+			<div class="medium-6 columns">
+				<a class="expand button round" href="{% url "management_courses_edit" course.pk %}">Não, voltar para o minicurso.</a>
+			</div>
+			<div class="medium-6 columns">
+				<button class="expand button alert round">Sim, cancelar inscrição deste usuário</button>
+			</div>
+		</div>
+</fieldset>
+</form>
+{% endblock %}

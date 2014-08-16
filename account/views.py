@@ -6,12 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import SuspiciousOperation
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
-from django.db.models import Max, Min
 from django.shortcuts import render, redirect
 from django.template import loader
 
 from account.forms import InscricoesForm
-from account.models import CourseRegistration
+from account.models import CourseRegistration, get_user_courses
 from website.models import Course, Event, Inscricao
 from website.utils import course_registration_change_close
 import stats
@@ -282,7 +281,6 @@ def email_course(request, user, course):
 
 @transaction.atomic
 def register_in_course(user, old, new):
-	tem_vagas = False
 
 	stats_data = {
 		'action': 'register',
@@ -292,58 +290,53 @@ def register_in_course(user, old, new):
 		},
 	}
 
-	# se selecionou um minicurso
-	if new:
-		tem_vagas = new.get_remaining_vacancies() > 0
-
 	# se é o mesmo minicurso de antes, nada a fazer
 	if old and new and old.course == new:
 		return True
+	try:
+		# se o novo minicurso deve sobrescrever um minicurso antigo e o novo tem
+		# vagas, apaga a inscrição antiga e faz a nova
+		if old and new and old.course.id != new.id:
+			stats_data['action'] = 'change'
+			stats_data['course'] = {
+				'id': new.pk,
+				'title': new.title,
+				'vacancies': new.get_remaining_vacancies() - 1,
+			}
+			stats_data['old_course'] = {
+				'id': old.course.pk,
+				'title': old.course.title,
+				'vacancies': old.course.get_remaining_vacancies() + 1,
+			}
 
-	# se nao tem vagas
-	if new and not tem_vagas:
+			old.delete()
+			cr = CourseRegistration(user=user,course=new)
+			cr.save()
+		elif old and not new:
+			# se tinha um minicurso mas selecionou 'nenhum' então apaga a
+			# inscrição antiga
+			stats_data['action'] = 'remove'
+			stats_data['course'] = {
+				'id': old.course.pk,
+				'title': old.course.title,
+				'vacancies': old.course.get_remaining_vacancies() + 1,
+			}
+
+			old.delete()
+		elif not old and new:
+			# se não tinha uma inscrição e esta fazendo uma nova e tem vagas
+			stats_data['action'] = 'register'
+			stats_data['course'] = {
+				'id': new.pk,
+				'title': new.title,
+				'vacancies': new.get_remaining_vacancies() - 1,
+			}
+
+			cr = CourseRegistration(user=user,course=new)
+			cr.save()
+	except CourseRegistration.VagasEsgotadas: 
+	#capturando so essa, porque as outras nao deveriam acontecer, pois foram tratadas la em cima.
 		return False
-
-	# se o novo minicurso deve sobrescrever um minicurso antigo e o novo tem
-	# vagas, apaga a inscrição antiga e faz a nova
-	if old and new and old.course.id != new.id and tem_vagas:
-		stats_data['action'] = 'change'
-		stats_data['course'] = {
-			'id': new.pk,
-			'title': new.title,
-			'vacancies': new.get_remaining_vacancies() - 1,
-		}
-		stats_data['old_course'] = {
-			'id': old.course.pk,
-			'title': old.course.title,
-			'vacancies': old.course.get_remaining_vacancies() + 1,
-		}
-
-		old.delete()
-		cr = CourseRegistration(user=user,course=new)
-		cr.save()
-	elif old and not new:
-		# se tinha um minicurso mas selecionou 'nenhum' então apaga a
-		# inscrição antiga
-		stats_data['action'] = 'remove'
-		stats_data['course'] = {
-			'id': old.course.pk,
-			'title': old.course.title,
-			'vacancies': old.course.get_remaining_vacancies() + 1,
-		}
-
-		old.delete()
-	elif not old and new and tem_vagas:
-		# se não tinha uma inscrição e esta fazendo uma nova e tem vagas
-		stats_data['action'] = 'register'
-		stats_data['course'] = {
-			'id': new.pk,
-			'title': new.title,
-			'vacancies': new.get_remaining_vacancies() - 1,
-		}
-
-		cr = CourseRegistration(user=user,course=new)
-		cr.save()
 
 	stats.add_event('account-courses', stats_data)
 
@@ -379,25 +372,6 @@ def courses_slots():
 	slot2['tracks'].append(cV)
 
 	return slots
-
-
-def get_user_courses(user):
-	user_courses = CourseRegistration.objects.filter(user=user)
-
-	for reg in user_courses:
-		course = reg.course
-		course_date_time = course.slots.aggregate(
-			Min('start_time'), Max('end_time'),
-			Min('start_date'), Max('end_date')
-		)
-		# annotate manually
-		course.start_time = course_date_time['start_time__min']
-		course.end_time = course_date_time['end_time__max']
-		course.start_date = course_date_time['start_date__min']
-		course.end_date = course_date_time['end_date__max']
-
-	return user_courses
-
 
 def account_logout(request):
 	def get_client_ip(request):
