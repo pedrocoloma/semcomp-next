@@ -2,7 +2,7 @@
 
 {% block user_content %}
 {% spaceless %}
-<form action="{% url "management_users_edit" user.pk %}" method="POST">
+<form action="{% url "management_users_edit" user_edit.pk %}" method="POST">
 {% csrf_token %}
 <fieldset>
 	<legend>Informações do Usuário</legend>

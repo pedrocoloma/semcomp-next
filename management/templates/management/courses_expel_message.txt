@@ -1,0 +1,7 @@
+Olá, {{user.full_name}}
+Sua inscrição no minicurso {{course.title}} foi cancelada.
+{% if comentario %}
+Comentário:
+{{comentario}}
+{% endif %}
+Para mais informações, entre em contato conosco.

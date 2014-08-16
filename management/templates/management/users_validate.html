@@ -6,7 +6,7 @@
 {% static_placeholder "instrucoes_validacao" %}
 </div>
 <form 
-action="{% url "management_users_validate" user.pk %}" 
+action="{% url "management_users_validate" user_edit.pk %}" 
 method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <fieldset>
@@ -19,17 +19,17 @@ method="post" enctype="multipart/form-data">
 		<div class="row">
 			<div class="small-12 columns">
 				<dt>Nome:</dt>
-				<dd>{{user.full_name}}</dd>
+				<dd>{{user_edit.full_name}}</dd>
 			</div>
 		</div>
 		<div class="row">
 			<div class="medium-6 columns">
 				<dt>Email:</dt>
-				<dd>{{user.email}}</dd>
+				<dd>{{user_edit.email}}</dd>
 			</div>
 			<div class="medium-6 columns">
 				<dt>NUSP:</dt>
-				<dd>{{user.id_usp}}</dd>
+				<dd>{{user_edit.id_usp}}</dd>
 			</div>
 		</div>
 	</fieldset>
