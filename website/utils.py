@@ -18,7 +18,7 @@ def course_registration_open():
 
 def course_registration_change_close():
 	course_registration_change_close_config = SemcompConfig.objects.get(
-		title='COURSE_CHANGE_REGISTER_DATE'
+		title='COURSE_CHANGE_DATE_LIMIT'
 	)
 
 	return now() > course_registration_change_close_config.get_value()

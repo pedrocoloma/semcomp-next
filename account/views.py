@@ -117,7 +117,8 @@ def courses(request):
 	user_courses = get_user_courses(request.user)
 
 	pode_inscrever = False
-	if inscricao and inscricao.pagamento and (not course_registration_change_close() or not user_courses):
+	if inscricao and inscricao.pagamento \
+		and (not course_registration_change_close() or not user_courses):
 		# só pode se inscrever se:
 		# - não tiver pago
 		# - estiver dentro da data limite para altaração de minicursos em minicursos
@@ -215,7 +216,8 @@ def course_register(request):
 	user_courses = get_user_courses(request.user)
 
 	pode_inscrever = False
-	if inscricao and inscricao.pagamento and (not course_registration_change_close() or not user_courses):
+	if inscricao and inscricao.pagamento \
+		and (not course_registration_change_close() or not user_courses):
 		# só pode se inscrever se:
 		# - não tiver pago
 		# - estiver dentro da data limite para altaração de minicursos em minicursos
