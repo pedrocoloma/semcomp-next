@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
 from account.models import CourseRegistration
 from website.models import Event, Course, Speaker, SemcompUser
@@ -120,10 +121,19 @@ def courses_members(request, course_pk):
 	form = CourseMembersAddForm(request.POST or None)
 	if request.method == 'POST':
 		if form.is_valid():
-			import pprint
-			pprint.pprint(form.member)
-			messages.success(request, u'O usuário foi adicionado com sucesso')
-			redirect('management_courses_members', course.pk)
+			try:
+				reg = CourseRegistration(course=course, user=form.cleaned_data['member'])
+				reg.save()
+				messages.success(request, u'O usuário foi adicionado com sucesso')
+				redirect('management_courses_members', course.pk)
+			except (CourseRegistration.PagamentoNaoRealizado,
+				CourseRegistration.ConflitoDeHorario,
+				CourseRegistration.PacotesDiferentes,
+				CourseRegistration.VagasEsgotadas) as ex:
+				messages.error(request, ex.msg)
+			except IntegrityError:
+				messages.error(request, u'O usuário já participa deste minicurso!')
+
 	context = {
 		'active_courses': True,
 		'course': course,

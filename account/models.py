@@ -11,14 +11,14 @@ class CourseRegistration(models.Model):
 
 	class Meta:
 		unique_together = ('user', 'course')
-
+	
 	class PagamentoNaoRealizado(Exception):
 		def __init__(self):
 			self.msg = u'Usuário não pode realizar a inscrição: Pagamento não realizado'
 	class PacotesDiferentes(Exception):
 		def __init__(self):
 			self.msg = u'Não é possível realizar a inscrição em minicursos de pacotes diferentes'
-	class VagasEsgotadas(BaseException):
+	class VagasEsgotadas(Exception):
 		def __init__(self):
 			self.msg = u'As vagas neste minicurso estão esgotadas'
 	class ConflitoDeHorario(Exception):
