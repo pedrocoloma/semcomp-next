@@ -47,11 +47,9 @@ def regras_minicurso(sender, instance, **kwargs):
 		raise CourseRegistration.PagamentoNaoRealizado()
 	instance.course.annotate_times()
 	user_courses = get_user_courses(instance.user)
-	print user_courses
 	for user_course in user_courses:
 		if user_course.course.id == instance.course.id:
 			return # se for novo registro vai dar IntegrityError mais pra frente...
-		print u'%s == %s' % (user_course.course.start_date, instance.course.start_date)
 		if user_course.course.start_date == instance.course.start_date:
 			raise CourseRegistration.ConflitoDeHorario(user_course.course.title)
 		if user_course.course.track != instance.course.track:

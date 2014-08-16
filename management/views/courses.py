@@ -11,6 +11,7 @@ from website.models import Event, Course, Speaker, SemcompUser
 from ..decorators import staff_required
 
 from ..forms import CourseForm, CourseMembersAddForm, CourseExpelForm, SpeakerForm, ContactInformationFormset
+import stats
 
 @staff_required
 def manage_courses(request):
@@ -127,7 +128,28 @@ def courses_members(request, course_pk):
 				reg = CourseRegistration(course=course, user=form.cleaned_data['member'])
 				reg.save()
 				messages.success(request, u'O usuário foi adicionado com sucesso')
-				redirect('management_courses_members', course.pk)
+				stats.add_event(
+					'course-management',
+					{
+						'action': 'add-member',
+						'user': {
+							'id': request.user.pk,
+							'name': request.user.full_name,
+						},
+						'registration' :{
+							'member': {
+								'id': form.cleaned_data['member'].pk,
+								'name': form.cleaned_data['member'].full_name,
+							},
+							'course': {
+								'id': course.pk,
+								'title': course.title,
+								'vacancies': course.get_remaining_vacancies()
+							},
+						},
+					}
+				)
+				return redirect('management_courses_members', course.pk)
 			except (CourseRegistration.PagamentoNaoRealizado,
 				CourseRegistration.ConflitoDeHorario,
 				CourseRegistration.PacotesDiferentes,
@@ -154,6 +176,29 @@ def courses_expel(request, course_pk, user_pk):
 				registration = CourseRegistration.objects.get(user=user, course=course)
 				registration.delete()
 				messages.success(request, u'A inscrição do usuário %s foi cancelada para o minicurso %s.' % (user.full_name, course.title))
+				stats.add_event(
+					'course-management',
+					{
+						'action': 'expel-member',
+						'user': {
+							'id': request.user.pk,
+							'name': request.user.full_name,
+						},
+						'registration' :{
+							'member': {
+								'id': user.pk,
+								'name': user.full_name,
+							},
+							'course': {
+								'id': course.pk,
+								'title': course.title,
+								'vacancies': course.get_remaining_vacancies()
+							},
+						},
+						'send_mail': form.cleaned_data['send_mail'],
+						'comentario':form.cleaned_data['comentario'],
+					}
+				)
 				if form.cleaned_data['send_mail']:
 					email_expel(user, course, form.cleaned_data['comentario'])
 			except CourseRegistration.DoesNotExist:
