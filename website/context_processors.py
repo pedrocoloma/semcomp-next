@@ -1,7 +1,8 @@
 # coding: utf-8
 
 from website.models import SemcompConfig
-from website.utils import signup_allowed, course_registration_open, payment_open
+
+from website.utils import signup_allowed, course_registration_open, payment_open, course_registration_change_close
 
 def semcomp(request):
 	# Isso é uma função pra que só vá na base de dados caso realmente precise
@@ -16,4 +17,5 @@ def semcomp(request):
 		'course_registration_date': course_registration_date,
 		'payment_open': payment_open,
 		'payment_date': payment_date,
+		'course_registration_change_close': course_registration_change_close,
 	}

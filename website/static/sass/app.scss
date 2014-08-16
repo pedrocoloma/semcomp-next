@@ -533,7 +533,7 @@ img.image-center {
     padding: 5px;
 }
 
-.minicurso-radio:hover{
+.minicurso-radio-active:hover{
     cursor: pointer;
     background-color: #00aadd;
 }
@@ -548,4 +548,8 @@ img.image-center {
 
 .minicurso-radio-checked{
     background-color: #00aadd;
+}
+
+.minicursos-panel{
+    text-align: center;
 }

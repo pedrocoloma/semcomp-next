@@ -6806,7 +6806,7 @@ body {
 }
 
 .menu-topo {
-  background-image: url('/static/img/header.png?1400183898');
+  background-image: url('/static/img/header.png?1403127379');
   background-repeat: no-repeat;
   background-position: center top;
   text-transform: uppercase;
@@ -6835,7 +6835,7 @@ main {
 
 .hero {
   padding-top: 10px;
-  background: url('/static/img/hero-background.jpg?1405275795') no-repeat center center;
+  background: url('/static/img/hero-background.jpg?1405272336') no-repeat center center;
   background-size: cover;
 }
 @media only screen and (min-width: 64.063em) {
@@ -7338,7 +7338,7 @@ img.image-center {
   padding: 5px;
 }
 
-.minicurso-radio:hover {
+.minicurso-radio-active:hover {
   cursor: pointer;
   background-color: #00aadd;
 }
@@ -7353,4 +7353,8 @@ img.image-center {
 
 .minicurso-radio-checked {
   background-color: #00aadd;
+}
+
+.minicursos-panel {
+  text-align: center;
 }

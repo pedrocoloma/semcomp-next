@@ -1,4 +1,5 @@
 {% extends "account/base.html" %}
+{% load thumbnail  %}
 
 {% block user_content %}
 	<div class="row">
@@ -9,6 +10,42 @@
 			<div class="panel">
 				<h2>Minicursos</h2>
 				{% if course_registration_open %}
+					{% if user_courses %}
+						<div class="minicursos-panel">
+						{% for reg in user_courses %}
+						{% with reg.course as course %}
+						<div class="row minicursos-panel">
+									<a href="{{ course.get_absolute_url }}">
+										<img src="{% thumbnail course.photo 0x180 %}">
+									</a>
+						</div>
+						<div class="row">
+									<h3>{{ course.title }}</h3>
+										{% if course.start_date == course.end_date %}
+											<p>{{course.start_date|date:"d/m/Y (l)"}}<br>
+											{{course.start_time}} - {{course.end_time}}</p>
+										{% else %}
+											<small>{{course.start_date|date:"d/m/Y"}} {{course.start_time}}<br>
+												{{course.end_date|date:"d/m/Y"}} {{course.end_time}}</small>
+										{% endif %}
+									{% if course.place %}
+										<h4>Local: {{course.place.name}}</h4>
+									{% endif %}
+									<a href="{{ course.get_absolute_url }}">Mais detalhes</a>
+						</div>
+						<br><br>
+						{% endwith %}
+						{% endfor %}
+						</div>
+					{% elif not inscricao or not inscricao.pagamento %}
+						<div data-alert class="alert-box alert radius">
+							As inscrições para os minicursos estão abertas porém você ainda não pode se inscrever pois não teve o pagamento confirmado.
+							Confirme seu pagamento caso queira se inscrever nos minicursos.
+						</div>
+					{% elif not course_registration_change_close or not user_courses %}
+						<p>As inscrições estão abertas e você ainda não se inscreveu em nenhum minicurso!</p>
+						<a class="button" href="{% url 'account_courses' %}">Inscreva-se nos minicursos</a>
+					{% endif %}
 				{% else %}
 					<p>As inscrições para minicursos vão abrir dia
 					<strong>{{course_registration_date|date:"SHORT_DATE_FORMAT"}}</strong> as
