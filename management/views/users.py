@@ -129,7 +129,15 @@ def users_validate(request, user_pk):
 				i.avaliado=True
 				mail_user(False, inscricao_form.cleaned_data.get('comentario'), user.full_name, user.email)
 				courses = CourseRegistration.objects.filter(user=user)
-				validation_data['course_regstration_deleted'] = courses
+				if courses:
+					validation_data['course_regstration_deleted'] = []
+					for c in courses:
+						validation_data['course_regstration_deleted'].append(
+							{
+								'id': c.course.pk,
+								'title': c.course.title,
+							}
+						)
 				courses.delete() # apaga inscrições de minicurso do usuário se houver
 
 			validation_data['registration'] = {
