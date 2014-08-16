@@ -128,7 +128,9 @@ def users_validate(request, user_pk):
 				i.pagamento = False
 				i.avaliado=True
 				mail_user(False, inscricao_form.cleaned_data.get('comentario'), user.full_name, user.email)
-				CourseRegistration.objects.filter(user=user).delete() # apaga inscrições de minicurso do usuário se houver
+				courses = CourseRegistration.objects.filter(user=user)
+				validation_data['course_regstration_deleted'] = courses
+				courses.delete() # apaga inscrições de minicurso do usuário se houver
 
 			validation_data['registration'] = {
 				'paid': i.pagamento,
