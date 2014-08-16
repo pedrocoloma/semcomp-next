@@ -16,8 +16,8 @@ class CourseRegistration(models.Model):
 		def __init__(self):
 			self.msg = u'Usuário não pode realizar a inscrição: Pagamento não realizado'
 	class PacotesDiferentes(Exception):
-		def __init__(self):
-			self.msg = u'Não é possível realizar a inscrição em minicursos de pacotes diferentes'
+		def __init__(self, minicurso):
+			self.msg = u'Não é possível realizar a inscrição em minicursos de pacotes diferentes. Conflito: %s' % minicurso
 	class VagasEsgotadas(Exception):
 		def __init__(self):
 			self.msg = u'As vagas neste minicurso estão esgotadas'
@@ -55,7 +55,7 @@ def regras_minicurso(sender, instance, **kwargs):
 		if user_course.course.start_date == instance.course.start_date:
 			raise CourseRegistration.ConflitoDeHorario(user_course.course.title)
 		if user_course.course.track != instance.course.track:
-			raise CourseRegistration.PacotesDiferentes()
+			raise CourseRegistration.PacotesDiferentes(user_course.course.title)
 
 	if instance.course.get_remaining_vacancies() == 0:
 		raise CourseRegistration.VagasEsgotadas()
