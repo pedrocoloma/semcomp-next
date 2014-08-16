@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.db.models import Max, Min
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
@@ -20,7 +21,6 @@ from south.modelsinspector import add_introspection_rules
 from django.conf import settings
 from account.models import CourseRegistration
 import hashlib
-
 def _base_upload_to_by_field(instance, image, base_path, field):
 	# get image data and reset the fp position
 	im = getattr(instance, image)
@@ -311,6 +311,16 @@ class Course(models.Model):
 		return CourseRegistration.objects.filter(course=self).count()
 	def get_registered_users(self):
 		return SemcompUser.objects.filter(courseregistration__course=self)
+	def annotate_times(self):
+		course_date_time = self.slots.aggregate(
+			Min('start_time'), Max('end_time'),
+			Min('start_date'), Max('end_date')
+		)
+		# annotate manually
+		self.start_time = course_date_time['start_time__min']
+		self.end_time = course_date_time['end_time__max']
+		self.start_date = course_date_time['start_date__min']
+		self.end_date = course_date_time['end_date__max']
 
 
 
