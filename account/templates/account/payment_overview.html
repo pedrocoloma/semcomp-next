@@ -5,10 +5,15 @@
 
 {% include "account/render_payment_status.html" with inscricao=inscricao only %}
 	<div class="panel">
-		{% static_placeholder "instrucoes_pagamento" %}
+		{% if payment_open %}
+			{% static_placeholder "instrucoes_pagamento" %}
+		{% else %}
+			<div class="alert alert-box">As inscrições estão encerradas!</div>
+		{% endif %}
 		<p class="text-right">
 		{% if inscricao and inscricao.pagamento %}
 			Você já está inscrito na Semcomp!
+		{% elif not payment_open %}
 		{% elif inscricao and inscricao.comprovante %}
 			Comprovante enviado! Aguardando confirmação.
 			<a class="button" href="{% url "account_payment_send" %}">Reenviar Comprovante</a>
