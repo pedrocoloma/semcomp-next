@@ -1,11 +1,13 @@
 # coding: utf-8
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMultiAlternatives
 from django.db import IntegrityError
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template import loader
 from account.models import CourseRegistration
 from website.models import Event, Course, Speaker, SemcompUser
-
 from ..decorators import staff_required
 
 from ..forms import CourseForm, CourseMembersAddForm, CourseExpelForm, SpeakerForm, ContactInformationFormset
@@ -152,6 +154,8 @@ def courses_expel(request, course_pk, user_pk):
 				registration = CourseRegistration.objects.get(user=user, course=course)
 				registration.delete()
 				messages.success(request, u'A inscrição do usuário %s foi cancelada para o minicurso %s.' % (user.full_name, course.title))
+				if form.cleaned_data['send_mail']:
+					email_expel(user, course, form.cleaned_data['comentario'])
 			except CourseRegistration.DoesNotExist:
 				pass
 			return redirect('management_courses_members', course.pk)
@@ -164,6 +168,35 @@ def courses_expel(request, course_pk, user_pk):
 	}
 	return render(request,'management/courses_expel.html', context)
 
+def email_expel(user, course, comentario):
+	msg_context = {
+		'user': user,
+		'course': course,
+		'comentario': comentario
+	}
+
+	data = {}
+	data['subject'] = u'[Semcomp 17] Inscrição cancelada'
+	data['message'] = loader.render_to_string(
+		'management/courses_expel_message.txt', msg_context
+	)
+	data['from_email'] = settings.DEFAULT_FROM_EMAIL
+	data['recipient_list'] = [user.email]
+
+	msg = EmailMultiAlternatives(
+		subject=data['subject'],
+		body=data['message'],
+		from_email=data['from_email'],
+		to=data['recipient_list']
+	)
+
+	msg.attach_alternative(
+		loader.render_to_string(
+			'management/courses_expel_message.html', msg_context
+		),
+		"text/html"
+	)
+	msg.send(fail_silently=False)
 @staff_required
 def courses_delete(request, course_pk):
 	course = get_object_or_404(Course, pk=course_pk)
