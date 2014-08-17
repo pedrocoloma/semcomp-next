@@ -15,6 +15,7 @@ import bleach
 import stats
 from semcomp_contact_form.models import Message
 from website.models import SemcompUser
+from account.models import CourseRegistration
 
 from ..forms import MessageForm, NewMessageForm
 from ..decorators import staff_required
@@ -156,6 +157,7 @@ def messages_new(request):
 			# determina pra quem vai a mensagem
 			to_type = form.cleaned_data['type']
 			to_user = form.cleaned_data['to_email']
+			to_course = form.cleaned_data['to_course']
 			if to_type == 'one':
 				users = [form.cleaned_data['to_email']]
 			elif to_type == 'bulk':
@@ -170,7 +172,9 @@ def messages_new(request):
 				users = SemcompUser.objects.coffee()
 			elif to_type == 'no_coffee':
 				users = SemcompUser.objects.no_coffee()
-			
+			elif to_type == 'course':
+				users = SemcompUser.objects.filter(courseregistration__course=to_course)
+
 			stats_data = {
 				'action': 'send',
 				'user': {
@@ -184,6 +188,8 @@ def messages_new(request):
 			}
 			if to_type == 'one':
 				stats_data['message']['recipient'] = to_user.email
+			elif to_type == 'course':
+				stats_data['course'] = to_course.title
 			stats.add_event('management-messages', stats_data)
 
 			for user in users:

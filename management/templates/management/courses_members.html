@@ -3,6 +3,7 @@
 
 {% block user_content %}
 {% spaceless %}
+<h1 class="blue-bg">{{ course.title }}</h1>
 {% for message in messages %}
   <div class="alert-box {{message.tags}}">{{message}}</div>
 {% endfor %}
@@ -20,6 +21,7 @@
   </div>
 </fieldset>
 </form>
+<a class="button" href="{% url "management_messages_new" %}">Enviar mensagem</a>
 <h2 class="blue-bg">Participantes</h2>
 <table>
   <thead>
