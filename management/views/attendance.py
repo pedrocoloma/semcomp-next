@@ -171,9 +171,13 @@ def get_attendance_data(event=None):
 		user_data = [getattr(user, field) for field in fields]
 
 		if not event:
-			attendance = 100.0 * user.attendance__count / float(total_events)
-			att_string = '{}% ({}/{})'.format(
-				int(attendance), user.attendance__count, total_events
+			if total_events == 0:
+				att = u'N/A'
+			else:
+				att = 100.0 * user.attendance__count / float(total_events)
+				att = u'{}%'.format(int(att))
+			att_string = u'{} ({}/{})'.format(
+				att, user.attendance__count, total_events
 			)
 
 			user_data.append(att_string)
