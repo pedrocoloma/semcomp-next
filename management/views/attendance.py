@@ -107,9 +107,7 @@ def attendance_report(request, report_type):
 	}
 	content_filename = _(u'relatorio-presenca-semcomp-17.')
 	content_filename += u'xlsx' if report_type == 'xls' else u'pdf'
-	content_disposition = u'attachment; filename={}.{}'.format(
-		content_filename, report_type
-	)
+	content_disposition = u'attachment; filename={}'.format(content_filename)
 
 	response = HttpResponse(
 		output.read(),
@@ -152,13 +150,25 @@ def write_report_xls(output):
 		sheet.write(0, index, header, bold)
 
 	# escreve dados presença
-	fields = ['full_name', 'id_usp', 'id', 'id']
+	fields = ['full_name', 'id_usp', 'id', 'badge']
+	# largura mínima de 20 unidades, o "+1" é pra coluna de presença
+	column_widths = [20] * (len(fields) + 1)
 	for i,user in enumerate(attendance_data):
 		for j,field in enumerate(fields):
-			sheet.write(i + 1, j, getattr(user, field))
+			data = getattr(user, field)
+			data_length = len(unicode(data))
+			if data_length > column_widths[j]:
+				column_widths[j] = data_length
+			sheet.write(i + 1, j, data)
 
 		attendance = 100.0 * user.attendance__count / float(total_events)
-		sheet.write(i + 1, len(fields), '{}%'.format(int(attendance)))
+		att_string = '{}% ({}/{})'.format(
+			int(attendance), user.attendance__count, total_events
+		)
+		sheet.write(i + 1, len(fields), att_string)
+
+	for i,width in enumerate(column_widths):
+		sheet.set_column(i, i, width)
 
 	workbook.close()
 

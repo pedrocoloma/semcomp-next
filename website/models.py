@@ -427,6 +427,15 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	def inscricao(self):
 		return Inscricao.objects.get(user=self)
 
+	@property
+	def badge(self):
+		if self.id_usp:
+			return self.id_usp
+		else:
+			# colocando o "1000.." _porque sim_. ver motivo em
+			# management/models.py
+			return u'1' + unicode(self.id).zfill(6)
+
 
 class NullableCharField(models.CharField):
     description = ""
