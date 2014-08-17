@@ -173,9 +173,7 @@ def messages_new(request):
 				users = SemcompUser.objects.no_coffee()
 			elif to_type == 'course':
 				users = SemcompUser.objects.filter(courseregistration__course=form.cleaned_data['to_course'])
-				print "USUARIOS:"
-				print users
-			
+
 			stats_data = {
 				'action': 'send',
 				'user': {
