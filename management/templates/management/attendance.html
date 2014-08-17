@@ -20,7 +20,10 @@
 								<td>{{event.name}}</td>
 								<td>{{event.attendance}}</td>
 								<td><a href="{% url "management_attendance_submit" event.pk %}" class="small expand button">Cadastrar</a></td>
-								<td><a href="#" class="small expand button">Relatório</a></td>
+								<td class="text-center">
+									<a title="Relatório em PDF" href="{% url "management_attendance_report" event.pk "pdf" %}"><i class="fa fa-2x fa-file-pdf-o"></i></a>
+									<a title="Relatório em XLS (Excel)" href="{% url "management_attendance_report" event.pk "xls" %}"><i class="fa fa-2x fa-file-excel-o"></i></a>
+								</td>
 							</tr>
 						{% endfor %}
 					</tbody>

@@ -9,6 +9,7 @@ except ImportError:
 from django.db.models import Count
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.text import slugify
 from django.utils.translation import ugettext as _
 
 import xlsxwriter
@@ -97,18 +98,36 @@ def attendance_submit(request, event_pk):
 
 
 @staff_required
-def attendance_report(request, report_type):
+def attendance_report(request, event_pk=None, report_type='pdf'):
 	if report_type not in ['pdf', 'xls']:
 		raise Http404
 
+	if event_pk:
+		event = get_object_or_404(Event, pk=event_pk)
+		if event.type == 'minicurso' or not event.used_for_attendance:
+			raise Http404
+	else:
+		event = None
+
 	output = StringIO()
-	report = globals()['write_report_' + report_type](output)
+	headers, data = get_attendance_data(event)
+	report = globals()['write_report_' + report_type](output, headers, data)
 
 	content_types = {
 		'pdf': 'application/pdf',
 		'xls': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 	}
-	content_filename = _(u'relatorio-presenca-semcomp-17.')
+
+	if event:
+		name = event.name()
+		words = re.split(' |,', name)
+		# três primeiras palavras, por mais bizarro que
+		# possa ficar o nome do arquivo
+		content_filename = u'relatorio-{}.'.format(
+			slugify(u' '.join(words[:3]))
+		)
+	else:
+		content_filename = _(u'relatorio-presenca-semcomp-17.')
 	content_filename += u'xlsx' if report_type == 'xls' else u'pdf'
 	content_disposition = u'attachment; filename={}'.format(content_filename)
 
@@ -121,21 +140,29 @@ def attendance_report(request, report_type):
 	return response
 
 
-def get_attendance_data():
-	total_events = Event.objects.exclude(
-		type='minicurso'
-	).filter(
-		used_for_attendance=True
-	).count()
+def get_attendance_data(event=None):
+	if not event:
+		total_events = Event.objects.exclude(
+			type='minicurso'
+		).filter(
+			used_for_attendance=True
+		).count()
 	# Isso aqui assume que os dados que foram inseridos na base de dados são
 	# todos corretos, i.e., nenhum usuário recebeu presença em um evento que na
 	# verdade não deveria receber presença pelo site (como um minicurso)
-	users = SemcompUser.objects.registered().annotate(Count('attendance'))
+	if event:
+		users = SemcompUser.objects.registered().filter(
+			attendance__event=event
+		)
+	else:
+		users = SemcompUser.objects.registered().annotate(Count('attendance'))
 
 	header_fields = [
 		_(u'Nome'), _(u'Número USP'), _(u'ID Semcomp'),
-		_(u'Crachá'), _(u'Presença')
+		_(u'Crachá')
 	]
+	if not event:
+		header_fields.append(_(u'Presença'))
 
 	fields = ['full_name', 'id_usp', 'id', 'badge']
 
@@ -143,26 +170,25 @@ def get_attendance_data():
 	for user in users:
 		user_data = [getattr(user, field) for field in fields]
 
-		attendance = 100.0 * user.attendance__count / float(total_events)
-		att_string = '{}% ({}/{})'.format(
-			int(attendance), user.attendance__count, total_events
-		)
+		if not event:
+			attendance = 100.0 * user.attendance__count / float(total_events)
+			att_string = '{}% ({}/{})'.format(
+				int(attendance), user.attendance__count, total_events
+			)
 
-		user_data.append(att_string)
+			user_data.append(att_string)
 
 		data.append(user_data)
 
 	return header_fields, data
 
 
-def write_report_xls(output):
+def write_report_xls(output, headers, data):
 	workbook = xlsxwriter.Workbook(output)
 
 	bold = workbook.add_format({'bold': True})
 
 	sheet = workbook.add_worksheet(_(u'Presenças Semcomp 17'))
-
-	headers, data = get_attendance_data()
 
 	# escreve cabeçalho
 	for index,field in enumerate(headers):
@@ -183,9 +209,7 @@ def write_report_xls(output):
 	workbook.close()
 
 
-def write_report_pdf(output):
-	headers, data = get_attendance_data()
-
+def write_report_pdf(output, headers, data):
 	doc = SimpleDocTemplate(output, pagesize=A4)
 
 	t = Table([headers] + data)
