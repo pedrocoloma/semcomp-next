@@ -12,6 +12,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext as _
 
 import xlsxwriter
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib.styles import ParagraphStyle, _baseFontNameB
 
 from website.models import Event, SemcompUser
 
@@ -110,7 +113,7 @@ def attendance_report(request, report_type):
 	content_disposition = u'attachment; filename={}'.format(content_filename)
 
 	response = HttpResponse(
-		output.read(),
+		output.getvalue(),
 		content_type=content_types[report_type],
 	)
 	response['Content-Disposition'] = content_disposition
@@ -129,7 +132,27 @@ def get_attendance_data():
 	# verdade não deveria receber presença pelo site (como um minicurso)
 	users = SemcompUser.objects.registered().annotate(Count('attendance'))
 
-	return total_events, users
+	header_fields = [
+		_(u'Nome'), _(u'Número USP'), _(u'ID Semcomp'),
+		_(u'Crachá'), _(u'Presença')
+	]
+
+	fields = ['full_name', 'id_usp', 'id', 'badge']
+
+	data = []
+	for user in users:
+		user_data = [getattr(user, field) for field in fields]
+
+		attendance = 100.0 * user.attendance__count / float(total_events)
+		att_string = '{}% ({}/{})'.format(
+			int(attendance), user.attendance__count, total_events
+		)
+
+		user_data.append(att_string)
+
+		data.append(user_data)
+
+	return header_fields, data
 
 
 def write_report_xls(output):
@@ -139,42 +162,37 @@ def write_report_xls(output):
 
 	sheet = workbook.add_worksheet(_(u'Presenças Semcomp 17'))
 
-	total_events, attendance_data = get_attendance_data()
+	headers, data = get_attendance_data()
 
 	# escreve cabeçalho
-	header_fields = [
-		_(u'Nome'), _(u'Número USP'), _(u'ID Semcomp'),
-		_(u'Crachá'), _(u'Presença')
-	]
-	for index,header in enumerate(header_fields):
-		sheet.write(0, index, header, bold)
+	for index,field in enumerate(headers):
+		sheet.write(0, index, field, bold)
 
-	# escreve dados presença
-	fields = ['full_name', 'id_usp', 'id', 'badge']
-	# largura mínima de 20 unidades, o "+1" é pra coluna de presença
-	column_widths = [20] * (len(fields) + 1)
-	for i,user in enumerate(attendance_data):
-		for j,field in enumerate(fields):
-			data = getattr(user, field)
-			data_length = len(unicode(data))
-			if data_length > column_widths[j]:
-				column_widths[j] = data_length
-			sheet.write(i + 1, j, data)
-
-		attendance = 100.0 * user.attendance__count / float(total_events)
-		att_string = '{}% ({}/{})'.format(
-			int(attendance), user.attendance__count, total_events
-		)
-		sheet.write(i + 1, len(fields), att_string)
+	# largura mínima de 20 unidades
+	column_widths = [20] * len(headers)
+	for i,user_data in enumerate(data):
+		for j,field in enumerate(user_data):
+			field_length = len(unicode(field))
+			if field_length > column_widths[j]:
+				column_widths[j] = field_length
+			sheet.write(i + 1, j, field)
 
 	for i,width in enumerate(column_widths):
 		sheet.set_column(i, i, width)
 
 	workbook.close()
 
-	output.seek(0)
 
+def write_report_pdf(output):
+	headers, data = get_attendance_data()
 
-def write_report_pdf():
-	print 'report pdf'
+	doc = SimpleDocTemplate(output, pagesize=A4)
 
+	t = Table([headers] + data)
+	t.setStyle(
+		TableStyle([
+			('FONTNAME', (0, 0), (-1, 0), _baseFontNameB),
+			('GRID', (0, 0), (-1, -1), 0.5, (0, 0, 0)),
+		])
+	)
+	doc.build([t])
