@@ -216,7 +216,7 @@ def write_report_xls(output, headers, data):
 def write_report_pdf(output, headers, data):
 	doc = SimpleDocTemplate(output, pagesize=A4)
 
-	t = Table([headers] + data)
+	t = Table([headers] + data, repeatRows=1)
 	t.setStyle(
 		TableStyle([
 			('FONTNAME', (0, 0), (-1, 0), _baseFontNameB),
