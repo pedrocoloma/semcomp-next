@@ -39,8 +39,14 @@ def mail_user(aprovado, comentario, nome, email):
 
 @staff_required
 def manage_users(request):
-	usuarios = SemcompUser.objects.all()
-	pendencias = SemcompUser.objects.filter(inscricao__pagamento=False, inscricao__avaliado=False).exclude(inscricao__comprovante__exact='')
+	usuarios = SemcompUser.objects.exclude(
+		email__iendswith='usuario-sem-cadastro.semcomp.icmc.usp.br'
+	)
+	pendencias = SemcompUser.objects.filter(
+		inscricao__pagamento=False, inscricao__avaliado=False
+	).exclude(
+		inscricao__comprovante__exact=''
+	)
 	
 	return render(request, 'management/users.html', {
 		'active_users': True,
@@ -178,7 +184,9 @@ def users_download(request):
 
 	writer = csv.writer(response, csv.excel)
 	writer.writerow([u'Nome', u'email', u'CPF', u'Status Pagamento', u'Coffee', u'URL Comprovante', u'Número Documento'.encode('utf-8')])
-	usuarios = SemcompUser.objects.all()
+	usuarios = SemcompUser.objects.exclude(
+		email__iendswith='usuario-sem-cadastro.semcomp.icmc.usp.br'
+	)
 	inscricoes = Inscricao.objects.all()
 	for u in usuarios:
 		nome = u.full_name.encode('utf-8')

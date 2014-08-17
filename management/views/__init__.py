@@ -13,6 +13,7 @@ from .courses import *
 from .companies import *
 from .processes import *
 from .business import *
+from .attendance import *
 from .config import *
 
 @staff_required

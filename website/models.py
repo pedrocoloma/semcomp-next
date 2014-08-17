@@ -145,6 +145,11 @@ class Event(models.Model):
 	end_time = models.TimeField(_(u'Horário de término'))
 	# 7 caracteres: #abc123
 	color = models.CharField(_(u'Cor'), max_length=7, default='#85144B')
+	used_for_attendance = models.BooleanField(
+		_(u'Conta presença'),
+		default=False,
+		help_text=_(u'Não tem efeito em minicursos')
+	)
 
 	objects = EventManager()
 
@@ -195,6 +200,9 @@ class Event(models.Model):
 			return 'minicurso'
 		else:
 			return slugify(self.name())
+
+	def attendance(self):
+		return self.attendance_set.count()
 
 	def get_absolute_url(self):
 		if self.type == 'palestra':
@@ -425,10 +433,22 @@ class SemcompUser(AbstractBaseUser, PermissionsMixin):
 		return self.email
 
 	def __unicode__(self):
-		return self.full_name
+		if self.full_name:
+			return self.full_name
+		else:
+			return self.id_usp
 
 	def inscricao(self):
 		return Inscricao.objects.get(user=self)
+
+	@property
+	def badge(self):
+		if self.id_usp:
+			return self.id_usp
+		else:
+			# colocando o "1000.." _porque sim_. ver motivo em
+			# management/models.py
+			return u'1' + unicode(self.id).zfill(6)
 
 
 class NullableCharField(models.CharField):

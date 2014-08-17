@@ -1,0 +1,50 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1 class="blue-bg">Presença</h1>
+			<div class="management-table-scroll">
+				<table>
+					<thead>
+						<tr>
+							<th>nome evento</th>
+							<th>pessoas presentes</th>
+							<th>cadastrar presença</th>
+							<th>relatório</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for event in events %}
+							<tr>
+								<td>{{event.name}}</td>
+								<td>{{event.attendance}}</td>
+								<td><a href="{% url "management_attendance_submit" event.pk %}" class="small expand button">Cadastrar</a></td>
+								<td class="text-center">
+									<a title="Relatório em PDF" href="{% url "management_attendance_report" event.pk "pdf" %}"><i class="fa fa-2x fa-file-pdf-o"></i></a>
+									<a title="Relatório em XLS (Excel)" href="{% url "management_attendance_report" event.pk "xls" %}"><i class="fa fa-2x fa-file-excel-o"></i></a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			{% if not events %}
+			<div class="panel">
+				<p>Sem eventos pra cadastrar presença? Você pode precisar ir na
+				<a href="{% url "management_events" %}">aba de eventos</a> e
+				cadastrar algum evento para contar presença</p>
+			</div>
+			{% endif %}
+			<h1 class="blue-bg">Relatório geral de presença</h1>
+			<div class="row">
+				<div class="small-6 columns">
+					<a href="{% url "management_attendance_report" "xls" %}" class="button expand"><i class="fa fa-file-excel-o"></i> Excel</a>
+				</div>
+				<div class="small-6 columns">
+					<a href="{% url "management_attendance_report" "pdf" %}" class="button expand"><i class="fa fa-file-pdf-o"></i> PDF</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
