@@ -321,6 +321,8 @@ class Course(models.Model):
 		self.end_time = course_date_time['end_time__max']
 		self.start_date = course_date_time['start_date__min']
 		self.end_date = course_date_time['end_date__max']
+	def __unicode__(self):
+		return self.title
 
 
 

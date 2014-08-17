@@ -15,6 +15,7 @@ import bleach
 import stats
 from semcomp_contact_form.models import Message
 from website.models import SemcompUser
+from account.models import CourseRegistration
 
 from ..forms import MessageForm, NewMessageForm
 from ..decorators import staff_required
@@ -170,6 +171,10 @@ def messages_new(request):
 				users = SemcompUser.objects.coffee()
 			elif to_type == 'no_coffee':
 				users = SemcompUser.objects.no_coffee()
+			elif to_type == 'course':
+				users = SemcompUser.objects.filter(courseregistration__course=form.cleaned_data['to_course'])
+				print "USUARIOS:"
+				print users
 			
 			stats_data = {
 				'action': 'send',

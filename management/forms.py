@@ -182,6 +182,7 @@ class NewMessageForm(forms.Form):
 		('paid', _(u'Para todos com pagamento confirmado (participantes)')),
 		('coffee', _(u'Para todos os participantes com coffee')),
 		('no_coffee', _(u'Para todos os participantes sem coffee')),
+		('course', _(u'Para participantes de Minicurso')),
 	)
 
 	type = forms.ChoiceField(
@@ -190,6 +191,11 @@ class NewMessageForm(forms.Form):
 	)
 	to_email = SemcompUserSelect2Field(
 		label=_(u'Para'),
+		required=False,
+	)
+	to_course = forms.ModelChoiceField(
+		queryset=Course.objects.all(),
+		label=_(u'Minicurso'),
 		required=False,
 	)
 	subject = forms.CharField(
