@@ -10,7 +10,10 @@
 					<small>{{message.from_email}}</small>
 					{% if message.to_email %}
 						<br><small><strong>Para</strong>: {{message.to_email}}</small>
+					{% elif message.to_course %}
+						<br><small><strong>Minicurso</strong>: {{message.to_course}}</small>
 					{% endif %}
+					<br><strong>{{message.body}}</strong>
 				</p>
 			</div>
 		</div>

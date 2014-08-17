@@ -43,6 +43,7 @@ class Message(models.Model):
 		related_name='replies'
 	)
 	to_email = models.EmailField(max_length=254)
+	to_course = models.CharField(max_length=254,default='')
 	sent_by = models.ForeignKey(
 		SemcompUser,
 		null=True,
