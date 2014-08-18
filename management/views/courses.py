@@ -167,6 +167,12 @@ def courses_members(request, course_pk):
 	}
 	return render(request,'management/courses_members.html', context)
 
+
+@staff_required
+def courses_attendance(request, course_pk):
+	pass
+
+
 @staff_required
 def courses_expel(request, course_pk, user_pk):
 	course = get_object_or_404(Course, pk=course_pk)
