@@ -389,28 +389,38 @@ def courses_delete(request, course_pk):
 
 @staff_required
 def courses_notify(request):
-	next_day_slots = Event.objects.filter(
-		type='minicurso', start_date__range=[now(), now() + timedelta(days=1)]
-	)
-	courses = Course.objects.filter(
-		slots__in=next_day_slots.values_list('id', flat=True)
-	).distinct()
+	if request.method == 'POST':
+		next_day_slots = Event.objects.filter(
+			type='minicurso', start_date__range=[now(), now() + timedelta(days=1)]
+		)
+		courses = Course.objects.filter(
+			slots__in=next_day_slots.values_list('id', flat=True)
+		).distinct()
 
-	mails = template_mail.MagicMailBuilder()
+		mails = template_mail.MagicMailBuilder()
 
-	for course in courses:
-		users = SemcompUser.objects.in_course(course)
-		for user in users:
-			message = mails.course_notification(
-				user,
-				{
-					'course': course,
-					'user': user,
-					'user_first_name': user.full_name.split()[0]
-				}
-			)
-			message.send()
-			break
-		break
+		count = 0
 
-	return HttpResponse('OK')
+		for course in courses:
+			users = SemcompUser.objects.in_course(course)
+			for user in users:
+				message = mails.course_notification(
+					user,
+					{
+						'course': course,
+						'user': user,
+						'user_first_name': user.full_name.split()[0]
+					}
+				)
+				message.send()
+
+				count += 1
+
+		messages.success(request, u'{} notificações enviadas'.format(count))
+		return redirect('management_courses_notify')
+	
+	context = {
+		'active_courses': True
+	}
+
+	return render(request, 'management/courses_notify.html', context)
