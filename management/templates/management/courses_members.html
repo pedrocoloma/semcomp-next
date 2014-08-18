@@ -32,7 +32,7 @@
           <a class="button expand" href="{% url "management_messages_new" %}">Enviar mensagem</a>
         </div>
         <div class="small-6 columns">
-          <a href="#" class="button expand">Baixar lista de presença <i class="fa fa-file-pdf-o"></i></a>
+          <a href="{% url "management_courses_attendance" course.pk %}" class="button expand">Baixar lista de presença <i class="fa fa-file-pdf-o"></i></a>
         </div>
       </div>
 
