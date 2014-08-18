@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+{% load semcomp %}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width"/>
+
+		<style type="text/css">
+			{% include "emails/ink.css" %}
+		</style>
+		<style type="text/css">
+			/* Your custom styles go here */
+		</style>
+	</head>
+	<body>
+		<table class="body">
+			<tr>
+				<td class="center" align="center" valign="top">
+					<center>
+						<table class="container">
+							<tr>
+								<td>
+									<table class="row">
+										<tr>
+											<td class="wrapper">
+												<table class="eight columns">
+													<tr>
+														<td>
+															<p>Olá, {{user_first_name}}, este email é um lembrete para o seu minicurso amanhã, dia {{course.start_date}}.</p>
+															<p>O minicurso <strong>{{course.title}}</strong> vai começar as <strong>{{course.start_time|time:""}}</strong> e
+															vai acontecer no <strong>{{course.place}}</strong>. Clique no mapa para se localizar.</p>
+															<p>Não se esqueça de levar seu crachá, caso o esqueça não será permitido participar do minicurso.
+															Caso tenha algum problema, procure alguém da organização!</p>
+														</td>
+														<td class="expander"></td>
+													</tr>
+												</table>
+											</td>
+											<td class="wrapper last">
+												<table class="four columns">
+													<tr>
+														<td>
+															{% render_place course.place "absolute" %}
+														</td>
+														<td class="expander"></td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</center>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

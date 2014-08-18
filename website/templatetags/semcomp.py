@@ -134,12 +134,15 @@ def render_career_fair_companies():
 
 
 @register.simple_tag
-def render_place(place):
+def render_place(place, url_type="relative"):
 	assert isinstance(place, Place)
 
 	if place.static_map:
 		html = u'<a href="{0}" target="_blank"><img src="{1}" alt="{2}"></a>'
-		return html.format(place_map_url(place),place.static_map.url, place.name)
+		url = place.static_map.url
+		if url_type == "absolute":
+			url = 'http://localhost:8000' + url
+		return html.format(place_map_url(place), url, place.name)
 	else:
 		return ''
 
