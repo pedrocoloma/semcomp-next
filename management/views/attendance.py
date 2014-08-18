@@ -18,6 +18,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import ParagraphStyle, _baseFontNameB
 
 from website.models import Event, SemcompUser
+import stats
 
 from ..decorators import staff_required
 from ..models import Attendance
@@ -82,6 +83,25 @@ def attendance_submit(request, event_pk):
 					'created': created,
 					'new_user': new_user
 				})
+
+			attendance_data = []
+			for att in json_data:
+				if created:
+					attendance_data.append({
+						'badge': key,
+						'user': unicode(value),
+					})
+			stats.add_event(
+				'management-attendance',
+				{
+					'action': 'submit',
+					'user': {
+						'id': request.user.id,
+						'name': request.user.full_name,
+					},
+					'attendances': attendance_data
+				}
+			)
 
 			return render_json_response(json_data)
 		else:
