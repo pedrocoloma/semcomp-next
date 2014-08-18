@@ -118,6 +118,7 @@ def courses_edit(request, course_pk):
 		'active_courses': True,
 	}
 	return render(request,'management/courses_change.html', context)
+
 @staff_required
 def courses_members(request, course_pk):
 	course = get_object_or_404(Course, pk=course_pk)
@@ -165,6 +166,7 @@ def courses_members(request, course_pk):
 		'form': form
 	}
 	return render(request,'management/courses_members.html', context)
+
 @staff_required
 def courses_expel(request, course_pk, user_pk):
 	course = get_object_or_404(Course, pk=course_pk)
@@ -175,7 +177,11 @@ def courses_expel(request, course_pk, user_pk):
 			try:
 				registration = CourseRegistration.objects.get(user=user, course=course)
 				registration.delete()
-				messages.success(request, u'A inscrição do usuário %s foi cancelada para o minicurso %s.' % (user.full_name, course.title))
+				msg = u'A inscrição do usuário {} foi cancelada para o minicurso {}'
+				messages.success(
+					request,
+					msg.format(user.full_name, course.title)
+				)
 				stats.add_event(
 					'course-management',
 					{
@@ -184,7 +190,7 @@ def courses_expel(request, course_pk, user_pk):
 							'id': request.user.pk,
 							'name': request.user.full_name,
 						},
-						'registration' :{
+						'registration': {
 							'member': {
 								'id': user.pk,
 								'name': user.full_name,
@@ -242,6 +248,7 @@ def email_expel(user, course, comentario):
 		"text/html"
 	)
 	msg.send(fail_silently=False)
+
 @staff_required
 def courses_delete(request, course_pk):
 	course = get_object_or_404(Course, pk=course_pk)
