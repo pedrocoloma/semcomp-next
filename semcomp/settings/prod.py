@@ -15,9 +15,11 @@ DATABASES = {
 }
 INSTALLED_APPS += (
 	'raven.contrib.django.raven_compat',
+	'djmail',
 )
 
-EMAIL_BACKEND = "sgbackend.SendGridBackend"
+EMAIL_BACKEND = 'djmail.backends.celery.EmailBackend'
+DJMAIL_REAL_BACKEND = 'sgbackend.SendGridBackend'
 SENDGRID_USER = os.getenv('SEMCOMP17_SENDGRID_USER')
 SENDGRID_PASSWORD = os.getenv('SEMCOMP17_SENDGRID_PASSWORD')
 
