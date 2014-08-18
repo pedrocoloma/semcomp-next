@@ -50,7 +50,13 @@ class AttendanceManager(models.Manager):
 			# nesse caso, precisa tirar o "1" da frente e os zeros
 			# que sobraram porque algum imbecil achou que alterar
 			# os dados que você tem "porque sim" é uma ótima ideia
-			badge_id = badge.lstrip('1').lstrip('0')
+			#
+			# consequência: não tirar '1' se o número é pequeno, porque pode
+			# ser algo do tipo "133" que é um id digitado na mão
+			if len(badge_id) > 4:
+				badge_id = badge.lstrip('1').lstrip('0')
+			else:
+				badge_id = badge.lstrip('0')
 			return SemcompUser.objects.get(id=badge_id), False
 		except:
 			pass
