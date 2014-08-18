@@ -1,26 +1,31 @@
 # coding: utf-8
 
 from datetime import datetime
-from PIL import Image
 from io import BytesIO
-from pathlib import Path
+import hashlib
+import re
 
-from django.core.validators import EMPTY_VALUES
-from django.core import validators
-from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.core import validators
+from django.core.urlresolvers import reverse
+from django.core.validators import EMPTY_VALUES
+from django.core.validators import ValidationError
 from django.db import models
 from django.db.models import Max, Min
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
-from django.core.validators import ValidationError
+
+from PIL import Image
+from pathlib import Path
 from south.modelsinspector import add_introspection_rules
-from django.conf import settings
+
 from account.models import CourseRegistration
-import hashlib
+
+
 def _base_upload_to_by_field(instance, image, base_path, field):
 	# get image data and reset the fp position
 	im = getattr(instance, image)
@@ -332,6 +337,9 @@ class Course(models.Model):
 	def __unicode__(self):
 		return self.title
 
+	def slug(self, words=-1):
+		title = re.split(' |,', self.title)
+		return slugify(u' '.join(title[:words]))
 
 
 class SemcompUserManager(BaseUserManager):
@@ -382,6 +390,9 @@ class SemcompUserManager(BaseUserManager):
 
 	def no_coffee(self):
 		return self.filter(is_active=True, is_staff=False, inscricao__pagamento=True, inscricao__coffee=False)
+
+	def in_course(self, course):
+		return self.filter(courseregistration__course=course)
 
 class SemcompUser(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(

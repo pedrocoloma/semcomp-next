@@ -29,13 +29,14 @@ urlpatterns = patterns('',
 	url(r'^minicursos/adicionar/$', 'management.views.courses_add', name='management_courses_add'),
 	url(r'^minicursos/editar/(\d+)/$', 'management.views.courses_edit', name='management_courses_edit'),
 	url(r'^minicursos/membros/(\d+)/$', 'management.views.courses_members', name='management_courses_members'),
-	url(r'^minicursos/membros/(\d+)/expulsar/(\d+)$', 'management.views.courses_expel', name='management_courses_expel'),
+	url(r'^minicursos/membros/(\d+)/expulsar/(\d+)/$', 'management.views.courses_expel', name='management_courses_expel'),
+	url(r'^minicursos/lista/(\d+)/$', 'management.views.courses_attendance', name='management_courses_attendance'),
 	url(r'^minicursos/apagar/(\d+)/$', 'management.views.courses_delete', name='management_courses_delete'),
 
 
 	url(r'^usuarios/$', 'management.views.manage_users', name='management_users'),
-	url(r'^usuarios/edit/(\d+)$', 'management.views.users_edit', name='management_users_edit'),
-	url(r'^usuarios/validate/(\d+)$', 'management.views.users_validate', name='management_users_validate'),
+	url(r'^usuarios/edit/(\d+)/$', 'management.views.users_edit', name='management_users_edit'),
+	url(r'^usuarios/validate/(\d+)/$', 'management.views.users_validate', name='management_users_validate'),
 	url(r'^usuarios/download/$', 'management.views.users_download', name='management_users_download'),
 
 	url(r'^empresas/$', 'management.views.manage_companies', name='management_companies'),
