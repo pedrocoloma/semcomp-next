@@ -1,48 +1,66 @@
 {% extends "management/base.html" %}
+
 {% load static sekizai_tags django_select2_tags %}
 
 {% block user_content %}
 {% spaceless %}
-<h1 class="blue-bg">{{ course.title }}</h1>
-{% for message in messages %}
-  <div class="alert-box {{message.tags}}">{{message}}</div>
-{% endfor %}
-<form method="post" action="{% url "management_courses_members" course.pk %}" >
-{% csrf_token %}
-<fieldset>
-  <legend>Adicionar Membro</legend>
   <div class="row">
-    <div class="to-email-container">
-      {% include "management/render_field.html" with field=form.member width="medium-8" only %}
-    </div>
-    <div class="medium-4 columns">      
-      <button>Adicionar</button>
+    <div class="large-12 columns">
+      <h1 class="blue-bg">{{ course.title }}</h1>
+
+      {% for message in messages %}
+        <div class="alert-box {{message.tags}}">{{message}}</div>
+      {% endfor %}
+
+      <form method="post" action="{% url "management_courses_members" course.pk %}">
+        {% csrf_token %}
+        <fieldset>
+          <legend>Adicionar Membro</legend>
+          <div class="row">
+            <div class="to-email-container">
+              {% include "management/render_field.html" with field=form.member width="medium-8" only %}
+            </div>
+            <div class="medium-4 columns">
+              <input type="submit" class="button expand" value="Adicionar">
+            </div>
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="row">
+        <div class="small-6 columns">
+          <a class="button expand" href="{% url "management_messages_new" %}">Enviar mensagem</a>
+        </div>
+        <div class="small-6 columns">
+          <a href="#" class="button expand">Baixar lista de presença <i class="fa fa-file-pdf-o"></i></a>
+        </div>
+      </div>
+
+      <h2 class="blue-bg">Participantes</h2>
+      <div class="management-table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>NUSP</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+              <tr>
+                <td>{{user.full_name}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.id_usp}}</td>
+                <td><a class="tiny extend alert button" href="{% url "management_courses_expel" course.pk user.pk%}">Expulsar</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</fieldset>
-</form>
-<a class="button" href="{% url "management_messages_new" %}">Enviar mensagem</a>
-<h2 class="blue-bg">Participantes</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>NUSP</th>
-      <th>Ação</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for user in users %}
-      <tr>
-        <td>{{user.full_name}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.id_usp}}</td>
-        <td><a class="tiny extend alert button" href="{% url "management_courses_expel" course.pk user.pk%}">Expulsar</a></td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
 {% endspaceless %}
 {% endblock %}
 
@@ -56,5 +74,3 @@
   <script src="{% static "js/app.js" %}"></script>
   {% import_django_select2_js %}
 {% endblock %}
-
-
