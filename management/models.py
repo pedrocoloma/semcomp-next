@@ -43,7 +43,7 @@ class AttendanceManager(models.Manager):
 			stats.add_event('management-attendance', stats_data)
 
 			return users[0], False
-		except:
+		except SemcompUser.DoesNotExist:
 			pass
 		# ...um id da base de dados...
 		try:
@@ -53,12 +53,12 @@ class AttendanceManager(models.Manager):
 			#
 			# consequência: não tirar '1' se o número é pequeno, porque pode
 			# ser algo do tipo "133" que é um id digitado na mão
-			if len(badge_id) > 4:
+			if len(badge) > 4:
 				badge_id = badge.lstrip('1').lstrip('0')
 			else:
 				badge_id = badge.lstrip('0')
 			return SemcompUser.objects.get(id=badge_id), False
-		except:
+		except SemcompUser.DoesNotExist:
 			pass
 		# ...ou pode ser um mané que não fez inscrição na semcomp e devia
 		# passar vergonha mas vou criar um usuário pra ele com o que deveria
