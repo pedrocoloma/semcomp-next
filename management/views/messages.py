@@ -136,6 +136,7 @@ def messages_new(request):
 				# abusa o campo "body" pra colocar o assunto
 				body=form.cleaned_data['subject'],
 				to_email=getattr(form.cleaned_data['to_email'], 'email', ''),
+				to_course = form.cleaned_data['to_course'],
 				# o html_body é o conteúdo real da mensagem
 				html_body=form.cleaned_data['body'],
 				# dados da pessoa que mandou, pra poder apontar dedos depois
