@@ -99,6 +99,9 @@ def attendance_submit(request, event_pk):
 						'id': request.user.id,
 						'name': request.user.full_name,
 					},
+					'event': {
+						'id': event.id
+					},
 					'attendances': attendance_data
 				}
 			)
