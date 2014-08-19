@@ -341,6 +341,12 @@ class Course(models.Model):
 		title = re.split(' |,', self.title)
 		return slugify(u' '.join(title[:words]))
 
+	def start_date(self):
+		return self.slots.order_by('start_date').first().start_date
+
+	def start_time(self):
+		return self.slots.order_by('start_time').first().start_time
+
 
 class SemcompUserManager(BaseUserManager):
 	def create_user(self, email, full_name, id_usp='', password=None):

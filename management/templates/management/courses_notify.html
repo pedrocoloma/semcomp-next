@@ -1,0 +1,20 @@
+{% extends "management/base.html" %}
+
+{% block user_content %}
+	<div class="row">
+		<div class="large-12 columns">
+			<h1 class="blue-bg">Notificar usuários</h1>
+			{% for message in messages %}
+				<div data-alert class="alert-box{% if message.tags %} {{message.tags}}{% endif %}">
+					{{message}}
+				</div>
+			{% endfor %}
+			<p>Clicar abaixo vai enviar um email para cada usuário inscrito em minicursos com dados do minicurso de amanhã.</p>
+			<p>Por favor, clique só uma vez, tô com preguiça de fazer algo pra impedir de enviar isso mais de uma vez</p>
+			<form action="{% url "management_courses_notify" %}" method="post">
+				{% csrf_token %}
+				<input class="button expand" type="submit" value="Enviar notificações">
+			</form>
+		</div>
+	</div>
+{% endblock %}
