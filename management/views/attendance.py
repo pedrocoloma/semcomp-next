@@ -109,7 +109,9 @@ def attendance_submit(request, event_pk):
 			return render_json_response(json_data)
 		else:
 			badge = request.POST.get('badge-number', None)
-			Attendance.objects.create_from_badge(event, badge)
+			att, created = Attendance.objects.get_or_create_from_badge(
+				event, badge
+			)
 			return redirect('management_attendance_submit', args=[event.pk])
 
 	context = {
