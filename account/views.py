@@ -374,27 +374,28 @@ def courses_slots():
 	return slots
 
 def account_logout(request):
-	def get_client_ip(request):
-		x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-		if x_forwarded_for:
-			ip = x_forwarded_for.split(',')[0]
-		else:
-			ip = request.META.get('REMOTE_ADDR')
-		return ip
+	if request.user.is_authenticated():
+		def get_client_ip(request):
+			x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+			if x_forwarded_for:
+				ip = x_forwarded_for.split(',')[0]
+			else:
+				ip = request.META.get('REMOTE_ADDR')
+			return ip
 
-	stats.add_event(
-		'account-users',
-		{
-			'action': 'logout',
-			'user': {
-				'id': request.user.pk,
-				'name': request.user.full_name,
-			},
-			'client_ip': get_client_ip(request),
-		}
-	)
+		stats.add_event(
+			'account-users',
+			{
+				'action': 'logout',
+				'user': {
+					'id': request.user.pk,
+					'name': request.user.full_name,
+				},
+				'client_ip': get_client_ip(request),
+			}
+		)
 
-	logout(request)
+		logout(request)
 	return redirect('account_logout_view')
 
 def account_logout_view(request):
