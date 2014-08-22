@@ -112,7 +112,7 @@ def attendance_submit(request, event_pk):
 			att, created = Attendance.objects.get_or_create_from_badge(
 				event, badge
 			)
-			return redirect('management_attendance_submit', args=[event.pk])
+			return redirect('management_attendance_submit', event.pk)
 
 	context = {
 		'active_attendance': True,
