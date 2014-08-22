@@ -1,10 +1,11 @@
 # coding: utf-8
 
-import re
 try:
 	from cStringIO import StringIO
 except ImportError:
 	from StringIO import StringIO
+from datetime import timedelta
+import re
 
 from django.db.models import Count
 from django.http import HttpResponse, Http404
@@ -20,7 +21,7 @@ from reportlab.lib.styles import ParagraphStyle, _baseFontNameB
 from website.models import Event, SemcompUser
 import stats
 
-from ..decorators import staff_required
+from ..decorators import staff_required, admin_required
 from ..models import Attendance
 from ..utils import render_json_response
 
@@ -123,7 +124,10 @@ def attendance_submit(request, event_pk):
 
 
 @staff_required
-def attendance_report(request, event_pk=None, report_type='pdf'):
+def attendance_report(request, event_pk=None, report_type='pdf', full=False):
+	if full and not request.user.is_admin:
+		raise Http404
+
 	if report_type not in ['pdf', 'xls']:
 		raise Http404
 
@@ -135,7 +139,7 @@ def attendance_report(request, event_pk=None, report_type='pdf'):
 		event = None
 
 	output = StringIO()
-	headers, data = get_attendance_data(event)
+	headers, data = get_attendance_data(event, full)
 	report = globals()['write_report_' + report_type](output, headers, data)
 
 	content_types = {
@@ -165,13 +169,22 @@ def attendance_report(request, event_pk=None, report_type='pdf'):
 	return response
 
 
-def get_attendance_data(event=None):
+@admin_required
+def attendance_full_report(request, report_type='pdf'):
+	return attendance_report(request, None, report_type, True)
+
+
+def get_attendance_data(event=None, full=False):
+	if event and full:
+		raise ValueError(_(u'Não pode usar event e full juntos'))
+
 	if not event:
 		total_events = Event.objects.exclude(
 			type='minicurso'
 		).filter(
 			used_for_attendance=True
 		).count()
+
 	# Isso aqui assume que os dados que foram inseridos na base de dados são
 	# todos corretos, i.e., nenhum usuário recebeu presença em um evento que na
 	# verdade não deveria receber presença pelo site (como um minicurso)
@@ -188,6 +201,14 @@ def get_attendance_data(event=None):
 	]
 	if not event:
 		header_fields.append(_(u'Presença'))
+	if full:
+		header_fields.append(_(u'Horas'))
+		event_list = Event.objects.filter(used_for_attendance=True)
+		for e in event_list:
+			header_fields.append(e.name())
+	else:
+		event_list = []
+
 
 	fields = ['full_name', 'id_usp', 'id', 'badge']
 
@@ -206,6 +227,25 @@ def get_attendance_data(event=None):
 			)
 
 			user_data.append(att_string)
+
+		if full:
+			attendances = []
+			for e in event_list:
+				try:
+					att = Attendance.objects.get(user=user, event=e)
+					attendances.append(att)
+				except Attendance.DoesNotExist:
+					attendances.append(None)
+
+			duration = timedelta()
+			for att in attendances:
+				if att and att.event:
+					duration += att.event.duration()
+
+			user_data.append(unicode(duration))
+
+			for att in attendances:
+				user_data.append('OK' if att else '')
 
 		data.append(user_data)
 

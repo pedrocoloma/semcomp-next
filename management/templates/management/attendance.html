@@ -45,6 +45,20 @@
 					<a href="{% url "management_attendance_report" "pdf" %}" class="button expand"><i class="fa fa-file-pdf-o"></i> PDF</a>
 				</div>
 			</div>
+			{% if user.is_admin %}
+				<h1 class="blue-bg">Relatório geral completo</h1>
+				<div class="row">
+					<div class="large-6 columns">
+						<a href="{% url "management_attendance_full_report" "xls" %}" class="button expand"><i class="fa fa-file-excel-o"></i> Excel</a>
+					</div>
+					<div class="large-6 columns">
+						<!-- isso aqui não fica bom, mas o link vai ficar por aqui -->
+						<!--
+							<a href="{% url "management_attendance_full_report" "pdf" %}" class="button expand"><i class="fa fa-file-pdf-o"></i> PDF</a>
+						-->
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}

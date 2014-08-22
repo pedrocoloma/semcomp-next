@@ -59,7 +59,7 @@ urlpatterns = patterns('',
 	url(r'^presenca/(\d+)/$', 'management.views.attendance_submit', name='management_attendance_submit'),
 	url(r'^presenca/relatorio/(?P<event_pk>\d+)/(?P<report_type>\w+)/$', 'management.views.attendance_report', name='management_attendance_report'),
 	url(r'^presenca/relatorio/(?P<report_type>\w+)/$', 'management.views.attendance_report', name='management_attendance_report'),
+	url(r'^presenca/relatorio/completo/(?P<report_type>\w+)/$', 'management.views.attendance_full_report', name='management_attendance_full_report'),
 
 	url(r'^configuracoes/$', 'management.views.manage_config', name='management_config'),
-
 )
