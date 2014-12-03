@@ -32,6 +32,15 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'semcomp_plugins', ['MinicursosPluginModel'])
 
+        # Adding model 'PalestrasPluginModel'
+        db.create_table(u'semcomp_plugins_palestraspluginmodel', (
+            (u'cmsplugin_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['cms.CMSPlugin'], unique=True, primary_key=True)),
+            ('columns_small', self.gf('django.db.models.fields.IntegerField')()),
+            ('columns_medium', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('columns_large', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+        ))
+        db.send_create_signal(u'semcomp_plugins', ['PalestrasPluginModel'])
+
 
     def backwards(self, orm):
         # Deleting model 'MultiColumns'
@@ -42,6 +51,9 @@ class Migration(SchemaMigration):
 
         # Deleting model 'MinicursosPluginModel'
         db.delete_table(u'semcomp_plugins_minicursospluginmodel')
+
+        # Deleting model 'PalestrasPluginModel'
+        db.delete_table(u'semcomp_plugins_palestraspluginmodel')
 
 
     models = {
@@ -83,6 +95,13 @@ class Migration(SchemaMigration):
         u'semcomp_plugins.multicolumns': {
             'Meta': {'object_name': 'MultiColumns', '_ormbases': ['cms.CMSPlugin']},
             u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        u'semcomp_plugins.palestraspluginmodel': {
+            'Meta': {'object_name': 'PalestrasPluginModel', '_ormbases': ['cms.CMSPlugin']},
+            u'cmsplugin_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['cms.CMSPlugin']", 'unique': 'True', 'primary_key': 'True'}),
+            'columns_large': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'columns_medium': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'columns_small': ('django.db.models.fields.IntegerField', [], {})
         }
     }
 

@@ -11,7 +11,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[2]
 ADMINS = (
     ('Felipe Bessa Coelho', 'fcoelho.9@gmail.com'),
     ('Bruno Orlandi', 'brorlandi@gmail.com'),
-    ('André Badawi Missaglia', 'andre.missaglia@gmail.com'), 
+    ('André Badawi Missaglia', 'andre.missaglia@gmail.com'),
 )
 # usuários em MANAGER receberão os e-mails do form de contato
 MANAGERS = ADMINS
@@ -104,7 +104,7 @@ INSTALLED_APPS = (
 	'cms',
 	'mptt',
 	'menus',
-	'south',
+	#'south',
 	'sekizai',
 	'djangocms_admin_style',
 	# django contrib apps

@@ -57,7 +57,8 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'start_date': ('django.db.models.fields.DateField', [], {}),
             'start_time': ('django.db.models.fields.TimeField', [], {}),
-            'type': ('django.db.models.fields.CharField', [], {'max_length': '16'})
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '16'}),
+            'used_for_attendance': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'website.semcompuser': {
             'Meta': {'object_name': 'SemcompUser'},

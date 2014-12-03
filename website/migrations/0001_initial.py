@@ -16,6 +16,7 @@ class Migration(SchemaMigration):
             ('type', self.gf('django.db.models.fields.CharField')(max_length=1)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
+            ('in_fair', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'website', ['Company'])
 
@@ -39,6 +40,7 @@ class Migration(SchemaMigration):
             ('end_date', self.gf('django.db.models.fields.DateField')()),
             ('end_time', self.gf('django.db.models.fields.TimeField')()),
             ('color', self.gf('django.db.models.fields.CharField')(default='#85144B', max_length=7)),
+            ('used_for_attendance', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'website', ['Event'])
 
@@ -92,6 +94,7 @@ class Migration(SchemaMigration):
             ('place', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['website.Place'], null=True, on_delete=models.SET_NULL, blank=True)),
             ('speaker', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['website.Speaker'], null=True, blank=True)),
             ('photo', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
+            ('vacancies', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
         ))
         db.send_create_signal(u'website', ['Course'])
 
@@ -140,6 +143,50 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['semcompuser_id', 'permission_id'])
 
+        # Adding model 'Inscricao'
+        db.create_table(u'website_inscricao', (
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['website.SemcompUser'], primary_key=True)),
+            ('pagamento', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('coffee', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('comprovante', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True)),
+            ('numero_documento', self.gf('website.models.NullableCharField')(max_length='30', unique=True, null=True, blank=True)),
+            ('avaliado', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('CPF', self.gf('django.db.models.fields.CharField')(max_length='11')),
+        ))
+        db.send_create_signal(u'website', ['Inscricao'])
+
+        # Adding model 'SemcompConfig'
+        db.create_table(u'website_semcompconfig', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+            ('title', self.gf('django.db.models.fields.CharField')(unique=True, max_length=100)),
+            ('type', self.gf('django.db.models.fields.CharField')(max_length=8)),
+            ('value_text', self.gf('django.db.models.fields.TextField')(default='')),
+            ('value_datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('value_bool', self.gf('django.db.models.fields.BooleanField')(default=False)),
+        ))
+        db.send_create_signal(u'website', ['SemcompConfig'])
+
+        # Adding model 'RecruitmentProcess'
+        db.create_table(u'website_recruitmentprocess', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('start_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('end_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('place', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['website.Place'], null=True, on_delete=models.SET_NULL, blank=True)),
+            ('company', self.gf('django.db.models.fields.related.OneToOneField')(related_name='recruitment_process', null=True, on_delete=models.SET_NULL, to=orm['website.Company'], blank=True, unique=True)),
+        ))
+        db.send_create_signal(u'website', ['RecruitmentProcess'])
+
+        # Adding model 'BusinessLecture'
+        db.create_table(u'website_businesslecture', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('start_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('end_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('place', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['website.Place'], null=True, on_delete=models.SET_NULL, blank=True)),
+            ('company', self.gf('django.db.models.fields.related.OneToOneField')(related_name='business_lecture', null=True, on_delete=models.SET_NULL, to=orm['website.Company'], blank=True, unique=True)),
+        ))
+        db.send_create_signal(u'website', ['BusinessLecture'])
+
 
     def backwards(self, orm):
         # Deleting model 'Company'
@@ -178,6 +225,18 @@ class Migration(SchemaMigration):
         # Removing M2M table for field user_permissions on 'SemcompUser'
         db.delete_table(db.shorten_name(u'website_semcompuser_user_permissions'))
 
+        # Deleting model 'Inscricao'
+        db.delete_table(u'website_inscricao')
+
+        # Deleting model 'SemcompConfig'
+        db.delete_table(u'website_semcompconfig')
+
+        # Deleting model 'RecruitmentProcess'
+        db.delete_table(u'website_recruitmentprocess')
+
+        # Deleting model 'BusinessLecture'
+        db.delete_table(u'website_businesslecture')
+
 
     models = {
         u'auth.group': {
@@ -200,10 +259,19 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'website.businesslecture': {
+            'Meta': {'object_name': 'BusinessLecture'},
+            'company': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'business_lecture'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['website.Company']", 'blank': 'True', 'unique': 'True'}),
+            'end_datetime': ('django.db.models.fields.DateTimeField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'place': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['website.Place']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
+            'start_datetime': ('django.db.models.fields.DateTimeField', [], {})
+        },
         u'website.company': {
             'Meta': {'object_name': 'Company'},
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'in_fair': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
@@ -226,7 +294,8 @@ class Migration(SchemaMigration):
             'slots': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['website.Event']", 'symmetrical': 'False'}),
             'speaker': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['website.Speaker']", 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'track': ('django.db.models.fields.CharField', [], {'max_length': '1'})
+            'track': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'vacancies': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'})
         },
         u'website.event': {
             'Meta': {'object_name': 'Event'},
@@ -236,7 +305,8 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'start_date': ('django.db.models.fields.DateField', [], {}),
             'start_time': ('django.db.models.fields.TimeField', [], {}),
-            'type': ('django.db.models.fields.CharField', [], {'max_length': '16'})
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '16'}),
+            'used_for_attendance': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
         },
         u'website.eventdata': {
             'Meta': {'object_name': 'EventData'},
@@ -245,6 +315,16 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
             'place': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['website.Place']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'slot': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['website.Event']", 'unique': 'True'})
+        },
+        u'website.inscricao': {
+            'CPF': ('django.db.models.fields.CharField', [], {'max_length': "'11'"}),
+            'Meta': {'object_name': 'Inscricao'},
+            'avaliado': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'coffee': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'comprovante': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True'}),
+            'numero_documento': ('website.models.NullableCharField', [], {'max_length': "'30'", 'unique': 'True', 'null': 'True', 'blank': 'True'}),
+            'pagamento': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['website.SemcompUser']", 'primary_key': 'True'})
         },
         u'website.lecture': {
             'Meta': {'object_name': 'Lecture'},
@@ -263,6 +343,24 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'static_map': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
             'zoom': ('django.db.models.fields.IntegerField', [], {})
+        },
+        u'website.recruitmentprocess': {
+            'Meta': {'object_name': 'RecruitmentProcess'},
+            'company': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'recruitment_process'", 'null': 'True', 'on_delete': 'models.SET_NULL', 'to': u"orm['website.Company']", 'blank': 'True', 'unique': 'True'}),
+            'end_datetime': ('django.db.models.fields.DateTimeField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'place': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['website.Place']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
+            'start_datetime': ('django.db.models.fields.DateTimeField', [], {})
+        },
+        u'website.semcompconfig': {
+            'Meta': {'object_name': 'SemcompConfig'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '8'}),
+            'value_bool': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'value_datetime': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'value_text': ('django.db.models.fields.TextField', [], {'default': "''"})
         },
         u'website.semcompuser': {
             'Meta': {'object_name': 'SemcompUser'},
